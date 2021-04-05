@@ -2,7 +2,7 @@ extends Node2D
 
 var Wall = preload("res://scenes/Wall.tscn")
 var height_range = 100
-var gap_range_min = 100
+var gap_range_min = 130
 var gap_range_max = 250
 
 onready var Score = $UI/Score
@@ -39,8 +39,7 @@ func _on_Player_death():
 
 func _on_Player_score_point(_player):
 	score += 1
-	if score % 2 == 0:
-		increase_difficulty()
+	increase_difficulty()
 	Score.text = str(score)
 	print("Score = ", score)
 
