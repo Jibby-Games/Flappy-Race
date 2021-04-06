@@ -22,6 +22,7 @@ jobs:
         id: build
         uses: josephbmanley/build-godot-action@v1.4.1
         with:
+          name: FlappyRace
           preset: ${{ matrix.platform }}
           debugMode: "true"
       - name: Upload Artifact
