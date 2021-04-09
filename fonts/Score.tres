@@ -3,5 +3,5 @@
 [ext_resource path="res://fonts/Roboto-Regular.ttf" type="DynamicFontData" id=1]
 
 [resource]
-size = 64
+size = 40
 font_data = ExtResource( 1 )

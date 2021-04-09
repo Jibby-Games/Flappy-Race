@@ -5,6 +5,7 @@ var height_range = 100
 var gap_range_min = 130
 var gap_range_max = 250
 
+onready var Background = $Background
 onready var HiScore = $UI/HighScore
 onready var Score = $UI/Score
 
@@ -13,12 +14,14 @@ var high_score_fname = "user://highscore.save"
 onready var WallSpawnTimer = $WallSpawnTimer
 
 var wall_spawn_time = 2.5
-var start_wall_speed = 2
+var start_wall_speed = 4.0
 var wall_speed = start_wall_speed
 var speed_up = 0.1
+var parallax = 0.05
 
 func _ready():
 	HiScore.text = str(load_score())
+	Background.material.set_shader_param('scroll_speed', wall_speed*parallax)
 	WallSpawnTimer.wait_time = wall_spawn_time
 	WallSpawnTimer.start()
 
@@ -63,6 +66,8 @@ func _on_Player_score_point(player):
 #### World functions
 func increase_difficulty():
 	wall_speed += speed_up
+	# Speed up the background
+	# Background.material.set_shader_param('scroll_speed', wall_speed*parallax)
 	for wall in get_tree().get_nodes_in_group("walls"):
 		wall.speed = wall_speed
 	print("Increasing difficulty: wall_speed = ", wall_speed)
