@@ -10,8 +10,6 @@ var is_host = false
 var peer_ids = []
 var current_players = 1
 var host_player
-## TODO: Figure this out better.
-var my_seed = rand_seed("A super complicated string that we need to randomize".hash())
 
 
 func initialise_server():

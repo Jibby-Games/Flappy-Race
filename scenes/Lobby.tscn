@@ -41,6 +41,9 @@ margin_bottom = 128.0
 text = "Your IP: [Private IP]"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Join" type="Button" parent="."]
 margin_left = 416.0
@@ -95,6 +98,18 @@ margin_bottom = 320.0
 text = "[...Connecting...]"
 align = 1
 valign = 1
+
+[node name="MyIP" type="Label" parent="Connecting"]
+margin_left = 416.0
+margin_top = 320.0
+margin_right = 608.0
+margin_bottom = 344.0
+text = "Your IP: [Private IP]"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="Host" to="Host" method="host"]
 [connection signal="set_connect_type" from="Host" to="Connecting" method="set_connect_type"]
 [connection signal="pressed" from="Join" to="Join" method="_on_Join_pressed"]

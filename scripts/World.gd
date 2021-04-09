@@ -29,9 +29,6 @@ func _ready():
 	$Player.initialise(Net.net_id)
 	create_players()
 
-remote func recieve_seed(remote_seed):
-	seed(remote_seed)
-
 func create_players():
 	for id in Net.peer_ids:
 		create_player(id)

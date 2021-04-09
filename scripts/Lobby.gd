@@ -7,9 +7,8 @@ func _ready():
 func connected():
 	print("Connected!")
 	if Net.is_host and Net.current_players == Net.MAX_PLAYERS:
-		## TODO: Set the random seed here, and broadcast it to all players
 		
-		print(Net.current_players)
+		## TODO: Set the random seed here, and broadcast it to all players before the game starts
 		rpc("begin_game")
 		begin_game()
 	else:

@@ -4,7 +4,12 @@ signal set_connect_type
 
 func _ready():
 	print("Setting IP")
-	$MyIP.text = "IP: " + str(IP.get_local_addresses()[6])
+	var myIP
+	for ip in IP.get_local_addresses():
+		if (not ip.begins_with("127")) and ip.count(".") == 3:
+			print(ip)
+			myIP = ip
+	$MyIP.text = "IP: " + str(myIP)
 
 func host():
 	print("Starting a server")
