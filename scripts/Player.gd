@@ -12,6 +12,9 @@ var motion = Vector2()
 var high_score = 0
 var score = 0
 
+func _ready():
+	emit_signal("ready", self)
+
 func _physics_process(_delta):
 	motion.y += GRAVITY
 	if motion.y > MAXFALLSPEED:
@@ -25,6 +28,10 @@ func _physics_process(_delta):
 	
 
 func _on_Detect_area_entered(_area):
+	# Detects entering the score zone. Signals to the world to update other nodes.
+	score += 1
+	if score > high_score:
+		high_score = score
 	emit_signal("score_point", self)
 
 

@@ -50,5 +50,6 @@ current = true
 
 [node name="WallSpawnTimer" type="Timer" parent="."]
 [connection signal="death" from="Player" to="." method="_on_Player_death"]
+[connection signal="ready" from="Player" to="." method="_on_Player_ready"]
 [connection signal="score_point" from="Player" to="." method="_on_Player_score_point"]
 [connection signal="timeout" from="WallSpawnTimer" to="." method="_on_WallSpawner_timeout"]
