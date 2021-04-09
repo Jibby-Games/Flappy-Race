@@ -5,8 +5,10 @@ var height_range = 100
 var gap_range_min = 130
 var gap_range_max = 250
 
+onready var HiScore = $UI/HighScore
 onready var Score = $UI/Score
-var score = 0
+
+var high_score_fname = "user://highscore.save"
 
 onready var WallSpawnTimer = $WallSpawnTimer
 
@@ -16,6 +18,7 @@ var wall_speed = start_wall_speed
 var speed_up = 0.1
 
 func _ready():
+	HiScore.text = str(load_score())
 	WallSpawnTimer.wait_time = wall_spawn_time
 	WallSpawnTimer.start()
 
@@ -32,16 +35,26 @@ func _on_WallSpawner_timeout():
 	spawn_wall()
 
 
-func _on_Player_death():
+func _on_Player_death(player):
 	print("Player died!")
+	save_score(player.score)
+	HiScore.text = str(player.high_score)
+	player.queue_free()
+	# This works well enough for one player, but we actually want a less nuclear approach
+	# var _ok = get_tree().reload_current_scene()
+	
+	
+
+func reset_game():
 	var _ok = get_tree().reload_current_scene()
 
 
-func _on_Player_score_point(_player):
-	score += 1
+func _on_Player_score_point(player):
+	player.score += 1
 	increase_difficulty()
-	Score.text = str(score)
-	print("Score = ", score)
+	Score.text = str(player.score)
+	if player.score > player.high_score:
+		player.high_score = player.score
 
 
 func increase_difficulty():
@@ -49,3 +62,30 @@ func increase_difficulty():
 	for wall in get_tree().get_nodes_in_group("walls"):
 		wall.speed = wall_speed
 	print("Increasing difficulty: wall_speed = ", wall_speed)
+
+
+## Should probably be moved to its own file
+func load_score():
+	var high_score = 0
+	
+	var saved = File.new()
+	if not saved.file_exists(high_score_fname):
+		return high_score
+	
+	saved.open(high_score_fname, File.READ)
+	while saved.get_position() < saved.get_len():
+		var data = parse_json(saved.get_line())
+		high_score = int(data['highscore'])
+		print("Loaded in save data")
+		print(data)
+		print(high_score)
+	saved.close()
+	
+	return high_score
+
+func save_score(score):
+	var saved = File.new()
+	saved.open(high_score_fname, File.WRITE)
+	var score_dict = {"highscore": score}
+	saved.store_line(to_json(score_dict))
+	print("Saved score %d" % score)

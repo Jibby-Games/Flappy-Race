@@ -9,6 +9,8 @@ signal death
 signal score_point(player)
 
 var motion = Vector2()
+var high_score = 0
+var score = 0
 
 func _physics_process(_delta):
 	motion.y += GRAVITY
@@ -20,14 +22,15 @@ func _physics_process(_delta):
 
 	motion.x = 0
 	motion = move_and_slide(motion, UP)
+	
 
 func _on_Detect_area_entered(_area):
 	emit_signal("score_point", self)
 
 
 func death():
-	emit_signal("death")
+	emit_signal("death", self)
 
 
-func _on_Detect_body_entered(body):
+func _on_Detect_body_entered(_body):
 	death()
