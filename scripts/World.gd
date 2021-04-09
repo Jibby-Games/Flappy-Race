@@ -24,6 +24,22 @@ func _ready():
 	Background.material.set_shader_param('scroll_speed', wall_speed*parallax)
 	WallSpawnTimer.wait_time = wall_spawn_time
 	WallSpawnTimer.start()
+	
+	Net.set_ids()
+	$Player.initialise(Net.net_id)
+	create_players()
+
+remote func recieve_seed(remote_seed):
+	seed(remote_seed)
+
+func create_players():
+	for id in Net.peer_ids:
+		create_player(id)
+
+func create_player(id):
+	var p = preload("res://scenes/Player.tscn").instance()
+	add_child(p)
+	p.initialise(id)
 
 func reset_game():
 	var _ok = get_tree().reload_current_scene()

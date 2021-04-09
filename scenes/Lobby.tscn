@@ -1,0 +1,102 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scripts/HostButton.gd" type="Script" id=1]
+[ext_resource path="res://scripts/JoinButton.gd" type="Script" id=2]
+[ext_resource path="res://scripts/Connecting.gd" type="Script" id=3]
+[ext_resource path="res://scripts/Lobby.gd" type="Script" id=4]
+[ext_resource path="res://scripts/Solo.gd" type="Script" id=5]
+
+[node name="Lobby" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+color = Color( 0.25098, 0, 0.380392, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Host" type="Button" parent="."]
+margin_left = 416.0
+margin_top = 104.0
+margin_right = 608.0
+margin_bottom = 192.0
+text = "Host"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MyIP" type="Label" parent="Host"]
+margin_left = -8.0
+margin_top = 104.0
+margin_right = 184.0
+margin_bottom = 128.0
+text = "Your IP: [Private IP]"
+align = 1
+valign = 1
+
+[node name="Join" type="Button" parent="."]
+margin_left = 416.0
+margin_top = 256.0
+margin_right = 608.0
+margin_bottom = 344.0
+text = "Join"
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="JoinIP" type="LineEdit" parent="Join"]
+margin_top = 104.0
+margin_right = 192.0
+margin_bottom = 128.0
+align = 1
+placeholder_text = "Enter Host IP"
+
+[node name="InvalidIP" type="Label" parent="Join"]
+visible = false
+margin_top = 128.0
+margin_right = 184.0
+margin_bottom = 150.0
+text = "Invalid IP!"
+align = 1
+valign = 1
+
+[node name="Solo" type="Button" parent="."]
+margin_left = 416.0
+margin_top = 456.0
+margin_right = 608.0
+margin_bottom = 544.0
+text = "Solo"
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Connecting" type="ColorRect" parent="."]
+visible = false
+margin_right = 1024.0
+margin_bottom = 600.0
+color = Color( 0.25098, 0, 0.380392, 1 )
+script = ExtResource( 3 )
+
+[node name="ConnectingText" type="Label" parent="Connecting"]
+margin_left = 412.0
+margin_top = 280.0
+margin_right = 612.0
+margin_bottom = 320.0
+text = "[...Connecting...]"
+align = 1
+valign = 1
+[connection signal="pressed" from="Host" to="Host" method="host"]
+[connection signal="set_connect_type" from="Host" to="Connecting" method="set_connect_type"]
+[connection signal="pressed" from="Join" to="Join" method="_on_Join_pressed"]
+[connection signal="set_connect_type" from="Join" to="Connecting" method="set_connect_type"]
+[connection signal="pressed" from="Solo" to="Solo" method="_on_Solo_pressed"]
