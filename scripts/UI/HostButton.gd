@@ -13,8 +13,7 @@ func _ready():
 
 
 # Tell the game to start hosting. Connected to the pressed() signal
-func host():
-	Net.is_online = true
+func on_Host_pressed():
 	# Call the netcode that does the legwork
 	Net.initialise_server()
 	# And tell the connecting waitscreen to show itself
