@@ -3,25 +3,37 @@
 [ext_resource path="res://scripts/controllers/World.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://fonts/Score.tres" type="DynamicFont" id=3]
-[ext_resource path="res://sprites/background.png" type="Texture" id=4]
+[ext_resource path="res://sprites/citrus.jpg" type="Texture" id=4]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
 uniform float scroll_speed;
+uniform float bob_speed;
+uniform float bob_amplitude;
+
+// Fragments run on every individual pixel
 void fragment() {
+	// This is the location shift applied to each pixel by the GPU
+	
 	vec2 shiftedUV = UV;
+	
 	// This simply takes the time run, multiplies the speed by it, and sets the 
 	// new x to that.
 	// This means that altering the speed results in jumps. Need to fix. 
 	// Can shaders access dt?
 	shiftedUV.x += TIME * scroll_speed;
+	shiftedUV.y += bob_amplitude * sin(TIME*bob_speed);
+	
 	vec4 col = texture(TEXTURE, shiftedUV);
+	
 	COLOR = col;
 }"
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
 shader_param/scroll_speed = 0.0
+shader_param/bob_speed = null
+shader_param/bob_amplitude = null
 
 [sub_resource type="Theme" id=3]
 
