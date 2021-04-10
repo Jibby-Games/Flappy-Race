@@ -2,7 +2,7 @@ extends Control
 
 
 func _ready():
-	get_tree().connect("connected_to_server", self, "connected")
+	var _junk = get_tree().connect("connected_to_server", self, "connected")
 
 func connected():
 	print("Connected!")
@@ -15,6 +15,8 @@ func connected():
 		if not Net.is_host:
 			rpc_id(0, "player_joined")
 
+
+
 remote func player_joined():
 	print("PLAYER CONNECTED")
 	Net.current_players += 1
@@ -23,5 +25,5 @@ remote func player_joined():
 
 remote func begin_game():
 	print("Remote begin")
-	get_tree().change_scene("res://scenes/World.tscn")
+	var _junk = get_tree().change_scene("res://scenes/World.tscn")
 	

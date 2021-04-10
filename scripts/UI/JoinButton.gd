@@ -1,7 +1,9 @@
 extends Button
 
-signal set_connect_type
+signal show_connect_screen
 
+
+# Connected to the pressed() signal. 
 func _on_Join_pressed():
 	if $JoinIP.text.is_valid_ip_address():
 		$InvalidIP.hide()
@@ -11,5 +13,7 @@ func _on_Join_pressed():
 
 func join():
 	var join_ip = $JoinIP.text
+	# Ask the netcode to start up the client
 	Net.initialise_client(join_ip)
-	emit_signal("set_connect_type", false)
+	# and display the waiting screen
+	emit_signal("show_connect_screen", 1)

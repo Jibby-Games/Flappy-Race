@@ -27,11 +27,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Net="*res://scripts/network.gd"
-
-[display]
-
-window/size/resizable=false
+Net="*res://scripts/Netcode/network.gd"
 
 [gdnative]
 

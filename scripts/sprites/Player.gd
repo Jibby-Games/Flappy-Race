@@ -36,7 +36,9 @@ func _physics_process(_delta):
 		
 		motion.x = 0
 		motion = move_and_slide(motion, UP)
-		rpc_unreliable("update_position", position)
+		
+		if Net.is_online:
+			rpc_unreliable("update_position", position)
 
 remote func update_position(pos):
 	position = pos
