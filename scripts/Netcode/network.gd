@@ -39,3 +39,11 @@ func set_ids():
 	else:
 		net_id = 0
 		peer_ids = []
+
+
+func get_my_ip():
+	var myIP = '127.0.0.1'
+	for ip in IP.get_local_addresses():
+		if (not ip.begins_with("127")) and ip.count(".") == 3:
+			myIP = ip
+	return myIP

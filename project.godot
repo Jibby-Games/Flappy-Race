@@ -28,6 +28,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Net="*res://scripts/Netcode/network.gd"
+Globals="*res://scripts/Globals.gd"
 
 [gdnative]
 

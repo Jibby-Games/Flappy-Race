@@ -24,7 +24,8 @@ var bob_amplitude = 0.01
 
 func _ready():
 	# Setup gubbins
-	HiScore.text = str(load_score())
+	Globals.high_score = load_high_score()
+	HiScore.text = Globals.high_score()
 	
 	# Set the wallpaper motion
 	Background.material.set_shader_param('scroll_speed', scroll_speed)
@@ -71,9 +72,10 @@ func _on_WallSpawner_timeout():
 #### Player helper functions
 func _on_Player_death(player):
 	# See if we have a new PB
-	if player.score > int(HiScore.text):
-		save_score(player.score)
-		HiScore.text = str(player.score)
+	if player.score > Globals.high_score:
+		Globals.high_score = player.score
+		save_high_score()
+		HiScore.text = str(Globals.high_score)
 	
 	# Tell the engine it can lose the player
 	player.queue_free()
@@ -90,31 +92,31 @@ func _on_Player_score_point(player):
 func increase_difficulty():
 	wall_speed += speed_up
 	# Speed up the background
+	# TODO: this causes jerky stutter. Needs fixing.
 	# Background.material.set_shader_param('scroll_speed', wall_speed*parallax)
 	for wall in get_tree().get_nodes_in_group("walls"):
 		wall.speed = wall_speed
 
-func load_score():
-	var high_score = 0
+func load_high_score():
+	var save_file = File.new()
+	if not save_file.file_exists(high_score_fname):
+		return 0
 	
-	var saved = File.new()
-	if not saved.file_exists(high_score_fname):
-		return high_score
+	save_file.open(high_score_fname, File.READ)
+	var data = parse_json(save_file.get_line())
+	save_file.close()
 	
-	saved.open(high_score_fname, File.READ)
-	while saved.get_position() < saved.get_len():
-		var data = parse_json(saved.get_line())
-		high_score = int(data['highscore'])
-	saved.close()
+	var high_score = int(data['highscore'])
 	
 	return high_score
 
-func save_score(score):
-	var saved = File.new()
-	saved.open(high_score_fname, File.WRITE)
+func save_high_score():
+	var save_file = File.new()
+	save_file.open(high_score_fname, File.WRITE)
 	
 	# We will store as a JSON object. Overkill for a single integer, but should 
 	# be easy to scale out.
-	var score_dict = {"highscore": score}
-	saved.store_line(to_json(score_dict))
-	saved.close()
+	var store_dict = {"highscore": Globals.high_score}
+	
+	save_file.store_line(to_json(store_dict))
+	save_file.close()
