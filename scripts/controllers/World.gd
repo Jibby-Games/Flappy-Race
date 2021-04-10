@@ -117,3 +117,4 @@ func save_score(score):
 	# be easy to scale out.
 	var score_dict = {"highscore": score}
 	saved.store_line(to_json(score_dict))
+	saved.close()
