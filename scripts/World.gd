@@ -17,11 +17,19 @@ var wall_spawn_time = 2.5
 var start_wall_speed = 4.0
 var wall_speed = start_wall_speed
 var speed_up = 0.1
-var parallax = 0.05
+var scroll_speed = 0.1
+var bob_speed = 1.0
+var bob_amplitude = 0.01
+
 
 func _ready():
 	HiScore.text = str(load_score())
-	Background.material.set_shader_param('scroll_speed', wall_speed*parallax)
+	
+	# Set the wallpaper motion
+	Background.material.set_shader_param('scroll_speed', scroll_speed)
+	Background.material.set_shader_param('bob_speed', bob_speed)
+	Background.material.set_shader_param('bob_amplitude', bob_amplitude)
+		
 	WallSpawnTimer.wait_time = wall_spawn_time
 	WallSpawnTimer.start()
 	
