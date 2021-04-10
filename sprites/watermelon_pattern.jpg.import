@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/background.png-0cfaafa94fbfb5267bc500b34e5eeb6d.stex"
+path="res://.import/watermelon_pattern.jpg-8428c53b34ada0c5e9fc6ac123f19cc7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/background.png"
-dest_files=[ "res://.import/background.png-0cfaafa94fbfb5267bc500b34e5eeb6d.stex" ]
+source_file="res://sprites/watermelon_pattern.jpg"
+dest_files=[ "res://.import/watermelon_pattern.jpg-8428c53b34ada0c5e9fc6ac123f19cc7.stex" ]
 
 [params]
 
@@ -19,7 +19,7 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=1
+flags/repeat=0
 flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
