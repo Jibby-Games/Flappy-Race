@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://fonts/DelaGothicOne-48.tres" type="DynamicFont" id=1]
+[ext_resource path="res://fonts/DelaGothicOne-24.tres" type="DynamicFont" id=2]
+[ext_resource path="res://game/return_to_title.gd" type="Script" id=3]
+
+
+
+[node name="NewGame" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 395.0
+margin_top = 302.0
+margin_right = 885.0
+margin_bottom = 417.0
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_right = 490.0
+margin_bottom = 70.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color_shadow = Color( 0.745098, 0.431373, 0.0392157, 1 )
+custom_constants/shadow_offset_y = 5
+text = "New Game Scene"
+
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 74.0
+margin_right = 490.0
+margin_bottom = 115.0
+custom_fonts/font = ExtResource( 2 )
+text = "Back"
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Button" to="." method="_on_Button_pressed"]
