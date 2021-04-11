@@ -103,7 +103,7 @@ func load_high_score():
 		return 0
 	
 	save_file.open(high_score_fname, File.READ)
-	var data = parse_json(save_file.get_line())
+	var data = parse_json(save_file.get_as_text())
 	save_file.close()
 	
 	var high_score = int(data['highscore'])
