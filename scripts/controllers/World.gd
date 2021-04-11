@@ -25,8 +25,8 @@ var bob_amplitude = 0.01
 func _ready():
 	# Setup gubbins
 	Globals.high_score = load_high_score()
-	HiScore.text = Globals.high_score()
-	
+	HiScore.text = str(Globals.high_score)
+
 	# Set the wallpaper motion
 	Background.material.set_shader_param('scroll_speed', scroll_speed)
 	Background.material.set_shader_param('bob_speed', bob_speed)
