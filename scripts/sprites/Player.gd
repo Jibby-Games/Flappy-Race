@@ -34,11 +34,28 @@ func _physics_process(_delta):
 		if Input.is_action_just_pressed("ui_accept"):
 			motion.y = -FLAP
 		
+			play_flap_sound()
+
 		motion.x = 0
 		motion = move_and_slide(motion, UP)
 		
 		if Net.is_online:
 			rpc_unreliable("update_position", position)
+
+func play_flap_sound():
+	var choice = int(rand_range(0, 4))
+	match choice:
+		0:
+			$Flap1.play()
+		1:
+			$Flap2.play()
+		2:
+			$Flap3.play()
+		3:
+			$Flap4.play()
+		_:
+			print("Invalid choice!")
+
 
 remote func update_position(pos):
 	position = pos
@@ -55,7 +72,12 @@ func _on_Detect_area_entered(_area):
 func death():
 	print("Player Died")
 	emit_signal("death", self)
+	$DeathSound.play()
 
 
 func _on_Detect_body_entered(_body):
 	death()
+
+func _on_DeathSound_finished():
+	print("Deathsound finished")
+	emit_signal("death", self)
