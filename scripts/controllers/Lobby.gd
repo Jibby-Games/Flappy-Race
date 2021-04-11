@@ -24,8 +24,5 @@ remotesync func begin_game():
 	## TODO: Set the random seed here, and broadcast it to all players before the game starts
 	var _junk = get_tree().change_scene("res://scenes/World.tscn")
 
-remote func join_game():
-	var _junk = get_tree().change_scene("res://scenes/World.tscn")
-
 func _on_Start_pressed():
 	rpc("begin_game")

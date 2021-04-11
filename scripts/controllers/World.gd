@@ -51,10 +51,9 @@ func _ready():
 
 #### Online mode functions
 func player_connected(id):
+	# WIP
 	print("Player %s connected" % id)
-	create_player(id)
-	print("Sending join game signal")
-	rpc("join_game")
+	print("I will do nothing about it.")
 
 func player_disconnected(id):
 	var p = get_player(id)
