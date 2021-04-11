@@ -45,10 +45,10 @@ script = ExtResource( 1 )
 [node name="Background" type="TextureRect" parent="."]
 material = SubResource( 2 )
 anchor_bottom = 0.29
-margin_left = -512.0
-margin_top = -304.0
-margin_right = 2561.0
-margin_bottom = 1232.0
+margin_left = -655.0
+margin_top = -432.0
+margin_right = 3279.0
+margin_bottom = 1616.0
 rect_scale = Vector2( 0.333235, 0.401368 )
 texture = ExtResource( 4 )
 stretch_mode = 2
