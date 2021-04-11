@@ -44,6 +44,7 @@ func _physics_process(_delta):
 			motion.y = -FLAP
 			play_flap_sound()
 
+
 		motion.x = 0
 		motion = move_and_slide(motion, UP)
 
@@ -75,14 +76,11 @@ func _on_Detect_area_entered(_area):
 	score += 1
 	if score > high_score:
 		high_score = score
-	print("Player Scored")
 	emit_signal("score_point", self)
-
 
 func death():
 	is_dead = true
 	$DeathSound.play()
-
 
 
 func _on_Detect_body_entered(_body):

@@ -28,6 +28,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Globals="*res://scripts/Globals.gd"
+NetHTTPClient="*res://scripts/Netcode/http_client.gd"
 Net="*res://scripts/Netcode/network.gd"
 
 [display]

@@ -21,6 +21,8 @@ var scroll_speed = 0.1
 var bob_speed = 1.0
 var bob_amplitude = 0.01
 
+var _junk
+
 
 func _ready():
 	# Setup gubbins
@@ -35,12 +37,27 @@ func _ready():
 	WallSpawnTimer.wait_time = wall_spawn_time
 	WallSpawnTimer.start()
 
+	# Connect the player connection signals
+	_junk = get_tree().connect("network_peer_connected", self, "player_connected")
+	_junk = get_tree().connect("network_peer_disconnected", self, "player_disconnected")
+
 	# Give all the players an ID
 	Net.set_ids()
 	# and create a player sprite for each.
 	create_players()
 	# Then, create my own lil guy
 	$Player.initialise(Net.net_id)
+
+
+#### Online mode functions
+func player_connected(id):
+	# WIP
+	print("Player %s connected" % id)
+	print("I will do nothing about it.")
+
+func player_disconnected(id):
+	var p = get_player(id)
+	remove_child(p)
 
 func create_players():
 	for id in Net.peer_ids:
@@ -50,6 +67,13 @@ func create_player(id):
 	var p = preload("res://scenes/Player.tscn").instance()
 	add_child(p)
 	p.initialise(id)
+
+func get_player(id):
+	for child in self.get_children():
+		if child.name == str(id):
+			return child
+
+	return null
 
 func reset_game():
 	# This works well enough for one player, but we actually want a less nuclear approach
