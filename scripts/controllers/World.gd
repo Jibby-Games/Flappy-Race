@@ -1,18 +1,18 @@
 extends Node2D
 
-var Wall = preload("res://scenes/Wall.tscn")
-var height_range = 100
-var gap_range_min = 130
-var gap_range_max = 250
+const Wall = preload("res://scenes/Wall.tscn")
+const Player = preload("res://scenes/Player.tscn")
+const high_score_fname = "user://highscore.save"
 
 onready var Background = $Background
 onready var HiScore = $UI/HighScore
 onready var Score = $UI/Score
-
-var high_score_fname = "user://highscore.save"
-
 onready var WallSpawnTimer = $WallSpawnTimer
 
+# Public vars
+var height_range = 100
+var gap_range_min = 130
+var gap_range_max = 250
 var wall_spawn_time = 2.5
 var start_wall_speed = 4.0
 var wall_speed = start_wall_speed
@@ -20,14 +20,17 @@ var speed_up = 0.1
 var scroll_speed = 0.1
 var bob_speed = 1.0
 var bob_amplitude = 0.01
-
 var _junk
 
+# Private vars
+var _current_seed
 
 func _ready():
 	# Setup gubbins
 	Globals.high_score = load_high_score()
 	HiScore.text = str(Globals.high_score)
+	_current_seed = generate_new_seed()
+	seed(_current_seed)
 
 	# Set the wallpaper motion
 	Background.material.set_shader_param('scroll_speed', scroll_speed)
@@ -55,16 +58,29 @@ func player_connected(id):
 	print("Player %s connected" % id)
 	print("I will do nothing about it.")
 
+
 func player_disconnected(id):
 	var p = get_player(id)
 	remove_child(p)
+
+
+func generate_new_seed():
+	# There's no way to get the seed after it's been set so need to generate a
+	# new one and set it after to keep things deterministic
+	var seed_rng = RandomNumberGenerator.new()
+	seed_rng.randomize()
+	var new_seed = seed_rng.randi()
+	print("[RNG] Generated random seed: ", new_seed)
+	return new_seed
+
 
 func create_players():
 	for id in Net.peer_ids:
 		create_player(id)
 
+
 func create_player(id):
-	var p = preload("res://scenes/Player.tscn").instance()
+	var p = Player.instance()
 	add_child(p)
 	p.initialise(id)
 
@@ -83,10 +99,14 @@ func reset_game():
 #### Wall functions
 func spawn_wall():
 	var inst = Wall.instance()
-	inst.position = Vector2(get_viewport().size.x / 2 + 64, rand_range(-height_range, height_range))
-	inst.gap = rand_range(gap_range_min, gap_range_max)
+	var height = rand_range(-height_range, height_range)
+	var gap = rand_range(gap_range_min, gap_range_max)
+	print("Spawning wall - height: ", height, " - gap: ", gap)
+	inst.position = Vector2(get_viewport().size.x / 2 + 64, height)
+	inst.gap = gap
 	inst.speed = wall_speed
 	call_deferred("add_child", inst)
+
 
 func _on_WallSpawner_timeout():
 	WallSpawnTimer.wait_time = wall_spawn_time * float(start_wall_speed) / wall_speed
@@ -106,6 +126,7 @@ func _on_Player_death(player):
 
 	reset_game()
 
+
 func _on_Player_score_point(player):
 	# Actual incrimenting is handled on the player object
 	increase_difficulty()
@@ -121,6 +142,7 @@ func increase_difficulty():
 	for wall in get_tree().get_nodes_in_group("walls"):
 		wall.speed = wall_speed
 
+
 func load_high_score():
 	var save_file = File.new()
 	if not save_file.file_exists(high_score_fname):
@@ -133,6 +155,7 @@ func load_high_score():
 	var high_score = int(data['highscore'])
 
 	return high_score
+
 
 func save_high_score():
 	var save_file = File.new()
