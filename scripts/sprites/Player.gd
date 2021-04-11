@@ -33,7 +33,6 @@ func _physics_process(_delta):
 		
 		if Input.is_action_just_pressed("ui_accept"):
 			motion.y = -FLAP
-		
 			play_flap_sound()
 
 		motion.x = 0
@@ -70,8 +69,6 @@ func _on_Detect_area_entered(_area):
 
 
 func death():
-	print("Player Died")
-	emit_signal("death", self)
 	$DeathSound.play()
 
 
