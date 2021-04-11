@@ -3,7 +3,7 @@ extends Button
 signal show_connect_screen
 
 
-# Connected to the pressed() signal. 
+# Connected to the pressed() signal.
 func _on_Join_pressed():
 	if $JoinIP.text.is_valid_ip_address():
 		$InvalidIP.hide()

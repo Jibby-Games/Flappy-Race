@@ -29,6 +29,7 @@ config/icon="res://icon.png"
 
 Net="*res://scripts/Netcode/network.gd"
 Globals="*res://scripts/Globals.gd"
+NetHTTPClient="*res://scripts/Netcode/http_client.gd"
 
 [gdnative]
 

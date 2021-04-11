@@ -33,14 +33,14 @@ func _ready():
 	Background.material.set_shader_param('scroll_speed', scroll_speed)
 	Background.material.set_shader_param('bob_speed', bob_speed)
 	Background.material.set_shader_param('bob_amplitude', bob_amplitude)
-		
+
 	WallSpawnTimer.wait_time = wall_spawn_time
 	WallSpawnTimer.start()
-	
+
 	# Connect the player connection signals
 	_junk = get_tree().connect("network_peer_connected", self, "player_connected")
 	_junk = get_tree().connect("network_peer_disconnected", self, "player_disconnected")
-	
+
 	# Give all the players an ID
 	Net.set_ids()
 	# and create a player sprite for each.
@@ -72,7 +72,7 @@ func get_player(id):
 	for child in self.get_children():
 		if child.name == str(id):
 			return child
-	
+
 	return null
 
 func reset_game():
@@ -100,10 +100,10 @@ func _on_Player_death(player):
 		Globals.high_score = player.score
 		save_high_score()
 		HiScore.text = str(Globals.high_score)
-	
+
 	# Tell the engine it can lose the player
 	player.queue_free()
-	
+
 	reset_game()
 
 func _on_Player_score_point(player):
@@ -125,22 +125,22 @@ func load_high_score():
 	var save_file = File.new()
 	if not save_file.file_exists(high_score_fname):
 		return 0
-	
+
 	save_file.open(high_score_fname, File.READ)
 	var data = parse_json(save_file.get_as_text())
 	save_file.close()
-	
+
 	var high_score = int(data['highscore'])
-	
+
 	return high_score
 
 func save_high_score():
 	var save_file = File.new()
 	save_file.open(high_score_fname, File.WRITE)
-	
-	# We will store as a JSON object. Overkill for a single integer, but should 
+
+	# We will store as a JSON object. Overkill for a single integer, but should
 	# be easy to scale out.
 	var store_dict = {"highscore": Globals.high_score}
-	
+
 	save_file.store_line(to_json(store_dict))
 	save_file.close()

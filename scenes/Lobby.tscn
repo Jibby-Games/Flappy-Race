@@ -41,7 +41,7 @@ margin_left = -8.0
 margin_top = 104.0
 margin_right = 184.0
 margin_bottom = 128.0
-text = "Your IP: [Private IP]"
+text = "Your IP: 127.0.0.1"
 align = 1
 valign = 1
 __meta__ = {
@@ -64,8 +64,12 @@ __meta__ = {
 margin_top = 104.0
 margin_right = 192.0
 margin_bottom = 128.0
+text = "127.0.0.1"
 align = 1
 placeholder_text = "Enter Host IP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="InvalidIP" type="Label" parent="Join"]
 visible = false
@@ -109,7 +113,7 @@ margin_left = 416.0
 margin_top = 320.0
 margin_right = 608.0
 margin_bottom = 344.0
-text = "Your IP: [Private IP]"
+text = "Your IP: 127.0.0.1"
 align = 1
 valign = 1
 __meta__ = {
@@ -132,9 +136,13 @@ margin_right = 573.189
 margin_bottom = 373.892
 text = "Players: [N/NMAX]"
 align = 1
+
+[node name="UpdateIPLabels" type="Timer" parent="."]
+autostart = true
 [connection signal="pressed" from="Host" to="Host" method="on_Host_pressed"]
 [connection signal="show_connect_screen" from="Host" to="Connecting" method="show_connect_screen"]
 [connection signal="pressed" from="Join" to="Join" method="_on_Join_pressed"]
 [connection signal="show_connect_screen" from="Join" to="Connecting" method="show_connect_screen"]
 [connection signal="pressed" from="Solo" to="Solo" method="_on_Solo_pressed"]
 [connection signal="pressed" from="Connecting/Start" to="." method="_on_Start_pressed"]
+[connection signal="timeout" from="UpdateIPLabels" to="." method="_on_UpdateIPLabels_timeout"]

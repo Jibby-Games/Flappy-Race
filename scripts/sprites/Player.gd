@@ -30,13 +30,13 @@ func _physics_process(_delta):
 		motion.y += GRAVITY
 		if motion.y > MAXFALLSPEED:
 			motion.y = MAXFALLSPEED
-		
+
 		if Input.is_action_just_pressed("ui_accept"):
 			motion.y = -FLAP
-		
+
 		motion.x = 0
 		motion = move_and_slide(motion, UP)
-		
+
 		if Net.is_online:
 			rpc_unreliable("update_position", position)
 

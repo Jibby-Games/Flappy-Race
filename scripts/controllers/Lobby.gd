@@ -2,6 +2,7 @@ extends Control
 
 
 func _ready():
+	Net.get_public_ip()
 	var _junk = get_tree().connect("connected_to_server", self, "connected")
 
 func connected():
@@ -26,3 +27,9 @@ remotesync func begin_game():
 
 func _on_Start_pressed():
 	rpc("begin_game")
+
+
+func _on_UpdateIPLabels_timeout():
+	# Update IPs
+	$Connecting/MyIP.text = "IP: " + str(Net.public_ip)
+	$Host/MyIP.text = "IP: " + str(Net.public_ip)
