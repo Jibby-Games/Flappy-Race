@@ -1,7 +1,7 @@
 extends Node
 
 const RPC_PORT = 31400
-const MAX_PLAYERS = 2
+const MAX_PLAYERS = 4
 
 var net_id = null
 var is_host = false
@@ -9,27 +9,31 @@ var peer_ids = []
 var current_players = 1
 var host_player
 var is_online = true
+var public_ip = "127.0.0.1"
 
+
+func _ready():
+	get_public_ip()
 
 func initialise_server():
 	is_host = true
-	
+
 	# This starts the actual server to communicate with clients
 	var peer = NetworkedMultiplayerENet.new()
 	peer.create_server(RPC_PORT, MAX_PLAYERS)
 	get_tree().network_peer = peer
-	
+
 	is_online = true
 
 
 func initialise_client(server_ip):
 	is_host = false
-	
+
 	# Start a client for communicating with the server, and connect to that server
 	var peer = NetworkedMultiplayerENet.new()
 	peer.create_client(server_ip, RPC_PORT)
 	get_tree().network_peer = peer
-	
+
 	is_online = true
 
 func set_ids():
@@ -41,9 +45,6 @@ func set_ids():
 		peer_ids = []
 
 
-func get_my_ip():
-	var myIP = '127.0.0.1'
-	for ip in IP.get_local_addresses():
-		if (not ip.begins_with("127")) and ip.count(".") == 3:
-			myIP = ip
-	return myIP
+func get_public_ip():
+	print("Calling get public ip from network.gd")
+	return NetHTTPClient.get_public_ip()
