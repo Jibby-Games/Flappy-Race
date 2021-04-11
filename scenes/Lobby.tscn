@@ -115,8 +115,26 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Start" type="Button" parent="Connecting"]
+visible = false
+margin_left = 447.615
+margin_top = 487.566
+margin_right = 572.615
+margin_bottom = 538.566
+text = "Start Game"
+
+[node name="NumPlayers" type="Label" parent="Connecting"]
+visible = false
+margin_left = 452.189
+margin_top = 359.892
+margin_right = 573.189
+margin_bottom = 373.892
+text = "Players: [N/NMAX]"
+align = 1
 [connection signal="pressed" from="Host" to="Host" method="on_Host_pressed"]
 [connection signal="show_connect_screen" from="Host" to="Connecting" method="show_connect_screen"]
 [connection signal="pressed" from="Join" to="Join" method="_on_Join_pressed"]
 [connection signal="show_connect_screen" from="Join" to="Connecting" method="show_connect_screen"]
 [connection signal="pressed" from="Solo" to="Solo" method="_on_Solo_pressed"]
+[connection signal="pressed" from="Connecting/Start" to="." method="_on_Start_pressed"]

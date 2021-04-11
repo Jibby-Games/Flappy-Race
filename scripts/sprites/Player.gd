@@ -48,14 +48,10 @@ func _on_Detect_area_entered(_area):
 	score += 1
 	if score > high_score:
 		high_score = score
-	print("Player Scored")
 	emit_signal("score_point", self)
 
-
 func death():
-	print("Player Died")
 	emit_signal("death", self)
-
 
 func _on_Detect_body_entered(_body):
 	death()

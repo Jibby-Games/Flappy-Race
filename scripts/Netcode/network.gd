@@ -1,7 +1,7 @@
 extends Node
 
 const RPC_PORT = 31400
-const MAX_PLAYERS = 2
+const MAX_PLAYERS = 4
 
 var net_id = null
 var is_host = false
