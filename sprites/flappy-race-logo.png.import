@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/flappy-race-logo.png-e040eb01fdebfc15fc22fb53910e4b87.stex"
+path="res://.import/flappy-race-logo.png-a9b1d7e6c7fd463e6e3a8ec0ca3d1fe4.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://title-screen/flappy-race-logo.png"
-dest_files=[ "res://.import/flappy-race-logo.png-e040eb01fdebfc15fc22fb53910e4b87.stex" ]
+source_file="res://sprites/flappy-race-logo.png"
+dest_files=[ "res://.import/flappy-race-logo.png-a9b1d7e6c7fd463e6e3a8ec0ca3d1fe4.stex" ]
 
 [params]
 

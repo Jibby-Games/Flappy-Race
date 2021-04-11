@@ -22,7 +22,7 @@ _global_script_class_icons={
 
 config/name="Flappy Race"
 config/description="Multiplayer flappy bird"
-run/main_scene="res://title-screen/TitleScreen.tscn"
+run/main_scene="res://scenes/TitleScreen.tscn"
 config/icon="res://icon.png"
 
 [autoload]
