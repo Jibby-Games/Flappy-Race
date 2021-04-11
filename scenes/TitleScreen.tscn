@@ -52,7 +52,7 @@ alignment = 1
 margin_top = 190.0
 margin_right = 558.0
 margin_bottom = 270.0
-scene_to_load = "res://scenes/World.tscn"
+scene_to_load = "res://scenes/Lobby.tscn"
 
 [node name="OptionsButton" parent="MarginContainer/Menu/CenterRow/Buttons" instance=ExtResource( 4 )]
 margin_top = 290.0
