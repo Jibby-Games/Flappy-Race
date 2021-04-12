@@ -25,7 +25,6 @@ func _ready():
 	# Setup gubbins
 	Globals.high_score = load_high_score()
 	HiScore.text = str(Globals.high_score)
-	Globals.randomize_game_seed()
 
 
 	# Set the wallpaper motion
