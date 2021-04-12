@@ -136,13 +136,9 @@ margin_right = 573.189
 margin_bottom = 373.892
 text = "Players: [N/NMAX]"
 align = 1
-
-[node name="UpdateIPLabels" type="Timer" parent="."]
-autostart = true
 [connection signal="pressed" from="Host" to="Host" method="on_Host_pressed"]
 [connection signal="show_connect_screen" from="Host" to="Connecting" method="show_connect_screen"]
 [connection signal="pressed" from="Join" to="Join" method="_on_Join_pressed"]
 [connection signal="show_connect_screen" from="Join" to="Connecting" method="show_connect_screen"]
 [connection signal="pressed" from="Solo" to="Solo" method="_on_Solo_pressed"]
 [connection signal="pressed" from="Connecting/Start" to="." method="_on_Start_pressed"]
-[connection signal="timeout" from="UpdateIPLabels" to="." method="_on_UpdateIPLabels_timeout"]

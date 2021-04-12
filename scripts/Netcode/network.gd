@@ -3,6 +3,8 @@ extends Node
 const RPC_PORT = 31400
 const MAX_PLAYERS = 4
 
+signal public_ip_changed(new_ip)
+
 var net_id = null
 var is_host = false
 var peer_ids = []
@@ -11,9 +13,6 @@ var host_player
 var is_online = true
 var public_ip = "127.0.0.1"
 
-
-func _ready():
-	get_public_ip()
 
 func initialise_server():
 	is_host = true
@@ -36,6 +35,7 @@ func initialise_client(server_ip):
 
 	is_online = true
 
+
 func set_ids():
 	if is_online:
 		net_id = get_tree().get_network_unique_id()
@@ -45,6 +45,19 @@ func set_ids():
 		peer_ids = []
 
 
-func get_public_ip():
-	print("Calling get public ip from network.gd")
-	return NetHTTPClient.get_public_ip()
+func update_public_ip():
+	var ip_lookup_api = "https://api.ipify.org"
+	var http_request = HTTPRequest.new()
+	add_child(http_request)
+	http_request.connect("request_completed", self, "_http_request_completed")
+	http_request.request(ip_lookup_api)
+
+
+func _http_request_completed(result, response_code, headers, body):
+	if response_code == 200:
+		# Successful response
+		public_ip = body.get_string_from_utf8()
+	else:
+		print("[NET] Received HTTP response code ", response_code, " when finding public IP!")
+		public_ip = "localhost"
+	emit_signal("public_ip_changed", public_ip)
