@@ -42,7 +42,8 @@ func _physics_process(_delta):
 
 		if Input.is_action_just_pressed("ui_accept"):
 			motion.y = -FLAP
-			play_flap_sound()
+			if Net.is_online:
+				rpc_unreliable("play_flap_sound")
 
 
 		motion.x = 0
@@ -52,7 +53,7 @@ func _physics_process(_delta):
 			rpc_unreliable("update_position", position)
 
 
-func play_flap_sound():
+remotesync func play_flap_sound():
 	var choice = int(rand_range(0, 4))
 	match choice:
 		0:
