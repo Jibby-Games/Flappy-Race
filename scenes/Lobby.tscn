@@ -144,6 +144,7 @@ autostart = true
 [node name="BGMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
 autoplay = true
+
 [connection signal="pressed" from="Host" to="Host" method="on_Host_pressed"]
 [connection signal="show_connect_screen" from="Host" to="Connecting" method="show_connect_screen"]
 [connection signal="pressed" from="Join" to="Join" method="_on_Join_pressed"]
