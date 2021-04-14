@@ -7,7 +7,6 @@
 [ext_resource path="res://scripts/UI/Solo.gd" type="Script" id=5]
 [ext_resource path="res://audio/Raw/mouthsounds.wav" type="AudioStream" id=6]
 
-
 [node name="Lobby" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -139,18 +138,13 @@ margin_bottom = 373.892
 text = "Players: [N/NMAX]"
 align = 1
 
-[node name="UpdateIPLabels" type="Timer" parent="."]
-autostart = true
-
 [node name="BGMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
 autoplay = true
-
 [connection signal="pressed" from="Host" to="Host" method="on_Host_pressed"]
 [connection signal="show_connect_screen" from="Host" to="Connecting" method="show_connect_screen"]
 [connection signal="pressed" from="Join" to="Join" method="_on_Join_pressed"]
 [connection signal="show_connect_screen" from="Join" to="Connecting" method="show_connect_screen"]
 [connection signal="pressed" from="Solo" to="Solo" method="_on_Solo_pressed"]
 [connection signal="pressed" from="Connecting/Start" to="." method="_on_Start_pressed"]
-[connection signal="timeout" from="UpdateIPLabels" to="." method="_on_UpdateIPLabels_timeout"]
 [connection signal="finished" from="BGMusic" to="." method="_on_BGMusic_finished"]
