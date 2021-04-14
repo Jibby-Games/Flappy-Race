@@ -4,7 +4,7 @@
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://fonts/Score.tres" type="DynamicFont" id=3]
 [ext_resource path="res://sprites/citrus.jpg" type="Texture" id=4]
-[ext_resource path="res://audio/background.wav" type="AudioStream" id=5]
+[ext_resource path="res://audio/background.ogg" type="AudioStream" id=5]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -60,6 +60,7 @@ __meta__ = {
 [node name="BGMusic" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
 autoplay = true
+attenuation = 1.46409
 bus = "Background"
 
 [node name="UI" type="CanvasLayer" parent="."]

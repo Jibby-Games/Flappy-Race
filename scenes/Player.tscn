@@ -3,11 +3,11 @@
 [ext_resource path="res://sprites/1.png" type="Texture" id=1]
 [ext_resource path="res://sprites/0.png" type="Texture" id=2]
 [ext_resource path="res://scripts/sprites/Player.gd" type="Script" id=3]
-[ext_resource path="res://audio/unf.wav" type="AudioStream" id=4]
-[ext_resource path="res://audio/ahuah.wav" type="AudioStream" id=5]
-[ext_resource path="res://audio/huah.wav" type="AudioStream" id=6]
-[ext_resource path="res://audio/uuh.wav" type="AudioStream" id=7]
-[ext_resource path="res://audio/mouthsounds.wav" type="AudioStream" id=8]
+[ext_resource path="res://audio/uuh.ogg" type="AudioStream" id=4]
+[ext_resource path="res://audio/ahuah.ogg" type="AudioStream" id=5]
+[ext_resource path="res://audio/huah.ogg" type="AudioStream" id=6]
+[ext_resource path="res://audio/mouthsounds.ogg" type="AudioStream" id=7]
+[ext_resource path="res://audio/unf.ogg" type="AudioStream" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 26.6054
@@ -34,7 +34,6 @@ shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
-frame = 1
 playing = true
 
 [node name="Detect" type="Area2D" parent="."]
@@ -51,7 +50,7 @@ shape = SubResource( 3 )
 
 [node name="Flap1" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
-attenuation = 1.7411
+attenuation = 3.86374
 bus = "Player"
 
 [node name="Flap2" type="AudioStreamPlayer2D" parent="."]
@@ -60,19 +59,19 @@ attenuation = 3.36359
 bus = "Player"
 
 [node name="Flap3" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 4 )
+stream = ExtResource( 8 )
 attenuation = 3.4822
 bus = "Player"
 
 [node name="Flap4" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 7 )
-attenuation = 3.03143
+stream = ExtResource( 4 )
+attenuation = 5.46415
 bus = "Player"
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 8 )
+stream = ExtResource( 7 )
 attenuation = 5.37187e-08
-bus = "Background"
+bus = "Player"
 [connection signal="area_entered" from="Detect" to="." method="_on_Detect_area_entered"]
 [connection signal="body_entered" from="Detect" to="." method="_on_Detect_body_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="death"]
