@@ -30,13 +30,13 @@ func _physics_process(_delta):
 		motion.y += GRAVITY
 		if motion.y > MAXFALLSPEED:
 			motion.y = MAXFALLSPEED
-		
+
 		if Input.is_action_just_pressed("ui_accept"):
 			motion.y = -FLAP
-		
+
 		motion.x = 0
 		motion = move_and_slide(motion, UP)
-		
+
 		if Net.is_online:
 			rpc_unreliable("update_position", position)
 
@@ -48,14 +48,10 @@ func _on_Detect_area_entered(_area):
 	score += 1
 	if score > high_score:
 		high_score = score
-	print("Player Scored")
 	emit_signal("score_point", self)
 
-
 func death():
-	print("Player Died")
 	emit_signal("death", self)
-
 
 func _on_Detect_body_entered(_body):
 	death()
