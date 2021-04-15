@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scripts/controllers/World.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://fonts/Score.tres" type="DynamicFont" id=3]
 [ext_resource path="res://sprites/citrus.jpg" type="Texture" id=4]
+[ext_resource path="res://audio/background.ogg" type="AudioStream" id=5]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -56,6 +57,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="BGMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+autoplay = true
+attenuation = 1.46409
+bus = "Background"
+
 [node name="UI" type="CanvasLayer" parent="."]
 follow_viewport_enable = true
 
@@ -93,6 +100,7 @@ current = true
 [node name="WallSpawnTimer" type="Timer" parent="."]
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
+[connection signal="finished" from="BGMusic" to="." method="_on_BGMusic_finished"]
 [connection signal="timeout" from="WallSpawnTimer" to="." method="_on_WallSpawner_timeout"]
 [connection signal="death" from="Player" to="." method="_on_Player_death"]
 [connection signal="score_point" from="Player" to="." method="_on_Player_score_point"]

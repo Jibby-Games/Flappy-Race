@@ -35,6 +35,11 @@ func start_game():
 	var new_seed = Globals.randomize_game_seed()
 	rpc("begin_game", new_seed)
 
+
+func _on_BGMusic_finished():
+	pass #$BGMusic.play()
+
+
 func _on_Start_pressed():
 	start_game()
 

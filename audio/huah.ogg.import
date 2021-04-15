@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/huah.ogg-db98510994d7eb716493f0c9fafc1dcb.oggstr"
+
+[deps]
+
+source_file="res://audio/huah.ogg"
+dest_files=[ "res://.import/huah.ogg-db98510994d7eb716493f0c9fafc1dcb.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

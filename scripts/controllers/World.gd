@@ -156,3 +156,7 @@ func save_high_score():
 
 	save_file.store_line(to_json(store_dict))
 	save_file.close()
+
+
+func _on_BGMusic_finished():
+	$BGMusic.play()
