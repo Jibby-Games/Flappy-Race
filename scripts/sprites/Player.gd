@@ -44,6 +44,8 @@ func _physics_process(_delta):
 			motion.y = -FLAP
 			if Net.is_online:
 				rpc_unreliable("play_flap_sound")
+			else:
+				play_flap_sound()
 
 
 		motion.x = 0
