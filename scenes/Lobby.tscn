@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/UI/HostButton.gd" type="Script" id=1]
 [ext_resource path="res://scripts/UI/JoinButton.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://scripts/controllers/Lobby.gd" type="Script" id=4]
 [ext_resource path="res://scripts/UI/Solo.gd" type="Script" id=5]
 [ext_resource path="res://audio/Raw/mouthsounds.wav" type="AudioStream" id=6]
+[ext_resource path="res://scripts/UI/Back.gd" type="Script" id=7]
 
 [node name="Lobby" type="Control"]
 anchor_right = 1.0
@@ -83,11 +84,22 @@ valign = 1
 
 [node name="Solo" type="Button" parent="."]
 margin_left = 188.896
-margin_top = 237.066
+margin_top = 157.0
 margin_right = 380.896
-margin_bottom = 325.066
+margin_bottom = 245.0
 text = "Solo"
 script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Back" type="Button" parent="."]
+margin_left = 188.896
+margin_top = 309.0
+margin_right = 380.896
+margin_bottom = 397.0
+text = "Back"
+script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -146,5 +158,7 @@ autoplay = true
 [connection signal="pressed" from="Join" to="Join" method="_on_Join_pressed"]
 [connection signal="show_connect_screen" from="Join" to="Connecting" method="show_connect_screen"]
 [connection signal="pressed" from="Solo" to="Solo" method="_on_Solo_pressed"]
+[connection signal="pressed" from="Back" to="Back" method="_on_Solo_pressed"]
+[connection signal="pressed" from="Back" to="Back" method="_on_Back_pressed"]
 [connection signal="pressed" from="Connecting/Start" to="." method="_on_Start_pressed"]
 [connection signal="finished" from="BGMusic" to="." method="_on_BGMusic_finished"]
