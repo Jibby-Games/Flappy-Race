@@ -158,7 +158,6 @@ autoplay = true
 [connection signal="pressed" from="Join" to="Join" method="_on_Join_pressed"]
 [connection signal="show_connect_screen" from="Join" to="Connecting" method="show_connect_screen"]
 [connection signal="pressed" from="Solo" to="Solo" method="_on_Solo_pressed"]
-[connection signal="pressed" from="Back" to="Back" method="_on_Solo_pressed"]
 [connection signal="pressed" from="Back" to="Back" method="_on_Back_pressed"]
 [connection signal="pressed" from="Connecting/Start" to="." method="_on_Start_pressed"]
 [connection signal="finished" from="BGMusic" to="." method="_on_BGMusic_finished"]
