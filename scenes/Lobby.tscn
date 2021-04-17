@@ -5,7 +5,7 @@
 [ext_resource path="res://scripts/UI/Connecting.gd" type="Script" id=3]
 [ext_resource path="res://scripts/controllers/Lobby.gd" type="Script" id=4]
 [ext_resource path="res://scripts/UI/Solo.gd" type="Script" id=5]
-[ext_resource path="res://audio/Raw/mouthsounds.wav" type="AudioStream" id=6]
+[ext_resource path="res://audio/mouthsounds.ogg" type="AudioStream" id=6]
 [ext_resource path="res://scripts/UI/Back.gd" type="Script" id=7]
 
 [node name="Lobby" type="Control"]

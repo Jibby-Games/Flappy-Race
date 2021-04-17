@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/unf.wav-3a2cf0a2f2d56f96fdc825c24f46fbe5.sample"
+path="res://.import/unf.wav-cb7c9cdacebbbf2e11853a0d95e23c0f.sample"
 
 [deps]
 
-source_file="res://audio/Raw/unf.wav"
-dest_files=[ "res://.import/unf.wav-3a2cf0a2f2d56f96fdc825c24f46fbe5.sample" ]
+source_file="res://raw_assets/audio/unf.wav"
+dest_files=[ "res://.import/unf.wav-cb7c9cdacebbbf2e11853a0d95e23c0f.sample" ]
 
 [params]
 

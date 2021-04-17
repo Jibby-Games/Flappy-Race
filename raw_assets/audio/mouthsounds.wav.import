@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/mouthsounds.wav-771503cd5d07c5b6e39f35b75ccdfa4b.sample"
+path="res://.import/mouthsounds.wav-70c873dc75945ae0c4c50c934c21320c.sample"
 
 [deps]
 
-source_file="res://audio/Raw/mouthsounds.wav"
-dest_files=[ "res://.import/mouthsounds.wav-771503cd5d07c5b6e39f35b75ccdfa4b.sample" ]
+source_file="res://raw_assets/audio/mouthsounds.wav"
+dest_files=[ "res://.import/mouthsounds.wav-70c873dc75945ae0c4c50c934c21320c.sample" ]
 
 [params]
 
