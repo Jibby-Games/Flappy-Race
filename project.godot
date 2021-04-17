@@ -22,13 +22,17 @@ _global_script_class_icons={
 
 config/name="Flappy Race"
 config/description="Multiplayer flappy bird"
-run/main_scene="res://scenes/TitleScreen.tscn"
+run/main_scene="res://client/scenes/TitleScreen.tscn"
 config/icon="res://icon.png"
+
+[audio]
+
+default_bus_layout="res://client/audio/default_bus_layout.tres"
 
 [autoload]
 
-Globals="*res://scripts/Globals.gd"
-Net="*res://scripts/Netcode/network.gd"
+Globals="*res://client/scripts/Globals.gd"
+Net="*res://client/scripts/Netcode/network.gd"
 
 [display]
 
@@ -52,4 +56,3 @@ locale_filter=[ 0, [  ] ]
 [rendering]
 
 environment/default_clear_color=Color( 0.137255, 0.192157, 0.219608, 1 )
-environment/default_environment="res://default_env.tres"

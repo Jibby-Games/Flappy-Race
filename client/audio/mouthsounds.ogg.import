@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/mouthsounds.ogg-0118c15fa3ab2a9d1723a7778026efa6.oggstr"
+
+[deps]
+
+source_file="res://client/audio/mouthsounds.ogg"
+dest_files=[ "res://.import/mouthsounds.ogg-0118c15fa3ab2a9d1723a7778026efa6.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
