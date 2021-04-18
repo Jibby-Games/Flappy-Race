@@ -1,7 +1,7 @@
 extends Node2D
 
-const Wall := preload("res://client/scenes/Wall.tscn")
-const Player := preload("res://client/scenes/Player.tscn")
+const Wall := preload("./Wall.tscn")
+const Player := preload("./Player.tscn")
 const high_score_fname := "user://highscore.save"
 
 onready var Background := $Background

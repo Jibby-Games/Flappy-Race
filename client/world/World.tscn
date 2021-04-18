@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://client/scripts/controllers/World.gd" type="Script" id=1]
-[ext_resource path="res://client/scenes/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://client/fonts/Score.tres" type="DynamicFont" id=3]
+[ext_resource path="res://client/fonts/Score.tres" type="DynamicFont" id=1]
+[ext_resource path="res://client/world/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://client/world/World.gd" type="Script" id=3]
 [ext_resource path="res://client/sprites/citrus.jpg" type="Texture" id=4]
 [ext_resource path="res://client/audio/background.ogg" type="AudioStream" id=5]
 
@@ -41,7 +41,7 @@ shader_param/bob_amplitude = null
 [node name="World" type="Node2D" groups=[
 "Persist",
 ]]
-script = ExtResource( 1 )
+script = ExtResource( 3 )
 
 [node name="Background" type="TextureRect" parent="."]
 material = SubResource( 2 )
@@ -72,7 +72,7 @@ margin_top = -278.0
 margin_right = 40.0
 margin_bottom = -264.0
 theme = SubResource( 3 )
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "0"
 align = 1
@@ -85,7 +85,7 @@ margin_left = -488.0
 margin_top = -278.0
 margin_right = -408.0
 margin_bottom = -202.0
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 0, 0, 1, 1 )
 text = "0"
 align = 1

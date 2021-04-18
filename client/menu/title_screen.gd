@@ -18,3 +18,7 @@ func _on_FadeIn_fade_finished():
 
 func _on_BGMusic_finished():
 	$BGMusic.play()
+
+
+func _on_NewGameButton_pressed(extra_arg_0):
+	pass # Replace with function body.

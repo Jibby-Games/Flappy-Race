@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://client/scripts/title_screen.gd" type="Script" id=1]
-[ext_resource path="res://client/scenes/NewGameButton.tscn" type="PackedScene" id=2]
-[ext_resource path="res://client/scenes/FadeIn.tscn" type="PackedScene" id=3]
-[ext_resource path="res://client/scenes/OptionsButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://client/menu/title_screen.gd" type="Script" id=1]
+[ext_resource path="res://client/sprites/flappy-race-logo.png" type="Texture" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://client/audio/background.ogg" type="AudioStream" id=4]
 [ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=5]
-[ext_resource path="res://client/sprites/flappy-race-logo.png" type="Texture" id=6]
-[ext_resource path="res://icon.png" type="Texture" id=7]
-[ext_resource path="res://client/audio/background.ogg" type="AudioStream" id=8]
+[ext_resource path="res://client/menu/FadeIn.tscn" type="PackedScene" id=6]
+[ext_resource path="res://client/menu/OptionsButton.tscn" type="PackedScene" id=7]
+[ext_resource path="res://client/menu/NewGameButton.tscn" type="PackedScene" id=8]
 
 [node name="TitleScreen" type="Control"]
 anchor_right = 1.0
@@ -36,7 +36,7 @@ margin_bottom = 560.0
 margin_right = 1120.0
 margin_bottom = 75.0
 size_flags_vertical = 0
-texture = ExtResource( 6 )
+texture = ExtResource( 2 )
 stretch_mode = 4
 
 [node name="CenterRow" type="HBoxContainer" parent="MarginContainer/Menu"]
@@ -52,17 +52,17 @@ size_flags_vertical = 3
 custom_constants/separation = 20
 alignment = 1
 
-[node name="NewGameButton" parent="MarginContainer/Menu/CenterRow/Buttons" instance=ExtResource( 2 )]
+[node name="NewGameButton" parent="MarginContainer/Menu/CenterRow/Buttons" instance=ExtResource( 8 )]
 margin_top = 190.0
 margin_right = 558.0
 margin_bottom = 270.0
-scene_to_load = "res://client/scenes/Lobby.tscn"
+scene_to_load = "res://client/menu/lobby/Lobby.tscn"
 
-[node name="OptionsButton" parent="MarginContainer/Menu/CenterRow/Buttons" instance=ExtResource( 4 )]
+[node name="OptionsButton" parent="MarginContainer/Menu/CenterRow/Buttons" instance=ExtResource( 7 )]
 margin_top = 290.0
 margin_right = 558.0
 margin_bottom = 370.0
-scene_to_load = "res://client/scenes/Options.tscn"
+scene_to_load = "res://client/menu/Options.tscn"
 
 [node name="CenterContainer" type="CenterContainer" parent="MarginContainer/Menu/CenterRow"]
 margin_left = 562.0
@@ -76,7 +76,7 @@ margin_left = 247.0
 margin_top = 248.0
 margin_right = 311.0
 margin_bottom = 312.0
-texture = ExtResource( 7 )
+texture = ExtResource( 3 )
 
 [node name="VersionLabel" type="Label" parent="MarginContainer/Menu"]
 margin_right = 1120.0
@@ -87,7 +87,7 @@ text = "Version 420.69
 Jibby Games"
 valign = 2
 
-[node name="FadeIn" parent="." instance=ExtResource( 3 )]
+[node name="FadeIn" parent="." instance=ExtResource( 6 )]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -95,7 +95,7 @@ margin_right = 1280.0
 margin_bottom = 720.0
 
 [node name="BGMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 8 )
+stream = ExtResource( 4 )
 autoplay = true
 [connection signal="fade_finished" from="FadeIn" to="." method="_on_FadeIn_fade_finished"]
 [connection signal="finished" from="BGMusic" to="." method="_on_BGMusic_finished"]

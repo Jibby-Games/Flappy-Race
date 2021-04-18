@@ -1,20 +1,20 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://client/scripts/sprites/Player.gd" type="Script" id=1]
-[ext_resource path="res://client/audio/ahuah.ogg" type="AudioStream" id=2]
-[ext_resource path="res://client/audio/unf.ogg" type="AudioStream" id=3]
-[ext_resource path="res://client/audio/huah.ogg" type="AudioStream" id=4]
-[ext_resource path="res://client/audio/mouthsounds.ogg" type="AudioStream" id=5]
+[ext_resource path="res://client/world/Player.gd" type="Script" id=1]
+[ext_resource path="res://client/sprites/1.png" type="Texture" id=2]
+[ext_resource path="res://client/audio/mouthsounds.ogg" type="AudioStream" id=3]
+[ext_resource path="res://client/audio/ahuah.ogg" type="AudioStream" id=4]
+[ext_resource path="res://client/audio/unf.ogg" type="AudioStream" id=5]
 [ext_resource path="res://client/audio/uuh.ogg" type="AudioStream" id=6]
 [ext_resource path="res://client/sprites/0.png" type="Texture" id=7]
-[ext_resource path="res://client/sprites/1.png" type="Texture" id=8]
+[ext_resource path="res://client/audio/huah.ogg" type="AudioStream" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 26.6054
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
+"frames": [ ExtResource( 7 ), ExtResource( 2 ) ],
 "loop": true,
 "name": "default",
 "speed": 3.0
@@ -49,17 +49,17 @@ shape = SubResource( 3 )
 ]]
 
 [node name="Flap1" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 2 )
+stream = ExtResource( 4 )
 attenuation = 3.86374
 bus = "Player"
 
 [node name="Flap2" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 4 )
+stream = ExtResource( 8 )
 attenuation = 3.36359
 bus = "Player"
 
 [node name="Flap3" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 3 )
+stream = ExtResource( 5 )
 attenuation = 3.4822
 bus = "Player"
 
@@ -69,7 +69,7 @@ attenuation = 5.46415
 bus = "Player"
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 5 )
+stream = ExtResource( 3 )
 attenuation = 5.37187e-08
 bus = "Player"
 [connection signal="area_entered" from="Detect" to="." method="_on_Detect_area_entered"]

@@ -53,7 +53,7 @@ func update_public_ip():
 	http_request.request(ip_lookup_api)
 
 
-func _http_request_completed(result, response_code, headers, body):
+func _http_request_completed(_result, response_code, _headers, body):
 	if response_code == 200:
 		# Successful response
 		public_ip = body.get_string_from_utf8()

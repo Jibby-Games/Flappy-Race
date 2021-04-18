@@ -27,7 +27,7 @@ remote func player_joined():
 remotesync func begin_game(new_seed):
 	# Sync up the RNG seed for all players
 	Globals.set_game_seed(new_seed)
-	var _junk = get_tree().change_scene("res://client/scenes/World.tscn")
+	SceneManager.change_to(Enums.Scene.WORLD)
 
 
 func start_game():

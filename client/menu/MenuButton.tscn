@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://client/scripts/MenuButton.gd" type="Script" id=1]
+[ext_resource path="res://client/menu/MenuButton.gd" type="Script" id=1]
 [ext_resource path="res://client/fonts/DelaGothicOne-48.tres" type="DynamicFont" id=2]
 
 [node name="MenuButton" type="Button"]
