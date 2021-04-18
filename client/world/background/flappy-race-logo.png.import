@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/watermelon_pattern.jpg-b04147e2d87639e2a8ea096803e1c002.stex"
+path="res://.import/flappy-race-logo.png-ba7bf8ceb0e372c77abb7843ec9a13ad.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://client/sprites/watermelon_pattern.jpg"
-dest_files=[ "res://.import/watermelon_pattern.jpg-b04147e2d87639e2a8ea096803e1c002.stex" ]
+source_file="res://client/world/background/flappy-race-logo.png"
+dest_files=[ "res://.import/flappy-race-logo.png-ba7bf8ceb0e372c77abb7843ec9a13ad.stex" ]
 
 [params]
 

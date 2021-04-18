@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/0.png-8c33a6870d7ff6f61a6f1deec75d397b.stex"
+path="res://.import/citrus.jpg-a62e1fa155b8ff16d87da60af8e2b61e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://client/sprites/0.png"
-dest_files=[ "res://.import/0.png-8c33a6870d7ff6f61a6f1deec75d397b.stex" ]
+source_file="res://client/world/background/citrus.jpg"
+dest_files=[ "res://.import/citrus.jpg-a62e1fa155b8ff16d87da60af8e2b61e.stex" ]
 
 [params]
 

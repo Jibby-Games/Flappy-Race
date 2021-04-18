@@ -9,7 +9,7 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "EditorVCSInterface",
+"base": "",
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://git_api.gdns"
@@ -22,7 +22,7 @@ _global_script_class_icons={
 
 config/name="Flappy Race"
 config/description="Multiplayer flappy bird"
-run/main_scene="res://client/scenes/TitleScreen.tscn"
+run/main_scene="res://client/menu/TitleScreen.tscn"
 config/icon="res://icon.png"
 
 [audio]
@@ -31,8 +31,10 @@ default_bus_layout="res://client/audio/default_bus_layout.tres"
 
 [autoload]
 
-Globals="*res://client/scripts/Globals.gd"
-Net="*res://client/scripts/Netcode/network.gd"
+Globals="*res://client/singletons/Globals.gd"
+Net="*res://client/singletons/network.gd"
+SceneManager="*res://client/singletons/scene_manager.gd"
+Enums="*res://client/singletons/enums.gd"
 
 [display]
 

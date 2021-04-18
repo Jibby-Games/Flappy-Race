@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/frog_pond.jpg-2f1916c5b514997829deb81a6f72c5df.stex"
+path="res://.import/0.png-7ff6e6061c6ef471df8583cf281a4808.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://client/sprites/frog_pond.jpg"
-dest_files=[ "res://.import/frog_pond.jpg-2f1916c5b514997829deb81a6f72c5df.stex" ]
+source_file="res://client/world/player/0.png"
+dest_files=[ "res://.import/0.png-7ff6e6061c6ef471df8583cf281a4808.stex" ]
 
 [params]
 

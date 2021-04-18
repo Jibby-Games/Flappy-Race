@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/grandmas_table.jpg-367c37bf6fc109778c09218ac2d415be.stex"
+path="res://.import/watermelon_pattern.jpg-eb0450426b37cae7abe615acfa156938.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://client/sprites/grandmas_table.jpg"
-dest_files=[ "res://.import/grandmas_table.jpg-367c37bf6fc109778c09218ac2d415be.stex" ]
+source_file="res://client/world/background/watermelon_pattern.jpg"
+dest_files=[ "res://.import/watermelon_pattern.jpg-eb0450426b37cae7abe615acfa156938.stex" ]
 
 [params]
 

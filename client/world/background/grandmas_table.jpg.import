@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/wall.png-56e7f0867cdd9cf77c7ab4e95e0c7284.stex"
+path="res://.import/grandmas_table.jpg-17c52abd0012619a18ef7339975525fe.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://client/sprites/wall.png"
-dest_files=[ "res://.import/wall.png-56e7f0867cdd9cf77c7ab4e95e0c7284.stex" ]
+source_file="res://client/world/background/grandmas_table.jpg"
+dest_files=[ "res://.import/grandmas_table.jpg-17c52abd0012619a18ef7339975525fe.stex" ]
 
 [params]
 
