@@ -13,12 +13,8 @@ func on_Button_pressed(scene_to_load):
 	$FadeIn.fade_in()
 
 func _on_FadeIn_fade_finished():
-	get_tree().change_scene(scene_path_to_load)
+	assert(get_tree().change_scene(scene_path_to_load) == OK)
 
 
 func _on_BGMusic_finished():
 	$BGMusic.play()
-
-
-func _on_NewGameButton_pressed(extra_arg_0):
-	pass # Replace with function body.

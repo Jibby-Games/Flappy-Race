@@ -1,11 +1,12 @@
 extends Control
 
+enum ConnType {HOST=0, CLIENT=1}
 
 func _ready():
 	Net.update_public_ip()
-	var _junk = get_tree().connect("connected_to_server", self, "connected")
+	assert(get_tree().connect("connected_to_server", self, "connected") == OK)
 	# Automatically update the public ip text
-	_junk = Net.connect("public_ip_changed", self, "_on_Net_public_ip_changed")
+	assert(Net.connect("public_ip_changed", self, "_on_Net_public_ip_changed") == OK)
 
 
 func connected():
@@ -48,3 +49,51 @@ func _on_Net_public_ip_changed(new_ip):
 	# Update IPs
 	$Connecting/MyIP.text = "IP: " + new_ip
 	$Host/MyIP.text = "IP: " + new_ip
+
+
+func _on_Back_pressed():
+	SceneManager.change_to(Enums.Scene.TITLE)
+
+
+func _on_Solo_pressed():
+	# Tell the game to start in offline mode
+	Net.is_online = false
+	assert(Globals.randomize_game_seed())
+	# And start the actual game
+	SceneManager.change_to(Enums.Scene.WORLD)
+
+
+func on_Host_pressed():
+	Net.initialise_server()
+	show_connect_screen(ConnType.HOST)
+
+
+# Connected to the pressed() signal.
+func _on_Join_pressed():
+	if $Join/JoinIP.text.is_valid_ip_address():
+		$Join/InvalidIP.hide()
+		join()
+	else:
+		$Join/InvalidIP.show()
+
+func join():
+	var join_ip = $Join/JoinIP.text
+	Net.initialise_client(join_ip)
+	show_connect_screen(ConnType.CLIENT)
+
+
+# This function is called when the join or host buttons are pushed.
+# It should ONLY handle changing the screen for the user.
+func show_connect_screen(conn_type):
+	# Reveal thyself
+	$Connecting.show()
+
+	if conn_type == ConnType.HOST:
+		$Connecting/ConnectingText.text = "Waiting for players..."
+		$Connecting/NumPlayers.text = "Players: [%d/%d]" % [Net.current_players, Net.MAX_PLAYERS]
+		$Connecting/MyIP.show()
+		$Connecting/Start.show()
+		$Connecting/NumPlayers.show()
+
+	elif conn_type == ConnType.CLIENT:
+		$Connecting/ConnectingText.text = "...Connecting to server..."

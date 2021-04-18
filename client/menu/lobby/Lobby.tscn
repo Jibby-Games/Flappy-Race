@@ -1,12 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://client/menu/lobby/HostButton.gd" type="Script" id=1]
-[ext_resource path="res://client/menu/lobby/JoinButton.gd" type="Script" id=2]
-[ext_resource path="res://client/menu/lobby/Connecting.gd" type="Script" id=3]
 [ext_resource path="res://client/menu/lobby/Lobby.gd" type="Script" id=4]
-[ext_resource path="res://client/menu/lobby/Solo.gd" type="Script" id=5]
 [ext_resource path="res://client/audio/mouthsounds.ogg" type="AudioStream" id=6]
-[ext_resource path="res://client/menu/lobby/Back.gd" type="Script" id=7]
 
 [node name="Lobby" type="Control"]
 anchor_right = 1.0
@@ -33,7 +28,6 @@ margin_right = 813.0
 margin_bottom = 245.066
 hint_tooltip = "Start hosting a server"
 text = "Host"
-script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -57,7 +51,6 @@ margin_right = 813.0
 margin_bottom = 397.066
 hint_tooltip = "Join a server. Ask your friends for their personal info!"
 text = "Join"
-script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -88,7 +81,6 @@ margin_top = 157.0
 margin_right = 380.896
 margin_bottom = 245.0
 text = "Solo"
-script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -99,7 +91,6 @@ margin_top = 309.0
 margin_right = 380.896
 margin_bottom = 397.0
 text = "Back"
-script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -109,7 +100,6 @@ visible = false
 margin_right = 1024.0
 margin_bottom = 600.0
 color = Color( 0.25098, 0, 0.380392, 1 )
-script = ExtResource( 3 )
 
 [node name="ConnectingText" type="Label" parent="Connecting"]
 margin_left = 412.0
@@ -153,11 +143,9 @@ align = 1
 [node name="BGMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
 autoplay = true
-[connection signal="pressed" from="Host" to="Host" method="on_Host_pressed"]
-[connection signal="show_connect_screen" from="Host" to="Connecting" method="show_connect_screen"]
-[connection signal="pressed" from="Join" to="Join" method="_on_Join_pressed"]
-[connection signal="show_connect_screen" from="Join" to="Connecting" method="show_connect_screen"]
-[connection signal="pressed" from="Solo" to="Solo" method="_on_Solo_pressed"]
-[connection signal="pressed" from="Back" to="Back" method="_on_Back_pressed"]
+[connection signal="pressed" from="Host" to="." method="on_Host_pressed"]
+[connection signal="pressed" from="Join" to="." method="_on_Join_pressed"]
+[connection signal="pressed" from="Solo" to="." method="_on_Solo_pressed"]
+[connection signal="pressed" from="Back" to="." method="_on_Back_pressed"]
 [connection signal="pressed" from="Connecting/Start" to="." method="_on_Start_pressed"]
 [connection signal="finished" from="BGMusic" to="." method="_on_BGMusic_finished"]
