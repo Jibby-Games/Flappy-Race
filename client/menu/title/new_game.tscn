@@ -2,7 +2,7 @@
 
 [ext_resource path="res://client/fonts/DelaGothicOne-48.tres" type="DynamicFont" id=1]
 [ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=2]
-[ext_resource path="res://client/menu/return_to_title.gd" type="Script" id=3]
+[ext_resource path="res://client/menu/options/options.gd" type="Script" id=3]
 
 [node name="NewGame" type="Control"]
 anchor_right = 1.0

@@ -3,7 +3,6 @@
 [ext_resource path="res://client/menu/menu_button.gd" type="Script" id=1]
 [ext_resource path="res://client/fonts/DelaGothicOne-48.tres" type="DynamicFont" id=2]
 
-
 [node name="MenuButton" type="Button"]
 margin_right = 1040.0
 margin_bottom = 80.0

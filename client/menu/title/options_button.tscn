@@ -2,9 +2,8 @@
 
 [ext_resource path="res://client/menu/menu_button.tscn" type="PackedScene" id=1]
 
-
-[node name="NewGameButton" instance=ExtResource( 1 )]
-scene_to_load = "res://scenes/NewGame.tscn"
+[node name="OptionsButton" instance=ExtResource( 1 )]
+scene_to_load = "res://scenes/Options.tscn"
 
 [node name="Label" parent="." index="0"]
-text = "New Game"
+text = "Options"
