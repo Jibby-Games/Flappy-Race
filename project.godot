@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "",
 "class": "GitAPI",
 "language": "NativeScript",
-"path": "res://git_api.gdns"
+"path": "res://addons/git_api/git_api.gdns"
 } ]
 _global_script_class_icons={
 "GitAPI": ""
@@ -43,7 +43,8 @@ window/size/height=720
 
 [gdnative]
 
-singletons=[ "res://git_api.gdnlib" ]
+singletons=[ "res://addons/git_api/git_api.gdnlib" ]
+singletons_disabled=[  ]
 
 [layer_names]
 
