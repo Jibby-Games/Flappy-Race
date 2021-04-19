@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://client/menu/title_screen.gd" type="Script" id=1]
-[ext_resource path="res://client/world/background/flappy-race-logo.png" type="Texture" id=2]
+[ext_resource path="res://client/world/background/flappy_race_logo.png" type="Texture" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
 [ext_resource path="res://client/audio/background.ogg" type="AudioStream" id=4]
 [ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=5]
-[ext_resource path="res://client/menu/FadeIn.tscn" type="PackedScene" id=6]
-[ext_resource path="res://client/menu/OptionsButton.tscn" type="PackedScene" id=7]
-[ext_resource path="res://client/menu/NewGameButton.tscn" type="PackedScene" id=8]
+[ext_resource path="res://client/menu/fade_in.tscn" type="PackedScene" id=6]
+[ext_resource path="res://client/menu/options_button.tscn" type="PackedScene" id=7]
+[ext_resource path="res://client/menu/new_game_button.tscn" type="PackedScene" id=8]
 
 [node name="TitleScreen" type="Control"]
 anchor_right = 1.0
@@ -56,13 +56,13 @@ alignment = 1
 margin_top = 190.0
 margin_right = 558.0
 margin_bottom = 270.0
-scene_to_load = "res://client/menu/lobby/Lobby.tscn"
+scene_to_load = "res://client/menu/lobby/lobby.tscn"
 
 [node name="OptionsButton" parent="MarginContainer/Menu/CenterRow/Buttons" instance=ExtResource( 7 )]
 margin_top = 290.0
 margin_right = 558.0
 margin_bottom = 370.0
-scene_to_load = "res://client/menu/Options.tscn"
+scene_to_load = "res://client/menu/options.tscn"
 
 [node name="CenterContainer" type="CenterContainer" parent="MarginContainer/Menu/CenterRow"]
 margin_left = 562.0

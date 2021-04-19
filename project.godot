@@ -22,7 +22,7 @@ _global_script_class_icons={
 
 config/name="Flappy Race"
 config/description="Multiplayer flappy bird"
-run/main_scene="res://client/menu/TitleScreen.tscn"
+run/main_scene="res://client/menu/title_screen.tscn"
 config/icon="res://icon.png"
 
 [audio]
@@ -31,7 +31,7 @@ default_bus_layout="res://client/audio/default_bus_layout.tres"
 
 [autoload]
 
-Globals="*res://client/singletons/Globals.gd"
+Globals="*res://client/singletons/globals.gd"
 Net="*res://client/singletons/network.gd"
 SceneManager="*res://client/singletons/scene_manager.gd"
 Enums="*res://client/singletons/enums.gd"

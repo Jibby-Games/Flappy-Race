@@ -1,10 +1,12 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://client/fonts/Score.tres" type="DynamicFont" id=1]
-[ext_resource path="res://client/world/player/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://client/world/World.gd" type="Script" id=3]
+[ext_resource path="res://client/world/player/player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://client/world/world.gd" type="Script" id=3]
 [ext_resource path="res://client/world/background/citrus.jpg" type="Texture" id=4]
 [ext_resource path="res://client/audio/background.ogg" type="AudioStream" id=5]
+
+
 
 
 

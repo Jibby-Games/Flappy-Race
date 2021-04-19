@@ -1,8 +1,8 @@
 extends Node
 
 onready var _scenes = {
-	Enums.Scene.WORLD: preload("res://client/world/World.tscn"),
-	Enums.Scene.TITLE: preload("res://client/menu/TitleScreen.tscn"),
+	Enums.Scene.WORLD: preload("res://client/world/world.tscn"),
+	Enums.Scene.TITLE: preload("res://client/menu/title_screen.tscn"),
 }
 
 func change_to(scene : int):
