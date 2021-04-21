@@ -3,7 +3,7 @@ extends Control
 var scene_path_to_load
 
 func _ready():
-	$MarginContainer/Menu/CenterRow/Buttons/NewGameButton.grab_focus()
+	$MarginContainer/Menu/CenterRow/Buttons/SingleplayerButton.grab_focus()
 	for button in $MarginContainer/Menu/CenterRow/Buttons.get_children():
 		button.connect("pressed", self, "on_Button_pressed", [button.scene_to_load])
 

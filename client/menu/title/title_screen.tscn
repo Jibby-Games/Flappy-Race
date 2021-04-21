@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://client/menu/title/title_screen.gd" type="Script" id=1]
 [ext_resource path="res://client/world/background/flappy_race_logo.png" type="Texture" id=2]
@@ -6,8 +6,9 @@
 [ext_resource path="res://client/audio/background.ogg" type="AudioStream" id=4]
 [ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=5]
 [ext_resource path="res://client/menu/fade_in.tscn" type="PackedScene" id=6]
-[ext_resource path="res://client/menu/title/new_game_button.tscn" type="PackedScene" id=7]
+[ext_resource path="res://client/menu/title/singleplayer_button.tscn" type="PackedScene" id=7]
 [ext_resource path="res://client/menu/title/options_button.tscn" type="PackedScene" id=8]
+[ext_resource path="res://client/menu/title/multiplayer_button.tscn" type="PackedScene" id=9]
 
 [node name="TitleScreen" type="Control"]
 anchor_right = 1.0
@@ -52,16 +53,22 @@ size_flags_vertical = 3
 custom_constants/separation = 20
 alignment = 1
 
-[node name="NewGameButton" parent="MarginContainer/Menu/CenterRow/Buttons" instance=ExtResource( 7 )]
-margin_top = 190.0
+[node name="SingleplayerButton" parent="MarginContainer/Menu/CenterRow/Buttons" instance=ExtResource( 7 )]
+margin_top = 140.0
 margin_right = 558.0
-margin_bottom = 270.0
-scene_to_load = "res://client/menu/lobby/lobby.tscn"
+margin_bottom = 220.0
+scene_to_load = "res://client/client_server_network.tscn"
+
+[node name="MultiplayerButton" parent="MarginContainer/Menu/CenterRow/Buttons" instance=ExtResource( 9 )]
+margin_top = 240.0
+margin_right = 558.0
+margin_bottom = 320.0
+scene_to_load = "res://client/client_network.tscn"
 
 [node name="OptionsButton" parent="MarginContainer/Menu/CenterRow/Buttons" instance=ExtResource( 8 )]
-margin_top = 290.0
+margin_top = 340.0
 margin_right = 558.0
-margin_bottom = 370.0
+margin_bottom = 420.0
 scene_to_load = "res://client/menu/options/options.tscn"
 
 [node name="CenterContainer" type="CenterContainer" parent="MarginContainer/Menu/CenterRow"]
