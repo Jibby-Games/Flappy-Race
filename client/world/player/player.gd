@@ -16,15 +16,6 @@ var high_score = 0
 var score = 0
 
 
-func initialise(id):
-	name = str(id)
-	if id == Net.net_id:
-		is_master = true
-		Net.host_player = self
-	else:
-		modulate = Color8(0, 255, 0, 255)
-
-
 func _ready():
 	emit_signal("ready", self)
 
@@ -42,17 +33,15 @@ func _physics_process(_delta):
 
 		if Input.is_action_just_pressed("ui_accept"):
 			motion.y = -FLAP
-			if Net.is_online:
-				rpc_unreliable("play_flap_sound")
-			else:
-				play_flap_sound()
+			play_flap_sound()
+			Globals.ClientNet.send_flap()
 
 
 		motion.x = 0
 		motion = move_and_slide(motion, UP)
 
-		if Net.is_online:
-			rpc_unreliable("update_position", position)
+#		if Net.is_online:
+#			rpc_unreliable("update_position", position)
 
 
 remotesync func play_flap_sound():

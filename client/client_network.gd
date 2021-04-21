@@ -1,54 +1,64 @@
-extends Node
-
-const RPC_PORT = 31400
-const SERVER_IP = "127.0.0.1"
+extends SceneHandler
 
 
-func _ready():
+class_name ClientNetwork
+
+
+const SERVER_ID := 1
+
+
+func _ready() -> void:
 	# As you can see, instead of calling get_tree().connect for network related
 	# stuff we use mutltiplayer.connect . This way, IF (and only IF) the
 	# MultiplayerAPI is customized, we use that instead of the global one.
 	# This makes the custom MultiplayerAPI almost plug-n-play.
-	multiplayer.connect("connection_failed", self, "_close_network")
-	multiplayer.connect("connected_to_server", self, "_connected")
-	multiplayer.connect("server_disconnected", self, "_close_network")
+	assert(multiplayer.connect("connection_failed", self, "_close_network") == OK)
+	assert(multiplayer.connect("connected_to_server", self, "_connected") == OK)
+	assert(multiplayer.connect("server_disconnected", self, "_close_network") == OK)
 
 
-func _exit_tree():
+func _exit_tree() -> void:
 	multiplayer.disconnect("connection_failed", self, "_close_network")
 	multiplayer.disconnect("connected_to_server", self, "_connected")
 	multiplayer.disconnect("server_disconnected", self, "_close_network")
 
 
-func start_client(host, port):
+func start_client(host, port) -> void:
 	var peer = NetworkedMultiplayerENet.new()
 	peer.create_client(host, port)
 	multiplayer.set_network_peer(peer)
-	print("Client started")
+	print("[CNT]: Client started")
 
 
-func _on_JoinServer_pressed():
-	start_client(SERVER_IP, RPC_PORT)
+func stop_client() -> void:
+	_close_network()
 
 
-func _connected():
-	print("Connected to server!")
+func _connected() -> void:
+	print("[CNT]: Connected to server!")
 
 
-func _close_network():
+func _close_network() -> void:
 	multiplayer.set_network_peer(null)
-	print("Networking stopped")
+	print("[CNT]: Client stopped")
 
 
-func request_something():
-	var x = 19
-	print("UID ", multiplayer.get_network_unique_id(), " requesting with: ", x)
-	rpc_id(1, "process_something", x)
+remote func populate_player_list(players: PoolIntArray) -> void:
+	var sender = multiplayer.get_rpc_sender_id()
+	if sender == SERVER_ID:
+		$GameSetup.populate_players(players)
+	else:
+		print("[CNT]: ERROR Received player list from player %s, is someone hacking?" % sender)
 
 
-remote func receive_something(x):
-	print("UID ", multiplayer.get_network_unique_id(), " received: ", x)
+func start_game() -> void:
+	print("[CNT]: Sending start game request")
+	rpc_id(1, "start_game")
 
 
-func _on_SendRPC_pressed():
-	request_something()
+remote func game_started() -> void:
+	$GameSetup.game_started()
+
+func send_flap() -> void:
+	rpc_id(1, "player_flapped")
+

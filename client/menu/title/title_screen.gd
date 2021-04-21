@@ -1,19 +1,17 @@
 extends Control
 
-var scene_path_to_load
 
 func _ready():
 	$MarginContainer/Menu/CenterRow/Buttons/SingleplayerButton.grab_focus()
 	for button in $MarginContainer/Menu/CenterRow/Buttons.get_children():
-		button.connect("pressed", self, "on_Button_pressed", [button.scene_to_load])
+		button.connect("pressed", self, "_on_MenuButton_pressed", [button.scene_to_load])
 
-func on_Button_pressed(scene_to_load):
-	scene_path_to_load = scene_to_load
+
+func _on_MenuButton_pressed(scene_to_load):
 	$FadeIn.show()
 	$FadeIn.fade_in()
-
-func _on_FadeIn_fade_finished():
-	assert(get_tree().change_scene(scene_path_to_load) == OK)
+	yield($FadeIn, "fade_finished")
+	Network.Client.change_scene_to(scene_to_load)
 
 
 func _on_BGMusic_finished():

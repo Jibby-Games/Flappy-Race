@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://client/world/player/player.gd" type="Script" id=8]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 26.6054
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 32.4149
+
+[node name="Player" type="KinematicBody2D"]
+collision_layer = 2147483649
+collision_mask = 2
+script = ExtResource( 8 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -1, -1 )
+shape = SubResource( 1 )
+
+[node name="Detect" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detect"]
+position = Vector2( -1, -2 )
+shape = SubResource( 2 )
+[connection signal="area_entered" from="Detect" to="." method="_on_Detect_area_entered"]
+[connection signal="body_entered" from="Detect" to="." method="_on_Detect_body_entered"]

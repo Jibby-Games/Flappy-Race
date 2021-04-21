@@ -9,7 +9,6 @@
 [ext_resource path="res://client/world/player/huah.ogg" type="AudioStream" id=7]
 [ext_resource path="res://client/world/player/player.gd" type="Script" id=8]
 
-
 [sub_resource type="CircleShape2D" id=1]
 radius = 26.6054
 
@@ -35,6 +34,7 @@ shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
+frame = 1
 playing = true
 
 [node name="Detect" type="Area2D" parent="."]

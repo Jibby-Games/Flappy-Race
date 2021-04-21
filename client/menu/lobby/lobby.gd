@@ -1,40 +1,40 @@
 extends Control
 
-enum ConnType {HOST=0, CLIENT=1}
 
-func _ready():
-	Net.update_public_ip()
-	assert(get_tree().connect("connected_to_server", self, "connected") == OK)
-	# Automatically update the public ip text
-	assert(Net.connect("public_ip_changed", self, "_on_Net_public_ip_changed") == OK)
+const MAX_CONNECT_TIME := 5
+
+#enum ConnType {HOST=0, CLIENT=1}
+
+func _ready() -> void:
+	assert(multiplayer.connect("connected_to_server", self, "_on_connected") == OK)
+
+#func connected():
+#	if Net.is_host:
+#		if Net.current_players == Net.MAX_PLAYERS:
+#			start_game()
+#		else:
+#			$Connecting/NumPlayers.text = "Players: [%d/%d]" % [Net.current_players, Net.MAX_PLAYERS]
+#	else:
+	# Tell the server that I, a player, joined.
+#	rpc_id(0, "player_joined")
 
 
-func connected():
-	if Net.is_host:
-		if Net.current_players == Net.MAX_PLAYERS:
-			start_game()
-		else:
-			$Connecting/NumPlayers.text = "Players: [%d/%d]" % [Net.current_players, Net.MAX_PLAYERS]
-	else:
-		# Tell the server that I, a player, joined.
-		rpc_id(0, "player_joined")
-
-
-remote func player_joined():
-	Net.current_players += 1
-	connected()
+#remote func player_joined():
+#	Net.current_players += 1
+#	connected()
 
 
 remotesync func begin_game(new_seed):
 	# Sync up the RNG seed for all players
 	Globals.set_game_seed(new_seed)
-	SceneManager.change_to(Enums.Scene.WORLD)
+	# FIXME: load world as subscene
+#	SceneManager.change_to(Enums.Scene.WORLD)
 
 
 func start_game():
 	# Randomize the seed and start the game with it
 	var new_seed = Globals.randomize_game_seed()
-	rpc("begin_game", new_seed)
+#	rpc("begin_game", new_seed)
 
 
 func _on_BGMusic_finished():
@@ -45,55 +45,40 @@ func _on_Start_pressed():
 	start_game()
 
 
-func _on_Net_public_ip_changed(new_ip):
-	# Update IPs
-	$Connecting/MyIP.text = "IP: " + new_ip
-	$Host/MyIP.text = "IP: " + new_ip
-
 
 func _on_Back_pressed():
-	SceneManager.change_to(Enums.Scene.TITLE)
-
-
-func _on_Solo_pressed():
-	# Tell the game to start in offline mode
-	Net.is_online = false
-	assert(Globals.randomize_game_seed())
-	# And start the actual game
-	SceneManager.change_to(Enums.Scene.WORLD)
+	Network.Client.change_scene("res://client/menu/title/title_screen.tscn")
 
 
 func on_Host_pressed():
-	Net.initialise_server()
-	show_connect_screen(ConnType.HOST)
+	Network.Server.start_server(Network.RPC_PORT, Network.MAX_PLAYERS)
+	Network.Client.start_client("127.0.0.1", Network.RPC_PORT)
+	Network.Client.change_scene("res://client/menu/lobby/game_setup.tscn")
 
 
 # Connected to the pressed() signal.
 func _on_Join_pressed():
-	if $Join/JoinIP.text.is_valid_ip_address():
+	$ErrorMessage.text = "Connecting..."
+	$ErrorMessage.show()
+	var join_ip = $Join/JoinIP.text
+	if join_ip.is_valid_ip_address():
 		$Join/InvalidIP.hide()
-		join()
+		try_connect_to_server(join_ip)
 	else:
 		$Join/InvalidIP.show()
 
-func join():
-	var join_ip = $Join/JoinIP.text
-	Net.initialise_client(join_ip)
-	show_connect_screen(ConnType.CLIENT)
+func try_connect_to_server(ip: String):
+	$ConnectionTimer.start(MAX_CONNECT_TIME)
+	Network.Client.start_client(ip, Network.RPC_PORT)
 
 
-# This function is called when the join or host buttons are pushed.
-# It should ONLY handle changing the screen for the user.
-func show_connect_screen(conn_type):
-	# Reveal thyself
-	$Connecting.show()
+func _on_connected() -> void:
+	$ConnectionTimer.stop()
+	Network.Client.change_scene("res://client/menu/lobby/game_setup.tscn")
 
-	if conn_type == ConnType.HOST:
-		$Connecting/ConnectingText.text = "Waiting for players..."
-		$Connecting/NumPlayers.text = "Players: [%d/%d]" % [Net.current_players, Net.MAX_PLAYERS]
-		$Connecting/MyIP.show()
-		$Connecting/Start.show()
-		$Connecting/NumPlayers.show()
 
-	elif conn_type == ConnType.CLIENT:
-		$Connecting/ConnectingText.text = "...Connecting to server..."
+func _on_ConnectionTimer_timeout():
+	print("[CNT]: Connection timed out!")
+	Network.Client.stop_client()
+	$ErrorMessage.text = "Failed to connect!"
+	$ErrorMessage.show()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://client/menu/title/title_screen.gd" type="Script" id=1]
 [ext_resource path="res://client/world/background/flappy_race_logo.png" type="Texture" id=2]
@@ -6,9 +6,10 @@
 [ext_resource path="res://client/audio/background.ogg" type="AudioStream" id=4]
 [ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=5]
 [ext_resource path="res://client/menu/fade_in.tscn" type="PackedScene" id=6]
-[ext_resource path="res://client/menu/title/singleplayer_button.tscn" type="PackedScene" id=7]
-[ext_resource path="res://client/menu/title/options_button.tscn" type="PackedScene" id=8]
-[ext_resource path="res://client/menu/title/multiplayer_button.tscn" type="PackedScene" id=9]
+[ext_resource path="res://client/world/world.tscn" type="PackedScene" id=7]
+[ext_resource path="res://client/menu/options/options.tscn" type="PackedScene" id=8]
+[ext_resource path="res://client/menu/lobby/lobby.tscn" type="PackedScene" id=9]
+[ext_resource path="res://client/menu/menu_button.tscn" type="PackedScene" id=10]
 
 [node name="TitleScreen" type="Control"]
 anchor_right = 1.0
@@ -53,23 +54,26 @@ size_flags_vertical = 3
 custom_constants/separation = 20
 alignment = 1
 
-[node name="SingleplayerButton" parent="MarginContainer/Menu/CenterRow/Buttons" instance=ExtResource( 7 )]
+[node name="SingleplayerButton" parent="MarginContainer/Menu/CenterRow/Buttons" instance=ExtResource( 10 )]
 margin_top = 140.0
 margin_right = 558.0
 margin_bottom = 220.0
-scene_to_load = "res://client/client_server_network.tscn"
+label = "Singleplayer"
+scene_to_load = ExtResource( 7 )
 
-[node name="MultiplayerButton" parent="MarginContainer/Menu/CenterRow/Buttons" instance=ExtResource( 9 )]
+[node name="MultiplayerButton" parent="MarginContainer/Menu/CenterRow/Buttons" instance=ExtResource( 10 )]
 margin_top = 240.0
 margin_right = 558.0
 margin_bottom = 320.0
-scene_to_load = "res://client/client_network.tscn"
+label = "Multiplayer"
+scene_to_load = ExtResource( 9 )
 
-[node name="OptionsButton" parent="MarginContainer/Menu/CenterRow/Buttons" instance=ExtResource( 8 )]
+[node name="OptionsButton" parent="MarginContainer/Menu/CenterRow/Buttons" instance=ExtResource( 10 )]
 margin_top = 340.0
 margin_right = 558.0
 margin_bottom = 420.0
-scene_to_load = "res://client/menu/options/options.tscn"
+label = "Options"
+scene_to_load = ExtResource( 8 )
 
 [node name="CenterContainer" type="CenterContainer" parent="MarginContainer/Menu/CenterRow"]
 margin_left = 562.0
@@ -104,5 +108,4 @@ margin_bottom = 720.0
 [node name="BGMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 autoplay = true
-[connection signal="fade_finished" from="FadeIn" to="." method="_on_FadeIn_fade_finished"]
 [connection signal="finished" from="BGMusic" to="." method="_on_BGMusic_finished"]

@@ -6,10 +6,6 @@
 [ext_resource path="res://client/world/background/citrus.jpg" type="Texture" id=4]
 [ext_resource path="res://client/audio/background.ogg" type="AudioStream" id=5]
 
-
-
-
-
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
 uniform float scroll_speed;
