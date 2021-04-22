@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://client/fonts/Score.tres" type="DynamicFont" id=1]
-[ext_resource path="res://client/world/player/player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://client/world/world.gd" type="Script" id=3]
 [ext_resource path="res://client/world/background/citrus.jpg" type="Texture" id=4]
 [ext_resource path="res://client/audio/background.ogg" type="AudioStream" id=5]
@@ -129,10 +128,6 @@ margin_right = 337.0
 margin_bottom = 435.0
 custom_fonts/font = ExtResource( 7 )
 text = "Restart"
-
-[node name="Player" parent="." instance=ExtResource( 2 )]
 [connection signal="finished" from="BGMusic" to="." method="_on_BGMusic_finished"]
 [connection signal="timeout" from="WallSpawnTimer" to="." method="_on_WallSpawner_timeout"]
 [connection signal="pressed" from="Camera2D/UI/GameOver/VBoxContainer/RestartButton" to="." method="_on_RestartButton_pressed"]
-[connection signal="death" from="Player" to="." method="_on_Player_death"]
-[connection signal="score_point" from="Player" to="." method="_on_Player_score_point"]

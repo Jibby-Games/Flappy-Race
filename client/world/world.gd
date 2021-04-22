@@ -31,17 +31,26 @@ func _ready():
 	Background.material.set_shader_param('scroll_speed', scroll_speed)
 	Background.material.set_shader_param('bob_speed', bob_speed)
 	Background.material.set_shader_param('bob_amplitude', bob_amplitude)
+	start_game()
 
+
+func start_game() -> void:
+	Globals.randomize_game_seed()
+	var player = PLAYER.instance()
+	player.connect("death", self, "_on_Player_death")
+	player.connect("score_point", self, "_on_Player_score_point")
+	add_child(player)
+	wall_speed = start_wall_speed
 	WallSpawnTimer.wait_time = wall_spawn_time
 	WallSpawnTimer.start()
 
 
-func reset_game():
+func reset_game() -> void:
 	Network.Client.change_scene("res://client/world/world.tscn")
 
 
 #### Wall functions
-func spawn_wall():
+func spawn_wall() -> void:
 	var inst = WALL.instance()
 	# Use the game RNG to keep the levels deterministic
 	var height = Globals.game_rng.randf_range(-height_range, height_range)
@@ -53,13 +62,13 @@ func spawn_wall():
 	call_deferred("add_child", inst)
 
 
-func _on_WallSpawner_timeout():
+func _on_WallSpawner_timeout() -> void:
 	WallSpawnTimer.wait_time = wall_spawn_time * float(start_wall_speed) / wall_speed
 	spawn_wall()
 
 
 #### Player helper functions
-func _on_Player_death(player):
+func _on_Player_death(player) -> void:
 	# See if we have a new PB
 	if player.score > Globals.high_score:
 		Globals.set_high_score(player.score)
@@ -70,19 +79,19 @@ func _on_Player_death(player):
 	show_game_over()
 
 
-func show_game_over():
+func show_game_over() -> void:
+	WallSpawnTimer.stop()
 	$Camera2D/UI/GameOver.show()
 
 
-
-func _on_Player_score_point(player):
+func _on_Player_score_point(player) -> void:
 	# Actual incrementing is handled on the player object
 	increase_difficulty()
 	Score.text = str(player.score)
 
 
 #### World functions
-func increase_difficulty():
+func increase_difficulty() -> void:
 	wall_speed += speed_up
 	# Speed up the background
 	# TODO: this causes jerky stutter. Needs fixing.
@@ -91,9 +100,9 @@ func increase_difficulty():
 		wall.speed = wall_speed
 
 
-func _on_BGMusic_finished():
+func _on_BGMusic_finished() -> void:
 	$BGMusic.play()
 
 
-func _on_RestartButton_pressed():
+func _on_RestartButton_pressed() -> void:
 	reset_game()
