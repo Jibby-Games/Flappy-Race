@@ -15,6 +15,7 @@ func _ready() -> void:
 	if "--server" in OS.get_cmdline_args():
 		# The dedicated server shouldn't need any client networking
 		Server = _load_network_scene(SERVER_NETWORK)
+		yield(Server, "ready")
 		Server.start_server(RPC_PORT, MAX_PLAYERS)
 	else:
 		Client = _load_network_scene(CLIENT_NETWORK)

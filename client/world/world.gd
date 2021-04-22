@@ -35,7 +35,7 @@ func _ready():
 
 
 func start_game() -> void:
-	Globals.randomize_game_seed()
+	var _seed = Globals.randomize_game_seed()
 	var player = PLAYER.instance()
 	player.connect("death", self, "_on_Player_death")
 	player.connect("score_point", self, "_on_Player_score_point")

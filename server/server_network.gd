@@ -53,10 +53,12 @@ func _peer_connected(player_id) -> void:
 func _peer_disconnected(player_id) -> void:
 	print("[SRV]: Player %s disconnected" % player_id)
 	if player_id == host_player:
-		# Promote the next player to the host
-		var new_host = multiplayer.get_network_connected_peers()[0]
-		print("[SRV]: Player %s is now the host" % new_host)
-		host_player = new_host
+		# Promote the next player to the host if any are still connected
+		var peers = multiplayer.get_network_connected_peers()
+		if peers.size() > 0:
+			var new_host = [0]
+			print("[SRV]: Player %s is now the host" % new_host)
+			host_player = new_host
 
 
 remote func start_game() -> void:
