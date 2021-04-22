@@ -58,7 +58,3 @@ func _on_BackButton_pressed() -> void:
 
 func _on_StartButton_pressed() -> void:
 	Network.Client.start_game()
-
-
-func game_started() -> void:
-	Network.Client.change_scene("res://client/world/world.tscn")

@@ -56,10 +56,18 @@ func start_game() -> void:
 	rpc_id(1, "start_game")
 
 
-remote func game_started() -> void:
-	$GameSetup.game_started()
+remote func game_started(game_seed) -> void:
+	var sender = multiplayer.get_rpc_sender_id()
+	if sender == SERVER_ID:
+		change_scene("res://client/world/world.tscn")
+		$World.start_game(game_seed)
 
 
 func send_flap() -> void:
 	rpc_id(1, "player_flapped")
 
+
+remote func receive_flap(player_id) -> void:
+	var sender = multiplayer.get_rpc_sender_id()
+	if sender == SERVER_ID && multiplayer.get_network_unique_id() != player_id:
+		$World.flap_player(player_id)

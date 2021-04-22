@@ -25,19 +25,23 @@ func _physics_process(_delta):
 		motion.x = 0
 		motion.y = 0
 		motion = move_and_slide(motion, UP)
+		return
 
 	motion.y += GRAVITY
 	if motion.y > MAXFALLSPEED:
 		motion.y = MAXFALLSPEED
 
-	if Input.is_action_just_pressed("ui_accept"):
-		motion.y = -FLAP
-		play_flap_sound()
+	if is_master and Input.is_action_just_pressed("ui_accept"):
+		do_flap()
 		Network.Client.send_flap()
 
 	motion.x = 0
 	motion = move_and_slide(motion, UP)
-#		rpc_unreliable("update_position", position)
+
+
+func do_flap() -> void:
+	motion.y = -FLAP
+	play_flap_sound()
 
 
 remotesync func play_flap_sound():

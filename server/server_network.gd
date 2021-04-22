@@ -45,7 +45,10 @@ func _peer_connected(player_id) -> void:
 	if host_player == null:
 		host_player = player_id
 		print("[SRV]: Player %s is now the host" % player_id)
-	if !singleplayer:
+	if singleplayer:
+		# Start the game straight away
+		start_game()
+	else:
 		# Tell everyone about the new player
 		rpc("populate_player_list", multiplayer.get_network_connected_peers())
 
@@ -62,11 +65,11 @@ func _peer_disconnected(player_id) -> void:
 
 
 remote func start_game() -> void:
-	# Only the host can start the game
+	# Only the server or the host can start the game
 	var player = multiplayer.get_rpc_sender_id()
-	if player == host_player:
+	if player == 0 or player == host_player:
 		print("[SRV]: Starting game!")
-		rpc("game_started")
+		rpc("game_started", Globals.randomize_game_seed())
 		Network.Server.change_scene("res://server/world/world.tscn")
 	else:
 		print("[SRV]: Player %s tried to start the game but they're not the host!" % player)
@@ -75,3 +78,4 @@ remote func start_game() -> void:
 remote func player_flapped() -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	print("[SRV] Player %s flapped!" % player_id)
+	rpc("receive_flap", player_id)
