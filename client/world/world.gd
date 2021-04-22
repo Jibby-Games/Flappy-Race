@@ -6,8 +6,8 @@ const PLAYER := preload("./player/player.tscn")
 
 
 onready var Background := $Background
-onready var HiScore := $UI/HighScore
-onready var Score := $UI/Score
+onready var HiScore := $Camera2D/UI/HighScore
+onready var Score := $Camera2D/UI/Score
 onready var WallSpawnTimer := $WallSpawnTimer
 
 
@@ -67,8 +67,12 @@ func _on_Player_death(player):
 
 	# Tell the engine it can lose the player
 	player.queue_free()
+	show_game_over()
 
-	reset_game()
+
+func show_game_over():
+	$Camera2D/UI/GameOver.show()
+
 
 
 func _on_Player_score_point(player):
@@ -89,3 +93,7 @@ func increase_difficulty():
 
 func _on_BGMusic_finished():
 	$BGMusic.play()
+
+
+func _on_RestartButton_pressed():
+	reset_game()
