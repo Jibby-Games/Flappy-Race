@@ -27,7 +27,6 @@ func _ready():
 	# Setup gubbins
 	HiScore.text = str(Globals.high_score)
 
-
 	# Set the wallpaper motion
 	Background.material.set_shader_param('scroll_speed', scroll_speed)
 	Background.material.set_shader_param('bob_speed', bob_speed)
@@ -38,8 +37,7 @@ func _ready():
 
 
 func reset_game():
-	# This works well enough for one player, but we actually want a less nuclear approach
-	assert(get_tree().reload_current_scene() == OK)
+	Network.Client.change_scene("res://client/world/world.tscn")
 
 
 #### Wall functions
@@ -48,7 +46,7 @@ func spawn_wall():
 	# Use the game RNG to keep the levels deterministic
 	var height = Globals.game_rng.randf_range(-height_range, height_range)
 	var gap = Globals.game_rng.randf_range(gap_range_min, gap_range_max)
-	print("Spawning wall - height: ", height, " - gap: ", gap)
+	print("[WORLD]: Spawning wall - height: ", height, " - gap: ", gap)
 	inst.position = Vector2(get_viewport().size.x / 2 + 64, height)
 	inst.gap = gap
 	inst.speed = wall_speed

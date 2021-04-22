@@ -26,22 +26,18 @@ func _physics_process(_delta):
 		motion.y = 0
 		motion = move_and_slide(motion, UP)
 
-	elif is_master:
-		motion.y += GRAVITY
-		if motion.y > MAXFALLSPEED:
-			motion.y = MAXFALLSPEED
+	motion.y += GRAVITY
+	if motion.y > MAXFALLSPEED:
+		motion.y = MAXFALLSPEED
 
-		if Input.is_action_just_pressed("ui_accept"):
-			motion.y = -FLAP
-			play_flap_sound()
-			Globals.ClientNet.send_flap()
+	if Input.is_action_just_pressed("ui_accept"):
+		motion.y = -FLAP
+		play_flap_sound()
+		Network.Client.send_flap()
 
-
-		motion.x = 0
-		motion = move_and_slide(motion, UP)
-
-#		if Net.is_online:
-#			rpc_unreliable("update_position", position)
+	motion.x = 0
+	motion = move_and_slide(motion, UP)
+#		rpc_unreliable("update_position", position)
 
 
 remotesync func play_flap_sound():

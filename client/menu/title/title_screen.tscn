@@ -108,4 +108,5 @@ margin_bottom = 720.0
 [node name="BGMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 autoplay = true
+[connection signal="pressed" from="MarginContainer/Menu/CenterRow/Buttons/SingleplayerButton" to="." method="_on_SingleplayerButton_pressed"]
 [connection signal="finished" from="BGMusic" to="." method="_on_BGMusic_finished"]

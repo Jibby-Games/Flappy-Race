@@ -59,6 +59,7 @@ func start_game() -> void:
 remote func game_started() -> void:
 	$GameSetup.game_started()
 
+
 func send_flap() -> void:
 	rpc_id(1, "player_flapped")
 

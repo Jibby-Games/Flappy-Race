@@ -16,3 +16,9 @@ func _on_MenuButton_pressed(scene_to_load):
 
 func _on_BGMusic_finished():
 	$BGMusic.play()
+
+
+func _on_SingleplayerButton_pressed():
+	Network.Server.singleplayer = true
+	Network.Server.start_server(Network.RPC_PORT, Network.MAX_PLAYERS)
+	Network.Client.start_client("127.0.0.1", Network.RPC_PORT)

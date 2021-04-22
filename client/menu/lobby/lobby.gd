@@ -3,47 +3,21 @@ extends Control
 
 const MAX_CONNECT_TIME := 5
 
-#enum ConnType {HOST=0, CLIENT=1}
 
 func _ready() -> void:
 	assert(multiplayer.connect("connected_to_server", self, "_on_connected") == OK)
 
-#func connected():
-#	if Net.is_host:
-#		if Net.current_players == Net.MAX_PLAYERS:
-#			start_game()
-#		else:
-#			$Connecting/NumPlayers.text = "Players: [%d/%d]" % [Net.current_players, Net.MAX_PLAYERS]
-#	else:
-	# Tell the server that I, a player, joined.
-#	rpc_id(0, "player_joined")
 
-
-#remote func player_joined():
-#	Net.current_players += 1
-#	connected()
-
-
-remotesync func begin_game(new_seed):
-	# Sync up the RNG seed for all players
-	Globals.set_game_seed(new_seed)
-	# FIXME: load world as subscene
-#	SceneManager.change_to(Enums.Scene.WORLD)
-
-
-func start_game():
-	# Randomize the seed and start the game with it
-	var new_seed = Globals.randomize_game_seed()
-#	rpc("begin_game", new_seed)
-
+#remotesync func begin_game(new_seed):
+#	# Sync up the RNG seed for all players
+#	Globals.set_game_seed(new_seed)
+#	# Local:
+#	# Randomize the seed and start the game with it
+#	var new_seed = Globals.randomize_game_seed()
+##	rpc("begin_game", new_seed)
 
 func _on_BGMusic_finished():
-	pass #$BGMusic.play()
-
-
-func _on_Start_pressed():
-	start_game()
-
+	$BGMusic.play()
 
 
 func _on_Back_pressed():

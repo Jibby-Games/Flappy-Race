@@ -5,6 +5,7 @@ class_name ServerNetwork
 
 
 var host_player
+var singleplayer := false
 
 
 func _ready() -> void:
@@ -44,8 +45,9 @@ func _peer_connected(player_id) -> void:
 	if host_player == null:
 		host_player = player_id
 		print("[SRV]: Player %s is now the host" % player_id)
-	# Tell everyone about the new player
-	rpc("populate_player_list", multiplayer.get_network_connected_peers())
+	if !singleplayer:
+		# Tell everyone about the new player
+		rpc("populate_player_list", multiplayer.get_network_connected_peers())
 
 
 func _peer_disconnected(player_id) -> void:
