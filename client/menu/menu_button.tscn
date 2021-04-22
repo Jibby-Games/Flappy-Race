@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://client/menu/menu_button.gd" type="Script" id=1]
-[ext_resource path="res://client/fonts/DelaGothicOne-48.tres" type="DynamicFont" id=2]
+[ext_resource path="res://client/ui/custom_label.tscn" type="PackedScene" id=2]
 
 [node name="MenuButton" type="Button"]
 margin_right = 1040.0
@@ -13,15 +13,4 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="."]
-anchor_right = 0.249038
-anchor_bottom = 2.8
-margin_right = 40.0
-margin_bottom = 14.0
-custom_fonts/font = ExtResource( 2 )
-custom_colors/font_color_shadow = Color( 0.745098, 0.431373, 0.0392157, 1 )
-custom_constants/shadow_offset_y = 5
-text = "Label"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Label" parent="." instance=ExtResource( 2 )]
