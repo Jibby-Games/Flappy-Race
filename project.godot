@@ -9,26 +9,48 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "EditorVCSInterface",
+"base": "SceneHandler",
+"class": "ClientNetwork",
+"language": "GDScript",
+"path": "res://client/client_network.gd"
+}, {
+"base": "",
 "class": "GitAPI",
 "language": "NativeScript",
-"path": "res://git_api.gdns"
+"path": "res://addons/git_api/git_api.gdns"
+}, {
+"base": "Node",
+"class": "SceneHandler",
+"language": "GDScript",
+"path": "res://common/scene_handler.gd"
+}, {
+"base": "SceneHandler",
+"class": "ServerNetwork",
+"language": "GDScript",
+"path": "res://server/server_network.gd"
 } ]
 _global_script_class_icons={
-"GitAPI": ""
+"ClientNetwork": "",
+"GitAPI": "",
+"SceneHandler": "",
+"ServerNetwork": ""
 }
 
 [application]
 
 config/name="Flappy Race"
 config/description="Multiplayer flappy bird"
-run/main_scene="res://scenes/TitleScreen.tscn"
+run/main_scene="res://common/main.tscn"
 config/icon="res://icon.png"
+
+[audio]
+
+default_bus_layout="res://client/audio/default_bus_layout.tres"
 
 [autoload]
 
-Globals="*res://scripts/Globals.gd"
-Net="*res://scripts/Netcode/network.gd"
+Globals="*res://client/singletons/globals.gd"
+Network="*res://common/singletons/network.gd"
 
 [display]
 
@@ -37,7 +59,8 @@ window/size/height=720
 
 [gdnative]
 
-singletons=[ "res://git_api.gdnlib" ]
+singletons=[ "res://addons/git_api/git_api.gdnlib" ]
+singletons_disabled=[  ]
 
 [layer_names]
 
@@ -52,4 +75,3 @@ locale_filter=[ 0, [  ] ]
 [rendering]
 
 environment/default_clear_color=Color( 0.137255, 0.192157, 0.219608, 1 )
-environment/default_environment="res://default_env.tres"

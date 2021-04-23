@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/uuh.ogg-cd233c382fc00c6634a3b8a6205a1af8.oggstr"
+
+[deps]
+
+source_file="res://client/world/player/uuh.ogg"
+dest_files=[ "res://.import/uuh.ogg-cd233c382fc00c6634a3b8a6205a1af8.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

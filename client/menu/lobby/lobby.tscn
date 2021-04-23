@@ -1,0 +1,105 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://client/menu/lobby/lobby.gd" type="Script" id=1]
+[ext_resource path="res://client/audio/mouthsounds.ogg" type="AudioStream" id=6]
+
+[node name="Lobby" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.25098, 0, 0.380392, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BGMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+autoplay = true
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="Host" type="Button" parent="."]
+margin_left = 359.363
+margin_top = 192.309
+margin_right = 608.363
+margin_bottom = 292.309
+rect_min_size = Vector2( 100, 100 )
+hint_tooltip = "Start hosting a server"
+text = "Host"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Join" type="Button" parent="."]
+margin_left = 704.145
+margin_top = 188.546
+margin_right = 898.145
+margin_bottom = 288.546
+rect_min_size = Vector2( 100, 100 )
+hint_tooltip = "Join a server. Ask your friends for their personal info!"
+text = "Join"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="JoinIP" type="LineEdit" parent="Join"]
+margin_top = 104.0
+margin_right = 192.0
+margin_bottom = 128.0
+text = "127.0.0.1"
+align = 1
+placeholder_text = "Enter Host IP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InvalidIP" type="Label" parent="Join"]
+visible = false
+margin_top = 128.0
+margin_right = 184.0
+margin_bottom = 150.0
+text = "Invalid IP!"
+align = 1
+valign = 1
+
+[node name="Back" type="Button" parent="."]
+margin_left = 444.059
+margin_top = 435.181
+margin_right = 844.059
+margin_bottom = 510.181
+rect_min_size = Vector2( 400, 50 )
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ConnectionTimer" type="Timer" parent="."]
+wait_time = 10.0
+
+[node name="ErrorMessage" type="Label" parent="."]
+visible = false
+margin_left = 711.439
+margin_top = 143.383
+margin_right = 893.439
+margin_bottom = 175.383
+text = "Failed to connect!"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="finished" from="BGMusic" to="." method="_on_BGMusic_finished"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
+[connection signal="pressed" from="Host" to="." method="on_Host_pressed"]
+[connection signal="pressed" from="Join" to="." method="_on_Join_pressed"]
+[connection signal="pressed" from="Back" to="." method="_on_Back_pressed"]
+[connection signal="timeout" from="ConnectionTimer" to="." method="_on_ConnectionTimer_timeout"]

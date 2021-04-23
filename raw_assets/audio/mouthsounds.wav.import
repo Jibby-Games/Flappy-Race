@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/mouthsounds.wav-70c873dc75945ae0c4c50c934c21320c.sample"
+
+[deps]
+
+source_file="res://raw_assets/audio/mouthsounds.wav"
+dest_files=[ "res://.import/mouthsounds.wav-70c873dc75945ae0c4c50c934c21320c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

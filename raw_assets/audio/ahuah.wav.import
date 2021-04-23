@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/ahuah.wav-8ad689e58e257f12c74cd3e98fe8a96d.sample"
+
+[deps]
+
+source_file="res://raw_assets/audio/ahuah.wav"
+dest_files=[ "res://.import/ahuah.wav-8ad689e58e257f12c74cd3e98fe8a96d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

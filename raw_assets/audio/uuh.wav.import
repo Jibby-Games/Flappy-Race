@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/uuh.wav-a9d5e95f8b70ea549437901a56d80660.sample"
+
+[deps]
+
+source_file="res://raw_assets/audio/uuh.wav"
+dest_files=[ "res://.import/uuh.wav-a9d5e95f8b70ea549437901a56d80660.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

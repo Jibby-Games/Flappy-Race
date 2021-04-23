@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/unf.ogg-3315eef9f59dfe776bbf0208b7b92681.oggstr"
+
+[deps]
+
+source_file="res://client/world/player/unf.ogg"
+dest_files=[ "res://.import/unf.ogg-3315eef9f59dfe776bbf0208b7b92681.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
