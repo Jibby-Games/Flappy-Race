@@ -6,6 +6,7 @@ class_name ServerNetwork
 
 var host_player
 var singleplayer := false
+var player_state_collection := {}
 
 
 func change_scene_to(scene: PackedScene) -> void:
@@ -71,6 +72,8 @@ func _peer_disconnected(player_id) -> void:
 			var new_host = [0]
 			print("[SRV]: Player %s is now the host" % new_host)
 			host_player = new_host
+	assert(player_state_collection.erase(player_id))
+	rpc("despawn_player", player_id)
 
 
 remote func request_start_game() -> void:
@@ -84,7 +87,15 @@ remote func request_start_game() -> void:
 		print("[SRV]: Player %s tried to start the game but they're not the host!" % player)
 
 
-remote func player_flapped() -> void:
+remote func send_player_state(player_state) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
-	print("[SRV] Player %s flapped!" % player_id)
-	rpc("receive_flap", player_id)
+	if player_state_collection.has(player_id):
+		# Check if the player_state is the latest and replace it if it's newer
+		if player_state_collection[player_id]["T"] < player_state["T"]:
+			player_state_collection[player_id] = player_state
+	else:
+		player_state_collection[player_id] = player_state
+
+
+func send_world_state(world_state) -> void:
+	rpc_unreliable("receive_world_state", world_state)

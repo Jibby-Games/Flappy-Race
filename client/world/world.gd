@@ -3,7 +3,7 @@ extends Node2D
 
 const WALL := preload("./wall/wall.tscn")
 const PLAYER := preload("./player/player.tscn")
-
+const INTERPOLATION_OFFSET = 100
 
 onready var Background := $Background
 onready var HiScore := $Camera2D/UI/HighScore
@@ -11,7 +11,11 @@ onready var Score := $Camera2D/UI/Score
 onready var WallSpawnTimer := $WallSpawnTimer
 
 
-# Public vars
+# World state vars
+var last_world_state := 0
+var world_state_buffer := []
+
+# Wall vars
 var height_range := 100
 var gap_range_min := 130
 var gap_range_max := 250
@@ -19,6 +23,8 @@ var wall_spawn_time := 2.5
 var start_wall_speed := 4.0
 var wall_speed := start_wall_speed
 var speed_up := 0.1
+
+# Background vars
 var scroll_speed := 0.1
 var bob_speed := 1.0
 var bob_amplitude := 0.01
@@ -33,28 +39,69 @@ func _ready():
 	Background.material.set_shader_param('bob_amplitude', bob_amplitude)
 
 
+func _physics_process(_delta):
+	var render_time = OS.get_system_time_msecs() - INTERPOLATION_OFFSET
+	if world_state_buffer.size() > 1:
+		while world_state_buffer.size() > 2 and render_time > world_state_buffer[1].T:
+			world_state_buffer.remove(0)
+		var interpolation_factor = float(render_time - world_state_buffer[0]["T"]) / float(world_state_buffer[1]["T"] - world_state_buffer[0]["T"])
+		for player in world_state_buffer[1].keys():
+			if str(player) == "T":
+				continue
+			if player == multiplayer.get_network_unique_id():
+				continue
+			if not world_state_buffer[0].has(player):
+				# Connecting player won't be available in past world_state yet
+				continue
+			if has_node(str(player)):
+				# Use the position between past and future world_states
+				var new_position = lerp(
+					world_state_buffer[0][player]["P"],
+					world_state_buffer[1][player]["P"],
+					interpolation_factor
+				)
+				get_node(str(player)).move_player(new_position)
+			else:
+				spawn_player(player, world_state_buffer[1][player]["P"])
+
+
+func update_world_state(world_state) -> void:
+	if world_state["T"] > last_world_state:
+		last_world_state = world_state["T"]
+		world_state_buffer.append(world_state)
+
+
 func start_game(game_seed = null) -> void:
 	print("[CNT] Starting game with seed %s" % game_seed)
 	if game_seed:
 		Globals.set_game_seed(game_seed)
 	else:
 		var _seed = Globals.randomize_game_seed()
-	spawn_player(multiplayer.get_network_unique_id(), true)
+	spawn_player(multiplayer.get_network_unique_id(), Vector2(0, 0), true)
 	for player in multiplayer.get_network_connected_peers():
 		# Don't spawn the server as a player
 		if player != 1:
-			spawn_player(player)
+			spawn_player(player, Vector2(0, 0))
 	reset_walls()
 
 
-func spawn_player(player_id, is_master = false):
-	print("[CNT] Spawning player %s" % player_id)
-	var player = PLAYER.instance()
-	player.connect("death", self, "_on_Player_death")
-	player.connect("score_point", self, "_on_Player_score_point")
-	player.name = str(player_id)
-	player.is_master = is_master
-	add_child(player)
+func spawn_player(player_id, spawn_position, is_master = false):
+	if not has_node(str(player_id)):
+		print("[CNT] Spawning player %s" % player_id)
+		var player = PLAYER.instance()
+		player.connect("death", self, "_on_Player_death")
+		player.connect("score_point", self, "_on_Player_score_point")
+		player.name = str(player_id)
+		player.position = spawn_position
+		player.is_master = is_master
+		add_child(player)
+
+
+func despawn_player(player_id):
+	print("[CNT] Despawning player %s" % player_id)
+	var player = get_node(str(player_id))
+	if player:
+		player.queue_free()
 
 
 func reset_walls():
@@ -124,8 +171,3 @@ func _on_BGMusic_finished() -> void:
 
 func _on_RestartButton_pressed() -> void:
 	reset_game()
-
-
-func flap_player(player_id) -> void:
-	var player = get_node(str(player_id))
-	player.do_flap()

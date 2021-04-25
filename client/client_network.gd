@@ -56,6 +56,10 @@ remote func populate_player_list(players: PoolIntArray) -> void:
 		print("[CNT]: ERROR Received player list from player %s, is someone hacking?" % sender)
 
 
+remote func despawn_player(player_id) -> void:
+	$World.despawn_player(player_id)
+
+
 func request_start_game() -> void:
 	print("[CNT]: Sending start game request")
 	rpc_id(1, "request_start_game")
@@ -68,11 +72,9 @@ remote func game_started(game_seed) -> void:
 		_active_scene.start_game(game_seed)
 
 
-func send_flap() -> void:
-	rpc_id(1, "player_flapped")
+func send_player_state(player_state : Dictionary) -> void:
+	rpc_unreliable_id(1, "send_player_state", player_state)
 
 
-remote func receive_flap(player_id) -> void:
-	var sender = multiplayer.get_rpc_sender_id()
-	if sender == SERVER_ID && multiplayer.get_network_unique_id() != player_id:
-		$World.flap_player(player_id)
+remote func receive_world_state(world_state: Dictionary) -> void:
+	_active_scene.update_world_state(world_state)
