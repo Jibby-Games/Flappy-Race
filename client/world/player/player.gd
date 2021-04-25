@@ -59,10 +59,6 @@ remotesync func play_flap_sound():
 			print("Invalid choice!")
 
 
-remote func update_position(pos):
-	position = pos
-
-
 func _on_Detect_area_entered(_area):
 	# Detects entering the score zone. Signals to the world to update other nodes.
 	score += 1

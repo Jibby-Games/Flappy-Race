@@ -7,6 +7,11 @@ class_name ClientNetwork
 const SERVER_ID := 1
 
 
+func change_scene_to(scene: PackedScene) -> void:
+	print("[CNT] Changing scene to %s" % scene.get_path())
+	.change_scene_to(scene)
+
+
 func _ready() -> void:
 	# As you can see, instead of calling get_tree().connect for network related
 	# stuff we use mutltiplayer.connect . This way, IF (and only IF) the
@@ -51,16 +56,16 @@ remote func populate_player_list(players: PoolIntArray) -> void:
 		print("[CNT]: ERROR Received player list from player %s, is someone hacking?" % sender)
 
 
-func start_game() -> void:
+func request_start_game() -> void:
 	print("[CNT]: Sending start game request")
-	rpc_id(1, "start_game")
+	rpc_id(1, "request_start_game")
 
 
 remote func game_started(game_seed) -> void:
 	var sender = multiplayer.get_rpc_sender_id()
 	if sender == SERVER_ID:
 		change_scene("res://client/world/world.tscn")
-		$World.start_game(game_seed)
+		_active_scene.start_game(game_seed)
 
 
 func send_flap() -> void:

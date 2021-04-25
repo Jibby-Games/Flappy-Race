@@ -34,6 +34,7 @@ func _ready():
 
 
 func start_game(game_seed = null) -> void:
+	print("[CNT] Starting game with seed %s" % game_seed)
 	if game_seed:
 		Globals.set_game_seed(game_seed)
 	else:
@@ -63,7 +64,7 @@ func reset_walls():
 
 
 func reset_game() -> void:
-	Network.Client.change_scene("res://client/world/world.tscn")
+	Network.Client.request_start_game()
 
 
 #### Wall functions

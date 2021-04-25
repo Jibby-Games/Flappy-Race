@@ -8,6 +8,11 @@ var host_player
 var singleplayer := false
 
 
+func change_scene_to(scene: PackedScene) -> void:
+	print("[SRV] Changing scene to %s" % scene.get_path())
+	.change_scene_to(scene)
+
+
 func _ready() -> void:
 	# As you can see, instead of calling get_tree().connect for network related
 	# stuff we use mutltiplayer.connect . This way, IF (and only IF) the
@@ -23,8 +28,10 @@ func _exit_tree() -> void:
 
 
 func start_server(port, max_players) -> void:
-	var peer = NetworkedMultiplayerENet.new()
-	peer.create_server(port, max_players)
+	var peer := NetworkedMultiplayerENet.new()
+	if singleplayer:
+		peer.set_bind_ip("127.0.0.1")
+	assert(peer.create_server(port, max_players) == OK)
 	# Same goes for things like:
 	# get_tree().set_network_peer() -> multiplayer.set_network_peer()
 	# Basically, anything networking related needs to be updated this way.
@@ -46,8 +53,10 @@ func _peer_connected(player_id) -> void:
 		host_player = player_id
 		print("[SRV]: Player %s is now the host" % player_id)
 	if singleplayer:
+		# Stop any other players joining
+		multiplayer.set_refuse_new_network_connections(true)
 		# Start the game straight away
-		start_game()
+		request_start_game()
 	else:
 		# Tell everyone about the new player
 		rpc("populate_player_list", multiplayer.get_network_connected_peers())
@@ -64,7 +73,7 @@ func _peer_disconnected(player_id) -> void:
 			host_player = new_host
 
 
-remote func start_game() -> void:
+remote func request_start_game() -> void:
 	# Only the server or the host can start the game
 	var player = multiplayer.get_rpc_sender_id()
 	if player == 0 or player == host_player:
