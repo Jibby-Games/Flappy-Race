@@ -88,7 +88,7 @@ func _on_WallSpawner_timeout() -> void:
 func _on_Player_death(player) -> void:
 	# See if we have a new PB
 	if player.score > Globals.high_score:
-		Globals.set_high_score(player.score)
+		Globals.save_high_score(player.score)
 		HiScore.text = str(player.score)
 
 	# Tell the engine it can lose the player
