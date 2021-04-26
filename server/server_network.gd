@@ -72,8 +72,21 @@ func _peer_disconnected(player_id) -> void:
 			var new_host = [0]
 			print("[SRV]: Player %s is now the host" % new_host)
 			host_player = new_host
-	assert(player_state_collection.erase(player_id))
+		else:
+			print("[SRV]: No host player")
+			host_player = null
+	assert(player_state_collection.erase(player_id) == true)
 	rpc("despawn_player", player_id)
+
+
+remote func fetch_server_time(client_time) -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	rpc_id(player_id, "return_server_time", OS.get_system_time_msecs(), client_time)
+
+
+remote func determine_latency(client_time) -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	rpc_id(player_id, "return_latency", client_time)
 
 
 remote func request_start_game() -> void:

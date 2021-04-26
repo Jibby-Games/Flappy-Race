@@ -40,7 +40,7 @@ func _ready():
 
 
 func _physics_process(_delta):
-	var render_time = OS.get_system_time_msecs() - INTERPOLATION_OFFSET
+	var render_time = Network.Client.client_clock - INTERPOLATION_OFFSET
 	if world_state_buffer.size() > 1:
 		# world_state_buffer[0] will always be the oldest received world_state
 		while world_state_buffer.size() > 2 and render_time > world_state_buffer[2].T:
