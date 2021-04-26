@@ -53,7 +53,9 @@ func do_flap() -> void:
 
 
 func update_player_state() -> void:
-	player_state = {"T": Network.Client.client_clock, "P": get_global_position()}
+	# T is only used to determine which player_state is the latest on the server
+	# So it doesn't need to use the client_clock
+	player_state = {"T": OS.get_system_time_msecs(), "P": get_global_position()}
 	Network.Client.send_player_state(player_state)
 
 
