@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://client/client_network.gd"
 }, {
+"base": "KinematicBody2D",
+"class": "CommonPlayer",
+"language": "GDScript",
+"path": "res://common/world/player/player.gd"
+}, {
 "base": "StaticBody2D",
 "class": "CommonWall",
 "language": "GDScript",
@@ -36,6 +41,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "ClientNetwork": "",
+"CommonPlayer": "",
 "CommonWall": "",
 "GitAPI": "",
 "SceneHandler": "",
