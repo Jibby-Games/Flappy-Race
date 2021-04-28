@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://common/world/wall/wall.gd"
 }, {
+"base": "Node2D",
+"class": "CommonWorld",
+"language": "GDScript",
+"path": "res://common/world/world.gd"
+}, {
 "base": "",
 "class": "GitAPI",
 "language": "NativeScript",
@@ -43,6 +48,7 @@ _global_script_class_icons={
 "ClientNetwork": "",
 "CommonPlayer": "",
 "CommonWall": "",
+"CommonWorld": "",
 "GitAPI": "",
 "SceneHandler": "",
 "ServerNetwork": ""
