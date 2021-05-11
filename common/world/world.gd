@@ -21,13 +21,9 @@ var wall_speed := start_wall_speed
 var speed_up := 0.1
 
 
-func start_game(game_seed = null) -> void:
+func start_game(game_seed) -> void:
 	print("[COM] Starting game with seed %s" % game_seed)
-	if game_seed:
-		Globals.set_game_seed(game_seed)
-	else:
-		var _seed = Globals.randomize_game_seed()
-	spawn_player(multiplayer.get_network_unique_id(), Vector2(0, 0), true)
+	Globals.set_game_seed(game_seed)
 	for player in multiplayer.get_network_connected_peers():
 		# Don't spawn the server as a player
 		if player != 1:
@@ -43,7 +39,8 @@ func spawn_player(player_id, spawn_position, is_master = false):
 		player.connect("score_point", self, "_on_Player_score_point")
 		player.name = str(player_id)
 		player.position = spawn_position
-		player.is_master = is_master
+		if is_master:
+			player.is_master = true
 		add_child(player)
 
 

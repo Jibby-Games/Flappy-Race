@@ -94,8 +94,10 @@ remote func request_start_game() -> void:
 	var player = multiplayer.get_rpc_sender_id()
 	if player == 0 or player == host_player:
 		print("[SRV]: Starting game!")
-		rpc("game_started", Globals.randomize_game_seed())
-		Network.Server.change_scene("res://server/world/world.tscn")
+		var game_seed = Globals.randomize_game_seed()
+		rpc("game_started", game_seed)
+		change_scene("res://common/world/world.tscn")
+		_active_scene.start_game(game_seed)
 	else:
 		print("[SRV]: Player %s tried to start the game but they're not the host!" % player)
 

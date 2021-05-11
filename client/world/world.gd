@@ -93,6 +93,12 @@ func update_world_state(world_state) -> void:
 		world_state_buffer.append(world_state)
 
 
+func start_game(game_seed) -> void:
+	.start_game(game_seed)
+	# Spawn the local client player
+	spawn_player(multiplayer.get_network_unique_id(), Vector2(0, 0), true)
+
+
 func reset_game() -> void:
 	Network.Client.request_start_game()
 
