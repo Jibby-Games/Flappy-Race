@@ -22,10 +22,15 @@ func load_high_score() -> int:
 	var data = parse_json(save_file.get_as_text())
 	save_file.close()
 
-	return int(data['highscore'])
+	var score = data['highscore']
+	if score is int:
+		return score
+	else:
+		reset_high_score()
+		return 0
 
 
-func save_high_score(score) -> void:
+func save_high_score(score: int) -> void:
 	var save_file = File.new()
 	save_file.open(HIGH_SCORE_FNAME, File.WRITE)
 
@@ -35,6 +40,10 @@ func save_high_score(score) -> void:
 
 	save_file.store_line(to_json(store_dict))
 	save_file.close()
+
+
+func reset_high_score() -> void:
+	save_high_score(0)
 
 
 # Randomises the current game RNG seed and returns it
