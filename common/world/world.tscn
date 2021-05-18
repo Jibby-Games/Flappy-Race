@@ -10,6 +10,3 @@
 script = ExtResource( 1 )
 Wall = ExtResource( 2 )
 Player = ExtResource( 3 )
-
-[node name="WallSpawnTimer" type="Timer" parent="."]
-[connection signal="timeout" from="WallSpawnTimer" to="." method="_on_WallSpawner_timeout"]

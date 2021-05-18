@@ -12,7 +12,6 @@ extents = Vector2( 16, 160 )
 "walls",
 ]]
 collision_layer = 2
-constant_linear_velocity = Vector2( -20, 0 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
@@ -34,9 +33,3 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PointArea"]
 shape = SubResource( 2 )
-
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
-position = Vector2( 0, -8.39233e-05 )
-scale = Vector2( 3.2, 280 )
-rect = Rect2( -5, -5, 10, 10 )
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
