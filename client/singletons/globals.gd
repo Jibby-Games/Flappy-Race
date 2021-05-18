@@ -21,15 +21,17 @@ func load_high_score() -> int:
 	var data = parse_json(save_file.get_as_text())
 	save_file.close()
 
+	# JSON parsing returns numbers as floats by default
 	var score = data['highscore']
-	if score is int:
-		return score
+	if score and score is float:
+		return int(score)
 	else:
 		reset_high_score()
 		return 0
 
 
 func save_high_score(score: int) -> void:
+	high_score = score
 	var save_file = File.new()
 	save_file.open(HIGH_SCORE_FNAME, File.WRITE)
 
