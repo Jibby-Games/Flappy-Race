@@ -1,133 +1,24 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://client/fonts/Score.tres" type="DynamicFont" id=1]
+[ext_resource path="res://client/world/ui.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/world/world.tscn" type="PackedScene" id=2]
 [ext_resource path="res://client/world/world.gd" type="Script" id=3]
-[ext_resource path="res://client/world/background/citrus.jpg" type="Texture" id=4]
 [ext_resource path="res://client/audio/background.ogg" type="AudioStream" id=5]
-[ext_resource path="res://client/ui/custom_label.tscn" type="PackedScene" id=6]
-[ext_resource path="res://client/fonts/DelaGothicOne-48.tres" type="DynamicFont" id=7]
 [ext_resource path="res://client/world/player/player.tscn" type="PackedScene" id=8]
 [ext_resource path="res://client/world/wall/wall.tscn" type="PackedScene" id=9]
-
-[sub_resource type="Shader" id=1]
-code = "shader_type canvas_item;
-uniform float scroll_speed;
-uniform float bob_speed;
-uniform float bob_amplitude;
-
-// Fragments run on every individual pixel
-void fragment() {
-	// This is the location shift applied to each pixel by the GPU
-	
-	vec2 shiftedUV = UV;
-	
-	// This simply takes the time run, multiplies the speed by it, and sets the 
-	// new x to that.
-	// This means that altering the speed results in jumps. Need to fix. 
-	// Can shaders access dt?
-	shiftedUV.x += TIME * scroll_speed;
-	shiftedUV.y += bob_amplitude * sin(TIME*bob_speed);
-	
-	vec4 col = texture(TEXTURE, shiftedUV);
-	
-	COLOR = col;
-}"
-
-[sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
-shader_param/scroll_speed = 0.0
-shader_param/bob_speed = null
-shader_param/bob_amplitude = null
-
-[sub_resource type="Theme" id=3]
 
 [node name="World" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
 Wall = ExtResource( 9 )
 Player = ExtResource( 8 )
 
-[node name="Background" type="TextureRect" parent="." index="0"]
-material = SubResource( 2 )
-anchor_bottom = 0.29
-margin_left = -655.0
-margin_top = -432.0
-margin_right = 3279.0
-margin_bottom = 1616.0
-rect_scale = Vector2( 0.333235, 0.401368 )
-texture = ExtResource( 4 )
-stretch_mode = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="BGMusic" type="AudioStreamPlayer2D" parent="." index="1"]
+[node name="BGMusic" type="AudioStreamPlayer2D" parent="." index="0"]
 stream = ExtResource( 5 )
 autoplay = true
 attenuation = 1.46409
 bus = "Background"
 
-[node name="Camera2D" type="Camera2D" parent="." index="3"]
-current = true
-
-[node name="UI" type="CanvasLayer" parent="Camera2D" index="0"]
-
-[node name="Score" type="Label" parent="Camera2D/UI" index="0"]
-anchor_right = 1.0
-margin_bottom = 48.0
-theme = SubResource( 3 )
-custom_fonts/font = ExtResource( 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "0"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HighScore" type="Label" parent="Camera2D/UI" index="1"]
-margin_right = 110.0
-margin_bottom = 55.0
-custom_fonts/font = ExtResource( 1 )
-custom_colors/font_color = Color( 0, 0, 1, 1 )
-text = "0"
-align = 1
-uppercase = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="GameOver" type="MarginContainer" parent="Camera2D/UI" index="2"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/UI/GameOver" index="0"]
-margin_left = 471.0
-margin_right = 808.0
-margin_bottom = 720.0
-size_flags_horizontal = 4
-alignment = 1
-
-[node name="GameOverLabel" parent="Camera2D/UI/GameOver/VBoxContainer" index="0" instance=ExtResource( 6 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 285.0
-margin_right = 337.0
-margin_bottom = 355.0
-custom_colors/font_color = Color( 1, 0, 0, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "Game Over!"
-align = 1
-valign = 1
-
-[node name="RestartButton" type="Button" parent="Camera2D/UI/GameOver/VBoxContainer" index="1"]
-margin_top = 359.0
-margin_right = 337.0
-margin_bottom = 435.0
-custom_fonts/font = ExtResource( 7 )
-text = "Restart"
+[node name="UI" parent="." index="1" instance=ExtResource( 1 )]
+follow_viewport_enable = false
 [connection signal="finished" from="BGMusic" to="." method="_on_BGMusic_finished"]
-[connection signal="pressed" from="Camera2D/UI/GameOver/VBoxContainer/RestartButton" to="." method="_on_RestartButton_pressed"]
+[connection signal="request_restart" from="UI" to="." method="_on_UI_request_restart"]
