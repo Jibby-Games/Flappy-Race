@@ -7,7 +7,8 @@
 [node name="Server" type="Node"]
 script = ExtResource( 2 )
 
-[node name="Network" type="Node" parent="."]
+[node name="Network" type="Viewport" parent="."]
+usage = 1
 script = ExtResource( 1 )
 
 [node name="StateProcessing" type="Node" parent="Network"]

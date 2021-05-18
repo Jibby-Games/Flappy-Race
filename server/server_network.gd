@@ -3,6 +3,10 @@ extends SceneHandler
 
 class_name ServerNetwork
 
+# IMPORTANT:
+# This node is a Viewport with zero size intentionally in order to separate
+# the client and server physics, so objects from the client and the server can't
+# interact with eachother when self hosting.
 
 var host_player
 var singleplayer := false
