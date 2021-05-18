@@ -8,6 +8,7 @@ func _ready() -> void:
 	update_public_ip()
 	assert(multiplayer.connect("network_peer_disconnected", self, "remove_player") == OK)
 
+
 func update_public_ip() -> void:
 	$HTTPRequest.request("https://api.ipify.org")
 

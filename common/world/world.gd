@@ -17,12 +17,26 @@ var wall_spawn_range := 1000
 var current_wall_pos := wall_spawn_range
 
 
+var game_rng := RandomNumberGenerator.new()
 var highest_score := 0
+
+
+# Randomises the current game RNG seed and returns it
+func randomize_game_seed() -> int:
+	game_rng.randomize()
+	print(get_path(), ": Generated random seed: ", game_rng.seed)
+	return game_rng.seed
+
+
+# Sets the game RNG seed
+func set_game_seed(new_seed) -> void:
+	game_rng.seed = new_seed
+	print(get_path(), ": Set game seed to: ", new_seed)
 
 
 func start_game(game_seed) -> void:
 	print(get_path(), ": Starting game with seed ", game_seed)
-	Globals.set_game_seed(game_seed)
+	set_game_seed(game_seed)
 	reset_walls()
 	for player in multiplayer.get_network_connected_peers():
 		# Don't spawn the server as a player
@@ -62,8 +76,8 @@ func spawn_wall() -> void:
 	var inst = Wall.instance()
 	inst.set_name("Wall" + str(current_wall_pos))
 	# Use the game RNG to keep the levels deterministic
-	var height = Globals.game_rng.randf_range(-height_range, height_range)
-	var gap = Globals.game_rng.randf_range(gap_range_min, gap_range_max)
+	var height = game_rng.randf_range(-height_range, height_range)
+	var gap = game_rng.randf_range(gap_range_min, gap_range_max)
 	print(get_path(), ": Spawning wall - pos: ", current_wall_pos, " height: ", height, " - gap: ", gap)
 	inst.position = Vector2(current_wall_pos, height)
 	inst.gap = gap
