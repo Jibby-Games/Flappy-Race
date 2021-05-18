@@ -27,20 +27,20 @@ func start_game(game_seed) -> void:
 	for player in multiplayer.get_network_connected_peers():
 		# Don't spawn the server as a player
 		if player != 1:
-			spawn_player(player, Vector2(0, 0))
+			spawn_player(player, Vector2.ZERO)
 	reset_walls()
 
 
-func spawn_player(player_id, spawn_position, is_master = false):
+func spawn_player(player_id, spawn_position, is_controllable = false):
 	if not has_node(str(player_id)):
-		print("[COM] Spawning player %s" % player_id)
+		print(get_path(), ": Spawning player ", player_id)
 		var player = Player.instance()
 		player.connect("death", self, "_on_Player_death")
 		player.connect("score_point", self, "_on_Player_score_point")
 		player.name = str(player_id)
 		player.position = spawn_position
-		if is_master:
-			player.is_master = true
+		if is_controllable:
+			player.enable_control()
 		add_child(player)
 
 

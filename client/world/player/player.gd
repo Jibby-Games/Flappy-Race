@@ -4,23 +4,20 @@ extends CommonPlayer
 const FLAP = 350
 
 
+export(PackedScene) var PlayerController
+
+
 var player_state
-var is_master = false
 
 
 func _physics_process(_delta) -> void:
 	update_player_state()
 
 
-func update_movement() -> void:
-	if is_master and not is_dead and Input.is_action_just_pressed("ui_accept"):
-		do_flap()
-	.update_movement()
-
-
 func do_flap() -> void:
-	motion.y = -FLAP
-	play_flap_sound()
+	if not is_dead:
+		motion.y = -FLAP
+		play_flap_sound()
 
 
 func update_player_state() -> void:
@@ -41,3 +38,15 @@ func play_flap_sound() -> void:
 			$Flap4.play()
 		_:
 			print("Invalid choice!")
+
+
+func enable_control():
+	var controller = PlayerController.instance()
+	controller.connect("flap", self, "do_flap")
+	add_child(controller)
+
+
+func disable_control():
+	var controller = $PlayerController
+	if controller:
+		controller.queue_free()

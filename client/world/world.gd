@@ -75,7 +75,8 @@ func update_world_state(world_state) -> void:
 func start_game(game_seed) -> void:
 	.start_game(game_seed)
 	# Spawn the local client player
-	spawn_player(multiplayer.get_network_unique_id(), Vector2(0, 0), true)
+	var local_player = multiplayer.get_network_unique_id()
+	spawn_player(local_player, Vector2.ZERO, true)
 
 
 func reset_game() -> void:
