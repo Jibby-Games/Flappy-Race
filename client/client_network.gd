@@ -116,8 +116,10 @@ remote func populate_player_list(players: PoolIntArray) -> void:
 		print("[CNT]: ERROR Received player list from player %s, is someone hacking?" % sender)
 
 
-remote func despawn_player(player_id: int) -> void:
-	$World.despawn_player(player_id)
+remote func receive_despawn_player(player_id: int) -> void:
+	var sender = multiplayer.get_rpc_sender_id()
+	if sender == SERVER_ID:
+		$World.despawn_player(player_id)
 
 
 func request_start_game() -> void:

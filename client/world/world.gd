@@ -83,8 +83,17 @@ func reset_game() -> void:
 	Network.Client.request_start_game()
 
 
+func despawn_player(player_id: int):
+	# If this is the local player show the game over UI
+	if player_id == multiplayer.get_network_unique_id():
+		$UI.show_game_over()
+	.despawn_player(player_id)
+
+
 func _on_Player_death(player) -> void:
-	$UI.show_game_over()
+	# If this is the local player show the game over UI
+	if int(player.name) == multiplayer.get_network_unique_id():
+		$UI.show_game_over()
 	._on_Player_death(player)
 
 

@@ -57,9 +57,9 @@ func spawn_player(player_id, spawn_position, is_controllable = false):
 		add_child(player)
 
 
-func despawn_player(player_id):
+func despawn_player(player_id: int) -> void:
 	print(get_path(), ": Despawning player ", player_id)
-	yield(get_tree().create_timer(0.2), "timeout")
+#	yield(get_tree().create_timer(0.2), "timeout")
 	var player = get_node(str(player_id))
 	if player:
 		player.queue_free()

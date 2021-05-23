@@ -79,12 +79,12 @@ func _peer_disconnected(player_id: int) -> void:
 		else:
 			print("[SRV]: No host player")
 			host_player = null
-	despawn_player(player_id)
+	send_despawn_player(player_id)
 
 
-func despawn_player(player_id: int) -> void:
-	assert(player_state_collection.erase(player_id) == true)
-	rpc("despawn_player", player_id)
+func send_despawn_player(player_id: int) -> void:
+	assert(player_state_collection.erase(player_id))
+	rpc("receive_despawn_player", player_id)
 
 
 remote func fetch_server_time(client_time: int) -> void:
