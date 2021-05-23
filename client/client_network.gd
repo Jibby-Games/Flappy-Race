@@ -65,7 +65,7 @@ func _on_connection_failed() -> void:
 
 func _on_connected_to_server() -> void:
 	print("[CNT]: Successfully connected to server!")
-	rpc_id(1, "fetch_server_time", OS.get_system_time_msecs())
+	rpc_id(SERVER_ID, "fetch_server_time", OS.get_system_time_msecs())
 	var timer = Timer.new()
 	timer.autostart = true
 	timer.connect("timeout", self, "determine_latency")
@@ -83,7 +83,7 @@ remote func return_server_time(server_time, client_time) -> void:
 
 
 func determine_latency() -> void:
-	rpc_id(1, "determine_latency", OS.get_system_time_msecs())
+	rpc_id(SERVER_ID, "determine_latency", OS.get_system_time_msecs())
 
 
 remote func return_latency(client_time) -> void:
@@ -116,13 +116,13 @@ remote func populate_player_list(players: PoolIntArray) -> void:
 		print("[CNT]: ERROR Received player list from player %s, is someone hacking?" % sender)
 
 
-remote func despawn_player(player_id) -> void:
+remote func despawn_player(player_id: int) -> void:
 	$World.despawn_player(player_id)
 
 
 func request_start_game() -> void:
 	print("[CNT]: Sending start game request")
-	rpc_id(1, "request_start_game")
+	rpc_id(SERVER_ID, "request_start_game")
 
 
 remote func game_started(game_seed) -> void:
@@ -133,7 +133,7 @@ remote func game_started(game_seed) -> void:
 
 
 func send_player_state(player_state: Dictionary) -> void:
-	rpc_unreliable_id(1, "receive_player_state", player_state)
+	rpc_unreliable_id(SERVER_ID, "receive_player_state", player_state)
 
 
 remote func receive_world_state(world_state: Dictionary) -> void:
