@@ -116,6 +116,10 @@ remote func populate_player_list(players: PoolIntArray) -> void:
 		print("[CNT]: ERROR Received player list from player %s, is someone hacking?" % sender)
 
 
+func send_client_ready() -> void:
+	rpc_id(SERVER_ID, "receive_client_ready")
+
+
 remote func receive_despawn_player(player_id: int) -> void:
 	var sender = multiplayer.get_rpc_sender_id()
 	if sender == SERVER_ID:
@@ -127,11 +131,16 @@ func request_start_game() -> void:
 	rpc_id(SERVER_ID, "request_start_game")
 
 
-remote func game_started(game_seed) -> void:
+remote func receive_load_world() -> void:
 	var sender = multiplayer.get_rpc_sender_id()
 	if sender == SERVER_ID:
 		change_scene("res://client/world/world.tscn")
-		_active_scene.start_game(game_seed)
+
+
+remote func receive_game_started(game_seed: int) -> void:
+	var sender = multiplayer.get_rpc_sender_id()
+	if sender == SERVER_ID:
+		$World.start_game(game_seed)
 
 
 func send_player_state(player_state: Dictionary) -> void:

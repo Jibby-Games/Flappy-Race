@@ -97,19 +97,28 @@ remote func determine_latency(client_time: int) -> void:
 	rpc_id(player_id, "return_latency", client_time)
 
 
+remote func receive_client_ready() -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	$World.set_player_ready(player_id)
+
+
 remote func request_start_game() -> void:
 	# Only the server or the host can start the game
 	var player = multiplayer.get_rpc_sender_id()
 	if player == 0 or player == host_player:
 		print("[SRV]: Starting game!")
+		send_load_world()
 		change_scene("res://server/world/world.tscn")
-		_active_scene.setup_and_start_game()
 	else:
 		print("[SRV]: Player %s tried to start the game but they're not the host!" % player)
 
 
+func send_load_world() -> void:
+	rpc("receive_load_world")
+
+
 func send_game_started(game_seed: int) -> void:
-	rpc("game_started", game_seed)
+	rpc("receive_game_started", game_seed)
 
 
 remote func receive_player_state(player_state: Dictionary) -> void:

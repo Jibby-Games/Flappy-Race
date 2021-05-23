@@ -9,7 +9,11 @@ var last_world_state := 0
 var world_state_buffer := []
 
 
-func _physics_process(_delta):
+func _ready() -> void:
+	Network.Client.send_client_ready()
+
+
+func _physics_process(_delta) -> void:
 	var render_time = Network.Client.client_clock - INTERPOLATION_OFFSET
 	if world_state_buffer.size() > 1:
 		# world_state_buffer[0] will always be the oldest received world_state
