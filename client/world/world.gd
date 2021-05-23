@@ -44,8 +44,10 @@ func interpolate_world_state(render_time) -> void:
 				interpolation_factor
 			)
 			get_node(str(player)).move_player(new_position)
-		else:
-			spawn_player(player, world_state_buffer[2][player]["P"])
+		# TODO this should only spawn players if they are present in a future
+		# world state but sometimes they still seem to arrive after death
+		# else:
+		# 	spawn_player(player, world_state_buffer[2][player]["P"])
 
 
 func extrapolate_world_state(render_time) -> void:
