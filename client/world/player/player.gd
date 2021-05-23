@@ -7,22 +7,24 @@ const FLAP = 350
 export(PackedScene) var PlayerController
 
 
+var is_controlled
 var player_state
 
 
 func _physics_process(_delta) -> void:
-	update_player_state()
+	if is_controlled:
+		update_player_state()
+
+
+func update_player_state() -> void:
+	player_state = {"T": Network.Client.client_clock, "P": get_global_position()}
+	Network.Client.send_player_state(player_state)
 
 
 func do_flap() -> void:
 	if not is_dead:
 		motion.y = -FLAP
 		play_flap_sound()
-
-
-func update_player_state() -> void:
-	player_state = {"T": Network.Client.client_clock, "P": get_global_position()}
-	Network.Client.send_player_state(player_state)
 
 
 func play_flap_sound() -> void:
@@ -41,12 +43,16 @@ func play_flap_sound() -> void:
 
 
 func enable_control():
-	var controller = PlayerController.instance()
-	controller.connect("flap", self, "do_flap")
-	add_child(controller)
+	if not is_controlled:
+		is_controlled = true
+		var controller = PlayerController.instance()
+		controller.connect("flap", self, "do_flap")
+		add_child(controller)
 
 
 func disable_control():
-	var controller = $PlayerController
-	if controller:
-		controller.queue_free()
+	if is_controlled:
+		is_controlled = false
+		var controller = $PlayerController
+		if controller:
+			controller.queue_free()

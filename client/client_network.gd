@@ -133,7 +133,7 @@ remote func game_started(game_seed) -> void:
 
 
 func send_player_state(player_state: Dictionary) -> void:
-	rpc_unreliable_id(1, "send_player_state", player_state)
+	rpc_unreliable_id(1, "receive_player_state", player_state)
 
 
 remote func receive_world_state(world_state: Dictionary) -> void:

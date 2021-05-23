@@ -32,7 +32,7 @@ func _exit_tree() -> void:
 	multiplayer.disconnect("network_peer_connected", self, "_peer_connected")
 
 
-func start_server(port, max_players) -> void:
+func start_server(port: int, max_players: int) -> void:
 	var peer := NetworkedMultiplayerENet.new()
 	if singleplayer:
 		peer.set_bind_ip("127.0.0.1")
@@ -50,7 +50,7 @@ func stop_server() -> void:
 	print("[SRV]: Server stopped")
 
 
-func _peer_connected(player_id) -> void:
+func _peer_connected(player_id: int) -> void:
 	var num_players = multiplayer.get_network_connected_peers().size()
 	print("[SRV]: Player %s connected - %d/%d" %
 			[player_id, num_players, Network.MAX_PLAYERS])
@@ -67,7 +67,7 @@ func _peer_connected(player_id) -> void:
 		rpc("populate_player_list", multiplayer.get_network_connected_peers())
 
 
-func _peer_disconnected(player_id) -> void:
+func _peer_disconnected(player_id: int) -> void:
 	print("[SRV]: Player %s disconnected" % player_id)
 	if player_id == host_player:
 		# Promote the next player to the host if any are still connected
@@ -79,16 +79,20 @@ func _peer_disconnected(player_id) -> void:
 		else:
 			print("[SRV]: No host player")
 			host_player = null
+	despawn_player(player_id)
+
+
+func despawn_player(player_id: int) -> void:
 	assert(player_state_collection.erase(player_id) == true)
 	rpc("despawn_player", player_id)
 
 
-remote func fetch_server_time(client_time) -> void:
+remote func fetch_server_time(client_time: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	rpc_id(player_id, "return_server_time", OS.get_system_time_msecs(), client_time)
 
 
-remote func determine_latency(client_time) -> void:
+remote func determine_latency(client_time: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	rpc_id(player_id, "return_latency", client_time)
 
@@ -108,7 +112,7 @@ func send_game_started(game_seed: int) -> void:
 	rpc("game_started", game_seed)
 
 
-remote func send_player_state(player_state) -> void:
+remote func receive_player_state(player_state: Dictionary) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	if player_state_collection.has(player_id):
 		# Check if the player_state is the latest and replace it if it's newer
@@ -118,5 +122,5 @@ remote func send_player_state(player_state) -> void:
 		player_state_collection[player_id] = player_state
 
 
-func send_world_state(world_state) -> void:
+func send_world_state(world_state: Dictionary) -> void:
 	rpc_unreliable("receive_world_state", world_state)
