@@ -25,7 +25,6 @@ PlayerController = ExtResource( 10 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="." index="1"]
 frames = SubResource( 1 )
-playing = true
 
 [node name="Flap1" type="AudioStreamPlayer2D" parent="." index="3"]
 stream = ExtResource( 6 )

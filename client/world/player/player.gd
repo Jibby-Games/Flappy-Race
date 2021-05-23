@@ -11,6 +11,10 @@ var is_controlled
 var player_state
 
 
+func _ready() -> void:
+	$AnimatedSprite.playing = true
+
+
 func _physics_process(_delta) -> void:
 	if is_controlled:
 		update_player_state()
