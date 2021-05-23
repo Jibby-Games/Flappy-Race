@@ -29,22 +29,28 @@ func randomize_game_seed() -> int:
 
 
 # Sets the game RNG seed
-func set_game_seed(new_seed) -> void:
+func set_game_seed(new_seed: int) -> void:
 	game_rng.seed = new_seed
 	print(get_path(), ": Set game seed to: ", new_seed)
 
 
-func start_game(game_seed) -> void:
+func start_game(game_seed: int) -> void:
 	print(get_path(), ": Starting game with seed ", game_seed)
 	set_game_seed(game_seed)
 	reset_walls()
+	reset_players()
+
+
+func reset_players() -> void:
+	# Delete all existing players
+	get_tree().call_group("players", "queue_free")
 	for player in multiplayer.get_network_connected_peers():
 		# Don't spawn the server as a player
 		if player != 1:
 			spawn_player(player, Vector2.ZERO)
 
 
-func spawn_player(player_id, spawn_position, is_controllable = false):
+func spawn_player(player_id: int, spawn_position: Vector2, is_controllable: bool = false) -> void:
 	if not has_node(str(player_id)):
 		print(get_path(), ": Spawning player ", player_id)
 		var player = Player.instance()
@@ -66,7 +72,9 @@ func despawn_player(player_id: int) -> void:
 
 
 #### Wall functions
-func reset_walls():
+func reset_walls() -> void:
+	# Delete all existing walls
+	get_tree().call_group("walls", "queue_free")
 	var walls_to_spawn = round(wall_spawn_range / float(wall_spacing))
 	for i in walls_to_spawn:
 		spawn_wall()
