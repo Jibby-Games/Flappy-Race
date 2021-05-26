@@ -86,7 +86,7 @@ func start_game(game_seed) -> void:
 
 
 func reset_game() -> void:
-	Network.Client.request_start_game()
+	Network.Client.send_start_game_request()
 
 
 func despawn_player(player_id: int):

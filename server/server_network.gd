@@ -61,10 +61,10 @@ func _peer_connected(player_id: int) -> void:
 		# Stop any other players joining
 		multiplayer.set_refuse_new_network_connections(true)
 		# Start the game straight away
-		request_start_game()
+		receive_start_game_request()
 	else:
 		# Tell everyone about the new player
-		rpc("populate_player_list", multiplayer.get_network_connected_peers())
+		send_player_list_update()
 
 
 func _peer_disconnected(player_id: int) -> void:
@@ -82,19 +82,24 @@ func _peer_disconnected(player_id: int) -> void:
 	send_despawn_player(player_id)
 
 
+func send_player_list_update() -> void:
+	rpc("receive_player_list_update", multiplayer.get_network_connected_peers())
+
+
 func send_despawn_player(player_id: int) -> void:
-	assert(player_state_collection.erase(player_id))
+	if player_state_collection.has(player_id):
+		assert(player_state_collection.erase(player_id))
 	rpc("receive_despawn_player", player_id)
 
 
-remote func fetch_server_time(client_time: int) -> void:
+remote func receive_clock_sync_request(client_time: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
-	rpc_id(player_id, "return_server_time", OS.get_system_time_msecs(), client_time)
+	rpc_id(player_id, "receive_clock_sync_response", OS.get_system_time_msecs(), client_time)
 
 
-remote func determine_latency(client_time: int) -> void:
+remote func receive_latency_request(client_time: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
-	rpc_id(player_id, "return_latency", client_time)
+	rpc_id(player_id, "receive_latency_response", client_time)
 
 
 remote func receive_client_ready() -> void:
@@ -102,7 +107,7 @@ remote func receive_client_ready() -> void:
 	$World.set_player_ready(player_id)
 
 
-remote func request_start_game() -> void:
+remote func receive_start_game_request() -> void:
 	# Only the server or the host can start the game
 	var player = multiplayer.get_rpc_sender_id()
 	if player == 0 or player == host_player:

@@ -65,10 +65,10 @@ func _on_connection_failed() -> void:
 
 func _on_connected_to_server() -> void:
 	print("[CNT]: Successfully connected to server!")
-	rpc_id(SERVER_ID, "fetch_server_time", OS.get_system_time_msecs())
+	send_clock_sync_request()
 	var timer = Timer.new()
 	timer.autostart = true
-	timer.connect("timeout", self, "determine_latency")
+	timer.connect("timeout", self, "send_latency_request")
 	self.add_child(timer)
 
 
@@ -77,17 +77,21 @@ func _on_server_disconnected() -> void:
 	stop_client()
 
 
-remote func return_server_time(server_time, client_time) -> void:
-	latency = (OS.get_system_time_msecs() - client_time) / 2
+func send_clock_sync_request() -> void:
+	rpc_id(SERVER_ID, "receive_clock_sync_request", OS.get_system_time_msecs())
+
+
+remote func receive_clock_sync_response(server_time: int, client_time: int) -> void:
+	latency = (OS.get_system_time_msecs() - client_time) / 2.0
 	client_clock = server_time + latency
 
 
-func determine_latency() -> void:
-	rpc_id(SERVER_ID, "determine_latency", OS.get_system_time_msecs())
+func send_latency_request() -> void:
+	rpc_id(SERVER_ID, "receive_latency_request", OS.get_system_time_msecs())
 
 
-remote func return_latency(client_time) -> void:
-	latency_array.append((OS.get_system_time_msecs() - client_time) / 2)
+remote func receive_latency_response(client_time: int) -> void:
+	latency_array.append((OS.get_system_time_msecs() - client_time) / 2.0)
 	if latency_array.size() == LATENCY_BUFFER_SIZE:
 		var total_latency = 0
 		latency_array.sort()
@@ -108,7 +112,7 @@ remote func return_latency(client_time) -> void:
 		latency_array.clear()
 
 
-remote func populate_player_list(players: PoolIntArray) -> void:
+remote func receive_player_list_update(players: PoolIntArray) -> void:
 	var sender = multiplayer.get_rpc_sender_id()
 	if sender == SERVER_ID:
 		$GameSetup.populate_players(players)
@@ -126,9 +130,9 @@ remote func receive_despawn_player(player_id: int) -> void:
 		$World.despawn_player(player_id)
 
 
-func request_start_game() -> void:
+func send_start_game_request() -> void:
 	print("[CNT]: Sending start game request")
-	rpc_id(SERVER_ID, "request_start_game")
+	rpc_id(SERVER_ID, "receive_start_game_request")
 
 
 remote func receive_load_world() -> void:
