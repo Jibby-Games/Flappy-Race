@@ -13,9 +13,9 @@ func change_scene(scene_path: String) -> void:
 
 
 func change_scene_to(scene: PackedScene) -> void:
-	print("Changing scene to %s" % scene.get_path())
-	var new_scene: Node = scene.instance()
 	if _active_scene != null:
+		remove_child(_active_scene)
 		_active_scene.queue_free()
+	var new_scene: Node = scene.instance()
 	add_child(new_scene)
 	_active_scene = new_scene

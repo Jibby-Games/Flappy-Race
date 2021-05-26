@@ -8,14 +8,6 @@ func _ready() -> void:
 	assert(multiplayer.connect("connected_to_server", self, "_on_connected") == OK)
 
 
-#remotesync func begin_game(new_seed):
-#	# Sync up the RNG seed for all players
-#	Globals.set_game_seed(new_seed)
-#	# Local:
-#	# Randomize the seed and start the game with it
-#	var new_seed = Globals.randomize_game_seed()
-##	rpc("begin_game", new_seed)
-
 func _on_BGMusic_finished():
 	$BGMusic.play()
 

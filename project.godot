@@ -14,6 +14,21 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://client/client_network.gd"
 }, {
+"base": "KinematicBody2D",
+"class": "CommonPlayer",
+"language": "GDScript",
+"path": "res://common/world/player/player.gd"
+}, {
+"base": "StaticBody2D",
+"class": "CommonWall",
+"language": "GDScript",
+"path": "res://common/world/wall/wall.gd"
+}, {
+"base": "Node2D",
+"class": "CommonWorld",
+"language": "GDScript",
+"path": "res://common/world/world.gd"
+}, {
 "base": "",
 "class": "GitAPI",
 "language": "NativeScript",
@@ -31,6 +46,9 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "ClientNetwork": "",
+"CommonPlayer": "",
+"CommonWall": "",
+"CommonWorld": "",
 "GitAPI": "",
 "SceneHandler": "",
 "ServerNetwork": ""

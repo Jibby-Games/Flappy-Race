@@ -6,7 +6,8 @@ var public_ip: String = ""
 
 func _ready() -> void:
 	update_public_ip()
-	multiplayer.connect("network_peer_disconnected", self, "remove_player")
+	assert(multiplayer.connect("network_peer_disconnected", self, "remove_player") == OK)
+
 
 func update_public_ip() -> void:
 	$HTTPRequest.request("https://api.ipify.org")
@@ -57,4 +58,4 @@ func _on_BackButton_pressed() -> void:
 
 
 func _on_StartButton_pressed() -> void:
-	Network.Client.start_game()
+	Network.Client.send_start_game_request()

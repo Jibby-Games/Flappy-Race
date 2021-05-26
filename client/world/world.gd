@@ -1,130 +1,116 @@
-extends Node2D
+extends CommonWorld
 
 
-const WALL := preload("./wall/wall.tscn")
-const PLAYER := preload("./player/player.tscn")
+const INTERPOLATION_OFFSET = 100
 
 
-onready var Background := $Background
-onready var HiScore := $Camera2D/UI/HighScore
-onready var Score := $Camera2D/UI/Score
-onready var WallSpawnTimer := $WallSpawnTimer
+# World state vars
+var last_world_state := 0
+var world_state_buffer := []
 
 
-# Public vars
-var height_range := 100
-var gap_range_min := 130
-var gap_range_max := 250
-var wall_spawn_time := 2.5
-var start_wall_speed := 4.0
-var wall_speed := start_wall_speed
-var speed_up := 0.1
-var scroll_speed := 0.1
-var bob_speed := 1.0
-var bob_amplitude := 0.01
-
-func _ready():
-	# Setup gubbins
-	HiScore.text = str(Globals.high_score)
-
-	# Set the wallpaper motion
-	Background.material.set_shader_param('scroll_speed', scroll_speed)
-	Background.material.set_shader_param('bob_speed', bob_speed)
-	Background.material.set_shader_param('bob_amplitude', bob_amplitude)
+func _ready() -> void:
+	Network.Client.send_client_ready()
 
 
-func start_game(game_seed = null) -> void:
-	if game_seed:
-		Globals.set_game_seed(game_seed)
-	else:
-		var _seed = Globals.randomize_game_seed()
-	spawn_player(multiplayer.get_network_unique_id(), true)
-	for player in multiplayer.get_network_connected_peers():
-		# Don't spawn the server as a player
-		if player != 1:
-			spawn_player(player)
-	reset_walls()
+func _physics_process(_delta) -> void:
+	var render_time = Network.Client.client_clock - INTERPOLATION_OFFSET
+	if world_state_buffer.size() > 1:
+		# world_state_buffer[0] will always be the oldest received world_state
+		while world_state_buffer.size() > 2 and render_time > world_state_buffer[2].T:
+			world_state_buffer.remove(0)
+		if world_state_buffer.size() > 2:
+			# We have a future world state available - smooth movement!
+			interpolate_world_state(render_time)
+		elif render_time > world_state_buffer[1].T:
+			# No future world_states available - guess where things will be
+			extrapolate_world_state(render_time)
 
 
-func spawn_player(player_id, is_master = false):
-	print("[CNT] Spawning player %s" % player_id)
-	var player = PLAYER.instance()
-	player.connect("death", self, "_on_Player_death")
-	player.connect("score_point", self, "_on_Player_score_point")
-	player.name = str(player_id)
-	player.is_master = is_master
-	add_child(player)
+func interpolate_world_state(render_time) -> void:
+	var interpolation_factor = float(render_time - world_state_buffer[1]["T"]) / float(world_state_buffer[2]["T"] - world_state_buffer[1]["T"])
+	for player in world_state_buffer[2].keys():
+		if str(player) == "T":
+			# Ignore the included timestamp
+			continue
+		if player == multiplayer.get_network_unique_id():
+			# Ignore the local player
+			continue
+		if not world_state_buffer[1].has(player):
+			# A connecting player won't be available in past world_state yet
+			continue
+		if has_node(str(player)):
+			# Use the position between past and future world_states to calculate
+			# the current position
+			var new_position = lerp(
+				world_state_buffer[1][player]["P"],
+				world_state_buffer[2][player]["P"],
+				interpolation_factor
+			)
+			get_node(str(player)).move_player(new_position)
+		# TODO this should only spawn players if they are present in a future
+		# world state but sometimes they still seem to arrive after death
+		# else:
+		# 	spawn_player(player, world_state_buffer[2][player]["P"])
 
 
-func reset_walls():
-	wall_speed = start_wall_speed
-	WallSpawnTimer.wait_time = wall_spawn_time
-	WallSpawnTimer.start()
+func extrapolate_world_state(render_time) -> void:
+	var extrapolation_factor = float(render_time - world_state_buffer[0]["T"]) / float(world_state_buffer[1]["T"] - world_state_buffer[0]["T"]) - 1.00
+	for player in world_state_buffer[1].keys():
+		if str(player) == "T":
+			# Ignore the included timestamp
+			continue
+		if player == multiplayer.get_network_unique_id():
+			# Ignore the local player
+			continue
+		if not world_state_buffer[0].has(player):
+			# A connecting player won't be available in past world_state yet
+			continue
+		if has_node(str(player)):
+			var position_delta = (world_state_buffer[1][player]["P"] - world_state_buffer[0][player]["P"])
+			var new_position = world_state_buffer[1][player]["P"] + (position_delta * extrapolation_factor)
+			get_node(str(player)).move_player(new_position)
+
+
+func update_world_state(world_state) -> void:
+	if world_state["T"] > last_world_state:
+		last_world_state = world_state["T"]
+		world_state_buffer.append(world_state)
+
+
+func start_game(game_seed) -> void:
+	.start_game(game_seed)
+	# Spawn the local client player
+	var local_player = multiplayer.get_network_unique_id()
+	spawn_player(local_player, Vector2.ZERO, true)
 
 
 func reset_game() -> void:
-	Network.Client.change_scene("res://client/world/world.tscn")
+	Network.Client.send_start_game_request()
 
 
-#### Wall functions
-func spawn_wall() -> void:
-	var inst = WALL.instance()
-	# Use the game RNG to keep the levels deterministic
-	var height = Globals.game_rng.randf_range(-height_range, height_range)
-	var gap = Globals.game_rng.randf_range(gap_range_min, gap_range_max)
-	print("[WORLD]: Spawning wall - height: ", height, " - gap: ", gap)
-	inst.position = Vector2(get_viewport().size.x / 2 + 64, height)
-	inst.gap = gap
-	inst.speed = wall_speed
-	call_deferred("add_child", inst)
+func despawn_player(player_id: int):
+	# If this is the local player show the game over UI
+	if player_id == multiplayer.get_network_unique_id():
+		$UI.show_game_over()
+	.despawn_player(player_id)
 
 
-func _on_WallSpawner_timeout() -> void:
-	WallSpawnTimer.wait_time = wall_spawn_time * float(start_wall_speed) / wall_speed
-	spawn_wall()
-
-
-#### Player helper functions
 func _on_Player_death(player) -> void:
-	# See if we have a new PB
-	if player.score > Globals.high_score:
-		Globals.save_high_score(player.score)
-		HiScore.text = str(player.score)
-
-	# Tell the engine it can lose the player
-	player.queue_free()
-	show_game_over()
-
-
-func show_game_over() -> void:
-	WallSpawnTimer.stop()
-	$Camera2D/UI/GameOver.show()
+	# If this is the local player show the game over UI
+	if int(player.name) == multiplayer.get_network_unique_id():
+		$UI.show_game_over()
+	._on_Player_death(player)
 
 
 func _on_Player_score_point(player) -> void:
-	# Actual incrementing is handled on the player object
-	increase_difficulty()
-	Score.text = str(player.score)
-
-
-#### World functions
-func increase_difficulty() -> void:
-	wall_speed += speed_up
-	# Speed up the background
-	# TODO: this causes jerky stutter. Needs fixing.
-	# Background.material.set_shader_param('scroll_speed', wall_speed*parallax)
-	for wall in get_tree().get_nodes_in_group("walls"):
-		wall.speed = wall_speed
+	$UI.update_score(player.score)
+	._on_Player_score_point(player)
 
 
 func _on_BGMusic_finished() -> void:
 	$BGMusic.play()
 
 
-func _on_RestartButton_pressed() -> void:
+func _on_UI_request_restart():
 	reset_game()
-
-
-func flap_player(player_id) -> void:
-	var player = get_node(str(player_id))
-	player.do_flap()

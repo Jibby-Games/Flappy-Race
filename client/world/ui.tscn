@@ -1,0 +1,72 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://client/world/ui.gd" type="Script" id=1]
+[ext_resource path="res://client/ui/custom_label.tscn" type="PackedScene" id=2]
+[ext_resource path="res://client/fonts/Score.tres" type="DynamicFont" id=3]
+[ext_resource path="res://client/fonts/DelaGothicOne-48.tres" type="DynamicFont" id=4]
+
+[sub_resource type="Theme" id=1]
+
+[node name="UI" type="CanvasLayer"]
+follow_viewport_enable = true
+script = ExtResource( 1 )
+HighScorePath = NodePath("HighScore")
+ScorePath = NodePath("Score")
+GameOverPath = NodePath("GameOver")
+
+[node name="Score" type="Label" parent="."]
+anchor_right = 1.0
+margin_bottom = 48.0
+theme = SubResource( 1 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HighScore" type="Label" parent="."]
+margin_right = 110.0
+margin_bottom = 55.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0, 0, 1, 1 )
+text = "0"
+align = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameOver" type="MarginContainer" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOver"]
+margin_left = 471.0
+margin_right = 808.0
+margin_bottom = 720.0
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="GameOverLabel" parent="GameOver/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 285.0
+margin_right = 337.0
+margin_bottom = 355.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Game Over!"
+align = 1
+valign = 1
+
+[node name="RestartButton" type="Button" parent="GameOver/VBoxContainer"]
+margin_top = 359.0
+margin_right = 337.0
+margin_bottom = 435.0
+custom_fonts/font = ExtResource( 4 )
+text = "Restart"
+[connection signal="pressed" from="GameOver/VBoxContainer/RestartButton" to="." method="_on_RestartButton_pressed"]

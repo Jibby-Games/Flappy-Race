@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://common/world/wall/wall.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 32, 32 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 16, 160 )
+
+[node name="Wall" type="StaticBody2D" groups=[
+"walls",
+]]
+collision_layer = 2
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="UpperCollider" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -800 )
+scale = Vector2( 1, 20 )
+shape = SubResource( 1 )
+
+[node name="LowerCollider" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 800 )
+scale = Vector2( 1, 20 )
+shape = SubResource( 1 )
+
+[node name="PointArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PointArea"]
+shape = SubResource( 2 )
