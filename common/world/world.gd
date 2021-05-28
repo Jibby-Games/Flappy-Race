@@ -70,7 +70,7 @@ func spawn_player(player_id: int, spawn_position: Vector2, is_controllable: bool
 func despawn_player(player_id: int) -> void:
 	print("[%s] Despawning player %d" % [get_path().get_name(1), player_id])
 #	yield(get_tree().create_timer(0.2), "timeout")
-	var player = get_node(str(player_id))
+	var player = get_node_or_null(str(player_id))
 	if player:
 		player.queue_free()
 
