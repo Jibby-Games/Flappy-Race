@@ -127,7 +127,9 @@ remote func receive_latency_response(client_time: int) -> void:
 remote func receive_player_list_update(players: PoolIntArray) -> void:
 	if is_rpc_from_server() == false:
 		return
-	$GameSetup.populate_players(players)
+	var setup = get_node_or_null("GameSetup")
+	if setup:
+		setup.populate_players(players)
 
 
 func send_client_ready() -> void:
@@ -137,7 +139,9 @@ func send_client_ready() -> void:
 remote func receive_despawn_player(player_id: int) -> void:
 	if is_rpc_from_server() == false:
 		return
-	$World.despawn_player(player_id)
+	var world = get_node_or_null("World")
+	if world:
+		world.despawn_player(player_id)
 
 
 func send_start_game_request() -> void:
@@ -154,7 +158,9 @@ remote func receive_load_world() -> void:
 remote func receive_game_started(game_seed: int) -> void:
 	if is_rpc_from_server() == false:
 		return
-	$World.start_game(game_seed)
+	var world = get_node_or_null("World")
+	if world:
+		world.start_game(game_seed)
 
 
 func send_player_state(player_state: Dictionary) -> void:
@@ -164,4 +170,6 @@ func send_player_state(player_state: Dictionary) -> void:
 remote func receive_world_state(world_state: Dictionary) -> void:
 	if is_rpc_from_server() == false:
 		return
-	_active_scene.update_world_state(world_state)
+	var world = get_node_or_null("World")
+	if world:
+		world.update_world_state(world_state)
