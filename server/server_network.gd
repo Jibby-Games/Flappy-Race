@@ -21,6 +21,13 @@ func _ready() -> void:
 	assert(multiplayer.connect("network_peer_disconnected", self, "_peer_disconnected") == OK)
 	assert(multiplayer.connect("network_peer_connected", self, "_peer_connected") == OK)
 
+	# Register with the Network singleton so this node can be easily accessed
+	Network.Server = self
+
+	# Start automatically if this is a headless server
+	if "--server" in OS.get_cmdline_args():
+		start_server(Network.RPC_PORT, Network.MAX_PLAYERS)
+
 
 func _exit_tree() -> void:
 	multiplayer.disconnect("network_peer_disconnected", self, "_peer_disconnected")

@@ -1,12 +1,8 @@
 extends Node
 
-
-export(PackedScene) var ClientMainScene
-export(PackedScene) var ServerMainScene
-
-
+# This node is only needed to detect the command line args so the right scene can be loaded
 func _ready():
 	if "--server" in OS.get_cmdline_args():
-		Network.Server.change_scene_to(ServerMainScene)
+		assert(get_tree().change_scene(Network.SERVER_NETWORK) == OK)
 	else:
-		Network.Client.change_scene_to(ClientMainScene)
+		assert(get_tree().change_scene(Network.CLIENT_NETWORK) == OK)

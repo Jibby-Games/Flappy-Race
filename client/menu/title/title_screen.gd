@@ -20,6 +20,4 @@ func _on_BGMusic_finished():
 
 
 func _on_SingleplayerButton_pressed():
-	Network.Server.singleplayer = true
-	Network.Server.start_server(Network.RPC_PORT, Network.MAX_PLAYERS)
-	Network.Client.start_client("127.0.0.1", Network.RPC_PORT)
+	Network.start_singleplayer()

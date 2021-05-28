@@ -17,8 +17,7 @@ func _on_Back_pressed():
 
 
 func on_Host_pressed():
-	Network.Server.start_server(Network.RPC_PORT, Network.MAX_PLAYERS)
-	Network.Client.start_client("127.0.0.1", Network.RPC_PORT)
+	Network.start_multiplayer()
 	Network.Client.change_scene("res://client/menu/lobby/game_setup.tscn")
 
 

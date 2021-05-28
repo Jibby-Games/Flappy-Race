@@ -25,6 +25,12 @@ func _ready() -> void:
 	assert(multiplayer.connect("connected_to_server", self, "_on_connected_to_server") == OK)
 	assert(multiplayer.connect("server_disconnected", self, "_on_server_disconnected") == OK)
 
+	# Register with the Network singleton so this node can be easily accessed
+	Network.Client = self
+
+	# The client should always start at the title screen
+	change_scene("res://client/menu/title/title_screen.tscn")
+
 
 func _physics_process(delta: float):
 	client_clock += int(delta * 1000) + delta_latency
