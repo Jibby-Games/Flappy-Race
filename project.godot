@@ -29,11 +29,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://common/world/world.gd"
 }, {
-"base": "",
-"class": "GitAPI",
-"language": "NativeScript",
-"path": "res://addons/git_api/git_api.gdns"
-}, {
 "base": "Node",
 "class": "SceneHandler",
 "language": "GDScript",
@@ -49,7 +44,6 @@ _global_script_class_icons={
 "CommonPlayer": "",
 "CommonWall": "",
 "CommonWorld": "",
-"GitAPI": "",
 "SceneHandler": "",
 "ServerNetwork": ""
 }
@@ -77,7 +71,7 @@ window/size/height=720
 
 [gdnative]
 
-singletons=[ "res://addons/git_api/git_api.gdnlib" ]
+singletons=[  ]
 singletons_disabled=[  ]
 
 [layer_names]
