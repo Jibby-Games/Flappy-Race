@@ -77,11 +77,21 @@ func _on_server_disconnected() -> void:
 	stop_client()
 
 
+func is_rpc_from_server() -> bool:
+	var sender: int = multiplayer.get_rpc_sender_id()
+	if sender != SERVER_ID:
+		push_error("Received RPC from player %d - they may be hacking!" % sender)
+		return false
+	return true
+
+
 func send_clock_sync_request() -> void:
 	rpc_id(SERVER_ID, "receive_clock_sync_request", OS.get_system_time_msecs())
 
 
 remote func receive_clock_sync_response(server_time: int, client_time: int) -> void:
+	if is_rpc_from_server() == false:
+		return
 	latency = (OS.get_system_time_msecs() - client_time) / 2.0
 	client_clock = server_time + latency
 
@@ -91,6 +101,8 @@ func send_latency_request() -> void:
 
 
 remote func receive_latency_response(client_time: int) -> void:
+	if is_rpc_from_server() == false:
+		return
 	latency_array.append((OS.get_system_time_msecs() - client_time) / 2.0)
 	if latency_array.size() == LATENCY_BUFFER_SIZE:
 		var total_latency = 0
@@ -113,11 +125,11 @@ remote func receive_latency_response(client_time: int) -> void:
 
 
 remote func receive_player_list_update(players: PoolIntArray) -> void:
-	var sender = multiplayer.get_rpc_sender_id()
-	if sender == SERVER_ID:
-		$GameSetup.populate_players(players)
-	else:
-		print("[CNT]: ERROR Received player list from player %s, is someone hacking?" % sender)
+	if is_rpc_from_server() == false:
+		return
+	var setup = get_node_or_null("GameSetup")
+	if setup:
+		setup.populate_players(players)
 
 
 func send_client_ready() -> void:
@@ -125,9 +137,11 @@ func send_client_ready() -> void:
 
 
 remote func receive_despawn_player(player_id: int) -> void:
-	var sender = multiplayer.get_rpc_sender_id()
-	if sender == SERVER_ID:
-		$World.despawn_player(player_id)
+	if is_rpc_from_server() == false:
+		return
+	var world = get_node_or_null("World")
+	if world:
+		world.despawn_player(player_id)
 
 
 func send_start_game_request() -> void:
@@ -136,15 +150,17 @@ func send_start_game_request() -> void:
 
 
 remote func receive_load_world() -> void:
-	var sender = multiplayer.get_rpc_sender_id()
-	if sender == SERVER_ID:
-		change_scene("res://client/world/world.tscn")
+	if is_rpc_from_server() == false:
+		return
+	change_scene("res://client/world/world.tscn")
 
 
 remote func receive_game_started(game_seed: int) -> void:
-	var sender = multiplayer.get_rpc_sender_id()
-	if sender == SERVER_ID:
-		$World.start_game(game_seed)
+	if is_rpc_from_server() == false:
+		return
+	var world = get_node_or_null("World")
+	if world:
+		world.start_game(game_seed)
 
 
 func send_player_state(player_state: Dictionary) -> void:
@@ -152,4 +168,8 @@ func send_player_state(player_state: Dictionary) -> void:
 
 
 remote func receive_world_state(world_state: Dictionary) -> void:
-	_active_scene.update_world_state(world_state)
+	if is_rpc_from_server() == false:
+		return
+	var world = get_node_or_null("World")
+	if world:
+		world.update_world_state(world_state)
