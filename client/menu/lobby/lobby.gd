@@ -44,7 +44,7 @@ func _on_connected() -> void:
 
 
 func _on_ConnectionTimer_timeout():
-	print("[CNT]: Connection timed out!")
+	print("[%s] Connection timed out!" % [get_path().get_name(1)])
 	Network.Client.stop_client()
 	$ErrorMessage.text = "Failed to connect!"
 	$ErrorMessage.show()

@@ -13,11 +13,6 @@ var singleplayer := false
 var player_state_collection := {}
 
 
-func change_scene_to(scene: PackedScene) -> void:
-	print("[SRV] Changing scene to %s" % scene.get_path())
-	.change_scene_to(scene)
-
-
 func _ready() -> void:
 	# As you can see, instead of calling get_tree().connect for network related
 	# stuff we use mutltiplayer.connect . This way, IF (and only IF) the
@@ -42,21 +37,21 @@ func start_server(port: int, max_players: int) -> void:
 	# Basically, anything networking related needs to be updated this way.
 	# See the MultiplayerAPI docs for reference.
 	multiplayer.set_network_peer(peer)
-	print("[SRV]: Server started - waiting for players")
+	print("[%s] Server started - waiting for players" % [get_path().get_name(1)])
 
 
 func stop_server() -> void:
 	multiplayer.set_network_peer(null)
-	print("[SRV]: Server stopped")
+	print("[%s] Server stopped" % [get_path().get_name(1)])
 
 
 func _peer_connected(player_id: int) -> void:
 	var num_players = multiplayer.get_network_connected_peers().size()
-	print("[SRV]: Player %s connected - %d/%d" %
-			[player_id, num_players, Network.MAX_PLAYERS])
+	print("[%s] Player %s connected - %d/%d" %
+			[get_path().get_name(1), player_id, num_players, Network.MAX_PLAYERS])
 	if host_player == null:
 		host_player = player_id
-		print("[SRV]: Player %s is now the host" % player_id)
+		print("[%s] Player %s is now the host" % [get_path().get_name(1), player_id])
 	if singleplayer:
 		# Stop any other players joining
 		multiplayer.set_refuse_new_network_connections(true)
@@ -68,16 +63,16 @@ func _peer_connected(player_id: int) -> void:
 
 
 func _peer_disconnected(player_id: int) -> void:
-	print("[SRV]: Player %s disconnected" % player_id)
+	print("[%s] Player %s disconnected" % [get_path().get_name(1), player_id])
 	if player_id == host_player:
 		# Promote the next player to the host if any are still connected
 		var peers = multiplayer.get_network_connected_peers()
 		if peers.size() > 0:
 			var new_host = [0]
-			print("[SRV]: Player %s is now the host" % new_host)
+			print("[%s] Player %s is now the host" % [get_path().get_name(1), new_host])
 			host_player = new_host
 		else:
-			print("[SRV]: No host player")
+			print("[%s] No host player" % [get_path().get_name(1)])
 			host_player = null
 	send_despawn_player(player_id)
 
@@ -111,11 +106,12 @@ remote func receive_start_game_request() -> void:
 	# Only the server or the host can start the game
 	var player = multiplayer.get_rpc_sender_id()
 	if player == 0 or player == host_player:
-		print("[SRV]: Starting game!")
+		print("[%s] Starting game!" % [get_path().get_name(1)])
 		send_load_world()
 		change_scene("res://server/world/world.tscn")
 	else:
-		print("[SRV]: Player %s tried to start the game but they're not the host!" % player)
+		print("[%s] Player %s tried to start the game but they're not the host!" %
+				[get_path().get_name(1), player])
 
 
 func send_load_world() -> void:

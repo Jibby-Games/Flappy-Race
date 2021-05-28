@@ -40,7 +40,7 @@ func update_movement() -> void:
 
 
 func _on_Detect_area_entered(_area) -> void:
-	print(get_path(), ": Player entered area ", _area.name)
+	print("[%s] Player entered area %s" % [get_path().get_name(1), _area.name])
 	# Detects entering the score zone. Signals to the world to update other nodes.
 	score += 1
 	emit_signal("score_point", self)
