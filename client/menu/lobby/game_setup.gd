@@ -18,7 +18,7 @@ func _on_HTTPRequest_request_completed(_result, response_code, _headers, body) -
 		# Successful response
 		public_ip = body.get_string_from_utf8()
 	else:
-		print("[NET] Received HTTP response code ", response_code, " when finding public IP!")
+		print("[%s] Received HTTP response code %s when finding public IP!" % [get_path().get_name(1), response_code])
 		public_ip = "error"
 	$HBoxContainer/IP.text = public_ip
 
@@ -40,7 +40,7 @@ func remove_player(player_id: int) -> void:
 
 
 func populate_players(players: PoolIntArray) -> void:
-	print("[CNT]: Got player list: %s" % players)
+	print("[%s] Got player list: %s" % [get_path().get_name(1), players])
 	clear_players()
 	for player in players:
 		add_player(player)

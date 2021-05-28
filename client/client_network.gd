@@ -16,11 +16,6 @@ var decimal_collector: float = 0
 var latency_array = []
 
 
-func change_scene_to(scene: PackedScene) -> void:
-	print("[CNT] Changing scene to %s" % scene.get_path())
-	.change_scene_to(scene)
-
-
 func _ready() -> void:
 	# As you can see, instead of calling get_tree().connect for network related
 	# stuff we use mutltiplayer.connect . This way, IF (and only IF) the
@@ -29,6 +24,12 @@ func _ready() -> void:
 	assert(multiplayer.connect("connection_failed", self, "_on_connection_failed") == OK)
 	assert(multiplayer.connect("connected_to_server", self, "_on_connected_to_server") == OK)
 	assert(multiplayer.connect("server_disconnected", self, "_on_server_disconnected") == OK)
+
+	# Register with the Network singleton so this node can be easily accessed
+	Network.Client = self
+
+	# The client should always start at the title screen
+	change_scene("res://client/menu/title/title_screen.tscn")
 
 
 func _physics_process(delta: float):
@@ -50,21 +51,21 @@ func start_client(host, port) -> void:
 	var peer = NetworkedMultiplayerENet.new()
 	peer.create_client(host, port)
 	multiplayer.set_network_peer(peer)
-	print("[CNT]: Client started")
+	print("[%s] Client started" % [get_path().get_name(1)])
 
 
 func stop_client() -> void:
 	multiplayer.set_network_peer(null)
-	print("[CNT]: Client stopped")
+	print("[%s] Client stopped" % [get_path().get_name(1)])
 
 
 func _on_connection_failed() -> void:
-	print("[CNT]: Failed to connect to server!")
+	print("[%s] Failed to connect to server!" % [get_path().get_name(1)])
 	stop_client()
 
 
 func _on_connected_to_server() -> void:
-	print("[CNT]: Successfully connected to server!")
+	print("[%s] Successfully connected to server!" % [get_path().get_name(1)])
 	send_clock_sync_request()
 	var timer = Timer.new()
 	timer.autostart = true
@@ -73,7 +74,7 @@ func _on_connected_to_server() -> void:
 
 
 func _on_server_disconnected() -> void:
-	print("[CNT]: Disconnected from server!")
+	print("[%s] Disconnected from server!" % [get_path().get_name(1)])
 	stop_client()
 
 
@@ -145,7 +146,7 @@ remote func receive_despawn_player(player_id: int) -> void:
 
 
 func send_start_game_request() -> void:
-	print("[CNT]: Sending start game request")
+	print("[%s] Sending start game request" % [get_path().get_name(1)])
 	rpc_id(SERVER_ID, "receive_start_game_request")
 
 
