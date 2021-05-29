@@ -30,6 +30,7 @@ func update_score(new_score: int) -> void:
 
 func show_game_over() -> void:
 	GameOver.show()
+	$GameOver/VBoxContainer/RestartButton.grab_focus()
 
 
 func _on_RestartButton_pressed() -> void:
