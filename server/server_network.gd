@@ -49,6 +49,7 @@ func start_server(port: int, max_players: int) -> void:
 
 func stop_server() -> void:
 	host_player = null
+	player_state_collection.clear()
 	multiplayer.call_deferred("set_network_peer", null)
 	print("[%s] Server stopped" % [get_path().get_name(1)])
 
