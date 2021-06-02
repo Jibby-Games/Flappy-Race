@@ -9,11 +9,15 @@ const LATENCY_BUFFER_SIZE := 9
 const LATENCY_THRESHOLD := 20
 
 
+# Clock sync and latency vars
 var client_clock: int = 0
 var latency = 0
 var delta_latency = 0
 var decimal_collector: float = 0
 var latency_array = []
+
+
+var is_singleplayer := false
 
 
 func _ready() -> void:
@@ -47,7 +51,8 @@ func _exit_tree() -> void:
 	multiplayer.disconnect("server_disconnected", self, "_on_server_disconnected")
 
 
-func start_client(host, port) -> void:
+func start_client(host: String, port: int, singleplayer: bool = false) -> void:
+	is_singleplayer = singleplayer
 	var peer = NetworkedMultiplayerENet.new()
 	peer.create_client(host, port)
 	multiplayer.set_network_peer(peer)

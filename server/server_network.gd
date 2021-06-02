@@ -8,8 +8,8 @@ class_name ServerNetwork
 # the client and server physics, so objects from the client and the server can't
 # interact with eachother when self hosting.
 
+var max_players := 0
 var host_player
-var singleplayer := false
 var player_state_collection := {}
 
 
@@ -34,10 +34,9 @@ func _exit_tree() -> void:
 	multiplayer.disconnect("network_peer_connected", self, "_peer_connected")
 
 
-func start_server(port: int, max_players: int) -> void:
+func start_server(port: int, server_max_players: int) -> void:
+	max_players = server_max_players
 	var peer := NetworkedMultiplayerENet.new()
-	if singleplayer:
-		peer.set_bind_ip("127.0.0.1")
 	assert(peer.create_server(port, max_players) == OK)
 	# Same goes for things like:
 	# get_tree().set_network_peer() -> multiplayer.set_network_peer()
@@ -58,18 +57,15 @@ func stop_server() -> void:
 func _peer_connected(player_id: int) -> void:
 	var num_players = multiplayer.get_network_connected_peers().size()
 	print("[%s] Player %s connected - %d/%d" %
-			[get_path().get_name(1), player_id, num_players, Network.MAX_PLAYERS])
+			[get_path().get_name(1), player_id, num_players, max_players])
 	if host_player == null:
 		host_player = player_id
 		print("[%s] Player %s is now the host" % [get_path().get_name(1), player_id])
-	if singleplayer:
-		# Stop any other players joining
-		multiplayer.set_refuse_new_network_connections(true)
-		# Start the game straight away
-		receive_start_game_request()
-	else:
-		# Tell everyone about the new player
-		send_player_list_update()
+		if max_players == 1:
+			# Assume this is a singleplayer session and start the game
+			receive_start_game_request()
+	# Tell everyone about the new player
+	send_player_list_update()
 
 
 func _peer_disconnected(player_id: int) -> void:

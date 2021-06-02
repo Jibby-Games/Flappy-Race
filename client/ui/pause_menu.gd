@@ -10,7 +10,9 @@ func _input(event) -> void:
 
 
 func enable_pause_menu() -> void:
-	get_tree().paused = true
+	# Only allow the game to be paused in singleplayer
+	if Network.Client.is_singleplayer:
+		get_tree().paused = true
 	self.popup()
 
 
