@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://client/menu/menu_button.tscn" type="PackedScene" id=1]
+[ext_resource path="res://client/world/pause_menu.gd" type="Script" id=2]
+
+[node name="PauseMenu" type="PopupPanel"]
+pause_mode = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -200.0
+margin_top = -150.0
+margin_right = 200.0
+margin_bottom = 150.0
+popup_exclusive = true
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = -4.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 16.0
+margin_top = 22.0
+margin_right = 376.0
+margin_bottom = 270.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ResumeButton" parent="CenterContainer/VBoxContainer" instance=ExtResource( 1 )]
+margin_right = 360.0
+label = "Resume"
+
+[node name="MainMenuButton" parent="CenterContainer/VBoxContainer" instance=ExtResource( 1 )]
+margin_top = 84.0
+margin_right = 360.0
+margin_bottom = 164.0
+label = "Main Menu"
+
+[node name="QuitButton" parent="CenterContainer/VBoxContainer" instance=ExtResource( 1 )]
+margin_top = 168.0
+margin_right = 360.0
+margin_bottom = 248.0
+label = "Quit"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/ResumeButton" to="." method="_on_ResumeButton_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/MainMenuButton" to="." method="_on_MainMenuButton_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
