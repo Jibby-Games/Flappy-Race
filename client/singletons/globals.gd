@@ -45,3 +45,12 @@ func save_high_score(score: int) -> void:
 
 func reset_high_score() -> void:
 	save_high_score(0)
+
+
+func show_message(text: String, title: String='Message') -> void:
+	var dialog = AcceptDialog.new()
+	dialog.dialog_text = text
+	dialog.window_title = title
+	dialog.connect('popup_hide', dialog, 'queue_free')
+	add_child(dialog)
+	dialog.popup_centered()

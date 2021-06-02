@@ -74,6 +74,8 @@ func _on_connected_to_server() -> void:
 func _on_server_disconnected() -> void:
 	print("[%s] Disconnected from server!" % [get_path().get_name(1)])
 	stop_client()
+	Network.Client.change_scene("res://client/menu/title/title_screen.tscn")
+	Globals.show_message("Lost connection to the server.", "Server Disconnect")
 
 
 func is_rpc_from_server() -> bool:
