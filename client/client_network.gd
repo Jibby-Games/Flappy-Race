@@ -55,6 +55,7 @@ func start_client(host, port) -> void:
 
 
 func stop_client() -> void:
+	$LatencyUpdater.stop()
 	multiplayer.set_network_peer(null)
 	print("[%s] Client stopped" % [get_path().get_name(1)])
 
@@ -73,7 +74,6 @@ func _on_connected_to_server() -> void:
 func _on_server_disconnected() -> void:
 	print("[%s] Disconnected from server!" % [get_path().get_name(1)])
 	stop_client()
-	$LatencyUpdater.stop()
 
 
 func is_rpc_from_server() -> bool:
