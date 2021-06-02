@@ -42,7 +42,7 @@ func start_multiplayer_host() -> void:
 	Client.start_client("127.0.0.1", RPC_PORT)
 
 
-func stop_multiplayer() -> void:
+func stop_networking() -> void:
 	Client.stop_client()
 	if Server:
 		Server.stop_server()

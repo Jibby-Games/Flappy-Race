@@ -52,7 +52,7 @@ func clear_players() -> void:
 
 
 func _on_BackButton_pressed() -> void:
-	Network.stop_multiplayer()
+	Network.stop_networking()
 	Network.Client.change_scene("res://client/menu/lobby/lobby.tscn")
 
 
