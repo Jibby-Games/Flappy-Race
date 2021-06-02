@@ -17,7 +17,7 @@ func _on_Back_pressed():
 
 
 func on_Host_pressed():
-	Network.start_multiplayer()
+	Network.start_multiplayer_host()
 	Network.Client.change_scene("res://client/menu/lobby/game_setup.tscn")
 
 

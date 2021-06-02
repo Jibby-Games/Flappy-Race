@@ -56,7 +56,7 @@ func start_client(host, port) -> void:
 
 func stop_client() -> void:
 	$LatencyUpdater.stop()
-	multiplayer.set_network_peer(null)
+	multiplayer.call_deferred("set_network_peer", null)
 	print("[%s] Client stopped" % [get_path().get_name(1)])
 
 
