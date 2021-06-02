@@ -8,3 +8,7 @@ script = ExtResource( 2 )
 
 [node name="Network" type="Node" parent="."]
 script = ExtResource( 1 )
+
+[node name="LatencyUpdater" type="Timer" parent="Network"]
+
+[connection signal="timeout" from="Network/LatencyUpdater" to="Network" method="send_latency_request"]

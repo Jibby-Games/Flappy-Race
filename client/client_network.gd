@@ -67,15 +67,13 @@ func _on_connection_failed() -> void:
 func _on_connected_to_server() -> void:
 	print("[%s] Successfully connected to server!" % [get_path().get_name(1)])
 	send_clock_sync_request()
-	var timer = Timer.new()
-	timer.autostart = true
-	timer.connect("timeout", self, "send_latency_request")
-	self.add_child(timer)
+	$LatencyUpdater.start()
 
 
 func _on_server_disconnected() -> void:
 	print("[%s] Disconnected from server!" % [get_path().get_name(1)])
 	stop_client()
+	$LatencyUpdater.stop()
 
 
 func is_rpc_from_server() -> bool:
