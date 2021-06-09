@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/0.png-7ff6e6061c6ef471df8583cf281a4808.stex"
+path="res://.import/bird_beak.png-c0051d2fb09552b4950b37d9d24bd4f9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://client/world/player/0.png"
-dest_files=[ "res://.import/0.png-7ff6e6061c6ef471df8583cf281a4808.stex" ]
+source_file="res://client/world/player/bird_beak.png"
+dest_files=[ "res://.import/bird_beak.png-c0051d2fb09552b4950b37d9d24bd4f9.stex" ]
 
 [params]
 

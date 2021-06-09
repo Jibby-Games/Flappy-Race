@@ -12,7 +12,7 @@ var player_state
 
 
 func _ready() -> void:
-	$AnimatedSprite.playing = true
+	$AnimatedOutline.playing = true
 
 
 func _physics_process(_delta) -> void:
