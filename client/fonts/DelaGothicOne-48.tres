@@ -2,7 +2,7 @@
 
 [ext_resource path="res://client/fonts/DelaGothicOne-Regular.ttf" type="DynamicFontData" id=1]
 
-
 [resource]
 size = 48
+use_filter = true
 font_data = ExtResource( 1 )
