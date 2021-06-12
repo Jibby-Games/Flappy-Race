@@ -6,6 +6,7 @@ const HIGH_SCORE_FNAME := "user://highscore.save"
 
 # Public vars
 var high_score : int = 0
+var player_colour : Color = Color.red
 
 
 func _ready():

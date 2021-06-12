@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://client/menu/title/title_screen.gd" type="Script" id=1]
 [ext_resource path="res://client/world/background/flappy_race_logo.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://client/audio/background.ogg" type="AudioStream" id=4]
 [ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=5]
 [ext_resource path="res://client/menu/fade_in.tscn" type="PackedScene" id=6]
+[ext_resource path="res://client/menu/setup/player_setup.tscn" type="PackedScene" id=7]
 [ext_resource path="res://client/menu/options/options.tscn" type="PackedScene" id=8]
 [ext_resource path="res://client/menu/lobby/lobby.tscn" type="PackedScene" id=9]
 [ext_resource path="res://client/menu/menu_button.tscn" type="PackedScene" id=10]
@@ -17,6 +18,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+player_setup_scene = ExtResource( 7 )
 multiplayer_scene = ExtResource( 9 )
 options_scene = ExtResource( 8 )
 
