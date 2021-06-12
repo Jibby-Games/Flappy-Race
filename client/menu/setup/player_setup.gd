@@ -1,7 +1,7 @@
 extends Control
 
 
-var selected_colour : Color = Color.red
+var selected_colour : Color
 
 
 func _ready() -> void:
@@ -18,3 +18,7 @@ func _on_StartButton_pressed():
 func _on_ColourSelector_colour_changed(new_value) -> void:
 	selected_colour = new_value
 	$CenterContainer/Control/Player.set_body_colour(new_value)
+
+
+func _on_BackButton_pressed():
+	Network.Client.change_scene("res://client/menu/title/title_screen.tscn")

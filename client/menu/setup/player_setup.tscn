@@ -89,5 +89,16 @@ margin_bottom = 202.0
 label = "Start Game"
 alignment = 1
 
+[node name="BackButton" parent="." instance=ExtResource( 3 )]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -80.0
+margin_right = 200.0
+margin_bottom = 0.0
+rect_min_size = Vector2( 200, 80 )
+label = "Back"
+alignment = 1
+
 [connection signal="colour_changed" from="Footer/VBoxContainer/ColourSelector" to="." method="_on_ColourSelector_colour_changed"]
 [connection signal="pressed" from="Footer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
