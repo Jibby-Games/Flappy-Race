@@ -7,6 +7,7 @@ var selected_colour : Color = Color.red
 func _ready() -> void:
 	# Disable the player physics so it doesn't fall
 	$CenterContainer/Control/Player.set_physics_process(false)
+	$Footer/VBoxContainer/StartButton.grab_focus()
 
 
 func _on_StartButton_pressed():

@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://client/world/player/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/fonts/DelaGothicOne-Regular.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://client/menu/menu_button.tscn" type="PackedScene" id=3]
-[ext_resource path="res://client/menu/setup/colour_swatch.tscn" type="PackedScene" id=4]
 [ext_resource path="res://client/menu/setup/player_setup.gd" type="Script" id=5]
-[ext_resource path="res://client/menu/setup/colour_selector.gd" type="Script" id=6]
+[ext_resource path="res://client/menu/setup/colour_selector.tscn" type="PackedScene" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 72
@@ -81,44 +80,7 @@ margin_bottom = 202.0
 custom_constants/separation = 50
 alignment = 1
 
-[node name="ColourSelector" type="GridContainer" parent="Footer/VBoxContainer"]
-margin_left = 124.0
-margin_top = 20.0
-margin_right = 236.0
-margin_bottom = 52.0
-size_flags_horizontal = 6
-size_flags_vertical = 6
-custom_constants/vseparation = 8
-custom_constants/hseparation = 8
-columns = 8
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ColourSwatch" parent="Footer/VBoxContainer/ColourSelector" instance=ExtResource( 4 )]
-modulate = Color( 1, 0, 0, 1 )
-self_modulate = Color( 1, 0, 0, 1 )
-margin_right = 32.0
-margin_bottom = 32.0
-selected = true
-colour = Color( 1, 0, 0, 1 )
-
-[node name="ColourSwatch2" parent="Footer/VBoxContainer/ColourSelector" instance=ExtResource( 4 )]
-modulate = Color( 0, 1, 0, 1 )
-self_modulate = Color( 0, 1, 0, 1 )
-margin_left = 40.0
-margin_right = 72.0
-margin_bottom = 32.0
-colour = Color( 0, 1, 0, 1 )
-
-[node name="ColourSwatch3" parent="Footer/VBoxContainer/ColourSelector" instance=ExtResource( 4 )]
-modulate = Color( 0, 0, 1, 1 )
-self_modulate = Color( 0, 0, 1, 1 )
-margin_left = 80.0
-margin_right = 112.0
-margin_bottom = 32.0
-colour = Color( 0, 0, 1, 1 )
+[node name="ColourSelector" parent="Footer/VBoxContainer" instance=ExtResource( 6 )]
 
 [node name="StartButton" parent="Footer/VBoxContainer" instance=ExtResource( 3 )]
 margin_top = 122.0
