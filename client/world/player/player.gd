@@ -60,3 +60,7 @@ func disable_control():
 		var controller = $PlayerController
 		if controller:
 			controller.queue_free()
+
+
+func set_body_colour(value: Color) -> void:
+	$Body.modulate = value
