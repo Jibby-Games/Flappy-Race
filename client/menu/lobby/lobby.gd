@@ -18,7 +18,6 @@ func _on_Back_pressed():
 
 func on_Host_pressed():
 	Network.start_multiplayer_host()
-	Network.Client.change_scene("res://client/menu/setup/multiplayer/multiplayer_setup.tscn")
 
 
 # Connected to the pressed() signal.
