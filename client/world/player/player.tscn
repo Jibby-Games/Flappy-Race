@@ -27,7 +27,7 @@ script = ExtResource( 8 )
 PlayerController = ExtResource( 10 )
 
 [node name="Body" type="Sprite" parent="." index="1"]
-modulate = Color( 1, 0, 0, 1 )
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 texture = ExtResource( 11 )
 
 [node name="Beak" type="Sprite" parent="." index="2"]
