@@ -20,5 +20,6 @@ bus = "Background"
 
 [node name="UI" parent="." index="1" instance=ExtResource( 1 )]
 follow_viewport_enable = false
+
 [connection signal="finished" from="BGMusic" to="." method="_on_BGMusic_finished"]
 [connection signal="request_restart" from="UI" to="." method="_on_UI_request_restart"]

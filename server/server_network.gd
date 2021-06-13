@@ -11,6 +11,7 @@ class_name ServerNetwork
 var max_players := 0
 var host_player
 var player_state_collection := {}
+var player_list := {}
 
 
 func _ready() -> void:
@@ -49,6 +50,7 @@ func start_server(port: int, server_max_players: int) -> void:
 func stop_server() -> void:
 	host_player = null
 	player_state_collection.clear()
+	player_list.clear()
 	multiplayer.network_peer.close_connection()
 	multiplayer.set_network_peer(null)
 	print("[%s] Server stopped" % [get_path().get_name(1)])
@@ -64,8 +66,6 @@ func _peer_connected(player_id: int) -> void:
 		if max_players == 1:
 			# Assume this is a singleplayer session and start the game
 			receive_start_game_request()
-	# Tell everyone about the new player
-	send_player_list_update()
 
 
 func _peer_disconnected(player_id: int) -> void:
@@ -83,9 +83,15 @@ func _peer_disconnected(player_id: int) -> void:
 	send_despawn_player(player_id)
 
 
-func send_player_list_update() -> void:
-	rpc("receive_player_list_update", multiplayer.get_network_connected_peers())
+remote func receive_player_colour_change(colour_choice: int) -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	player_list[player_id] = colour_choice
+	print("[%s] Player %s chose colour %s " % [get_path().get_name(1), player_id, colour_choice])
+	send_player_list_update()
 
+
+func send_player_list_update() -> void:
+	rpc("receive_player_list_update", player_list)
 
 func send_despawn_player(player_id: int) -> void:
 	if player_state_collection.has(player_id):
@@ -125,7 +131,7 @@ func send_load_world() -> void:
 
 
 func send_game_started(game_seed: int) -> void:
-	rpc("receive_game_started", game_seed)
+	rpc("receive_game_started", game_seed, player_list)
 
 
 remote func receive_player_state(player_state: Dictionary) -> void:

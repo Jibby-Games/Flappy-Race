@@ -131,12 +131,16 @@ remote func receive_latency_response(client_time: int) -> void:
 		latency_array.clear()
 
 
-remote func receive_player_list_update(players: PoolIntArray) -> void:
+remote func receive_player_list_update(player_list: Dictionary) -> void:
 	if is_rpc_from_server() == false:
 		return
-	var setup = get_node_or_null("GameSetup")
+	var setup = get_node_or_null("MultiplayerSetup")
 	if setup:
-		setup.populate_players(players)
+		setup.populate_players(player_list)
+
+
+func send_player_colour_change(colour_choice: int) -> void:
+	rpc_id(SERVER_ID, "receive_player_colour_change", colour_choice)
 
 
 func send_client_ready() -> void:
@@ -162,11 +166,12 @@ remote func receive_load_world() -> void:
 	change_scene("res://client/world/world.tscn")
 
 
-remote func receive_game_started(game_seed: int) -> void:
+remote func receive_game_started(game_seed: int, player_list: Dictionary) -> void:
 	if is_rpc_from_server() == false:
 		return
 	var world = get_node_or_null("World")
 	if world:
+		world.player_list = player_list
 		world.start_game(game_seed)
 
 

@@ -5,14 +5,32 @@ const FLAP = 350
 
 
 export(PackedScene) var PlayerController
-
+# Colour palette by PineappleOnPizza: https://lospec.com/palette-list/bubblegum-16
+export(PoolColorArray) var colour_options = [
+	"#d62411",
+	"#7f0622",
+	"#ff8426",
+	"#ffd100",
+	"#ff80a4",
+	"#ff2674",
+	"#94216a",
+	"#430067",
+	"#234975",
+	"#68aed4",
+	"#bfff3c",
+	"#10d275",
+	"#007899",
+	"#002859",
+	"#fafdff",
+	"#16171a",
+]
 
 var is_controlled
 var player_state
 
 
 func _ready() -> void:
-	$AnimatedSprite.playing = true
+	$AnimatedOutline.playing = true
 
 
 func _physics_process(_delta) -> void:
@@ -60,3 +78,7 @@ func disable_control():
 		var controller = $PlayerController
 		if controller:
 			controller.queue_free()
+
+
+func set_body_colour(value: int) -> void:
+	$Body.modulate = colour_options[value]

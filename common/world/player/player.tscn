@@ -26,5 +26,6 @@ collision_mask = 6
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detect"]
 position = Vector2( -1, -2 )
 shape = SubResource( 2 )
+
 [connection signal="area_entered" from="Detect" to="." method="_on_Detect_area_entered"]
 [connection signal="body_entered" from="Detect" to="." method="_on_Detect_body_entered"]

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://client/world/player/player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://client/menu/title/title_player.gd" type="Script" id=4]
+
+[node name="TitlePlayer" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( -109.496, 330.634 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="Player"]
+
+[connection signal="screen_exited" from="Player/VisibilityNotifier2D" to="." method="reset"]

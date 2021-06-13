@@ -18,7 +18,6 @@ func _on_Back_pressed():
 
 func on_Host_pressed():
 	Network.start_multiplayer_host()
-	Network.Client.change_scene("res://client/menu/lobby/game_setup.tscn")
 
 
 # Connected to the pressed() signal.
@@ -39,7 +38,7 @@ func try_connect_to_server(ip: String):
 
 func _on_connected() -> void:
 	$ConnectionTimer.stop()
-	Network.Client.change_scene("res://client/menu/lobby/game_setup.tscn")
+	Network.Client.change_scene("res://client/menu/setup/multiplayer/multiplayer_setup.tscn")
 
 
 func _on_ConnectionTimer_timeout():

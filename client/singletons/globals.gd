@@ -5,10 +5,11 @@ const HIGH_SCORE_FNAME := "user://highscore.save"
 
 
 # Public vars
-var high_score : int = 0
+var high_score: int = 0
+var player_colour: int = 0
 
 
-func _ready():
+func _ready() -> void:
 	high_score = load_high_score()
 
 

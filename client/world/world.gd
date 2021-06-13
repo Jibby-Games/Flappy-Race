@@ -9,6 +9,9 @@ var last_world_state := 0
 var world_state_buffer := []
 
 
+var player_list := {}
+
+
 func _ready() -> void:
 	Network.Client.send_client_ready()
 
@@ -78,7 +81,7 @@ func update_world_state(world_state) -> void:
 		world_state_buffer.append(world_state)
 
 
-func start_game(game_seed) -> void:
+func start_game(game_seed: int) -> void:
 	.start_game(game_seed)
 	# Spawn the local client player
 	var local_player = multiplayer.get_network_unique_id()
@@ -87,6 +90,12 @@ func start_game(game_seed) -> void:
 
 func reset_game() -> void:
 	Network.Client.send_start_game_request()
+
+
+func spawn_player(player_id: int, spawn_position: Vector2, is_controllable: bool = false) -> void:
+	.spawn_player(player_id, spawn_position, is_controllable)
+	var player = get_node(str(player_id))
+	player.set_body_colour(player_list[player_id])
 
 
 func despawn_player(player_id: int):

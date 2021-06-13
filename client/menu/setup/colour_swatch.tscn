@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://client/menu/setup/select.png" type="Texture" id=1]
+[ext_resource path="res://client/menu/setup/colour_swatch.gd" type="Script" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="ColourSwatch" type="Button"]
+rect_min_size = Vector2( 32, 32 )
+custom_styles/normal = SubResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Selected" type="TextureRect" parent="."]
+visible = false
+modulate = Color( 0.376471, 0.376471, 0.376471, 1 )
+margin_right = 32.0
+margin_bottom = 32.0
+texture = ExtResource( 1 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
