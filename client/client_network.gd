@@ -166,11 +166,12 @@ remote func receive_load_world() -> void:
 	change_scene("res://client/world/world.tscn")
 
 
-remote func receive_game_started(game_seed: int) -> void:
+remote func receive_game_started(game_seed: int, player_list: Dictionary) -> void:
 	if is_rpc_from_server() == false:
 		return
 	var world = get_node_or_null("World")
 	if world:
+		world.player_list = player_list
 		world.start_game(game_seed)
 
 

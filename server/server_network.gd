@@ -131,7 +131,7 @@ func send_load_world() -> void:
 
 
 func send_game_started(game_seed: int) -> void:
-	rpc("receive_game_started", game_seed)
+	rpc("receive_game_started", game_seed, player_list)
 
 
 remote func receive_player_state(player_state: Dictionary) -> void:

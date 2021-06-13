@@ -64,7 +64,6 @@ func spawn_player(player_id: int, spawn_position: Vector2, is_controllable: bool
 		player.position = spawn_position
 		if is_controllable:
 			player.enable_control()
-			player.set_body_colour(Globals.player_colour)
 		add_child(player)
 
 
