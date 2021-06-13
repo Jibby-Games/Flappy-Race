@@ -6,14 +6,13 @@ export(PackedScene) var multiplayer_scene
 export(PackedScene) var options_scene
 
 
-func _ready():
+func _ready() -> void:
 	$MarginContainer/Menu/CenterRow/Buttons/SingleplayerButton.grab_focus()
 
 
 func start_fade() -> void:
 	$FadeIn.show()
 	$FadeIn.fade_in()
-
 
 
 func _on_BGMusic_finished() -> void:
