@@ -13,6 +13,7 @@ func change_scene(scene_path: String) -> void:
 
 
 func change_scene_to(scene: PackedScene) -> void:
+	assert(scene != null, "SceneHandler tried to use a scene that doesn't exist!")
 	print("[%s] Changing scene to %s" % [get_path().get_name(1), scene.get_path()])
 	if _active_scene != null:
 		remove_child(_active_scene)
