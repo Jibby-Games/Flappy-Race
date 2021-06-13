@@ -5,7 +5,10 @@ extends GridContainer
 signal colour_changed(new_value)
 
 export(PackedScene) var swatch_template
-export(PoolColorArray) var player_colours = [
+
+# These colours are only used for generating a preview in the editor.
+# Actual colours are defined in the Client Player scene.
+export(PoolColorArray) var preview_player_colours = [
 	"#d62411",
 	"#7f0622",
 	"#ff8426",
@@ -22,42 +25,37 @@ export(PoolColorArray) var player_colours = [
 	"#002859",
 	"#fafdff",
 	"#16171a",
-] setget set_player_colours
+] setget set_preview_player_colours
 
 
-func set_player_colours(value: PoolColorArray) -> void:
-	player_colours = value
-	generate_swatches(player_colours)
+func set_preview_player_colours(value: PoolColorArray) -> void:
+	preview_player_colours = value
+	generate_swatches(preview_player_colours)
 
 
 func _ready() -> void:
 	if Engine.editor_hint:
-		if get_tree().edited_scene_root == self:
-			# Only run in the editor when this node is the scene root
-			generate_swatches(player_colours)
-	else:
-		# Only run in game
-		for swatch in get_children():
-			swatch.connect("pressed", self, "_on_ColourSwatch_pressed", [swatch])
-		# Select the first colour by default
-		_on_ColourSwatch_pressed(get_child(0))
+		# Generate a preview in the editor when this node is the scene root
+		generate_swatches(preview_player_colours)
 
 
 func generate_swatches(colour_array: PoolColorArray) -> void:
+	# Remove old swatches
 	for swatch in get_children():
-		swatch.free()
-	for colour in colour_array:
+		swatch.queue_free()
+	# Create new ones
+	for index in colour_array.size():
+		var colour = colour_array[index]
 		var new_swatch = swatch_template.instance()
 		new_swatch.set_colour(colour)
 		add_child(new_swatch)
+		new_swatch.connect("pressed", self, "select", [index])
 
-		new_swatch.set_owner(get_tree().edited_scene_root)
 
-
-func _on_ColourSwatch_pressed(swatch) -> void:
+func select(choice: int) -> void:
 	reset_swatch_selection()
-	swatch.set_selected(true)
-	emit_signal("colour_changed", swatch.colour)
+	get_child(choice).set_selected(true)
+	emit_signal("colour_changed", choice)
 
 
 func reset_swatch_selection() -> void:
