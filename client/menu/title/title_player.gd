@@ -2,7 +2,7 @@ extends Node2D
 
 
 func _ready():
-	randomise_start_position()
+	reset()
 
 
 func _physics_process(_delta) -> void:
@@ -12,8 +12,18 @@ func _physics_process(_delta) -> void:
 		$Player.do_flap()
 
 
-func randomise_start_position():
+func reset() -> void:
+	randomise_start_position()
+	randomise_colour()
+
+
+func randomise_start_position() -> void:
 	# Reset position to the left side of the screen somewhere
 	var x_pos = rand_range(0, -2000)
 	var y_pos = rand_range(0, get_viewport().size.y)
 	$Player.position = Vector2(x_pos, y_pos)
+
+
+func randomise_colour() -> void:
+	var colour_choice = randi() % $Player.colour_options.size()
+	$Player.set_body_colour(colour_choice)
