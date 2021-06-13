@@ -4,9 +4,9 @@ extends VBoxContainer
 export(PackedScene) var entry_template
 
 
-func add_player(player_id: int) -> void:
+func add_player(player_id: int, colour_choice: int) -> void:
 	var player_entry = entry_template.instance()
-	player_entry.setup(player_id)
+	player_entry.setup(player_id, colour_choice)
 	add_child(player_entry)
 
 
