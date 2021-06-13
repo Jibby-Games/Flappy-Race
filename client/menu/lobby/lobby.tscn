@@ -97,6 +97,7 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="finished" from="BGMusic" to="." method="_on_BGMusic_finished"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
 [connection signal="pressed" from="Host" to="." method="on_Host_pressed"]

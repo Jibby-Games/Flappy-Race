@@ -1,7 +1,7 @@
 extends Control
 
 
-export(PackedScene) var player_setup_scene
+export(PackedScene) var singleplayer_scene
 export(PackedScene) var multiplayer_scene
 export(PackedScene) var options_scene
 
@@ -22,7 +22,7 @@ func _on_BGMusic_finished() -> void:
 func _on_SingleplayerButton_pressed() -> void:
 	start_fade()
 	yield($FadeIn, "fade_finished")
-	Network.Client.change_scene_to(player_setup_scene)
+	Network.Client.change_scene_to(singleplayer_scene)
 
 
 func _on_MultiplayerButton_pressed() -> void:

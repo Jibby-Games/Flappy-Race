@@ -1,41 +1,22 @@
 extends Control
 
 
-var public_ip: String = ""
+onready var player_list = $PlayerList/List
 
 
 func _ready() -> void:
-	update_public_ip()
 	assert(multiplayer.connect("network_peer_disconnected", self, "remove_player") == OK)
-
-
-func update_public_ip() -> void:
-	$HTTPRequest.request("https://api.ipify.org")
-
-
-func _on_HTTPRequest_request_completed(_result, response_code, _headers, body) -> void:
-	if response_code == 200:
-		# Successful response
-		public_ip = body.get_string_from_utf8()
-	else:
-		print("[%s] Received HTTP response code %s when finding public IP!" % [get_path().get_name(1), response_code])
-		public_ip = "error"
-	$HBoxContainer/IP.text = public_ip
-
-
-func _on_CopyButton_pressed() -> void:
-	OS.set_clipboard(public_ip)
 
 
 func add_player(player_id: int) -> void:
 	var player = Label.new()
 	player.set_name(str(player_id))
 	player.text = str(player_id)
-	$PlayerList.add_child(player)
+	player_list.add_child(player)
 
 
 func remove_player(player_id: int) -> void:
-	var player = $PlayerList.get_node(str(player_id))
+	var player = player_list.get_node(str(player_id))
 	player.queue_free()
 
 
@@ -47,7 +28,7 @@ func populate_players(players: PoolIntArray) -> void:
 
 
 func clear_players() -> void:
-	for child in $PlayerList.get_children():
+	for child in player_list.get_children():
 		child.queue_free()
 
 
@@ -58,3 +39,7 @@ func _on_BackButton_pressed() -> void:
 
 func _on_StartButton_pressed() -> void:
 	Network.Client.send_start_game_request()
+
+
+#func _on_ColourSelector_colour_changed(new_value: int):
+#	Network.Client.send_player_colour(new_value)

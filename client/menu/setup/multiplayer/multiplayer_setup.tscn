@@ -1,0 +1,80 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://client/menu/setup/multiplayer/multiplayer_setup.gd" type="Script" id=1]
+[ext_resource path="res://client/menu/setup/player_customiser.tscn" type="PackedScene" id=2]
+[ext_resource path="res://client/menu/setup/multiplayer/ip_finder.gd" type="Script" id=3]
+[ext_resource path="res://client/ui/custom_label.tscn" type="PackedScene" id=4]
+
+[node name="MultiplayerSetup" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerList" type="Control" parent="."]
+margin_left = 919.0
+margin_top = 35.0
+margin_right = 1256.0
+margin_bottom = 570.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Header" parent="PlayerList" instance=ExtResource( 4 )]
+anchor_bottom = 0.0
+margin_bottom = 70.0
+text = "Players:"
+
+[node name="List" type="VBoxContainer" parent="PlayerList"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 86.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IpFinder" type="HBoxContainer" parent="."]
+margin_left = 963.0
+margin_top = 617.0
+margin_right = 1156.0
+margin_bottom = 657.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HTTPRequest" type="HTTPRequest" parent="IpFinder"]
+
+[node name="Label" type="Label" parent="IpFinder"]
+margin_top = 13.0
+margin_right = 59.0
+margin_bottom = 27.0
+text = "Lobby IP:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IP" type="Label" parent="IpFinder"]
+margin_left = 63.0
+margin_top = 13.0
+margin_right = 146.0
+margin_bottom = 27.0
+size_flags_horizontal = 3
+
+[node name="CopyButton" type="Button" parent="IpFinder"]
+margin_left = 150.0
+margin_right = 193.0
+margin_bottom = 40.0
+text = "Copy"
+
+[node name="PlayerCustomiser" parent="." instance=ExtResource( 2 )]
+
+[connection signal="request_completed" from="IpFinder/HTTPRequest" to="IpFinder" method="_on_HTTPRequest_request_completed"]
+[connection signal="pressed" from="IpFinder/CopyButton" to="IpFinder" method="_on_CopyButton_pressed"]
+[connection signal="colour_changed" from="PlayerCustomiser/Footer/VBoxContainer/ColourSelector" to="." method="_on_ColourSelector_colour_changed"]
+[connection signal="pressed" from="PlayerCustomiser/Footer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
+[connection signal="pressed" from="PlayerCustomiser/BackButton" to="." method="_on_BackButton_pressed"]
+
+[editable path="PlayerCustomiser"]

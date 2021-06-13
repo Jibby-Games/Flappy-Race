@@ -134,7 +134,7 @@ remote func receive_latency_response(client_time: int) -> void:
 remote func receive_player_list_update(players: PoolIntArray) -> void:
 	if is_rpc_from_server() == false:
 		return
-	var setup = get_node_or_null("GameSetup")
+	var setup = get_node_or_null("MultiplayerSetup")
 	if setup:
 		setup.populate_players(players)
 
