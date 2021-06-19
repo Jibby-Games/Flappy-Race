@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://client/fonts/DelaGothicOne-Regular.ttf" type="DynamicFontData" id=1]
+
+[sub_resource type="DynamicFont" id=1]
+size = 80
+use_filter = true
+extra_spacing_top = -6
+font_data = ExtResource( 1 )
+
+[node name="Title" type="Label"]
+anchor_right = 1.0
+margin_bottom = 117.0
+size_flags_horizontal = 5
+size_flags_vertical = 5
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color_shadow = Color( 0.745098, 0.431373, 0.0392157, 1 )
+custom_constants/shadow_offset_y = 5
+text = "Title"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

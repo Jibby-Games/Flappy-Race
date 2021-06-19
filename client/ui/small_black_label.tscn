@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=1]
+
+[node name="Label" type="Label"]
+margin_right = 80.0
+margin_bottom = 35.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_y = 5
+text = "Label"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
