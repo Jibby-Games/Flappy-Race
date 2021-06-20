@@ -11,4 +11,4 @@ position = Vector2( -109.496, 330.634 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="Player"]
 
-[connection signal="screen_exited" from="Player/VisibilityNotifier2D" to="." method="reset"]
+[connection signal="viewport_exited" from="Player/VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_viewport_exited"]

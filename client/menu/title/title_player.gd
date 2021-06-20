@@ -28,3 +28,7 @@ func randomise_start_position() -> void:
 func randomise_colour() -> void:
 	var colour_choice = randi() % $Player.colour_options.size()
 	$Player.set_body_colour(colour_choice)
+
+
+func _on_VisibilityNotifier2D_viewport_exited(_viewport):
+	reset()
