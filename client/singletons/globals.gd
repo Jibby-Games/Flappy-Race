@@ -53,5 +53,5 @@ func show_message(text: String, title: String='Message') -> void:
 	dialog.dialog_text = text
 	dialog.window_title = title
 	dialog.connect('popup_hide', dialog, 'queue_free')
-	add_child(dialog)
+	get_tree().get_root().add_child(dialog)
 	dialog.popup_centered()
