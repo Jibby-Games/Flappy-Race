@@ -96,6 +96,7 @@ func spawn_player(player_id: int, spawn_position: Vector2, is_controllable: bool
 	.spawn_player(player_id, spawn_position, is_controllable)
 	var player = get_node(str(player_id))
 	player.set_body_colour(player_list[player_id]["colour"])
+	player.set_player_name(player_list[player_id]["name"])
 
 
 func despawn_player(player_id: int):
