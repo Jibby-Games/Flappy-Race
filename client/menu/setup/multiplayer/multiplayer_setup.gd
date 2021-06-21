@@ -11,9 +11,10 @@ func _ready() -> void:
 func populate_players(new_player_list: Dictionary) -> void:
 	print("[%s] Got player list: %s" % [get_path().get_name(1), new_player_list])
 	player_list.clear_players()
-	for player in new_player_list:
-		var colour_choice = new_player_list[player]
-		player_list.add_player(player, colour_choice)
+	for player_id in new_player_list:
+		var colour_choice = new_player_list[player_id]["colour"]
+		var player_name = new_player_list[player_id]["name"]
+		player_list.add_player(player_id, player_name, colour_choice)
 
 
 func _on_BackButton_pressed() -> void:

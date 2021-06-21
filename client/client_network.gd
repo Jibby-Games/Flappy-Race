@@ -131,6 +131,10 @@ remote func receive_latency_response(client_time: int) -> void:
 		latency_array.clear()
 
 
+func send_player_settings(player_name: String, player_colour: int) -> void:
+	rpc_id(SERVER_ID, "receive_player_settings", player_name, player_colour)
+
+
 remote func receive_player_list_update(player_list: Dictionary) -> void:
 	if is_rpc_from_server() == false:
 		return
