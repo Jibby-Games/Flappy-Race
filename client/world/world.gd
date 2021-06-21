@@ -95,8 +95,12 @@ func reset_game() -> void:
 func spawn_player(player_id: int, spawn_position: Vector2, is_controllable: bool = false) -> void:
 	.spawn_player(player_id, spawn_position, is_controllable)
 	var player = get_node(str(player_id))
-	player.set_body_colour(player_list[player_id]["colour"])
-	player.set_player_name(player_list[player_id]["name"])
+	if is_controllable and Network.Client.is_singleplayer:
+		# Player list isn't populated in singleplayer
+		player.set_body_colour(Globals.player_colour)
+	else:
+		player.set_body_colour(player_list[player_id]["colour"])
+		player.set_player_name(player_list[player_id]["name"])
 
 
 func despawn_player(player_id: int):
