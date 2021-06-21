@@ -131,6 +131,10 @@ remote func receive_latency_response(client_time: int) -> void:
 		latency_array.clear()
 
 
+func send_player_settings(player_name: String, player_colour: int) -> void:
+	rpc_id(SERVER_ID, "receive_player_settings", player_name, player_colour)
+
+
 remote func receive_player_list_update(player_list: Dictionary) -> void:
 	if is_rpc_from_server() == false:
 		return
@@ -141,6 +145,12 @@ remote func receive_player_list_update(player_list: Dictionary) -> void:
 
 func send_player_colour_change(colour_choice: int) -> void:
 	rpc_id(SERVER_ID, "receive_player_colour_change", colour_choice)
+
+
+remote func receiver_player_colour_update(player_id: int, colour_choice: int) -> void:
+	var setup = get_node_or_null("MultiplayerSetup")
+	if setup:
+		setup.update_player(player_id, colour_choice)
 
 
 func send_client_ready() -> void:

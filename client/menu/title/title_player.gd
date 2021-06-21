@@ -7,10 +7,21 @@ func _ready():
 
 
 func _physics_process(_delta) -> void:
-	# Flap randomly, or when about to go off screen
+	# Flap randomly, or when about to go below the screen
 	var do_flap_roll = rand_range(0, 100)
-	if do_flap_roll > 96 or $Player.position.y > get_viewport().size.y:
+	if do_flap_roll > 96 or is_below_screen():
 		$Player.do_flap()
+
+	if is_right_of_screen():
+		reset()
+
+
+func is_below_screen() -> bool:
+	return $Player.position.y > get_viewport().size.y
+
+
+func is_right_of_screen() -> bool:
+	return $Player.position.x > get_viewport().size.x
 
 
 func reset() -> void:

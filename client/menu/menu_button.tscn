@@ -6,7 +6,7 @@
 [node name="MenuButton" type="Button"]
 margin_right = 1040.0
 margin_bottom = 80.0
-rect_min_size = Vector2( 360, 80 )
+rect_min_size = Vector2( 50, 80 )
 flat = true
 script = ExtResource( 1 )
 __meta__ = {

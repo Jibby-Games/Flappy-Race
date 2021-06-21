@@ -7,7 +7,7 @@ export(PackedScene) var options_scene
 
 
 func _ready() -> void:
-	$MarginContainer/Menu/CenterRow/Buttons/SingleplayerButton.grab_focus()
+	$Menu/Buttons/SingleplayerButton.grab_focus()
 
 
 func start_fade() -> void:
@@ -35,3 +35,7 @@ func _on_OptionsButton_pressed() -> void:
 	start_fade()
 	yield($FadeIn, "fade_finished")
 	Network.Client.change_scene_to(options_scene)
+
+
+func _on_QuitButton_pressed() -> void:
+	get_tree().quit()

@@ -8,7 +8,3 @@ script = ExtResource( 4 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( -109.496, 330.634 )
-
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="Player"]
-
-[connection signal="screen_exited" from="Player/VisibilityNotifier2D" to="." method="reset"]

@@ -82,3 +82,8 @@ func disable_control():
 
 func set_body_colour(value: int) -> void:
 	$Body.modulate = colour_options[value]
+
+
+func set_player_name(value: String) -> void:
+	$NameLabel.text = value
+	$NameLabel.show()

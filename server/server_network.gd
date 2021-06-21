@@ -83,15 +83,30 @@ func _peer_disconnected(player_id: int) -> void:
 	send_despawn_player(player_id)
 
 
-remote func receive_player_colour_change(colour_choice: int) -> void:
+remote func receive_player_settings(player_name: String, player_colour: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
-	player_list[player_id] = colour_choice
-	print("[%s] Player %s chose colour %s " % [get_path().get_name(1), player_id, colour_choice])
+	print("[%s] Got settings for player %s. Name: %s, Colour: %s" % [get_path().get_name(1), player_id, player_name, player_colour])
+	player_list[player_id] = {
+		"name": player_name,
+		"colour": player_colour
+	}
 	send_player_list_update()
 
 
 func send_player_list_update() -> void:
 	rpc("receive_player_list_update", player_list)
+
+
+remote func receive_player_colour_change(colour_choice: int) -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	player_list[player_id]["colour"] = colour_choice
+	print("[%s] Player %s chose colour %s " % [get_path().get_name(1), player_id, colour_choice])
+	send_player_colour_update(player_id, colour_choice)
+
+
+func send_player_colour_update(player_id: int, colour_choice: int) -> void:
+	rpc("receiver_player_colour_update", player_id, colour_choice)
+
 
 func send_despawn_player(player_id: int) -> void:
 	if player_state_collection.has(player_id):

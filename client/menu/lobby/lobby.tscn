@@ -1,22 +1,22 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://client/menu/lobby/lobby.gd" type="Script" id=1]
+[ext_resource path="res://client/ui/custom_label.tscn" type="PackedScene" id=2]
+[ext_resource path="res://client/menu/menu_button.tscn" type="PackedScene" id=3]
+[ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=4]
+[ext_resource path="res://client/ui/title_label.tscn" type="PackedScene" id=5]
 [ext_resource path="res://client/audio/mouthsounds.ogg" type="AudioStream" id=6]
+[ext_resource path="res://client/fonts/DelaGothicOne-48.tres" type="DynamicFont" id=7]
+[ext_resource path="res://client/theme/flappy.theme" type="Theme" id=8]
 
 [node name="Lobby" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Background" type="ColorRect" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color( 0.25098, 0, 0.380392, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -27,80 +27,168 @@ autoplay = true
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
-[node name="Host" type="Button" parent="."]
-margin_left = 359.363
-margin_top = 192.309
-margin_right = 608.363
-margin_bottom = 292.309
-rect_min_size = Vector2( 100, 100 )
-hint_tooltip = "Start hosting a server"
+[node name="ConnectionTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" parent="VBoxContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+margin_right = 1260.0
+margin_bottom = 111.0
+text = "Multiplayer"
+
+[node name="Menu" type="Control" parent="VBoxContainer"]
+margin_top = 115.0
+margin_right = 1260.0
+margin_bottom = 700.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/Menu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonContainer" type="VBoxContainer" parent="VBoxContainer/Menu/CenterContainer"]
+margin_left = 274.0
+margin_top = 134.0
+margin_right = 985.0
+margin_bottom = 450.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 50
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NameContainer" type="HBoxContainer" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+margin_right = 711.0
+margin_bottom = 70.0
+size_flags_horizontal = 2
+size_flags_vertical = 5
+custom_constants/separation = 30
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer/NameContainer"]
+margin_right = 181.0
+margin_bottom = 70.0
+theme = ExtResource( 8 )
+custom_fonts/font = ExtResource( 7 )
+text = "Name:"
+
+[node name="NameInput" type="LineEdit" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer/NameContainer"]
+margin_left = 211.0
+margin_right = 711.0
+margin_bottom = 70.0
+rect_min_size = Vector2( 500, 70 )
+size_flags_horizontal = 8
+size_flags_vertical = 6
+custom_fonts/font = ExtResource( 4 )
+align = 1
+max_length = 24
+placeholder_text = "Enter name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HostButton" type="Button" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+margin_top = 120.0
+margin_right = 711.0
+margin_bottom = 193.0
+theme = ExtResource( 8 )
+custom_fonts/font = ExtResource( 7 )
 text = "Host"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Join" type="Button" parent="."]
-margin_left = 704.145
-margin_top = 188.546
-margin_right = 898.145
-margin_bottom = 288.546
-rect_min_size = Vector2( 100, 100 )
-hint_tooltip = "Join a server. Ask your friends for their personal info!"
+[node name="IpContainer" type="HBoxContainer" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+margin_top = 243.0
+margin_right = 711.0
+margin_bottom = 316.0
+size_flags_horizontal = 3
+custom_constants/separation = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="JoinButton" type="Button" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer/IpContainer"]
+margin_right = 348.0
+margin_bottom = 73.0
+size_flags_horizontal = 3
+theme = ExtResource( 8 )
+custom_fonts/font = ExtResource( 7 )
 text = "Join"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="JoinIP" type="LineEdit" parent="Join"]
-margin_top = 104.0
-margin_right = 192.0
-margin_bottom = 128.0
+[node name="IpInput" type="LineEdit" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer/IpContainer"]
+margin_left = 363.0
+margin_top = 1.0
+margin_right = 711.0
+margin_bottom = 71.0
+rect_min_size = Vector2( 300, 70 )
+size_flags_horizontal = 7
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 4 )
 text = "127.0.0.1"
 align = 1
-placeholder_text = "Enter Host IP"
+placeholder_text = "Enter IP"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="InvalidIP" type="Label" parent="Join"]
+[node name="ErrorMessage" parent="VBoxContainer/Menu" instance=ExtResource( 2 )]
 visible = false
-margin_top = 128.0
-margin_right = 184.0
-margin_bottom = 150.0
-text = "Invalid IP!"
+anchor_top = 1.0
+margin_top = -70.0
+custom_colors/font_color = Color( 0.839216, 0.141176, 0.0666667, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Error text!"
 align = 1
 valign = 1
 
-[node name="Back" type="Button" parent="."]
-margin_left = 444.059
-margin_top = 435.181
-margin_right = 844.059
-margin_bottom = 510.181
-rect_min_size = Vector2( 400, 50 )
-text = "Back"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ConnectionTimer" type="Timer" parent="."]
-wait_time = 10.0
-
-[node name="ErrorMessage" type="Label" parent="."]
+[node name="InfoMessage" parent="VBoxContainer/Menu" instance=ExtResource( 2 )]
 visible = false
-margin_left = 711.439
-margin_top = 143.383
-margin_right = 893.439
-margin_bottom = 175.383
-text = "Failed to connect!"
+anchor_top = 1.0
+margin_top = -70.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Info text!"
 align = 1
 valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="BackButton" parent="VBoxContainer/Menu" instance=ExtResource( 3 )]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -75.0
+margin_right = 177.0
+margin_bottom = 5.0
+label = "Back"
+alignment = 1
 
 [connection signal="finished" from="BGMusic" to="." method="_on_BGMusic_finished"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
-[connection signal="pressed" from="Host" to="." method="on_Host_pressed"]
-[connection signal="pressed" from="Join" to="." method="_on_Join_pressed"]
-[connection signal="pressed" from="Back" to="." method="_on_Back_pressed"]
 [connection signal="timeout" from="ConnectionTimer" to="." method="_on_ConnectionTimer_timeout"]
+[connection signal="pressed" from="VBoxContainer/Menu/CenterContainer/ButtonContainer/HostButton" to="." method="_on_HostButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/Menu/CenterContainer/ButtonContainer/IpContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/Menu/BackButton" to="." method="_on_BackButton_pressed"]
