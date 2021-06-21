@@ -1,7 +1,7 @@
 extends Control
 
 
-onready var player_list = $PlayerList
+onready var player_list = $PlayerCustomiser/PlayerList
 
 
 func _ready() -> void:

@@ -96,17 +96,17 @@ __meta__ = {
 [node name="Menu" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 25.0
-margin_top = 25.0
-margin_right = -25.0
-margin_bottom = -25.0
+margin_left = 20.0
+margin_top = 20.0
+margin_right = -20.0
+margin_bottom = -20.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Logo" type="TextureRect" parent="Menu"]
 anchor_right = 1.0
-margin_bottom = 100.0
+margin_bottom = 75.0
 size_flags_horizontal = 5
 size_flags_vertical = 5
 texture = ExtResource( 2 )
@@ -116,46 +116,44 @@ __meta__ = {
 }
 
 [node name="Buttons" type="VBoxContainer" parent="Menu"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -180.0
-margin_top = -155.0
-margin_right = 180.0
-margin_bottom = 225.0
+anchor_left = 0.33
+anchor_top = 0.25
+anchor_right = 0.67
+anchor_bottom = 0.9
+margin_right = -12.0
+margin_bottom = -62.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 2
+size_flags_horizontal = 7
 size_flags_vertical = 6
 custom_constants/separation = 20
-alignment = 2
+alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SingleplayerButton" parent="Menu/Buttons" instance=ExtResource( 10 )]
-margin_right = 360.0
+margin_right = 409.0
 label = "Singleplayer"
 alignment = 1
 
 [node name="MultiplayerButton" parent="Menu/Buttons" instance=ExtResource( 10 )]
 margin_top = 100.0
-margin_right = 360.0
+margin_right = 409.0
 margin_bottom = 180.0
 label = "Multiplayer"
 alignment = 1
 
 [node name="OptionsButton" parent="Menu/Buttons" instance=ExtResource( 10 )]
 margin_top = 200.0
-margin_right = 360.0
+margin_right = 409.0
 margin_bottom = 280.0
 label = "Options"
 alignment = 1
 
-[node name="Quit" parent="Menu/Buttons" instance=ExtResource( 10 )]
+[node name="QuitButton" parent="Menu/Buttons" instance=ExtResource( 10 )]
 margin_top = 300.0
-margin_right = 360.0
+margin_right = 409.0
 margin_bottom = 380.0
 label = "Quit"
 alignment = 1
@@ -203,5 +201,5 @@ autoplay = true
 [connection signal="pressed" from="Menu/Buttons/SingleplayerButton" to="." method="_on_SingleplayerButton_pressed"]
 [connection signal="pressed" from="Menu/Buttons/MultiplayerButton" to="." method="_on_MultiplayerButton_pressed"]
 [connection signal="pressed" from="Menu/Buttons/OptionsButton" to="." method="_on_OptionsButton_pressed"]
-[connection signal="pressed" from="Menu/Buttons/Quit" to="." method="_on_Quit_pressed"]
+[connection signal="pressed" from="Menu/Buttons/QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="finished" from="BGMusic" to="." method="_on_BGMusic_finished"]

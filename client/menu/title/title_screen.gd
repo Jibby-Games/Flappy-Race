@@ -37,5 +37,5 @@ func _on_OptionsButton_pressed() -> void:
 	Network.Client.change_scene_to(options_scene)
 
 
-func _on_Quit_pressed() -> void:
+func _on_QuitButton_pressed() -> void:
 	get_tree().quit()
