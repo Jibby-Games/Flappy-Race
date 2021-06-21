@@ -12,9 +12,14 @@ func add_player(player_id: int, player_name: String, colour_choice: int) -> void
 
 func remove_player(player_id: int) -> void:
 	var player = get_node(str(player_id))
-	player.queue_free()
+	player.free()
 
 
 func clear_players() -> void:
 	for child in get_children():
-		child.queue_free()
+		child.free()
+
+
+func update_player(player_id: int, colour_choice: int) -> void:
+	var player = get_node(str(player_id))
+	player.set_colour(colour_choice)

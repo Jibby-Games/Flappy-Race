@@ -147,6 +147,12 @@ func send_player_colour_change(colour_choice: int) -> void:
 	rpc_id(SERVER_ID, "receive_player_colour_change", colour_choice)
 
 
+remote func receiver_player_colour_update(player_id: int, colour_choice: int) -> void:
+	var setup = get_node_or_null("MultiplayerSetup")
+	if setup:
+		setup.update_player(player_id, colour_choice)
+
+
 func send_client_ready() -> void:
 	rpc_id(SERVER_ID, "receive_client_ready")
 

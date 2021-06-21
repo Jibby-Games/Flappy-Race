@@ -17,6 +17,10 @@ func populate_players(new_player_list: Dictionary) -> void:
 		player_list.add_player(player_id, player_name, colour_choice)
 
 
+func update_player(player_id: int, colour_choice: int) -> void:
+	player_list.update_player(player_id, colour_choice)
+
+
 func _on_BackButton_pressed() -> void:
 	Network.stop_networking()
 	Network.Client.change_scene("res://client/menu/lobby/lobby.tscn")
