@@ -2,7 +2,7 @@ extends Control
 
 
 func _ready() -> void:
-	$PlayerCustomiser/Footer/VBoxContainer/StartButton.grab_focus()
+	$PlayerCustomiser/StartButton.grab_focus()
 
 
 func _on_StartButton_pressed():

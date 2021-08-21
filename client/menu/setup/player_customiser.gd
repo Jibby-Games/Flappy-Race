@@ -1,8 +1,8 @@
 extends Control
 
 
-onready var colour_selector := $Footer/VBoxContainer/ColourSelector
-onready var player := $CenterContainer/Control/Player
+onready var colour_selector := $PlayerOptions/Control/ColourSelector
+onready var player := $PlayerOptions/Control/Player
 
 
 func _ready() -> void:

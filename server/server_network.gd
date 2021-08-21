@@ -88,7 +88,8 @@ remote func receive_player_settings(player_name: String, player_colour: int) -> 
 	print("[%s] Got settings for player %s. Name: %s, Colour: %s" % [get_path().get_name(1), player_id, player_name, player_colour])
 	player_list[player_id] = {
 		"name": player_name,
-		"colour": player_colour
+		"colour": player_colour,
+		"spectate": false,
 	}
 	send_player_list_update()
 
@@ -106,6 +107,17 @@ remote func receive_player_colour_change(colour_choice: int) -> void:
 
 func send_player_colour_update(player_id: int, colour_choice: int) -> void:
 	rpc("receiver_player_colour_update", player_id, colour_choice)
+
+
+remote func receive_player_spectate_change(is_spectating: bool) -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	player_list[player_id]["spectate"] = is_spectating
+	print("[%s] Player %s set spectating to %s " % [get_path().get_name(1), player_id, is_spectating])
+	send_player_spectate_update(player_id, is_spectating)
+
+
+func send_player_spectate_update(player_id: int, is_spectating: bool) -> void:
+	rpc("receiver_player_spectate_update", player_id, is_spectating)
 
 
 func send_despawn_player(player_id: int) -> void:

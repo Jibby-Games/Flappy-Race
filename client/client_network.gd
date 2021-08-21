@@ -150,7 +150,17 @@ func send_player_colour_change(colour_choice: int) -> void:
 remote func receiver_player_colour_update(player_id: int, colour_choice: int) -> void:
 	var setup = get_node_or_null("MultiplayerSetup")
 	if setup:
-		setup.update_player(player_id, colour_choice)
+		setup.update_player_colour(player_id, colour_choice)
+
+
+func send_player_spectate_change(is_spectating: bool) -> void:
+	rpc_id(SERVER_ID, "receive_player_spectate_change", is_spectating)
+
+
+remote func receiver_player_spectate_update(player_id: int, is_spectating: bool) -> void:
+	var setup = get_node_or_null("MultiplayerSetup")
+	if setup:
+		setup.update_player_spectating(player_id, is_spectating)
 
 
 func send_client_ready() -> void:

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=1]
 [ext_resource path="res://client/world/player/player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://client/menu/setup/multiplayer/player_entry.gd" type="Script" id=3]
 [ext_resource path="res://client/ui/custom_label.tscn" type="PackedScene" id=4]
+[ext_resource path="res://client/menu/setup/multiplayer/semi-closed-eye.png" type="Texture" id=5]
 
 [node name="PlayerEntry" type="HBoxContainer"]
 margin_right = 374.0
@@ -19,7 +20,8 @@ __meta__ = {
 [node name="Name" parent="." instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 300.0
+margin_left = 74.0
+margin_right = 374.0
 margin_bottom = 64.0
 grow_horizontal = 0
 rect_min_size = Vector2( 300, 64 )
@@ -30,13 +32,26 @@ valign = 1
 autowrap = true
 clip_text = true
 
-[node name="Control" type="Control" parent="."]
-margin_left = 310.0
-margin_right = 374.0
+[node name="PlayerIcon" type="Control" parent="."]
+margin_left = 384.0
+margin_right = 448.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 size_flags_horizontal = 5
 size_flags_vertical = 5
 
-[node name="Player" parent="Control" instance=ExtResource( 2 )]
+[node name="Player" parent="PlayerIcon" instance=ExtResource( 2 )]
 position = Vector2( 32, 32 )
+
+[node name="SpectateIcon" type="TextureRect" parent="."]
+visible = false
+margin_left = 384.0
+margin_right = 448.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
