@@ -95,7 +95,10 @@ func reset_game() -> void:
 func spawn_player(player_id: int, spawn_position: Vector2, is_controllable: bool = false) -> void:
 	.spawn_player(player_id, spawn_position, is_controllable)
 	var player = get_node(str(player_id))
-	if is_controllable and Network.Client.is_singleplayer:
+	if is_controllable:
+		player.enable_control()
+		$MainCamera.target = player
+	if Network.Client.is_singleplayer:
 		# Player list isn't populated in singleplayer
 		player.set_body_colour(Globals.player_colour)
 	else:
@@ -111,10 +114,19 @@ func despawn_player(player_id: int):
 
 
 func _on_Player_death(player) -> void:
-	# If this is the local player show the game over UI
+	# If this is the local player show the game over UI and delete the player
 	if int(player.name) == multiplayer.get_network_unique_id():
 		$UI.show_game_over()
-	._on_Player_death(player)
+		var all_players = get_tree().get_nodes_in_group("players")
+		var highest_x = 0
+		var leader
+		for player in all_players:
+			if not player.is_dead and player.position.x > highest_x:
+				highest_x = player.position.x
+				leader = player
+		if leader:
+			$MainCamera.target = leader
+		._on_Player_death(player)
 
 
 func _on_Player_score_point(player) -> void:

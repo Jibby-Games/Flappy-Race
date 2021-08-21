@@ -62,8 +62,6 @@ func spawn_player(player_id: int, spawn_position: Vector2, is_controllable: bool
 		player.connect("score_point", self, "_on_Player_score_point")
 		player.name = str(player_id)
 		player.position = spawn_position
-		if is_controllable:
-			player.enable_control()
 		add_child(player)
 
 
