@@ -54,7 +54,7 @@ func reset_players() -> void:
 			spawn_player(player, Vector2.ZERO)
 
 
-func spawn_player(player_id: int, spawn_position: Vector2, is_controllable: bool = false) -> void:
+func spawn_player(player_id: int, spawn_position: Vector2, _is_controllable: bool = false) -> void:
 	if not has_node(str(player_id)):
 		print("[%s] Spawning player %d" % [get_path().get_name(1), player_id])
 		var player = Player.instance()
