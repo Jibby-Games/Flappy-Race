@@ -96,9 +96,9 @@ func spawn_wall() -> void:
 
 
 #### Player helper functions
-func _on_Player_death(player) -> void:
-	# Tell the engine it can lose the player
-	player.queue_free()
+func _on_Player_death(player: Node2D) -> void:
+	player.set_enable_movement(false)
+	despawn_player(int(player.name))
 
 
 func _on_Player_score_point(player) -> void:

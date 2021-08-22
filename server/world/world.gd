@@ -33,6 +33,7 @@ func setup_and_start_game():
 	start_game(game_seed)
 
 
-func _on_Player_death(player) -> void:
+func _on_Player_death(player: Node2D) -> void:
+	print("[%s] Detected player death for %s!" % [get_path().get_name(1), player.name])
 	Network.Server.send_despawn_player(int(player.name))
 	._on_Player_death(player)

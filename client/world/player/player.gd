@@ -44,7 +44,7 @@ func update_player_state() -> void:
 
 
 func do_flap() -> void:
-	if not is_dead:
+	if enable_movement:
 		motion.y = -FLAP
 		play_flap_sound()
 
