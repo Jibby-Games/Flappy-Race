@@ -9,9 +9,6 @@ var last_world_state := 0
 var world_state_buffer := []
 
 
-var player_list := {}
-
-
 func _ready() -> void:
 	Network.Client.send_client_ready()
 
@@ -92,19 +89,15 @@ func reset_game() -> void:
 	Network.Client.send_start_game_request()
 
 
-func spawn_player(player_id: int, spawn_position: Vector2, is_controllable: bool = false) -> void:
-	.spawn_player(player_id, spawn_position, is_controllable)
-	var player = get_node(str(player_id))
-	if is_controllable:
-		# TODO: refactor to have controller below world and connect signals here instead?
-		player.enable_control()
-		$MainCamera.target = player
+func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
+	var player = .spawn_player(player_id, spawn_position)
 	if Network.Client.is_singleplayer:
 		# Player list isn't populated in singleplayer
 		player.set_body_colour(Globals.player_colour)
 	else:
 		player.set_body_colour(player_list[player_id]["colour"])
 		player.set_player_name(player_list[player_id]["name"])
+	return player
 
 
 func despawn_player(player_id: int) -> void:
