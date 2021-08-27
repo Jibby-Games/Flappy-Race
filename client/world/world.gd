@@ -80,9 +80,17 @@ func update_world_state(world_state) -> void:
 
 func start_game(game_seed: int) -> void:
 	.start_game(game_seed)
-	# Spawn the local client player
-	var local_player = multiplayer.get_network_unique_id()
-	spawn_player(local_player, Vector2.ZERO, true)
+	reset_camera()
+
+
+func reset_camera() -> void:
+	var client_id = multiplayer.get_network_unique_id()
+	if player_list[client_id].spectate:
+		switch_camera_to_leader()
+	else:
+		var player = player_list[client_id].body
+		player.enable_control()
+		$MainCamera.set_target(player)
 
 
 func reset_game() -> void:
@@ -117,12 +125,16 @@ func switch_camera_to_leader() -> void:
 
 
 func get_lead_player() -> Node2D:
-	var all_players = get_tree().get_nodes_in_group("players")
-	var highest_x = 0
 	var leader
-	for player in all_players:
-		if player.enable_movement and player.position.x > highest_x:
-			highest_x = player.position.x
+	for player_entry in player_list.values():
+		# Ignore spectators
+		if player_entry.spectate:
+			continue
+		var player = player_entry.body
+		# Ignore dead players
+		if not player.enable_movement:
+			continue
+		if leader == null or player.position.x > leader.position.x:
 			leader = player
 	return leader
 
