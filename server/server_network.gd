@@ -143,14 +143,27 @@ remote func receive_client_ready() -> void:
 
 remote func receive_start_game_request() -> void:
 	# Only the server or the host can start the game
-	var player = multiplayer.get_rpc_sender_id()
-	if player == 0 or player == host_player:
+	var player_id = multiplayer.get_rpc_sender_id()
+	if player_id == 0 or player_id == host_player:
+		if player_list.empty():
+			print("[%s] Cannot start game without any players!" % [get_path().get_name(1)])
+			return
+		if is_everyone_spectating():
+			print("[%s] Cannot start game with just spectators!" % [get_path().get_name(1)])
+			return
 		print("[%s] Starting game!" % [get_path().get_name(1)])
 		send_load_world()
 		change_scene("res://server/world/world.tscn")
 	else:
 		print("[%s] Player %s tried to start the game but they're not the host!" %
-				[get_path().get_name(1), player])
+				[get_path().get_name(1), player_id])
+
+
+func is_everyone_spectating() -> bool:
+	for player in player_list.values():
+		if player.spectate == false:
+			return false
+	return true
 
 
 func send_load_world() -> void:
