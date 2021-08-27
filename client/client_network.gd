@@ -191,8 +191,7 @@ remote func receive_game_started(game_seed: int, player_list: Dictionary) -> voi
 		return
 	var world = get_node_or_null("World")
 	if world:
-		world.player_list = player_list
-		world.start_game(game_seed)
+		world.start_game(game_seed, player_list)
 
 
 func send_player_state(player_state: Dictionary) -> void:

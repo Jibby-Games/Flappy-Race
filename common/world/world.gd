@@ -41,9 +41,11 @@ func set_game_seed(new_seed: int) -> void:
 	print("[%s] Set game seed to: %d" % [get_path().get_name(1), new_seed])
 
 
-func start_game(game_seed: int) -> void:
-	print("[%s] Starting game with seed %d" % [get_path().get_name(1), game_seed])
+func start_game(game_seed: int, new_player_list: Dictionary) -> void:
+	print("[%s] Starting game with seed %d and players: %s" %
+		[get_path().get_name(1), game_seed, new_player_list])
 	set_game_seed(game_seed)
+	self.player_list = new_player_list
 	reset_walls()
 	reset_players()
 

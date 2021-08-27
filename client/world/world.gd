@@ -78,8 +78,8 @@ func update_world_state(world_state) -> void:
 		world_state_buffer.append(world_state)
 
 
-func start_game(game_seed: int) -> void:
-	.start_game(game_seed)
+func start_game(game_seed: int, new_player_list: Dictionary) -> void:
+	.start_game(game_seed, new_player_list)
 	reset_camera()
 
 
