@@ -111,8 +111,9 @@ func despawn_player(player_id: int) -> void:
 func switch_camera_to_leader() -> void:
 	var leader = get_lead_player()
 	if leader:
-		$MainCamera.target = leader
-		print("[%s] Camera target changed to %s!" % [get_path().get_name(1), leader.get_name()])
+		$MainCamera.set_target(leader)
+	else:
+		print("[%s] Unable to find lead player: %s" % [get_path().get_name(1), player_list])
 
 
 func get_lead_player() -> Node2D:
