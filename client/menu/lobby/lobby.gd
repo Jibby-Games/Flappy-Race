@@ -48,6 +48,7 @@ func is_name_empty() -> bool:
 	if name_input.text.empty():
 		show_error("Please enter a name")
 		return true
+	error_message.hide()
 	return false
 
 
