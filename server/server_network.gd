@@ -3,13 +3,17 @@ extends SceneHandler
 
 class_name ServerNetwork
 
+
+const SERVER_ID := 0
+
+
 # IMPORTANT:
 # This node is a Viewport with zero size intentionally in order to separate
 # the client and server physics, so objects from the client and the server can't
 # interact with eachother when self hosting.
 
 var max_players := 0
-var host_player
+var _host_player_id := 0 setget set_host
 var player_state_collection := {}
 var player_list := {}
 
@@ -35,6 +39,20 @@ func _exit_tree() -> void:
 	multiplayer.disconnect("network_peer_connected", self, "_peer_connected")
 
 
+func set_host(new_host: int) -> void:
+	_host_player_id = new_host
+	print("[%s] Player %s is now the host" % [get_path().get_name(1), _host_player_id])
+
+
+func is_host(player_id: int) -> bool:
+	return _host_player_id == player_id
+
+
+func clear_host() -> void:
+	_host_player_id = 0
+	print("[%s] Cleared host player" % [get_path().get_name(1)])
+
+
 func start_server(port: int, server_max_players: int) -> void:
 	max_players = server_max_players
 	var peer := NetworkedMultiplayerENet.new()
@@ -48,7 +66,7 @@ func start_server(port: int, server_max_players: int) -> void:
 
 
 func stop_server() -> void:
-	host_player = null
+	clear_host()
 	player_state_collection.clear()
 	player_list.clear()
 	multiplayer.network_peer.close_connection()
@@ -60,26 +78,20 @@ func _peer_connected(player_id: int) -> void:
 	var num_players = multiplayer.get_network_connected_peers().size()
 	print("[%s] Player %s connected - %d/%d" %
 			[get_path().get_name(1), player_id, num_players, max_players])
-	if host_player == null:
-		host_player = player_id
-		print("[%s] Player %s is now the host" % [get_path().get_name(1), player_id])
-		if max_players == 1:
-			# Assume this is a singleplayer session and start the game
-			receive_start_game_request()
+	if is_host(0):
+		set_host(player_id)
 
 
 func _peer_disconnected(player_id: int) -> void:
 	print("[%s] Player %s disconnected" % [get_path().get_name(1), player_id])
-	if player_id == host_player:
+	if is_host(player_id):
 		# Promote the next player to the host if any are still connected
 		var peers = multiplayer.get_network_connected_peers()
 		if peers.size() > 0:
-			var new_host = [0]
-			print("[%s] Player %s is now the host" % [get_path().get_name(1), new_host])
-			host_player = new_host
+			var new_host = peers[0]
+			set_host(new_host)
 		else:
-			print("[%s] No host player" % [get_path().get_name(1)])
-			host_player = null
+			clear_host()
 	send_despawn_player(player_id)
 
 
@@ -144,7 +156,7 @@ remote func receive_client_ready() -> void:
 remote func receive_start_game_request() -> void:
 	# Only the server or the host can start the game
 	var player_id = multiplayer.get_rpc_sender_id()
-	if player_id == 0 or player_id == host_player:
+	if player_id == SERVER_ID or is_host(player_id):
 		if player_list.empty():
 			print("[%s] Cannot start game without any players!" % [get_path().get_name(1)])
 			return
