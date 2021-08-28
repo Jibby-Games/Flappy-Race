@@ -69,3 +69,5 @@ label = "Back"
 alignment = 1
 
 [connection signal="colour_changed" from="PlayerOptions/Control/ColourSelector" to="." method="_on_ColourSelector_colour_changed"]
+[connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]

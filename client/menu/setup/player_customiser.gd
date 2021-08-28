@@ -11,9 +11,22 @@ func _ready() -> void:
 
 	# Create the colour selector
 	colour_selector.generate_swatches(player.colour_options)
+
+	# Set the saved player colour
+	player.set_body_colour(Globals.player_colour)
 	colour_selector.select(Globals.player_colour)
 
 
+func _on_BackButton_pressed() -> void:
+	Network.stop_networking()
+
+
+func _on_StartButton_pressed() -> void:
+	Network.Client.send_start_game_request()
+
+
 func _on_ColourSelector_colour_changed(new_value: int) -> void:
-	Globals.player_colour = new_value
-	player.set_body_colour(new_value)
+	if new_value != Globals.player_colour:
+		Globals.player_colour = new_value
+		player.set_body_colour(new_value)
+		Network.Client.send_player_colour_change(new_value)

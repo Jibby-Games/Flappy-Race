@@ -75,6 +75,7 @@ func _on_connected_to_server() -> void:
 	print("[%s] Successfully connected to server!" % [get_path().get_name(1)])
 	send_clock_sync_request()
 	$LatencyUpdater.start()
+	Network.Client.send_player_settings(Globals.player_name, Globals.player_colour)
 
 
 func _on_server_disconnected() -> void:

@@ -72,8 +72,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="colour_changed" from="PlayerCustomiser/PlayerOptions/Control/ColourSelector" to="." method="_on_ColourSelector_colour_changed"]
-[connection signal="pressed" from="PlayerCustomiser/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="PlayerCustomiser/BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="toggled" from="PlayerCustomiser/SpectateButton" to="." method="_on_SpectateButton_toggled"]
 
