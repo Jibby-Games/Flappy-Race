@@ -2,11 +2,8 @@ extends Control
 
 
 func _ready() -> void:
-	$PlayerCustomiser/Footer/VBoxContainer/StartButton.grab_focus()
-
-
-func _on_StartButton_pressed():
 	Network.start_singleplayer()
+	$PlayerCustomiser/StartButton.grab_focus()
 
 
 func _on_BackButton_pressed():

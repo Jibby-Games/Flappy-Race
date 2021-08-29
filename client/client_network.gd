@@ -75,6 +75,7 @@ func _on_connected_to_server() -> void:
 	print("[%s] Successfully connected to server!" % [get_path().get_name(1)])
 	send_clock_sync_request()
 	$LatencyUpdater.start()
+	Network.Client.send_player_settings(Globals.player_name, Globals.player_colour)
 
 
 func _on_server_disconnected() -> void:
@@ -150,7 +151,17 @@ func send_player_colour_change(colour_choice: int) -> void:
 remote func receiver_player_colour_update(player_id: int, colour_choice: int) -> void:
 	var setup = get_node_or_null("MultiplayerSetup")
 	if setup:
-		setup.update_player(player_id, colour_choice)
+		setup.update_player_colour(player_id, colour_choice)
+
+
+func send_player_spectate_change(is_spectating: bool) -> void:
+	rpc_id(SERVER_ID, "receive_player_spectate_change", is_spectating)
+
+
+remote func receiver_player_spectate_update(player_id: int, is_spectating: bool) -> void:
+	var setup = get_node_or_null("MultiplayerSetup")
+	if setup:
+		setup.update_player_spectating(player_id, is_spectating)
 
 
 func send_client_ready() -> void:
@@ -181,8 +192,7 @@ remote func receive_game_started(game_seed: int, player_list: Dictionary) -> voi
 		return
 	var world = get_node_or_null("World")
 	if world:
-		world.player_list = player_list
-		world.start_game(game_seed)
+		world.start_game(game_seed, player_list)
 
 
 func send_player_state(player_state: Dictionary) -> void:

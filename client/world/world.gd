@@ -9,9 +9,6 @@ var last_world_state := 0
 var world_state_buffer := []
 
 
-var player_list := {}
-
-
 func _ready() -> void:
 	Network.Client.send_client_ready()
 
@@ -81,40 +78,72 @@ func update_world_state(world_state) -> void:
 		world_state_buffer.append(world_state)
 
 
-func start_game(game_seed: int) -> void:
-	.start_game(game_seed)
-	# Spawn the local client player
-	var local_player = multiplayer.get_network_unique_id()
-	spawn_player(local_player, Vector2.ZERO, true)
+func start_game(game_seed: int, new_player_list: Dictionary) -> void:
+	.start_game(game_seed, new_player_list)
+	reset_camera()
+
+
+func reset_camera() -> void:
+	var client_id = multiplayer.get_network_unique_id()
+	if player_list[client_id].spectate:
+		switch_camera_to_leader()
+	else:
+		var player = player_list[client_id].body
+		player.enable_control()
+		$MainCamera.set_target(player)
 
 
 func reset_game() -> void:
 	Network.Client.send_start_game_request()
 
 
-func spawn_player(player_id: int, spawn_position: Vector2, is_controllable: bool = false) -> void:
-	.spawn_player(player_id, spawn_position, is_controllable)
-	var player = get_node(str(player_id))
-	if is_controllable and Network.Client.is_singleplayer:
+func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
+	var player = .spawn_player(player_id, spawn_position)
+	if Network.Client.is_singleplayer:
 		# Player list isn't populated in singleplayer
 		player.set_body_colour(Globals.player_colour)
 	else:
 		player.set_body_colour(player_list[player_id]["colour"])
 		player.set_player_name(player_list[player_id]["name"])
+	return player
 
 
-func despawn_player(player_id: int):
+func despawn_player(player_id: int) -> void:
 	# If this is the local player show the game over UI
 	if player_id == multiplayer.get_network_unique_id():
 		$UI.show_game_over()
+		switch_camera_to_leader()
 	.despawn_player(player_id)
 
 
-func _on_Player_death(player) -> void:
-	# If this is the local player show the game over UI
+func switch_camera_to_leader() -> void:
+	var leader = get_lead_player()
+	if leader:
+		$MainCamera.set_target(leader)
+	else:
+		print("[%s] Unable to find lead player: %s" % [get_path().get_name(1), player_list])
+
+
+func get_lead_player() -> Node2D:
+	var leader
+	for player_entry in player_list.values():
+		# Ignore spectators
+		if player_entry.spectate:
+			continue
+		var player = player_entry.body
+		# Ignore dead players
+		if not player.enable_movement:
+			continue
+		if leader == null or player.position.x > leader.position.x:
+			leader = player
+	return leader
+
+
+func _on_Player_death(player: Node2D) -> void:
+	# Only delete the local player for responsiveness.
+	# The server will tell us when to delete other players
 	if int(player.name) == multiplayer.get_network_unique_id():
-		$UI.show_game_over()
-	._on_Player_death(player)
+		._on_Player_death(player)
 
 
 func _on_Player_score_point(player) -> void:
@@ -126,5 +155,5 @@ func _on_BGMusic_finished() -> void:
 	$BGMusic.play()
 
 
-func _on_UI_request_restart():
+func _on_UI_request_restart() -> void:
 	reset_game()

@@ -21,6 +21,9 @@ var game_rng := RandomNumberGenerator.new()
 var highest_score := 0
 
 
+var player_list := {}
+
+
 func _ready() -> void:
 	print("[%s] World ready!" % [get_path().get_name(1)])
 
@@ -38,9 +41,11 @@ func set_game_seed(new_seed: int) -> void:
 	print("[%s] Set game seed to: %d" % [get_path().get_name(1), new_seed])
 
 
-func start_game(game_seed: int) -> void:
-	print("[%s] Starting game with seed %d" % [get_path().get_name(1), game_seed])
+func start_game(game_seed: int, new_player_list: Dictionary) -> void:
+	print("[%s] Starting game with seed %d and players: %s" %
+		[get_path().get_name(1), game_seed, new_player_list])
 	set_game_seed(game_seed)
+	self.player_list = new_player_list
 	reset_walls()
 	reset_players()
 
@@ -48,13 +53,16 @@ func start_game(game_seed: int) -> void:
 func reset_players() -> void:
 	# Delete all existing players
 	get_tree().call_group("players", "queue_free")
-	for player in multiplayer.get_network_connected_peers():
-		# Don't spawn the server as a player
-		if player != 1:
-			spawn_player(player, Vector2.ZERO)
+	print("[%s] Spawning players in list: %s" % [get_path().get_name(1), player_list])
+	for player_id in player_list:
+		# Don't spawn any spectators
+		if player_list[player_id].spectate == true:
+			continue
+		var player = spawn_player(player_id, Vector2.ZERO)
+		player_list[player_id]["body"] = player
 
 
-func spawn_player(player_id: int, spawn_position: Vector2, is_controllable: bool = false) -> void:
+func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 	if not has_node(str(player_id)):
 		print("[%s] Spawning player %d" % [get_path().get_name(1), player_id])
 		var player = Player.instance()
@@ -62,9 +70,9 @@ func spawn_player(player_id: int, spawn_position: Vector2, is_controllable: bool
 		player.connect("score_point", self, "_on_Player_score_point")
 		player.name = str(player_id)
 		player.position = spawn_position
-		if is_controllable:
-			player.enable_control()
 		add_child(player)
+		return player
+	return null
 
 
 func despawn_player(player_id: int) -> void:
@@ -98,9 +106,9 @@ func spawn_wall() -> void:
 
 
 #### Player helper functions
-func _on_Player_death(player) -> void:
-	# Tell the engine it can lose the player
-	player.queue_free()
+func _on_Player_death(player: Node2D) -> void:
+	player.set_enable_movement(false)
+	despawn_player(int(player.name))
 
 
 func _on_Player_score_point(player) -> void:

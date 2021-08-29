@@ -13,7 +13,6 @@ __meta__ = {
 
 [node name="PlayerCustomiser" parent="." instance=ExtResource( 1 )]
 
-[connection signal="pressed" from="PlayerCustomiser/Footer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="PlayerCustomiser/BackButton" to="." method="_on_BackButton_pressed"]
 
 [editable path="PlayerCustomiser"]

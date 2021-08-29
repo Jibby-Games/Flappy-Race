@@ -17,18 +17,23 @@ func populate_players(new_player_list: Dictionary) -> void:
 		player_list.add_player(player_id, player_name, colour_choice)
 
 
-func update_player(player_id: int, colour_choice: int) -> void:
-	player_list.update_player(player_id, colour_choice)
+func update_player_colour(player_id: int, colour_choice: int) -> void:
+	player_list.update_player_colour(player_id, colour_choice)
+
+
+func update_player_spectating(player_id: int, is_spectating: bool) -> void:
+	player_list.update_player_spectating(player_id, is_spectating)
 
 
 func _on_BackButton_pressed() -> void:
-	Network.stop_networking()
 	Network.Client.change_scene("res://client/menu/lobby/lobby.tscn")
 
 
-func _on_StartButton_pressed() -> void:
-	Network.Client.send_start_game_request()
-
-
-func _on_ColourSelector_colour_changed(new_value: int) -> void:
-	Network.Client.send_player_colour_change(new_value)
+func _on_SpectateButton_toggled(button_pressed: bool) -> void:
+	Network.Client.send_player_spectate_change(button_pressed)
+	if button_pressed:
+		$PlayerCustomiser/SpectatorText.show()
+		$PlayerCustomiser/PlayerOptions.hide()
+	else:
+		$PlayerCustomiser/SpectatorText.hide()
+		$PlayerCustomiser/PlayerOptions.show()

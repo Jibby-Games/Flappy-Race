@@ -48,6 +48,7 @@ func is_name_empty() -> bool:
 	if name_input.text.empty():
 		show_error("Please enter a name")
 		return true
+	error_message.hide()
 	return false
 
 
@@ -58,7 +59,6 @@ func try_connect_to_server(ip: String) -> void:
 
 func _on_connected() -> void:
 	$ConnectionTimer.stop()
-	Network.Client.send_player_settings(Globals.player_name, Globals.player_colour)
 	Network.Client.change_scene("res://client/menu/setup/multiplayer/multiplayer_setup.tscn")
 
 

@@ -1,7 +1,8 @@
 extends HBoxContainer
 
+
 func _ready() -> void:
-	$Control/Player.set_physics_process(false)
+	$PlayerIcon/Player.set_physics_process(false)
 
 
 func setup(player_id: int, player_name: String, colour_choice: int) -> void:
@@ -11,4 +12,13 @@ func setup(player_id: int, player_name: String, colour_choice: int) -> void:
 
 
 func set_colour(colour_choice: int) -> void:
-	$Control/Player.set_body_colour(colour_choice)
+	$PlayerIcon/Player.set_body_colour(colour_choice)
+
+
+func set_spectating(is_spectating: bool) -> void:
+	if is_spectating:
+		$PlayerIcon.hide()
+		$SpectateIcon.show()
+	else:
+		$PlayerIcon.show()
+		$SpectateIcon.hide()

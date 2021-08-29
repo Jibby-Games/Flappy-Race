@@ -13,10 +13,10 @@ signal death
 signal score_point(player)
 
 
-var motion = Vector2()
-var score = 0
-var is_dead = false
-var has_gravity = true
+var motion: Vector2 = Vector2()
+var score: int = 0
+var enable_movement: bool = true
+var has_gravity: bool = true
 
 
 func _physics_process(_delta) -> void:
@@ -24,7 +24,7 @@ func _physics_process(_delta) -> void:
 
 
 func update_movement() -> void:
-	if is_dead:
+	if not enable_movement:
 		motion.x = 0
 		motion.y = 0
 		motion = move_and_slide(motion, Vector2.UP)
@@ -47,12 +47,12 @@ func _on_Detect_area_entered(_area) -> void:
 
 
 func _on_Detect_body_entered(_body) -> void:
-	death()
-
-
-func death() -> void:
-	is_dead = true
+	print("[%s] Player entered body %s" % [get_path().get_name(1), _body.name])
 	emit_signal("death", self)
+
+
+func set_enable_movement(_new_value: bool) -> void:
+	enable_movement = _new_value
 
 
 func move_player(new_position : Vector2) -> void:

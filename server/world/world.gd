@@ -30,9 +30,10 @@ func setup_and_start_game():
 	print("[%s] Setting up and starting game!" % [get_path().get_name(1)])
 	var game_seed = randomize_game_seed()
 	Network.Server.send_game_started(game_seed)
-	start_game(game_seed)
+	start_game(game_seed, Network.Server.player_list)
 
 
-func _on_Player_death(player) -> void:
+func _on_Player_death(player: Node2D) -> void:
+	print("[%s] Detected player death for %s!" % [get_path().get_name(1), player.name])
 	Network.Server.send_despawn_player(int(player.name))
 	._on_Player_death(player)
