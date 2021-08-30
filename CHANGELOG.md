@@ -18,6 +18,7 @@ Types of changes:
 
 ### Added
 - New music by Drozerix
+- Volume controls in options
 
 ## [0.0.1] - 2021-08-29
 First proper release! :D
