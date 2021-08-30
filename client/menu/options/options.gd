@@ -36,6 +36,8 @@ func _ready():
 	music_percent.set_text(float2percent(Globals.music_volume))
 	sounds_slider.set_value(Globals.sounds_volume)
 	sounds_percent.set_text(float2percent(Globals.sounds_volume))
+	# Only connect the signal after to stop the inital set_value from firing it
+	sounds_slider.connect("value_changed", self, "_on_SoundsSlider_value_changed")
 
 
 func _on_Button_pressed():
@@ -67,3 +69,4 @@ func _on_SoundsSlider_value_changed(value):
 		sounds_bus_index,
 		linear2db(value-sounds_offset)
 	)
+	$SoundsVolumeTester.play()

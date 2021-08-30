@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://client/menu/title/new_game.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/theme/flappy.theme" type="Theme" id=2]
 [ext_resource path="res://client/fonts/DelaGothicOne-32.tres" type="DynamicFont" id=3]
+[ext_resource path="res://client/world/player/huah.ogg" type="AudioStream" id=4]
 
 [node name="Options" instance=ExtResource( 1 )]
 
@@ -167,6 +168,9 @@ margin_right = 226.0
 margin_bottom = 406.0
 theme = ExtResource( 2 )
 
+[node name="SoundsVolumeTester" type="AudioStreamPlayer" parent="." index="1"]
+stream = ExtResource( 4 )
+bus = "Sounds"
+
 [connection signal="value_changed" from="CenterContainer/VBoxContainer/MasterVolume/MasterSlider" to="." method="_on_MasterSlider_value_changed"]
 [connection signal="value_changed" from="CenterContainer/VBoxContainer/MusicVolume/MusicSlider" to="." method="_on_MusicSlider_value_changed"]
-[connection signal="value_changed" from="CenterContainer/VBoxContainer/SoundsVolume/SoundsSlider" to="." method="_on_SoundsSlider_value_changed"]
