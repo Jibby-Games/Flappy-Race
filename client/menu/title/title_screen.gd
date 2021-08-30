@@ -15,10 +15,6 @@ func start_fade() -> void:
 	$FadeIn.fade_in()
 
 
-func _on_BGMusic_finished() -> void:
-	$BGMusic.play()
-
-
 func _on_SingleplayerButton_pressed() -> void:
 	start_fade()
 	yield($FadeIn, "fade_finished")

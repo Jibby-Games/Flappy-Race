@@ -151,9 +151,5 @@ func _on_Player_score_point(player) -> void:
 	._on_Player_score_point(player)
 
 
-func _on_BGMusic_finished() -> void:
-	$BGMusic.play()
-
-
 func _on_UI_request_restart() -> void:
 	reset_game()

@@ -1,9 +1,8 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://client/menu/title/title_screen.gd" type="Script" id=1]
 [ext_resource path="res://client/world/background/flappy_race_logo.png" type="Texture" id=2]
 [ext_resource path="res://client/menu/title/title_player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://client/music/drozerix_-_digital_rendezvous.ogg" type="AudioStream" id=4]
 [ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=5]
 [ext_resource path="res://client/menu/fade_in.tscn" type="PackedScene" id=6]
 [ext_resource path="res://client/menu/setup/singleplayer/singleplayer_setup.tscn" type="PackedScene" id=7]
@@ -194,12 +193,7 @@ anchor_bottom = 0.0
 margin_right = 1280.0
 margin_bottom = 720.0
 
-[node name="BGMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 4 )
-autoplay = true
-
 [connection signal="pressed" from="Menu/Buttons/SingleplayerButton" to="." method="_on_SingleplayerButton_pressed"]
 [connection signal="pressed" from="Menu/Buttons/MultiplayerButton" to="." method="_on_MultiplayerButton_pressed"]
 [connection signal="pressed" from="Menu/Buttons/OptionsButton" to="." method="_on_OptionsButton_pressed"]
 [connection signal="pressed" from="Menu/Buttons/QuitButton" to="." method="_on_QuitButton_pressed"]
-[connection signal="finished" from="BGMusic" to="." method="_on_BGMusic_finished"]
