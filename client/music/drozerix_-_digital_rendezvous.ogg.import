@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/drozerix_-_digital_rendezvous.ogg-15b4f45b411a41a712e9f92314e65dbd.oggstr"
+
+[deps]
+
+source_file="res://client/music/drozerix_-_digital_rendezvous.ogg"
+dest_files=[ "res://.import/drozerix_-_digital_rendezvous.ogg-15b4f45b411a41a712e9f92314e65dbd.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

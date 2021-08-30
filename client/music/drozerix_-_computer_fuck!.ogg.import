@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/drozerix_-_computer_fuck!.ogg-f44bd94c79d5592ff52ef1a14834f7e2.oggstr"
+
+[deps]
+
+source_file="res://client/music/drozerix_-_computer_fuck!.ogg"
+dest_files=[ "res://.import/drozerix_-_computer_fuck!.ogg-f44bd94c79d5592ff52ef1a14834f7e2.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
