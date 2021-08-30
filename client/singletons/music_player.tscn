@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://client/singletons/music_player.gd" type="Script" id=1]
+
+[node name="MusicPlayer" type="AudioStreamPlayer"]
+bus = "Music"
+script = ExtResource( 1 )
+
+[connection signal="finished" from="." to="." method="_on_MusicPlayer_finished"]

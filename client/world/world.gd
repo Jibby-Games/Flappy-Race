@@ -81,6 +81,7 @@ func update_world_state(world_state) -> void:
 func start_game(game_seed: int, new_player_list: Dictionary) -> void:
 	.start_game(game_seed, new_player_list)
 	reset_camera()
+	MusicPlayer.play_random_track()
 
 
 func reset_camera() -> void:
