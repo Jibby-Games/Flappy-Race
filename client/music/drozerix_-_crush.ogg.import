@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/drozerix_-_crush.ogg-60077b6e3727eb08ecc6a74d3375735c.oggstr"
+
+[deps]
+
+source_file="res://client/music/drozerix_-_crush.ogg"
+dest_files=[ "res://.import/drozerix_-_crush.ogg-60077b6e3727eb08ecc6a74d3375735c.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

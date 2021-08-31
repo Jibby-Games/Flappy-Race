@@ -1,16 +1,176 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://client/menu/title/new_game.tscn" type="PackedScene" id=1]
+[ext_resource path="res://client/theme/flappy.theme" type="Theme" id=2]
+[ext_resource path="res://client/fonts/DelaGothicOne-32.tres" type="DynamicFont" id=3]
+[ext_resource path="res://client/world/player/huah.ogg" type="AudioStream" id=4]
 
 [node name="Options" instance=ExtResource( 1 )]
 
 [node name="VBoxContainer" parent="CenterContainer" index="0"]
-margin_left = 431.0
-margin_right = 848.0
+margin_left = 527.0
+margin_top = 157.0
+margin_right = 753.0
+margin_bottom = 563.0
+custom_constants/separation = 20
 
 [node name="Label" parent="CenterContainer/VBoxContainer" index="0"]
-margin_right = 417.0
-text = "Options Scene"
+margin_right = 226.0
+text = "Options"
 
-[node name="Button" parent="CenterContainer/VBoxContainer" index="1"]
-margin_right = 417.0
+[node name="VolumeHeader" type="Label" parent="CenterContainer/VBoxContainer" index="1"]
+margin_top = 90.0
+margin_right = 226.0
+margin_bottom = 138.0
+theme = ExtResource( 2 )
+custom_fonts/font = ExtResource( 3 )
+text = "Volume"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MasterVolume" type="Control" parent="CenterContainer/VBoxContainer" index="2"]
+margin_top = 158.0
+margin_right = 226.0
+margin_bottom = 208.0
+rect_min_size = Vector2( 0, 50 )
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/MasterVolume" index="0"]
+margin_right = 144.0
+margin_bottom = 24.0
+theme = ExtResource( 2 )
+text = "Master"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Percent" type="Label" parent="CenterContainer/VBoxContainer/MasterVolume" index="1"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -53.0
+margin_bottom = 24.0
+theme = ExtResource( 2 )
+text = "100%"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MasterSlider" type="HSlider" parent="CenterContainer/VBoxContainer/MasterVolume" index="2"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -208.5
+margin_top = -16.0
+margin_right = 208.5
+theme = ExtResource( 2 )
+max_value = 1.0
+step = 0.01
+value = 1.0
+tick_count = 21
+ticks_on_borders = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MusicVolume" type="Control" parent="CenterContainer/VBoxContainer" index="3"]
+margin_top = 228.0
+margin_right = 226.0
+margin_bottom = 278.0
+rect_min_size = Vector2( 0, 50 )
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/MusicVolume" index="0"]
+margin_right = 144.0
+margin_bottom = 24.0
+theme = ExtResource( 2 )
+text = "Music"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Percent" type="Label" parent="CenterContainer/VBoxContainer/MusicVolume" index="1"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -53.0
+margin_bottom = 24.0
+theme = ExtResource( 2 )
+text = "80%"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MusicSlider" type="HSlider" parent="CenterContainer/VBoxContainer/MusicVolume" index="2"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -208.5
+margin_top = -16.0
+margin_right = 208.5
+theme = ExtResource( 2 )
+max_value = 1.0
+step = 0.01
+value = 1.0
+tick_count = 21
+ticks_on_borders = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SoundsVolume" type="Control" parent="CenterContainer/VBoxContainer" index="4"]
+margin_top = 298.0
+margin_right = 226.0
+margin_bottom = 348.0
+rect_min_size = Vector2( 0, 50 )
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/SoundsVolume" index="0"]
+margin_right = 144.0
+margin_bottom = 24.0
+theme = ExtResource( 2 )
+text = "Sound Effects"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Percent" type="Label" parent="CenterContainer/VBoxContainer/SoundsVolume" index="1"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -53.0
+margin_bottom = 24.0
+theme = ExtResource( 2 )
+text = "80%"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SoundsSlider" type="HSlider" parent="CenterContainer/VBoxContainer/SoundsVolume" index="2"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -208.5
+margin_top = -16.0
+margin_right = 208.5
+theme = ExtResource( 2 )
+max_value = 1.0
+step = 0.01
+value = 1.0
+tick_count = 21
+ticks_on_borders = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" parent="CenterContainer/VBoxContainer" index="5"]
+margin_top = 368.0
+margin_right = 226.0
+margin_bottom = 406.0
+theme = ExtResource( 2 )
+
+[node name="SoundsVolumeTester" type="AudioStreamPlayer" parent="." index="1"]
+stream = ExtResource( 4 )
+bus = "Sounds"
+
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/MasterVolume/MasterSlider" to="." method="_on_MasterSlider_value_changed"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/MusicVolume/MusicSlider" to="." method="_on_MusicSlider_value_changed"]

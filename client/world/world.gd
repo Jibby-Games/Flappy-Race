@@ -81,6 +81,7 @@ func update_world_state(world_state) -> void:
 func start_game(game_seed: int, new_player_list: Dictionary) -> void:
 	.start_game(game_seed, new_player_list)
 	reset_camera()
+	MusicPlayer.play_random_track()
 
 
 func reset_camera() -> void:
@@ -149,10 +150,6 @@ func _on_Player_death(player: Node2D) -> void:
 func _on_Player_score_point(player) -> void:
 	$UI.update_score(player.score)
 	._on_Player_score_point(player)
-
-
-func _on_BGMusic_finished() -> void:
-	$BGMusic.play()
 
 
 func _on_UI_request_restart() -> void:

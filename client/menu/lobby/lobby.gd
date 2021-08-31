@@ -16,10 +16,6 @@ func _ready() -> void:
 	name_input.text = Globals.player_name
 
 
-func _on_BGMusic_finished() -> void:
-	$BGMusic.play()
-
-
 func _on_HostButton_pressed() -> void:
 	if is_name_empty():
 		return

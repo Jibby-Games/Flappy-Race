@@ -20,3 +20,22 @@ Flappy Race is an open source multiplayer game based on Flappy Bird, created wit
 
 # Release Notes
 See [CHANGELOG.md](CHANGELOG.md) for a summary of changes from all upcoming and past releases.
+
+# Licensing
+## Code
+All scripts and scene files are distributed under the [MIT license](LICENSE).
+
+## Assets
+Unless mentioned otherwise, all art assets (images, sounds and files under raw_assets/) are distributed under the [Creative Commons Attribution 4.0 International license](http://creativecommons.org/licenses/by/4.0/).
+
+### Music
+Licensed under the [Public Domain license](https://creativecommons.org/licenses/publicdomain/):
+- Drozerix - Computer F***!
+- Drozerix - Crush
+- Drozerix - Digital Rendezvous
+- Drozerix - Dream Candy
+
+### Fonts
+Licensed under the [Open Font License](https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL):
+- DelaGothicOne
+- Roboto

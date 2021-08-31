@@ -4,10 +4,19 @@ extends Node
 const HIGH_SCORE_FNAME := "user://highscore.save"
 
 
-# Public vars
+# Game Settings
 var high_score: int = 0
 var player_colour: int = 0
 var player_name: String = "Flappo"
+
+
+# Audio Settings
+var default_master_volume: float = 1.0
+var default_music_volume: float = 0.8
+var default_sounds_volume: float = 0.8
+var master_volume: float = 1.0
+var music_volume: float = 0.8
+var sounds_volume: float = 0.8
 
 
 func _ready() -> void:

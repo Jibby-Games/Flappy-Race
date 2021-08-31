@@ -8,15 +8,12 @@ export(PackedScene) var options_scene
 
 func _ready() -> void:
 	$Menu/Buttons/SingleplayerButton.grab_focus()
+	MusicPlayer.play_track_name("drozerix_-_digital_rendezvous.ogg")
 
 
 func start_fade() -> void:
 	$FadeIn.show()
 	$FadeIn.fade_in()
-
-
-func _on_BGMusic_finished() -> void:
-	$BGMusic.play()
 
 
 func _on_SingleplayerButton_pressed() -> void:
