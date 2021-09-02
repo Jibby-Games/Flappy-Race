@@ -11,5 +11,5 @@ dest_files=[ "res://.import/drozerix_-_dream_candy.ogg-c37904b3e89e4b8a5dff3fe90
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

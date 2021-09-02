@@ -11,5 +11,5 @@ dest_files=[ "res://.import/drozerix_-_digital_rendezvous.ogg-15b4f45b411a41a712
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

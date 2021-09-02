@@ -11,5 +11,5 @@ dest_files=[ "res://.import/drozerix_-_computer_fuck!.ogg-f44bd94c79d5592ff52ef1
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

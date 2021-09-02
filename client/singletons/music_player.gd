@@ -63,4 +63,5 @@ func play_track_name(track_name: String) -> void:
 
 
 func _on_MusicPlayer_finished():
+	print("[%s] Finished track %d: %s" % [get_path().get_name(1), current_track, tracks[current_track]])
 	play_next_track()

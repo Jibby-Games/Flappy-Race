@@ -75,6 +75,13 @@ window/size/height=720
 singletons=[  ]
 singletons_disabled=[  ]
 
+[importer_defaults]
+
+ogg_vorbis={
+"loop": false,
+"loop_offset": 0
+}
+
 [input]
 
 pause_menu={
