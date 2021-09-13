@@ -22,6 +22,8 @@ var highest_score := 0
 
 
 var player_list := {}
+var spawned_players := []
+var spawned_walls := []
 
 
 func _ready() -> void:
@@ -52,7 +54,9 @@ func start_game(game_seed: int, new_player_list: Dictionary) -> void:
 
 func reset_players() -> void:
 	# Delete all existing players
-	get_tree().call_group("players", "queue_free")
+	for player in spawned_players:
+		spawned_players.erase(player)
+		player.queue_free()
 	print("[%s] Spawning players in list: %s" % [get_path().get_name(1), player_list])
 	for player_id in player_list:
 		# Don't spawn any spectators
@@ -60,6 +64,7 @@ func reset_players() -> void:
 			continue
 		var player = spawn_player(player_id, Vector2.ZERO)
 		player_list[player_id]["body"] = player
+		spawned_players.append(player)
 
 
 func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
@@ -80,13 +85,16 @@ func despawn_player(player_id: int) -> void:
 #	yield(get_tree().create_timer(0.2), "timeout")
 	var player = get_node_or_null(str(player_id))
 	if player:
+		spawned_players.erase(player)
 		player.queue_free()
 
 
 #### Wall functions
 func reset_walls() -> void:
 	# Delete all existing walls
-	get_tree().call_group("walls", "queue_free")
+	for wall in spawned_walls:
+		spawned_walls.erase(wall)
+		wall.queue_free()
 	var walls_to_spawn = round(wall_spawn_range / float(wall_spacing))
 	for i in walls_to_spawn:
 		spawn_wall()
@@ -103,6 +111,7 @@ func spawn_wall() -> void:
 	inst.gap = gap
 	current_wall_pos += wall_spacing
 	call_deferred("add_child", inst)
+	spawned_walls.append(inst)
 
 
 #### Player helper functions

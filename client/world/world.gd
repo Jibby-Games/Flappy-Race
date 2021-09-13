@@ -110,10 +110,14 @@ func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 
 
 func despawn_player(player_id: int) -> void:
+	if not has_node(str(player_id)):
+		# Player already despawned
+		return
 	# If this is the local player show the game over UI
 	if player_id == multiplayer.get_network_unique_id():
 		$UI.show_game_over()
-		switch_camera_to_leader()
+		if spawned_players.size() > 0:
+			switch_camera_to_leader()
 	.despawn_player(player_id)
 
 
@@ -122,19 +126,12 @@ func switch_camera_to_leader() -> void:
 	if leader:
 		$MainCamera.set_target(leader)
 	else:
-		print("[%s] Unable to find lead player: %s" % [get_path().get_name(1), player_list])
+		push_error("[%s] Unable to find lead player: %s" % [get_path().get_name(1), spawned_players])
 
 
 func get_lead_player() -> Node2D:
 	var leader
-	for player_entry in player_list.values():
-		# Ignore spectators
-		if player_entry.spectate:
-			continue
-		var player = player_entry.body
-		# Ignore dead players
-		if not player.enable_movement:
-			continue
+	for player in spawned_players:
 		if leader == null or player.position.x > leader.position.x:
 			leader = player
 	return leader
