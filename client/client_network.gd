@@ -56,30 +56,30 @@ func start_client(host: String, port: int, singleplayer: bool = false) -> void:
 	var peer = NetworkedMultiplayerENet.new()
 	peer.create_client(host, port)
 	multiplayer.set_network_peer(peer)
-	print("[%s] Client started" % [get_path().get_name(1)])
+	Logger.print(self, "Client started")
 
 
 func stop_client() -> void:
 	$LatencyUpdater.stop()
 	multiplayer.network_peer.close_connection()
 	multiplayer.set_network_peer(null)
-	print("[%s] Client stopped" % [get_path().get_name(1)])
+	Logger.print(self, "Client stopped")
 
 
 func _on_connection_failed() -> void:
-	print("[%s] Failed to connect to server!" % [get_path().get_name(1)])
+	Logger.print(self, "Failed to connect to server!")
 	stop_client()
 
 
 func _on_connected_to_server() -> void:
-	print("[%s] Successfully connected to server!" % [get_path().get_name(1)])
+	Logger.print(self, "Successfully connected to server!")
 	send_clock_sync_request()
 	$LatencyUpdater.start()
 	Network.Client.send_player_settings(Globals.player_name, Globals.player_colour)
 
 
 func _on_server_disconnected() -> void:
-	print("[%s] Disconnected from server!" % [get_path().get_name(1)])
+	Logger.print(self, "Disconnected from server!")
 	stop_client()
 	Network.Client.change_scene("res://client/menu/title/title_screen.tscn")
 	Globals.show_message("Lost connection to the server.", "Server Disconnect")
@@ -177,7 +177,7 @@ remote func receive_despawn_player(player_id: int) -> void:
 
 
 func send_start_game_request() -> void:
-	print("[%s] Sending start game request" % [get_path().get_name(1)])
+	Logger.print(self, "Sending start game request")
 	rpc_id(SERVER_ID, "receive_start_game_request")
 
 

@@ -12,4 +12,4 @@ func _process(_delta):
 func set_target(player: Node2D) -> void:
 	assert(player, "Camera tried switching to null player")
 	_target = player
-	print("[%s] Camera target changed to %s!" % [get_path().get_name(1), player.get_name()])
+	Logger.print(self, "Camera target changed to %s!" % [player.get_name()])

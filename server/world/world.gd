@@ -22,18 +22,18 @@ func is_everyone_ready() -> bool:
 		if ready_state == false:
 			# At least one player was not ready
 			return false
-	print("[%s] All players are ready!" % [get_path().get_name(1)])
+	Logger.print(self, "All players are ready!")
 	return true
 
 
 func setup_and_start_game():
-	print("[%s] Setting up and starting game!" % [get_path().get_name(1)])
+	Logger.print(self, "Setting up and starting game!")
 	var game_seed = randomize_game_seed()
 	Network.Server.send_game_started(game_seed)
 	start_game(game_seed, Network.Server.player_list)
 
 
 func _on_Player_death(player: Node2D) -> void:
-	print("[%s] Detected player death for %s!" % [get_path().get_name(1), player.name])
+	Logger.print(self, "Detected player death for %s!" % [player.name])
 	Network.Server.send_despawn_player(int(player.name))
 	._on_Player_death(player)

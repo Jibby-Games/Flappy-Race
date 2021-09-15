@@ -59,7 +59,7 @@ func _on_connected() -> void:
 
 
 func _on_ConnectionTimer_timeout() -> void:
-	print("[%s] Connection timed out!" % [get_path().get_name(1)])
+	Logger.print(self, "Connection timed out!")
 	Network.Client.stop_client()
 	show_error("Failed to connect!")
 

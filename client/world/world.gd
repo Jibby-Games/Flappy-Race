@@ -126,7 +126,7 @@ func switch_camera_to_leader() -> void:
 	if leader:
 		$MainCamera.set_target(leader)
 	else:
-		push_error("[%s] Unable to find lead player: %s" % [get_path().get_name(1), spawned_players])
+		push_error("Unable to find lead player: %s" % [spawned_players])
 
 
 func get_lead_player() -> Node2D:

@@ -61,7 +61,7 @@ func play_flap_sound() -> void:
 		3:
 			$Flap4.play()
 		_:
-			print("[%s] Invalid choice!" % [get_path().get_name(1)])
+			Logger.print(self, "Invalid choice!")
 
 
 func enable_control():

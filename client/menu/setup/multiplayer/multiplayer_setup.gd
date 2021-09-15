@@ -9,7 +9,7 @@ func _ready() -> void:
 
 
 func populate_players(new_player_list: Dictionary) -> void:
-	print("[%s] Got player list: %s" % [get_path().get_name(1), new_player_list])
+	Logger.print(self, "Got player list: %s" % [new_player_list])
 	player_list.clear_players()
 	for player_id in new_player_list:
 		var colour_choice = new_player_list[player_id]["colour"]

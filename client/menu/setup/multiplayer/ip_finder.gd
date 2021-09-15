@@ -20,7 +20,7 @@ func _on_HTTPRequest_request_completed(_result, response_code, _headers, body) -
 		# Successful response
 		public_ip = body.get_string_from_utf8()
 	else:
-		print("[%s] Received HTTP response code %s when finding public IP!" % [get_path().get_name(1), response_code])
+		Logger.print(self, "Received HTTP response code %s when finding public IP!" % [response_code])
 		public_ip = "error"
 	ip_label.text = public_ip
 
