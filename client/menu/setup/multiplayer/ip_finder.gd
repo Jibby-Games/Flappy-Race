@@ -4,7 +4,7 @@ extends Control
 var public_ip: String = ""
 
 
-onready var ip_label = $VBoxContainer/IP
+onready var ip_label = $IP
 
 
 func _ready():
