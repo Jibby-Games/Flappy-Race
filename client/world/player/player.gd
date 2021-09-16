@@ -33,7 +33,7 @@ func _ready() -> void:
 	$AnimatedOutline.playing = true
 
 
-func _physics_process(_delta) -> void:
+func _physics_process(_delta: float) -> void:
 	if is_controlled:
 		update_player_state()
 

@@ -44,7 +44,7 @@ func _on_Button_pressed() -> void:
 	Network.Client.change_scene("res://client/menu/title/title_screen.tscn")
 
 
-func _on_MasterSlider_value_changed(value) -> void:
+func _on_MasterSlider_value_changed(value: float) -> void:
 	Globals.master_volume = value
 	master_percent.set_text(float2percent(value))
 	AudioServer.set_bus_volume_db(
@@ -53,7 +53,7 @@ func _on_MasterSlider_value_changed(value) -> void:
 	)
 
 
-func _on_MusicSlider_value_changed(value) -> void:
+func _on_MusicSlider_value_changed(value: float) -> void:
 	Globals.music_volume = value
 	music_percent.set_text(float2percent(value))
 	AudioServer.set_bus_volume_db(
@@ -62,7 +62,7 @@ func _on_MusicSlider_value_changed(value) -> void:
 	)
 
 
-func _on_SoundsSlider_value_changed(value) -> void:
+func _on_SoundsSlider_value_changed(value: float) -> void:
 	Globals.sounds_volume = value
 	sounds_percent.set_text(float2percent(value))
 	AudioServer.set_bus_volume_db(

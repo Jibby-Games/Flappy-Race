@@ -15,8 +15,7 @@ func update_public_ip() -> void:
 	$HTTPRequest.request("https://api.ipify.org")
 
 
-func _on_HTTPRequest_request_completed(_result, response_code, _headers, body) -> void:
-	if response_code == 200:
+func _on_HTTPRequest_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray) -> void:
 		# Successful response
 		public_ip = body.get_string_from_utf8()
 	else:

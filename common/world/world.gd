@@ -119,7 +119,7 @@ func _on_Player_death(player: Node2D) -> void:
 	despawn_player(int(player.name))
 
 
-func _on_Player_score_point(player) -> void:
+func _on_Player_score_point(player: CommonPlayer) -> void:
 	Logger.print(self, "Player %s scored a point!" % [player.name])
 	if player.score > highest_score:
 		# Make the walls spawn as players progress

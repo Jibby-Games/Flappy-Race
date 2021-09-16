@@ -1,7 +1,7 @@
 extends CommonWall
 
 
-func set_gap(size) -> void:
+func set_gap(size: float) -> void:
 	var pos = base_wall_height + (size / 2)
 	$UpperSprite.position.y = -pos
 	$LowerSprite.position.y = pos

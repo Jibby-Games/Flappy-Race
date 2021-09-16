@@ -19,7 +19,7 @@ var enable_movement: bool = true
 var has_gravity: bool = true
 
 
-func _physics_process(_delta) -> void:
+func _physics_process(_delta: float) -> void:
 	update_movement()
 
 
@@ -39,14 +39,14 @@ func update_movement() -> void:
 	motion = move_and_slide(motion, Vector2.UP)
 
 
-func _on_Detect_area_entered(_area) -> void:
+func _on_Detect_area_entered(_area: Area2D) -> void:
 	Logger.print(self, "Player entered area %s" % [_area.name])
 	# Detects entering the score zone. Signals to the world to update other nodes.
 	score += 1
 	emit_signal("score_point", self)
 
 
-func _on_Detect_body_entered(_body) -> void:
+func _on_Detect_body_entered(_body: Node) -> void:
 	Logger.print(self, "Player entered body %s" % [_body.name])
 	emit_signal("death", self)
 
@@ -55,5 +55,5 @@ func set_enable_movement(_new_value: bool) -> void:
 	enable_movement = _new_value
 
 
-func move_player(new_position : Vector2) -> void:
+func move_player(new_position: Vector2) -> void:
 	set_position(new_position)

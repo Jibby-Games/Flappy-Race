@@ -13,7 +13,7 @@ func _ready() -> void:
 	Network.Client.send_client_ready()
 
 
-func _physics_process(_delta) -> void:
+func _physics_process(_delta: float) -> void:
 	var render_time = Network.Client.client_clock - INTERPOLATION_OFFSET
 	if world_state_buffer.size() > 1:
 		# world_state_buffer[0] will always be the oldest received world_state
@@ -27,7 +27,7 @@ func _physics_process(_delta) -> void:
 			extrapolate_world_state(render_time)
 
 
-func interpolate_world_state(render_time) -> void:
+func interpolate_world_state(render_time: int) -> void:
 	var interpolation_factor = float(render_time - world_state_buffer[1]["T"]) / float(world_state_buffer[2]["T"] - world_state_buffer[1]["T"])
 	for player in world_state_buffer[2].keys():
 		if str(player) == "T":
@@ -54,7 +54,7 @@ func interpolate_world_state(render_time) -> void:
 		# 	spawn_player(player, world_state_buffer[2][player]["P"])
 
 
-func extrapolate_world_state(render_time) -> void:
+func extrapolate_world_state(render_time: int) -> void:
 	var extrapolation_factor = float(render_time - world_state_buffer[0]["T"]) / float(world_state_buffer[1]["T"] - world_state_buffer[0]["T"]) - 1.00
 	for player in world_state_buffer[1].keys():
 		if str(player) == "T":
@@ -72,7 +72,7 @@ func extrapolate_world_state(render_time) -> void:
 			get_node(str(player)).move_player(new_position)
 
 
-func update_world_state(world_state) -> void:
+func update_world_state(world_state: Dictionary) -> void:
 	if world_state["T"] > last_world_state:
 		last_world_state = world_state["T"]
 		world_state_buffer.append(world_state)
@@ -144,7 +144,7 @@ func _on_Player_death(player: Node2D) -> void:
 		._on_Player_death(player)
 
 
-func _on_Player_score_point(player) -> void:
+func _on_Player_score_point(player: CommonPlayer) -> void:
 	$UI.update_score(player.score)
 	._on_Player_score_point(player)
 

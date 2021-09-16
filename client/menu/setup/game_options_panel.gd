@@ -13,7 +13,7 @@ func set_goal(new_goal: int) -> void:
 	ScoreInput.value = new_goal
 
 
-func _on_GameOptionsToggle_toggled(button_pressed) -> void:
+func _on_GameOptionsToggle_toggled(button_pressed: bool) -> void:
 	if button_pressed:
 		MenuAnimation.play("OpenPanel")
 	else:
