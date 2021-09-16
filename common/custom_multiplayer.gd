@@ -15,7 +15,7 @@
 extends Node
 
 
-func _init():
+func _init() -> void:
 	# First, we assign a new MultiplayerAPI to our this node
 	custom_multiplayer = MultiplayerAPI.new()
 	# Then we need to specify that this will be the root node for this custom
@@ -30,7 +30,7 @@ func _init():
 # _ready() function of the children is called, and they might register
 # multiplayer related signals in it (more on this in _customize_children
 # function)
-func _notification(what):
+func _notification(what) -> void:
 	if what == NOTIFICATION_ENTER_TREE:
 		# We also want to customize all nodes that will be added dinamically
 		# later on.
@@ -43,7 +43,7 @@ func _notification(what):
 
 # When the MultiplayerAPI is not managed directly by the SceneTree
 # we MUST poll it
-func _process(_delta):
+func _process(_delta) -> void:
 	if not custom_multiplayer.has_network_peer():
 		return  # No network peer, nothing to poll
 	# Poll the MultiplayerAPI so it fetches packets, emit signals, process RPCs
@@ -51,7 +51,7 @@ func _process(_delta):
 
 
 # Called every time a new node is added to the tree (dinamically added nodes)
-func _on_add_node(node):
+func _on_add_node(node) -> void:
 	# We want to make sure that the node is in our branch.
 	var path = str(node.get_path())
 	var mypath = str(get_path())
@@ -70,7 +70,7 @@ func _on_add_node(node):
 
 
 # This function customize all the child nodes added when the scene is instanced
-func _customize_children():
+func _customize_children() -> void:
 	# Remember to mind the stack ;-)
 	# We use a frontier to avoid recursion.
 	var frontier = []

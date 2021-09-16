@@ -7,7 +7,7 @@ var public_ip: String = ""
 onready var ip_label = $IP
 
 
-func _ready():
+func _ready() -> void:
 	update_public_ip()
 
 
@@ -31,9 +31,9 @@ func _on_CopyButton_pressed() -> void:
 	$MessageLabel/MessageTimer.start()
 
 
-func _on_ShowButton_toggled(button_pressed):
+func _on_ShowButton_toggled(button_pressed) -> void:
 	ip_label.visible = button_pressed
 
 
-func _on_MessageTimer_timeout():
+func _on_MessageTimer_timeout() -> void:
 	$MessageLabel.hide()

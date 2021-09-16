@@ -6,5 +6,5 @@ func _ready() -> void:
 	$PlayerCustomiser/StartButton.grab_focus()
 
 
-func _on_BackButton_pressed():
+func _on_BackButton_pressed() -> void:
 	Network.Client.change_scene("res://client/menu/title/title_screen.tscn")

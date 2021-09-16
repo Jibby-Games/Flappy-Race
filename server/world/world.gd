@@ -4,7 +4,7 @@ extends CommonWorld
 var player_ready: Dictionary
 
 
-func _ready():
+func _ready() -> void:
 	for player_id in multiplayer.get_network_connected_peers():
 		# The server isn't a player
 		if player_id != 1:
@@ -26,7 +26,7 @@ func is_everyone_ready() -> bool:
 	return true
 
 
-func setup_and_start_game():
+func setup_and_start_game() -> void:
 	Logger.print(self, "Setting up and starting game!")
 	var game_seed = randomize_game_seed()
 	Network.Server.send_game_started(game_seed)

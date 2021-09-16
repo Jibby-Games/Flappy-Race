@@ -36,7 +36,7 @@ func _ready() -> void:
 	change_scene("res://client/menu/title/title_screen.tscn")
 
 
-func _physics_process(delta: float):
+func _physics_process(delta: float) -> void:
 	client_clock += int(delta * 1000) + delta_latency
 	delta_latency = 0
 	decimal_collector += (delta * 1000) - int(delta * 1000)

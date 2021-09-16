@@ -64,7 +64,7 @@ func play_flap_sound() -> void:
 			Logger.print(self, "Invalid choice!")
 
 
-func enable_control():
+func enable_control() -> void:
 	if not is_controlled:
 		is_controlled = true
 		var controller = PlayerController.instance()
@@ -72,7 +72,7 @@ func enable_control():
 		add_child(controller)
 
 
-func disable_control():
+func disable_control() -> void:
 	if is_controlled:
 		is_controlled = false
 		var controller = $PlayerController

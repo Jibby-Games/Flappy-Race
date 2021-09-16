@@ -1,7 +1,7 @@
 extends Node2D
 
 
-func _ready():
+func _ready() -> void:
 	randomize()
 	reset()
 

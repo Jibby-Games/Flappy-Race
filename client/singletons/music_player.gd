@@ -6,7 +6,7 @@ var tracks := []
 var current_track := 0
 
 
-func _ready():
+func _ready() -> void:
 	tracks = load_music(music_file_path)
 
 
@@ -62,6 +62,6 @@ func play_track_name(track_name: String) -> void:
 	play_track(index)
 
 
-func _on_MusicPlayer_finished():
+func _on_MusicPlayer_finished() -> void:
 	Logger.print(self, "Finished track %d: %s" % [current_track, tracks[current_track]])
 	play_next_track()

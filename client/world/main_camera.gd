@@ -4,7 +4,7 @@ extends Camera2D
 var _target : Node2D setget set_target
 
 
-func _process(_delta):
+func _process(_delta) -> void:
 	if _target and is_instance_valid(_target):
 		self.position = _target.position
 
