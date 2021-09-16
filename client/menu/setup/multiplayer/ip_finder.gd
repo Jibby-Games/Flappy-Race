@@ -16,10 +16,17 @@ func update_public_ip() -> void:
 
 
 func _on_HTTPRequest_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray) -> void:
+	if result == HTTPRequest.RESULT_SUCCESS and response_code == 200:
 		# Successful response
 		public_ip = body.get_string_from_utf8()
 	else:
-		Logger.print(self, "Received HTTP response code %s when finding public IP!" % [response_code])
+		Logger.print(self,
+"""Unable to determine host IP! HTTP request returned:
+result = %d
+response_code = %d
+headers = %s
+body = %s
+""" % [result, response_code, headers, body])
 		public_ip = "error"
 	ip_label.text = public_ip
 
@@ -30,7 +37,7 @@ func _on_CopyButton_pressed() -> void:
 	$MessageLabel/MessageTimer.start()
 
 
-func _on_ShowButton_toggled(button_pressed) -> void:
+func _on_ShowButton_toggled(button_pressed: bool) -> void:
 	ip_label.visible = button_pressed
 
 
