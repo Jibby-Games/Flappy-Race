@@ -118,7 +118,7 @@ remote func receive_player_colour_change(colour_choice: int) -> void:
 
 
 func send_player_colour_update(player_id: int, colour_choice: int) -> void:
-	rpc("receiver_player_colour_update", player_id, colour_choice)
+	rpc("receive_player_colour_update", player_id, colour_choice)
 
 
 remote func receive_player_spectate_change(is_spectating: bool) -> void:
@@ -129,7 +129,7 @@ remote func receive_player_spectate_change(is_spectating: bool) -> void:
 
 
 func send_player_spectate_update(player_id: int, is_spectating: bool) -> void:
-	rpc("receiver_player_spectate_update", player_id, is_spectating)
+	rpc("receive_player_spectate_update", player_id, is_spectating)
 
 
 func send_despawn_player(player_id: int) -> void:
