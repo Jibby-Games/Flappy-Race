@@ -4,6 +4,7 @@ var music_file_path := "res://client/music/"
 var supported_filetypes := ["ogg"]
 var tracks := []
 var current_track := 0
+var current_track_name := ""
 
 
 func _ready() -> void:
@@ -32,11 +33,12 @@ func play_track(track_index: int) -> void:
 	if track_index >= tracks.size():
 		push_error("Track index %d is out of range. Max is %d" % [track_index, tracks.size()])
 		return
-	current_track = track_index
 	var file_name = tracks[track_index]
 	Logger.print(self, "Playing track %d: %s " % [track_index, file_name])
 	self.stream = load(music_file_path + file_name)
 	self.play()
+	current_track = track_index
+	current_track_name = file_name
 
 
 func play_next_track() -> void:
