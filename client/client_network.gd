@@ -164,6 +164,16 @@ remote func receive_player_spectate_update(player_id: int, is_spectating: bool) 
 		setup.update_player_spectating(player_id, is_spectating)
 
 
+func send_goal_change(goal: int) -> void:
+	rpc_id(SERVER_ID, "receive_goal_change", goal)
+
+
+remote func receive_goal_change(goal: int) -> void:
+	var options = get_node_or_null("MultiplayerSetup/PlayerCustomiser/GameOptions")
+	if options:
+		options.set_goal(goal)
+
+
 func send_client_ready() -> void:
 	rpc_id(SERVER_ID, "receive_client_ready")
 

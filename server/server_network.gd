@@ -16,6 +16,9 @@ var max_players := 0
 var _host_player_id := 0 setget set_host
 var player_state_collection := {}
 var player_list := {}
+var game_options := {
+	"goal": 100
+}
 
 
 func _ready() -> void:
@@ -130,6 +133,17 @@ remote func receive_player_spectate_change(is_spectating: bool) -> void:
 
 func send_player_spectate_update(player_id: int, is_spectating: bool) -> void:
 	rpc("receive_player_spectate_update", player_id, is_spectating)
+
+
+remote func receive_goal_change(new_goal: int) -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	if not is_host(player_id):
+		Logger.print(self, "Player %s tried to change the goal but they're not the host!"
+			% [player_id])
+		return
+	game_options.goal = new_goal
+	Logger.print(self, "Player %s set the goal to %s " % [player_id, new_goal])
+	rpc("receive_goal_change", new_goal)
 
 
 func send_despawn_player(player_id: int) -> void:
