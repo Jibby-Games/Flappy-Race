@@ -13,7 +13,7 @@ var height_range := 100
 var gap_range_min := 130
 var gap_range_max := 250
 var wall_spacing := 400
-var wall_spawn_range := 1000
+var wall_spawn_range := 5000
 var current_wall_pos := wall_spawn_range
 
 
