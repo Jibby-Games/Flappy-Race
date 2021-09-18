@@ -14,7 +14,7 @@ var gap_range_min := 130
 var gap_range_max := 250
 var wall_spacing := 400
 var wall_spawn_range := 5000
-var current_wall_pos := wall_spawn_range
+var current_wall_pos := 1500
 
 
 var game_rng := RandomNumberGenerator.new()
