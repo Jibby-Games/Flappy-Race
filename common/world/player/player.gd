@@ -21,6 +21,7 @@ var has_gravity: bool = true
 
 func _physics_process(_delta: float) -> void:
 	update_movement()
+	check_position()
 
 
 func update_movement() -> void:
@@ -37,6 +38,13 @@ func update_movement() -> void:
 
 	motion.x = BASE_SPEED
 	motion = move_and_slide(motion, Vector2.UP)
+
+
+func check_position() -> void:
+	var upper_bound = (ProjectSettings.get_setting("display/window/size/height") / 2) + 200
+	var lower_bound = -upper_bound
+	if self.position.y > upper_bound or self.position.y < lower_bound:
+		emit_signal("death", self)
 
 
 func _on_Detect_area_entered(_area: Area2D) -> void:
