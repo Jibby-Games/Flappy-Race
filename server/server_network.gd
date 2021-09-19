@@ -148,6 +148,11 @@ remote func receive_goal_change(new_goal: int) -> void:
 	if not is_host(player_id):
 		Logger.print(self, "Player %s tried to change the goal but they're not the host!"
 			% [player_id])
+		rpc("receive_goal_change", game_options.goal)
+		return
+	if new_goal < 1 or new_goal > 9999:
+		Logger.print(self, "Player %s tried to set goal to invalid value: %d", [player_id, new_goal])
+		rpc("receive_goal_change", game_options.goal)
 		return
 	game_options.goal = new_goal
 	Logger.print(self, "Player %s set the goal to %s " % [player_id, new_goal])
