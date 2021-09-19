@@ -1,10 +1,88 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://client/ui/pause_menu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/fonts/Score.tres" type="DynamicFont" id=2]
 [ext_resource path="res://client/fonts/DelaGothicOne-48.tres" type="DynamicFont" id=3]
 [ext_resource path="res://client/ui/custom_label.tscn" type="PackedScene" id=4]
 [ext_resource path="res://client/ui/ui.gd" type="Script" id=5]
+[ext_resource path="res://client/theme/flappy.theme" type="Theme" id=6]
+[ext_resource path="res://client/fonts/DelaGothicOne-80.tres" type="DynamicFont" id=7]
+
+[sub_resource type="Animation" id=2]
+resource_name = "Finished"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("FinishedLabel:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 2.5, 2.7 ),
+"transitions": PoolRealArray( -2, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PlaceLabel:modulate")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 0.8, 2.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("PlaceLabel:anchor_left")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1.6, 2.7 ),
+"transitions": PoolRealArray( 1, 0.5, 2 ),
+"update": 0,
+"values": [ 0.5, 0.5, 0.93 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("PlaceLabel:anchor_top")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1.6, 2.7 ),
+"transitions": PoolRealArray( 1, 0.5, 2 ),
+"update": 0,
+"values": [ 0.6, 0.6, 0.9 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("PlaceLabel:anchor_right")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 1.6, 2.7 ),
+"transitions": PoolRealArray( 1, 0.5, 2 ),
+"update": 0,
+"values": [ 0.5, 0.5, 0.93 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("PlaceLabel:anchor_bottom")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 1.6, 2.7 ),
+"transitions": PoolRealArray( 1, 0.5, 2 ),
+"update": 0,
+"values": [ 0.6, 0.6, 0.9 ]
+}
 
 [sub_resource type="Theme" id=1]
 
@@ -14,6 +92,45 @@ script = ExtResource( 5 )
 HighScorePath = NodePath("HighScore")
 ScorePath = NodePath("Score")
 GameOverPath = NodePath("GameOver")
+
+[node name="Finished" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FinishedLabel" type="Label" parent="Finished"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 6 )
+custom_fonts/font = ExtResource( 7 )
+text = "Finished!"
+align = 1
+valign = 1
+
+[node name="PlaceLabel" type="Label" parent="Finished"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.6
+anchor_right = 0.5
+anchor_bottom = 0.6
+margin_left = -85.0
+margin_top = -55.5
+margin_right = 85.0
+margin_bottom = 55.5
+theme = ExtResource( 6 )
+custom_fonts/font = ExtResource( 7 )
+text = "0th"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Finished"]
+anims/Finished = SubResource( 2 )
 
 [node name="Score" type="Label" parent="."]
 anchor_right = 1.0
@@ -48,18 +165,18 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GameOver"]
-margin_left = 471.0
-margin_right = 808.0
-margin_bottom = 720.0
+margin_left = 791.0
+margin_right = 1128.0
+margin_bottom = 1080.0
 size_flags_horizontal = 4
 alignment = 1
 
 [node name="GameOverLabel" parent="GameOver/VBoxContainer" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 285.0
+margin_top = 465.0
 margin_right = 337.0
-margin_bottom = 355.0
+margin_bottom = 535.0
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Game Over!"
@@ -67,9 +184,9 @@ align = 1
 valign = 1
 
 [node name="RestartButton" type="Button" parent="GameOver/VBoxContainer"]
-margin_top = 359.0
+margin_top = 539.0
 margin_right = 337.0
-margin_bottom = 435.0
+margin_bottom = 615.0
 custom_fonts/font = ExtResource( 3 )
 text = "Restart"
 

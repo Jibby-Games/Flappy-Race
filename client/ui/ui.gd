@@ -35,3 +35,24 @@ func show_game_over() -> void:
 
 func _on_RestartButton_pressed() -> void:
 	emit_signal("request_restart")
+
+
+func show_finished(place: int) -> void:
+	$Finished/PlaceLabel.text = int2ordinal(place)
+	$Finished/AnimationPlayer.play("Finished")
+
+
+func int2ordinal(value: int) -> String:
+	var digit := value % 10
+	var suffix: String
+
+	if digit == 1 and value != 11:
+		suffix = "st"
+	elif digit == 2 and value != 12:
+		suffix = "nd"
+	elif digit == 3 and value != 13:
+		suffix = "rd"
+	else:
+		suffix = "th"
+
+	return "%d%s" % [value, suffix]
