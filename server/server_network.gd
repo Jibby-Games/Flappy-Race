@@ -105,6 +105,7 @@ remote func receive_player_settings(player_name: String, player_colour: int) -> 
 		"name": player_name,
 		"colour": player_colour,
 		"spectate": false,
+		"place": 0
 	}
 	send_player_list_update()
 
@@ -196,8 +197,8 @@ func send_load_world() -> void:
 	rpc("receive_load_world")
 
 
-func send_game_started(game_seed: int) -> void:
-	rpc("receive_game_started", game_seed, player_list)
+func send_game_started(game_seed: int, goal: int) -> void:
+	rpc("receive_game_started", game_seed, goal, player_list)
 
 
 remote func receive_player_state(player_state: Dictionary) -> void:
@@ -212,3 +213,7 @@ remote func receive_player_state(player_state: Dictionary) -> void:
 
 func send_world_state(world_state: Dictionary) -> void:
 	rpc_unreliable("receive_world_state", world_state)
+
+
+func send_player_finished_race(player_id: int, place: int) -> void:
+	rpc("receive_player_finished_race", player_id, place)

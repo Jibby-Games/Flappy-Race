@@ -78,8 +78,8 @@ func update_world_state(world_state: Dictionary) -> void:
 		world_state_buffer.append(world_state)
 
 
-func start_game(game_seed: int, new_player_list: Dictionary) -> void:
-	.start_game(game_seed, new_player_list)
+func start_game(game_seed: int, goal: int, new_player_list: Dictionary) -> void:
+	.start_game(game_seed, goal, new_player_list)
 	reset_camera()
 	MusicPlayer.play_random_track()
 
@@ -151,3 +151,9 @@ func _on_Player_score_point(player: CommonPlayer) -> void:
 
 func _on_UI_request_restart() -> void:
 	reset_game()
+
+
+func player_finished(player_id: int, place: int) -> void:
+	# Only show the finished screen if this client finished
+	if player_id == multiplayer.get_network_unique_id():
+		$UI.show_finished(place)

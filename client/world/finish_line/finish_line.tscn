@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://client/world/finish_line/finish_line.png" type="Texture" id=1]
+[ext_resource path="res://common/world/finish_line/finish_line.tscn" type="PackedScene" id=2]
+
+[node name="FinishLine" instance=ExtResource( 2 )]
+
+[node name="Sprite" type="Sprite" parent="." index="0"]
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 64, 1080 )

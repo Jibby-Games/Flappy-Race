@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://client/ui/ui.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/world/world.tscn" type="PackedScene" id=2]
 [ext_resource path="res://client/world/world.gd" type="Script" id=3]
 [ext_resource path="res://client/world/main_camera.gd" type="Script" id=4]
+[ext_resource path="res://client/world/finish_line/finish_line.tscn" type="PackedScene" id=5]
 [ext_resource path="res://client/world/player/player.tscn" type="PackedScene" id=8]
 [ext_resource path="res://client/world/wall/wall.tscn" type="PackedScene" id=9]
 
@@ -11,6 +12,7 @@
 script = ExtResource( 3 )
 Wall = ExtResource( 9 )
 Player = ExtResource( 8 )
+FinishLine = ExtResource( 5 )
 
 [node name="UI" parent="." index="0" instance=ExtResource( 1 )]
 follow_viewport_enable = false
@@ -18,9 +20,8 @@ follow_viewport_enable = false
 [node name="MainCamera" type="Camera2D" parent="." index="1"]
 current = true
 process_mode = 0
-limit_top = -360
-limit_bottom = 360
-drag_margin_v_enabled = true
+limit_top = -540
+limit_bottom = 540
 smoothing_enabled = true
 smoothing_speed = 18.0
 editor_draw_limits = true

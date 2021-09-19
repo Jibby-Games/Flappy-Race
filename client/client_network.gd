@@ -197,12 +197,12 @@ remote func receive_load_world() -> void:
 	change_scene("res://client/world/world.tscn")
 
 
-remote func receive_game_started(game_seed: int, player_list: Dictionary) -> void:
+remote func receive_game_started(game_seed: int, goal: int, player_list: Dictionary) -> void:
 	if is_rpc_from_server() == false:
 		return
 	var world = get_node_or_null("World")
 	if world:
-		world.start_game(game_seed, player_list)
+		world.start_game(game_seed, goal, player_list)
 
 
 func send_player_state(player_state: Dictionary) -> void:
@@ -215,3 +215,11 @@ remote func receive_world_state(world_state: Dictionary) -> void:
 	var world = get_node_or_null("World")
 	if world:
 		world.update_world_state(world_state)
+
+
+remote func receive_player_finished_race(player_id: int, place: int) -> void:
+	if is_rpc_from_server() == false:
+		return
+	var world = get_node_or_null("World")
+	if world:
+		world.player_finished(player_id, place)
