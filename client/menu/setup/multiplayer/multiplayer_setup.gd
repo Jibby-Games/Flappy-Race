@@ -27,9 +27,5 @@ func _on_BackButton_pressed() -> void:
 
 func _on_SpectateButton_toggled(button_pressed: bool) -> void:
 	Network.Client.send_player_spectate_change(button_pressed)
-	if button_pressed:
-		$Setup/SpectatorText.show()
-		$Setup/PlayerOptions.hide()
-	else:
-		$Setup/SpectatorText.hide()
-		$Setup/PlayerOptions.show()
+	$Setup/SpectatorText.visible = button_pressed
+	$Setup/PlayerOptions.visible = not button_pressed

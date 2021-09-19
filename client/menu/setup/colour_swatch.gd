@@ -16,8 +16,5 @@ func set_colour(new_value: Color) -> void:
 func set_selected(new_value: bool) -> void:
 	if selected != new_value:
 		selected = new_value
-		if new_value:
-			$Selected.show()
-		else:
-			$Selected.hide()
+		$Selected.visible = new_value
 		update()
