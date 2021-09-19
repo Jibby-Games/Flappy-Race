@@ -96,6 +96,8 @@ func _peer_disconnected(player_id: int) -> void:
 		else:
 			clear_host()
 	send_despawn_player(player_id)
+	if player_list.has(player_id):
+		assert(player_list.erase(player_id))
 
 
 remote func receive_player_settings(player_name: String, player_colour: int) -> void:

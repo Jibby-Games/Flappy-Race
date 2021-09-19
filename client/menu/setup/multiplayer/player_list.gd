@@ -4,6 +4,8 @@ extends VBoxContainer
 export(PackedScene) var entry_template
 
 
+func _ready() -> void:
+	assert(multiplayer.connect("network_peer_disconnected", self, "remove_player") == OK)
 func add_player(player_id: int, player_name: String, colour_choice: int) -> void:
 	var player_entry = entry_template.instance()
 	player_entry.setup(player_id, player_name, colour_choice)

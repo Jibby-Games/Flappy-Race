@@ -4,10 +4,6 @@ extends Control
 onready var player_list = $Setup/PlayerList
 
 
-func _ready() -> void:
-	assert(multiplayer.connect("network_peer_disconnected", self, "remove_player") == OK)
-
-
 func populate_players(new_player_list: Dictionary) -> void:
 	Logger.print(self, "Got player list: %s" % [new_player_list])
 	player_list.clear_players()
