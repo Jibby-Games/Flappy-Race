@@ -149,6 +149,8 @@ func send_player_colour_change(colour_choice: int) -> void:
 
 
 remote func receive_player_colour_update(player_id: int, colour_choice: int) -> void:
+	if is_rpc_from_server() == false:
+		return
 	var setup = get_node_or_null("MultiplayerSetup")
 	if setup:
 		setup.update_player_colour(player_id, colour_choice)
@@ -159,6 +161,8 @@ func send_player_spectate_change(is_spectating: bool) -> void:
 
 
 remote func receive_player_spectate_update(player_id: int, is_spectating: bool) -> void:
+	if is_rpc_from_server() == false:
+		return
 	var setup = get_node_or_null("MultiplayerSetup")
 	if setup:
 		setup.update_player_spectating(player_id, is_spectating)
@@ -169,7 +173,8 @@ func send_goal_change(goal: int) -> void:
 
 
 remote func receive_goal_change(goal: int) -> void:
-	var options = get_node_or_null("MultiplayerSetup/PlayerCustomiser/GameOptions")
+	if is_rpc_from_server() == false:
+		return
 	if options:
 		options.set_goal(goal)
 
