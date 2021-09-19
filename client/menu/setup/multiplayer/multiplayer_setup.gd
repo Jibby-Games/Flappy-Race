@@ -1,7 +1,7 @@
 extends Control
 
 
-onready var player_list = $PlayerCustomiser/PlayerList
+onready var player_list = $Setup/PlayerList
 
 
 func _ready() -> void:
@@ -32,8 +32,8 @@ func _on_BackButton_pressed() -> void:
 func _on_SpectateButton_toggled(button_pressed: bool) -> void:
 	Network.Client.send_player_spectate_change(button_pressed)
 	if button_pressed:
-		$PlayerCustomiser/SpectatorText.show()
-		$PlayerCustomiser/PlayerOptions.hide()
+		$Setup/SpectatorText.show()
+		$Setup/PlayerOptions.hide()
 	else:
-		$PlayerCustomiser/SpectatorText.hide()
-		$PlayerCustomiser/PlayerOptions.show()
+		$Setup/SpectatorText.hide()
+		$Setup/PlayerOptions.show()

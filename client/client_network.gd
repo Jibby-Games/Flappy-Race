@@ -175,6 +175,7 @@ func send_goal_change(goal: int) -> void:
 remote func receive_goal_change(goal: int) -> void:
 	if is_rpc_from_server() == false:
 		return
+	var options = get_node_or_null("MultiplayerSetup/Setup/GameOptions")
 	if options:
 		options.set_goal(goal)
 
