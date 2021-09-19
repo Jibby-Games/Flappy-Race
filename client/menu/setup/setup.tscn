@@ -25,26 +25,14 @@ tracks/0/keys = {
 "values": [ Vector2( 300, 0 ), Vector2( 300, 400 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Panel:rect_min_size")
+tracks/1/path = NodePath("Panel:modulate")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( -2, -2 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, 400 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Panel:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
+"transitions": PoolRealArray( -2, -2 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
@@ -169,6 +157,17 @@ max_value = 9999.0
 value = 100.0
 rounded = true
 align = 1
+editable = false
+
+[node name="DisableGameOptions" type="Panel" parent="GameOptions/Panel"]
+modulate = Color( 1, 1, 1, 0.580392 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_clip_content = true
+theme = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="GameOptionsToggle" type="Button" parent="GameOptions"]
 margin_left = 10.0

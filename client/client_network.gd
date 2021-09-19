@@ -145,7 +145,7 @@ remote func receive_host_change(new_host_id: int) -> void:
 
 
 func is_host() -> bool:
-	return is_host_id(multiplayer.get_network_unique_id())
+	return host_player_id == multiplayer.get_network_unique_id()
 
 
 func is_host_id(player_id: int) -> bool:
