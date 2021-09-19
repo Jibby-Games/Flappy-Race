@@ -189,7 +189,8 @@ remote func receive_player_spectate_update(player_id: int, is_spectating: bool) 
 
 
 func send_goal_change(goal: int) -> void:
-	rpc_id(SERVER_ID, "receive_goal_change", goal)
+	if is_host():
+		rpc_id(SERVER_ID, "receive_goal_change", goal)
 
 
 remote func receive_goal_change(goal: int) -> void:

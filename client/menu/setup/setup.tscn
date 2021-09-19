@@ -187,6 +187,5 @@ anims/OpenPanel = SubResource( 1 )
 [connection signal="colour_changed" from="PlayerOptions/Control/ColourSelector" to="." method="_on_ColourSelector_colour_changed"]
 [connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
-[connection signal="changed" from="GameOptions/Panel/VBoxContainer/ScoreToWin/ScoreInput" to="GameOptions" method="_on_ScoreInput_changed"]
 [connection signal="value_changed" from="GameOptions/Panel/VBoxContainer/ScoreToWin/ScoreInput" to="GameOptions" method="_on_ScoreInput_value_changed"]
 [connection signal="toggled" from="GameOptions/GameOptionsToggle" to="GameOptions" method="_on_GameOptionsToggle_toggled"]
