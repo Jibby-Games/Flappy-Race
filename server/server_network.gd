@@ -48,8 +48,12 @@ func set_host(new_host: int) -> void:
 	rpc("receive_host_change", new_host)
 
 
-func is_host(player_id: int) -> bool:
+func is_host_id(player_id: int) -> bool:
 	return _host_player_id == player_id
+
+
+func is_host_set() -> bool:
+	return _host_player_id != 0
 
 
 func clear_host() -> void:
@@ -82,17 +86,16 @@ func _peer_connected(player_id: int) -> void:
 	var num_players = multiplayer.get_network_connected_peers().size()
 	Logger.print(self, "Player %s connected - %d/%d" %
 			[player_id, num_players, max_players])
-	# No host set yet
-	if is_host(0):
-		set_host(player_id)
-	else:
+	if is_host_set():
 		# Tell the new player who the host is
 		rpc_id(player_id, "receive_host_change", _host_player_id)
+	else:
+		set_host(player_id)
 
 
 func _peer_disconnected(player_id: int) -> void:
 	Logger.print(self, "Player %s disconnected" % [player_id])
-	if is_host(player_id):
+	if is_host_id(player_id):
 		# Promote the next player to the host if any are still connected
 		var peers = multiplayer.get_network_connected_peers()
 		if peers.size() > 0:
@@ -145,7 +148,7 @@ func send_player_spectate_update(player_id: int, is_spectating: bool) -> void:
 
 remote func receive_goal_change(new_goal: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
-	if not is_host(player_id):
+	if not is_host_id(player_id):
 		Logger.print(self, "Player %s tried to change the goal but they're not the host!"
 			% [player_id])
 		rpc("receive_goal_change", game_options.goal)
@@ -183,7 +186,7 @@ remote func receive_client_ready() -> void:
 remote func receive_start_game_request() -> void:
 	# Only the server or the host can start the game
 	var player_id = multiplayer.get_rpc_sender_id()
-	if player_id == SERVER_ID or is_host(player_id):
+	if player_id == SERVER_ID or is_host_id(player_id):
 		if player_list.empty():
 			Logger.print(self, "Cannot start game without any players!")
 			return

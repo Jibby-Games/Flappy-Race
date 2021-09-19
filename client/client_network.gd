@@ -144,7 +144,11 @@ remote func receive_host_change(new_host_id: int) -> void:
 	Logger.print(self, "Host player changed to player %d", [new_host_id])
 
 
-func is_host(player_id: int) -> bool:
+func is_host() -> bool:
+	return is_host_id(multiplayer.get_network_unique_id())
+
+
+func is_host_id(player_id: int) -> bool:
 	return host_player_id == player_id
 
 

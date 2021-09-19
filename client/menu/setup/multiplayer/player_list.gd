@@ -12,7 +12,7 @@ func _ready() -> void:
 func add_player(player_id: int, player_name: String, colour_choice: int) -> void:
 	var player_entry = entry_template.instance()
 	player_entry.setup(player_id, player_name, colour_choice)
-	player_entry.set_host(Network.Client.is_host(player_id))
+	player_entry.set_host(Network.Client.is_host_id(player_id))
 	add_child(player_entry)
 
 
