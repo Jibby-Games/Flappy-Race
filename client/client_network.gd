@@ -18,6 +18,10 @@ var latency_array = []
 
 
 var is_singleplayer := false
+var host_player_id := 0
+
+
+signal host_changed(new_host_id)
 
 
 func _ready() -> void:
@@ -130,6 +134,18 @@ remote func receive_latency_response(client_time: int) -> void:
 		delta_latency = average_latency - latency
 		latency = average_latency
 		latency_array.clear()
+
+
+remote func receive_host_change(new_host_id: int) -> void:
+	if is_rpc_from_server() == false:
+		return
+	host_player_id = new_host_id
+	emit_signal("host_changed", new_host_id)
+	Logger.print(self, "Host player changed to player %d", [new_host_id])
+
+
+func is_host(player_id: int) -> bool:
+	return host_player_id == player_id
 
 
 func send_player_settings(player_name: String, player_colour: int) -> void:

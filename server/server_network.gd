@@ -45,6 +45,7 @@ func _exit_tree() -> void:
 func set_host(new_host: int) -> void:
 	_host_player_id = new_host
 	Logger.print(self, "Player %s is now the host" % [_host_player_id])
+	rpc("receive_host_change", new_host)
 
 
 func is_host(player_id: int) -> bool:
@@ -81,8 +82,12 @@ func _peer_connected(player_id: int) -> void:
 	var num_players = multiplayer.get_network_connected_peers().size()
 	Logger.print(self, "Player %s connected - %d/%d" %
 			[player_id, num_players, max_players])
+	# No host set yet
 	if is_host(0):
 		set_host(player_id)
+	else:
+		# Tell the new player who the host is
+		rpc_id(player_id, "receive_host_change", _host_player_id)
 
 
 func _peer_disconnected(player_id: int) -> void:

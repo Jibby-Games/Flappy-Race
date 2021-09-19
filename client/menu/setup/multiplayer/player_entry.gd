@@ -22,3 +22,10 @@ func set_spectating(is_spectating: bool) -> void:
 	else:
 		$PlayerIcon.show()
 		$SpectateIcon.hide()
+
+
+func set_host(is_host: bool) -> void:
+	if is_host:
+		$HostPlaceholder/HostIcon.show()
+	else:
+		$HostPlaceholder/HostIcon.hide()
