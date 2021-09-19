@@ -1,0 +1,37 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start Server",
+            "type": "shell",
+            "command": "godot",
+            "args": [
+                "--server"
+            ]
+        },
+        {
+            "label": "Start Client",
+            "type": "shell",
+            "command": "godot"
+        },
+        {
+            "label": "Start 2 Clients",
+            "dependsOn": [
+                "Start Client",
+                "Start Client"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Start Server and 2 Clients",
+            "dependsOn": [
+                "Start Client",
+                "Start Client",
+                "Start Server"
+            ],
+            "problemMatcher": []
+        }
+    ]
+}
