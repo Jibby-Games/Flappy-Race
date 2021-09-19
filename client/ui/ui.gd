@@ -29,8 +29,12 @@ func update_score(new_score: int) -> void:
 
 
 func show_game_over() -> void:
+	if Network.Client.is_host():
+		$GameOver/VBoxContainer/RestartButton.show()
+		$GameOver/VBoxContainer/RestartButton.grab_focus()
+	else:
+		$GameOver/VBoxContainer/RestartButton.hide()
 	GameOver.show()
-	$GameOver/VBoxContainer/RestartButton.grab_focus()
 
 
 func _on_RestartButton_pressed() -> void:
