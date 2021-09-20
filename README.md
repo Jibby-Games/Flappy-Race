@@ -34,6 +34,7 @@ Licensed under the [Public Domain license](https://creativecommons.org/licenses/
 - Drozerix - Crush
 - Drozerix - Digital Rendezvous
 - Drozerix - Dream Candy
+- Peak and Drozerix - Spectrum
 
 ### Fonts
 Licensed under the [Open Font License](https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL):
