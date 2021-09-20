@@ -1,10 +1,12 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://client/ui/ui.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/world/world.tscn" type="PackedScene" id=2]
 [ext_resource path="res://client/world/world.gd" type="Script" id=3]
 [ext_resource path="res://client/world/main_camera.gd" type="Script" id=4]
 [ext_resource path="res://client/world/finish_line/finish_line.tscn" type="PackedScene" id=5]
+[ext_resource path="res://client/music/peak_and_drozerix_-_spectrum.ogg" type="AudioStream" id=6]
+[ext_resource path="res://client/audio/finish_sfx.ogg" type="AudioStream" id=7]
 [ext_resource path="res://client/world/player/player.tscn" type="PackedScene" id=8]
 [ext_resource path="res://client/world/wall/wall.tscn" type="PackedScene" id=9]
 
@@ -27,5 +29,14 @@ smoothing_speed = 18.0
 editor_draw_limits = true
 editor_draw_drag_margin = true
 script = ExtResource( 4 )
+
+[node name="FinishMusic" type="AudioStreamPlayer" parent="." index="2"]
+stream = ExtResource( 6 )
+bus = "Music"
+
+[node name="FinishChime" type="AudioStreamPlayer" parent="." index="3"]
+stream = ExtResource( 7 )
+volume_db = 5.0
+bus = "Sounds"
 
 [connection signal="request_restart" from="UI" to="." method="_on_UI_request_restart"]

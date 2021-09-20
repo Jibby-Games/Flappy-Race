@@ -250,3 +250,11 @@ remote func receive_player_finished_race(player_id: int, place: int) -> void:
 	var world = get_node_or_null("World")
 	if world:
 		world.player_finished(player_id, place)
+
+
+remote func receive_leaderboard(leaderboard: Array) -> void:
+	if is_rpc_from_server() == false:
+		return
+	var ui = get_node_or_null("World/UI")
+	if ui:
+		ui.show_leaderboard(leaderboard)

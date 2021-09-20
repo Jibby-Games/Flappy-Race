@@ -157,3 +157,7 @@ func player_finished(player_id: int, place: int) -> void:
 	# Only show the finished screen if this client finished
 	if player_id == multiplayer.get_network_unique_id():
 		$UI.show_finished(place)
+		MusicPlayer.stop()
+		$FinishMusic.play()
+		$FinishChime.play()
+		switch_camera_to_leader()

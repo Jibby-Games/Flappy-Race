@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://client/world/player/player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://client/theme/flappy.theme" type="Theme" id=3]
+[ext_resource path="res://client/fonts/DelaGothicOne-32.tres" type="DynamicFont" id=4]
+
+[node name="LeaderboardEntry" type="HBoxContainer"]
+margin_right = 407.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 0, 64 )
+custom_constants/separation = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Place" type="Label" parent="."]
+margin_top = 8.0
+margin_right = 67.0
+margin_bottom = 56.0
+theme = ExtResource( 3 )
+custom_fonts/font = ExtResource( 4 )
+text = "0th"
+
+[node name="PlayerHolder" type="Control" parent="."]
+margin_left = 87.0
+margin_right = 151.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Player" parent="PlayerHolder" instance=ExtResource( 2 )]
+position = Vector2( 32, 32 )
+
+[node name="Name" type="Label" parent="."]
+margin_left = 171.0
+margin_top = 8.0
+margin_right = 407.0
+margin_bottom = 56.0
+rect_clip_content = true
+size_flags_horizontal = 0
+theme = ExtResource( 3 )
+custom_fonts/font = ExtResource( 4 )
+text = "PlayerName"

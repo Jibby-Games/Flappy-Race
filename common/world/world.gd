@@ -139,6 +139,8 @@ func spawn_wall() -> void:
 func _on_Player_death(player: CommonPlayer) -> void:
 	player.set_enable_movement(false)
 	despawn_player(int(player.name))
+	if spawned_players.size() == 0:
+		end_race()
 
 
 func _on_Player_score_point(player: CommonPlayer) -> void:
@@ -151,3 +153,11 @@ func _on_Player_score_point(player: CommonPlayer) -> void:
 
 func _on_Player_finish(player: CommonPlayer) -> void:
 	Logger.print(self, "Player %s crossed the finish line!" % player.name)
+	player.disconnect("death", self, "_on_Player_death")
+	spawned_players.erase(player)
+	if spawned_players.size() == 0:
+		end_race()
+
+
+func end_race() -> void:
+	Logger.print(self, "Race finished!")

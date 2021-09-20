@@ -46,6 +46,14 @@ func show_finished(place: int) -> void:
 	$Finished/AnimationPlayer.play("Finished")
 
 
+func show_leaderboard(player_list: Array) -> void:
+	$Leaderboard.clear_players()
+	for player in player_list:
+		var place_text = "DNF" if player.place == null else int2ordinal(player.place)
+		$Leaderboard.add_player(player.name, player.colour, place_text)
+	$Leaderboard.show()
+
+
 func int2ordinal(value: int) -> String:
 	var digit := value % 10
 	var suffix: String

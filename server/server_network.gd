@@ -115,7 +115,7 @@ remote func receive_player_settings(player_name: String, player_colour: int) -> 
 		"name": player_name,
 		"colour": player_colour,
 		"spectate": false,
-		"place": 0
+		"place": null
 	}
 	send_player_list_update()
 
@@ -232,3 +232,7 @@ func send_world_state(world_state: Dictionary) -> void:
 
 func send_player_finished_race(player_id: int, place: int) -> void:
 	rpc("receive_player_finished_race", player_id, place)
+
+
+func send_leaderboard(leaderboard: Array) -> void:
+	rpc("receive_leaderboard", leaderboard)

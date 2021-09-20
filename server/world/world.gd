@@ -35,16 +35,37 @@ func setup_and_start_game() -> void:
 	start_game(game_seed, goal, Network.Server.player_list)
 
 
-func _on_Player_death(player: Node2D) -> void:
+func _on_Player_death(player: CommonPlayer) -> void:
 	Logger.print(self, "Detected player death for %s!" % [player.name])
 	Network.Server.send_despawn_player(int(player.name))
 	._on_Player_death(player)
 
 
-func _on_Player_finish(player: Node2D) -> void:
+func _on_Player_finish(player: CommonPlayer) -> void:
 	# Store the place immediately in case the funciton gets called multiple times while it's running
 	var place := next_place
 	next_place += 1
-	var player_id = int(player.name)
+	var player_id := int(player.name)
 	player_list[player_id].place = place
 	Network.Server.send_player_finished_race(player_id, place)
+	._on_Player_finish(player)
+
+
+func end_race() -> void:
+	var leaderboard := []
+	for player_id in player_list:
+		var player = player_list[player_id]
+		if player.spectate:
+			continue
+		var entry = {
+			"name": player.name,
+			"colour": player.colour,
+			"place": player.place
+		}
+		# Should sort the order out
+		if player.place:
+			leaderboard.insert(player.place - 1, entry)
+		else:
+			leaderboard.push_back(entry)
+	Network.Server.send_leaderboard(leaderboard)
+	Logger.print(self, "Server Leaderboard: %s" % [leaderboard])
