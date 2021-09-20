@@ -129,7 +129,7 @@ func switch_camera_to_leader() -> void:
 		push_error("Unable to find lead player: %s" % [spawned_players])
 
 
-func get_lead_player() -> Node2D:
+func get_lead_player() -> CommonPlayer:
 	var leader
 	for player in spawned_players:
 		if leader == null or player.position.x > leader.position.x:
@@ -137,7 +137,7 @@ func get_lead_player() -> Node2D:
 	return leader
 
 
-func _on_Player_death(player: Node2D) -> void:
+func _on_Player_death(player: CommonPlayer) -> void:
 	# Only delete the local player for responsiveness.
 	# The server will tell us when to delete other players
 	if int(player.name) == multiplayer.get_network_unique_id():

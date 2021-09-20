@@ -9,7 +9,7 @@ const GRAVITY = 17
 const BASE_SPEED = 500
 
 
-signal death
+signal death(player)
 signal score_point(player)
 
 

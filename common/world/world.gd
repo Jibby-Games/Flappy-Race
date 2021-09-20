@@ -22,13 +22,12 @@ var current_wall_pos := starting_wall_pos
 var game_rng := RandomNumberGenerator.new()
 var highest_score := 0
 var goal := 100 setget set_goal
-var finish_x_position : int
+var finish_line_x_pos : int
 
 
 var player_list := {}
 var spawned_players := []
 var spawned_walls := []
-var spawned_finish_line: Node2D
 
 
 func _ready() -> void:
@@ -59,8 +58,8 @@ func start_game(game_seed: int, new_goal: int, new_player_list: Dictionary) -> v
 	set_game_seed(game_seed)
 	set_goal(new_goal)
 	self.player_list = new_player_list
-	finish_x_position = ((goal - 1) * wall_spacing) + starting_wall_pos
-	spawn_finish_line(finish_x_position)
+	finish_line_x_pos = ((goal - 1) * wall_spacing) + starting_wall_pos
+	spawn_finish_line(finish_line_x_pos)
 	reset_walls()
 	reset_players()
 
@@ -120,7 +119,7 @@ func reset_walls() -> void:
 
 
 func spawn_wall() -> void:
-	if current_wall_pos >= finish_x_position:
+	if current_wall_pos >= finish_line_x_pos:
 		# Don't spawn walls after the finish line
 		return
 	var inst = Wall.instance()
@@ -137,7 +136,7 @@ func spawn_wall() -> void:
 
 
 #### Player helper functions
-func _on_Player_death(player: Node2D) -> void:
+func _on_Player_death(player: CommonPlayer) -> void:
 	player.set_enable_movement(false)
 	despawn_player(int(player.name))
 
@@ -150,5 +149,5 @@ func _on_Player_score_point(player: CommonPlayer) -> void:
 		spawn_wall()
 
 
-func _on_Player_finish(player: Node2D) -> void:
+func _on_Player_finish(player: CommonPlayer) -> void:
 	Logger.print(self, "Player %s crossed the finish line!" % player.name)
