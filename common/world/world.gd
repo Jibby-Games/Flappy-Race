@@ -6,6 +6,7 @@ class_name CommonWorld
 
 export(PackedScene) var Wall
 export(PackedScene) var Player
+export(PackedScene) var FinishLine
 
 
 # Wall vars
@@ -13,58 +14,81 @@ var height_range := 100
 var gap_range_min := 130
 var gap_range_max := 250
 var wall_spacing := 400
-var wall_spawn_range := 1000
-var current_wall_pos := wall_spawn_range
+var wall_spawn_range := 5000
+var starting_wall_pos := 1500
+var current_wall_pos := starting_wall_pos
 
 
 var game_rng := RandomNumberGenerator.new()
 var highest_score := 0
+var goal := 100 setget set_goal
+var finish_line_x_pos : int
 
 
 var player_list := {}
+var spawned_players := []
+var spawned_walls := []
 
 
 func _ready() -> void:
-	print("[%s] World ready!" % [get_path().get_name(1)])
+	Logger.print(self, "World ready!")
 
 
 # Randomises the current game RNG seed and returns it
 func randomize_game_seed() -> int:
 	game_rng.randomize()
-	print("[%s] Generated random seed: %d" % [get_path().get_name(1), game_rng.seed])
+	Logger.print(self, "Generated random seed: %d" % [game_rng.seed])
 	return game_rng.seed
 
 
 # Sets the game RNG seed
 func set_game_seed(new_seed: int) -> void:
 	game_rng.seed = new_seed
-	print("[%s] Set game seed to: %d" % [get_path().get_name(1), new_seed])
+	Logger.print(self, "Set game seed to: %d" % [new_seed])
 
 
-func start_game(game_seed: int, new_player_list: Dictionary) -> void:
-	print("[%s] Starting game with seed %d and players: %s" %
-		[get_path().get_name(1), game_seed, new_player_list])
+func set_goal(new_goal: int) -> void:
+	goal = new_goal
+	Logger.print(self, "Set goal to: %d" % [new_goal])
+
+
+func start_game(game_seed: int, new_goal: int, new_player_list: Dictionary) -> void:
+	Logger.print(self, "Starting game with seed = %d, goal = %d and players: %s" %
+		[game_seed, new_goal, new_player_list])
 	set_game_seed(game_seed)
+	set_goal(new_goal)
 	self.player_list = new_player_list
+	finish_line_x_pos = ((goal - 1) * wall_spacing) + starting_wall_pos
+	spawn_finish_line(finish_line_x_pos)
 	reset_walls()
 	reset_players()
 
 
 func reset_players() -> void:
 	# Delete all existing players
-	get_tree().call_group("players", "queue_free")
-	print("[%s] Spawning players in list: %s" % [get_path().get_name(1), player_list])
+	for player in spawned_players:
+		spawned_players.erase(player)
+		player.queue_free()
+	Logger.print(self, "Spawning players in list: %s" % [player_list])
 	for player_id in player_list:
 		# Don't spawn any spectators
 		if player_list[player_id].spectate == true:
 			continue
 		var player = spawn_player(player_id, Vector2.ZERO)
 		player_list[player_id]["body"] = player
+		spawned_players.append(player)
+
+
+func spawn_finish_line(x_position: int) -> void:
+	var finish_line = FinishLine.instance()
+	finish_line.position = Vector2(x_position, 0)
+	finish_line.connect("finish", self, "_on_Player_finish")
+	add_child(finish_line)
 
 
 func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 	if not has_node(str(player_id)):
-		print("[%s] Spawning player %d" % [get_path().get_name(1), player_id])
+		Logger.print(self, "Spawning player %d" % [player_id])
 		var player = Player.instance()
 		player.connect("death", self, "_on_Player_death")
 		player.connect("score_point", self, "_on_Player_score_point")
@@ -76,44 +100,64 @@ func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 
 
 func despawn_player(player_id: int) -> void:
-	print("[%s] Despawning player %d" % [get_path().get_name(1), player_id])
-#	yield(get_tree().create_timer(0.2), "timeout")
+	Logger.print(self, "Despawning player %d" % [player_id])
 	var player = get_node_or_null(str(player_id))
 	if player:
+		spawned_players.erase(player)
 		player.queue_free()
 
 
 #### Wall functions
 func reset_walls() -> void:
 	# Delete all existing walls
-	get_tree().call_group("walls", "queue_free")
+	for wall in spawned_walls:
+		spawned_walls.erase(wall)
+		wall.queue_free()
 	var walls_to_spawn = round(wall_spawn_range / float(wall_spacing))
 	for i in walls_to_spawn:
 		spawn_wall()
 
 
 func spawn_wall() -> void:
+	if current_wall_pos >= finish_line_x_pos:
+		# Don't spawn walls after the finish line
+		return
 	var inst = Wall.instance()
 	inst.set_name("Wall" + str(current_wall_pos))
 	# Use the game RNG to keep the levels deterministic
 	var height = game_rng.randf_range(-height_range, height_range)
 	var gap = game_rng.randf_range(gap_range_min, gap_range_max)
-	print("[%s] Spawning wall - pos: %s height: %s - gap: %s" % [get_path().get_name(1), current_wall_pos, height, gap])
+	Logger.print(self, "Spawning wall - pos: %s height: %s - gap: %s" % [current_wall_pos, height, gap])
 	inst.position = Vector2(current_wall_pos, height)
 	inst.gap = gap
 	current_wall_pos += wall_spacing
 	call_deferred("add_child", inst)
+	spawned_walls.append(inst)
 
 
 #### Player helper functions
-func _on_Player_death(player: Node2D) -> void:
+func _on_Player_death(player: CommonPlayer) -> void:
 	player.set_enable_movement(false)
 	despawn_player(int(player.name))
+	if spawned_players.size() == 0:
+		end_race()
 
 
-func _on_Player_score_point(player) -> void:
-	print("[%s] Player %s scored a point!" % [get_path().get_name(1), player.name])
+func _on_Player_score_point(player: CommonPlayer) -> void:
+	Logger.print(self, "Player %s scored a point!" % [player.name])
 	if player.score > highest_score:
 		# Make the walls spawn as players progress
 		highest_score = player.score
 		spawn_wall()
+
+
+func _on_Player_finish(player: CommonPlayer) -> void:
+	Logger.print(self, "Player %s crossed the finish line!" % player.name)
+	player.disconnect("death", self, "_on_Player_death")
+	spawned_players.erase(player)
+	if spawned_players.size() == 0:
+		end_race()
+
+
+func end_race() -> void:
+	Logger.print(self, "Race finished!")

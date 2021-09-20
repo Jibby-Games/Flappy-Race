@@ -15,7 +15,7 @@ func _ready() -> void:
 		push_error("StateProcessing must have a ServerNetwork as a parent!")
 
 
-func _physics_process(_delta) -> void:
+func _physics_process(_delta: float) -> void:
 	tick += 1
 	if tick >= TICKS_PER_FPS:
 		tick = 0

@@ -16,6 +16,19 @@ func _ready() -> void:
 	player.set_body_colour(Globals.player_colour)
 	colour_selector.select(Globals.player_colour)
 
+	# Update for any host changes
+	assert(Network.Client.connect("host_changed", self, "_on_host_changed") == OK)
+
+
+func _on_host_changed(_new_host: int) -> void:
+	set_enable_host_options(Network.Client.is_host())
+
+
+func set_enable_host_options(is_host: bool) -> void:
+	$StartButton.visible = is_host
+	$GameOptions/Panel/DisableGameOptions.visible = not is_host
+	$GameOptions/Panel/VBoxContainer/ScoreToWin/ScoreInput.editable = is_host
+
 
 func _on_BackButton_pressed() -> void:
 	Network.stop_networking()

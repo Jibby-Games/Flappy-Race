@@ -1,15 +1,11 @@
 extends Control
 
 
-onready var player_list = $PlayerCustomiser/PlayerList
-
-
-func _ready() -> void:
-	assert(multiplayer.connect("network_peer_disconnected", self, "remove_player") == OK)
+onready var player_list = $Setup/PlayerList
 
 
 func populate_players(new_player_list: Dictionary) -> void:
-	print("[%s] Got player list: %s" % [get_path().get_name(1), new_player_list])
+	Logger.print(self, "Got player list: %s" % [new_player_list])
 	player_list.clear_players()
 	for player_id in new_player_list:
 		var colour_choice = new_player_list[player_id]["colour"]
@@ -31,9 +27,5 @@ func _on_BackButton_pressed() -> void:
 
 func _on_SpectateButton_toggled(button_pressed: bool) -> void:
 	Network.Client.send_player_spectate_change(button_pressed)
-	if button_pressed:
-		$PlayerCustomiser/SpectatorText.show()
-		$PlayerCustomiser/PlayerOptions.hide()
-	else:
-		$PlayerCustomiser/SpectatorText.hide()
-		$PlayerCustomiser/PlayerOptions.show()
+	$Setup/SpectatorText.visible = button_pressed
+	$Setup/PlayerOptions.visible = not button_pressed

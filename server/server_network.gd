@@ -16,6 +16,9 @@ var max_players := 0
 var _host_player_id := 0 setget set_host
 var player_state_collection := {}
 var player_list := {}
+var game_options := {
+	"goal": 100
+}
 
 
 func _ready() -> void:
@@ -41,16 +44,21 @@ func _exit_tree() -> void:
 
 func set_host(new_host: int) -> void:
 	_host_player_id = new_host
-	print("[%s] Player %s is now the host" % [get_path().get_name(1), _host_player_id])
+	Logger.print(self, "Player %s is now the host" % [_host_player_id])
+	rpc("receive_host_change", new_host)
 
 
-func is_host(player_id: int) -> bool:
+func is_host_id(player_id: int) -> bool:
 	return _host_player_id == player_id
+
+
+func is_host_set() -> bool:
+	return _host_player_id != 0
 
 
 func clear_host() -> void:
 	_host_player_id = 0
-	print("[%s] Cleared host player" % [get_path().get_name(1)])
+	Logger.print(self, "Cleared host player")
 
 
 func start_server(port: int, server_max_players: int) -> void:
@@ -62,7 +70,7 @@ func start_server(port: int, server_max_players: int) -> void:
 	# Basically, anything networking related needs to be updated this way.
 	# See the MultiplayerAPI docs for reference.
 	multiplayer.set_network_peer(peer)
-	print("[%s] Server started - waiting for players" % [get_path().get_name(1)])
+	Logger.print(self, "Server started - waiting for players")
 
 
 func stop_server() -> void:
@@ -71,20 +79,23 @@ func stop_server() -> void:
 	player_list.clear()
 	multiplayer.network_peer.close_connection()
 	multiplayer.set_network_peer(null)
-	print("[%s] Server stopped" % [get_path().get_name(1)])
+	Logger.print(self, "Server stopped")
 
 
 func _peer_connected(player_id: int) -> void:
 	var num_players = multiplayer.get_network_connected_peers().size()
-	print("[%s] Player %s connected - %d/%d" %
-			[get_path().get_name(1), player_id, num_players, max_players])
-	if is_host(0):
+	Logger.print(self, "Player %s connected - %d/%d" %
+			[player_id, num_players, max_players])
+	if is_host_set():
+		# Tell the new player who the host is
+		rpc_id(player_id, "receive_host_change", _host_player_id)
+	else:
 		set_host(player_id)
 
 
 func _peer_disconnected(player_id: int) -> void:
-	print("[%s] Player %s disconnected" % [get_path().get_name(1), player_id])
-	if is_host(player_id):
+	Logger.print(self, "Player %s disconnected" % [player_id])
+	if is_host_id(player_id):
 		# Promote the next player to the host if any are still connected
 		var peers = multiplayer.get_network_connected_peers()
 		if peers.size() > 0:
@@ -93,15 +104,18 @@ func _peer_disconnected(player_id: int) -> void:
 		else:
 			clear_host()
 	send_despawn_player(player_id)
+	if player_list.has(player_id):
+		assert(player_list.erase(player_id))
 
 
 remote func receive_player_settings(player_name: String, player_colour: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
-	print("[%s] Got settings for player %s. Name: %s, Colour: %s" % [get_path().get_name(1), player_id, player_name, player_colour])
+	Logger.print(self, "Got settings for player %s. Name: %s, Colour: %s" % [player_id, player_name, player_colour])
 	player_list[player_id] = {
 		"name": player_name,
 		"colour": player_colour,
 		"spectate": false,
+		"place": null
 	}
 	send_player_list_update()
 
@@ -113,23 +127,39 @@ func send_player_list_update() -> void:
 remote func receive_player_colour_change(colour_choice: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	player_list[player_id]["colour"] = colour_choice
-	print("[%s] Player %s chose colour %s " % [get_path().get_name(1), player_id, colour_choice])
+	Logger.print(self, "Player %s chose colour %s " % [player_id, colour_choice])
 	send_player_colour_update(player_id, colour_choice)
 
 
 func send_player_colour_update(player_id: int, colour_choice: int) -> void:
-	rpc("receiver_player_colour_update", player_id, colour_choice)
+	rpc("receive_player_colour_update", player_id, colour_choice)
 
 
 remote func receive_player_spectate_change(is_spectating: bool) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	player_list[player_id]["spectate"] = is_spectating
-	print("[%s] Player %s set spectating to %s " % [get_path().get_name(1), player_id, is_spectating])
+	Logger.print(self, "Player %s set spectating to %s " % [player_id, is_spectating])
 	send_player_spectate_update(player_id, is_spectating)
 
 
 func send_player_spectate_update(player_id: int, is_spectating: bool) -> void:
-	rpc("receiver_player_spectate_update", player_id, is_spectating)
+	rpc("receive_player_spectate_update", player_id, is_spectating)
+
+
+remote func receive_goal_change(new_goal: int) -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	if not is_host_id(player_id):
+		Logger.print(self, "Player %s tried to change the goal but they're not the host!"
+			% [player_id])
+		rpc("receive_goal_change", game_options.goal)
+		return
+	if new_goal < 1 or new_goal > 9999:
+		Logger.print(self, "Player %s tried to set goal to invalid value: %d", [player_id, new_goal])
+		rpc("receive_goal_change", game_options.goal)
+		return
+	game_options.goal = new_goal
+	Logger.print(self, "Player %s set the goal to %s " % [player_id, new_goal])
+	rpc("receive_goal_change", new_goal)
 
 
 func send_despawn_player(player_id: int) -> void:
@@ -156,19 +186,19 @@ remote func receive_client_ready() -> void:
 remote func receive_start_game_request() -> void:
 	# Only the server or the host can start the game
 	var player_id = multiplayer.get_rpc_sender_id()
-	if player_id == SERVER_ID or is_host(player_id):
+	if player_id == SERVER_ID or is_host_id(player_id):
 		if player_list.empty():
-			print("[%s] Cannot start game without any players!" % [get_path().get_name(1)])
+			Logger.print(self, "Cannot start game without any players!")
 			return
 		if is_everyone_spectating():
-			print("[%s] Cannot start game with just spectators!" % [get_path().get_name(1)])
+			Logger.print(self, "Cannot start game with just spectators!")
 			return
-		print("[%s] Starting game!" % [get_path().get_name(1)])
+		Logger.print(self, "Starting game!")
 		send_load_world()
 		change_scene("res://server/world/world.tscn")
 	else:
-		print("[%s] Player %s tried to start the game but they're not the host!" %
-				[get_path().get_name(1), player_id])
+		Logger.print(self, "Player %s tried to start the game but they're not the host!" %
+				[player_id])
 
 
 func is_everyone_spectating() -> bool:
@@ -182,8 +212,8 @@ func send_load_world() -> void:
 	rpc("receive_load_world")
 
 
-func send_game_started(game_seed: int) -> void:
-	rpc("receive_game_started", game_seed, player_list)
+func send_game_started(game_seed: int, goal: int) -> void:
+	rpc("receive_game_started", game_seed, goal, player_list)
 
 
 remote func receive_player_state(player_state: Dictionary) -> void:
@@ -198,3 +228,11 @@ remote func receive_player_state(player_state: Dictionary) -> void:
 
 func send_world_state(world_state: Dictionary) -> void:
 	rpc_unreliable("receive_world_state", world_state)
+
+
+func send_player_finished_race(player_id: int, place: int) -> void:
+	rpc("receive_player_finished_race", player_id, place)
+
+
+func send_leaderboard(leaderboard: Array) -> void:
+	rpc("receive_leaderboard", leaderboard)

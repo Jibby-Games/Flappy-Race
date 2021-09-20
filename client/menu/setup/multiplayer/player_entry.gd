@@ -16,9 +16,9 @@ func set_colour(colour_choice: int) -> void:
 
 
 func set_spectating(is_spectating: bool) -> void:
-	if is_spectating:
-		$PlayerIcon.hide()
-		$SpectateIcon.show()
-	else:
-		$PlayerIcon.show()
-		$SpectateIcon.hide()
+	$PlayerIcon.visible = not is_spectating
+	$SpectateIcon.visible = is_spectating
+
+
+func set_host(is_host: bool) -> void:
+	$HostPlaceholder/HostIcon.visible = is_host

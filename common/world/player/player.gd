@@ -9,7 +9,7 @@ const GRAVITY = 17
 const BASE_SPEED = 500
 
 
-signal death
+signal death(player)
 signal score_point(player)
 
 
@@ -19,8 +19,9 @@ var enable_movement: bool = true
 var has_gravity: bool = true
 
 
-func _physics_process(_delta) -> void:
+func _physics_process(_delta: float) -> void:
 	update_movement()
+	check_position()
 
 
 func update_movement() -> void:
@@ -39,15 +40,22 @@ func update_movement() -> void:
 	motion = move_and_slide(motion, Vector2.UP)
 
 
-func _on_Detect_area_entered(_area) -> void:
-	print("[%s] Player entered area %s" % [get_path().get_name(1), _area.name])
+func check_position() -> void:
+	var upper_bound = (ProjectSettings.get_setting("display/window/size/height") / 2) + 200
+	var lower_bound = -upper_bound
+	if self.position.y > upper_bound or self.position.y < lower_bound:
+		emit_signal("death", self)
+
+
+func _on_Detect_area_entered(_area: Area2D) -> void:
+	Logger.print(self, "Player entered area %s" % [_area.name])
 	# Detects entering the score zone. Signals to the world to update other nodes.
 	score += 1
 	emit_signal("score_point", self)
 
 
-func _on_Detect_body_entered(_body) -> void:
-	print("[%s] Player entered body %s" % [get_path().get_name(1), _body.name])
+func _on_Detect_body_entered(_body: Node) -> void:
+	Logger.print(self, "Player entered body %s" % [_body.name])
 	emit_signal("death", self)
 
 
@@ -55,5 +63,5 @@ func set_enable_movement(_new_value: bool) -> void:
 	enable_movement = _new_value
 
 
-func move_player(new_position : Vector2) -> void:
+func move_player(new_position: Vector2) -> void:
 	set_position(new_position)

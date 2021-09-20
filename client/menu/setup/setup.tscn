@@ -1,0 +1,191 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://client/menu/menu_button.tscn" type="PackedScene" id=1]
+[ext_resource path="res://client/menu/setup/colour_selector.tscn" type="PackedScene" id=2]
+[ext_resource path="res://client/world/player/player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://client/menu/setup/setup.gd" type="Script" id=4]
+[ext_resource path="res://client/ui/title_label.tscn" type="PackedScene" id=5]
+[ext_resource path="res://client/theme/flappy.theme" type="Theme" id=6]
+[ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=7]
+[ext_resource path="res://client/menu/setup/game_options_panel.gd" type="Script" id=8]
+
+[sub_resource type="Animation" id=1]
+resource_name = "OpenPanel"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Panel:rect_size")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( -2, -2 ),
+"update": 0,
+"values": [ Vector2( 300, 0 ), Vector2( 300, 400 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Panel:modulate")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( -2, -2 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="Setup" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" parent="." instance=ExtResource( 5 )]
+margin_top = -10.0
+margin_bottom = 107.0
+text = "Setup"
+
+[node name="PlayerOptions" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="PlayerOptions"]
+margin_left = 950.0
+margin_top = 530.0
+margin_right = 950.0
+margin_bottom = 530.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player" parent="PlayerOptions/Control" instance=ExtResource( 3 )]
+
+[node name="ColourSelector" parent="PlayerOptions/Control" instance=ExtResource( 2 )]
+margin_left = -156.0
+margin_top = 70.0
+margin_right = 156.0
+margin_bottom = 142.0
+
+[node name="StartButton" parent="." instance=ExtResource( 1 )]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -156.0
+margin_top = -80.0
+margin_right = 156.0
+margin_bottom = 0.0
+label = "Start Game"
+alignment = 1
+
+[node name="BackButton" parent="." instance=ExtResource( 1 )]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -75.0
+margin_right = 177.0
+margin_bottom = 5.0
+label = "Back"
+alignment = 1
+
+[node name="GameOptions" type="Control" parent="."]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 20.0
+margin_top = -200.0
+margin_right = 320.0
+margin_bottom = 200.0
+theme = ExtResource( 6 )
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="GameOptions"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -400.0
+rect_clip_content = true
+theme = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOptions/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 60.0
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreToWin" type="HBoxContainer" parent="GameOptions/Panel/VBoxContainer"]
+margin_right = 300.0
+margin_bottom = 34.0
+alignment = 1
+
+[node name="Label" type="Label" parent="GameOptions/Panel/VBoxContainer/ScoreToWin"]
+margin_left = 47.0
+margin_top = 5.0
+margin_right = 163.0
+margin_bottom = 29.0
+text = "Score to win"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreInput" type="SpinBox" parent="GameOptions/Panel/VBoxContainer/ScoreToWin"]
+margin_left = 167.0
+margin_right = 252.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 85, 0 )
+min_value = 1.0
+max_value = 9999.0
+value = 100.0
+rounded = true
+align = 1
+editable = false
+
+[node name="DisableGameOptions" type="Panel" parent="GameOptions/Panel"]
+modulate = Color( 1, 1, 1, 0.580392 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_clip_content = true
+theme = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameOptionsToggle" type="Button" parent="GameOptions"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 290.0
+margin_bottom = 48.0
+custom_fonts/font = ExtResource( 7 )
+toggle_mode = true
+text = "Game Options"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GameOptions"]
+anims/OpenPanel = SubResource( 1 )
+
+[connection signal="colour_changed" from="PlayerOptions/Control/ColourSelector" to="." method="_on_ColourSelector_colour_changed"]
+[connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="value_changed" from="GameOptions/Panel/VBoxContainer/ScoreToWin/ScoreInput" to="GameOptions" method="_on_ScoreInput_value_changed"]
+[connection signal="toggled" from="GameOptions/GameOptionsToggle" to="GameOptions" method="_on_GameOptionsToggle_toggled"]

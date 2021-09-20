@@ -33,7 +33,7 @@ func _ready() -> void:
 	$AnimatedOutline.playing = true
 
 
-func _physics_process(_delta) -> void:
+func _physics_process(_delta: float) -> void:
 	if is_controlled:
 		update_player_state()
 
@@ -61,10 +61,10 @@ func play_flap_sound() -> void:
 		3:
 			$Flap4.play()
 		_:
-			print("[%s] Invalid choice!" % [get_path().get_name(1)])
+			Logger.print(self, "Invalid choice!")
 
 
-func enable_control():
+func enable_control() -> void:
 	if not is_controlled:
 		is_controlled = true
 		var controller = PlayerController.instance()
@@ -72,7 +72,7 @@ func enable_control():
 		add_child(controller)
 
 
-func disable_control():
+func disable_control() -> void:
 	if is_controlled:
 		is_controlled = false
 		var controller = $PlayerController

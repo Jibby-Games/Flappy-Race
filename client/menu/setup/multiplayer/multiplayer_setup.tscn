@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://client/menu/setup/multiplayer/multiplayer_setup.gd" type="Script" id=1]
-[ext_resource path="res://client/menu/setup/player_customiser.tscn" type="PackedScene" id=2]
+[ext_resource path="res://client/menu/setup/setup.tscn" type="PackedScene" id=2]
 [ext_resource path="res://client/menu/setup/multiplayer/ip_finder.tscn" type="PackedScene" id=3]
 [ext_resource path="res://client/menu/setup/multiplayer/player_entry.tscn" type="PackedScene" id=4]
 [ext_resource path="res://client/menu/setup/multiplayer/player_list.gd" type="Script" id=5]
@@ -17,9 +17,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PlayerCustomiser" parent="." instance=ExtResource( 2 )]
+[node name="Setup" parent="." instance=ExtResource( 2 )]
 
-[node name="PlayerList" type="VBoxContainer" parent="PlayerCustomiser"]
+[node name="PlayerList" type="VBoxContainer" parent="Setup"]
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -32,11 +32,13 @@ __meta__ = {
 }
 entry_template = ExtResource( 4 )
 
-[node name="PlayerEntry" parent="PlayerCustomiser/PlayerList" instance=ExtResource( 4 )]
+[node name="PlayerEntry" parent="Setup/PlayerList" instance=ExtResource( 4 )]
+visible = false
+margin_right = 448.0
 
-[node name="IpFinder" parent="PlayerCustomiser" instance=ExtResource( 3 )]
+[node name="IpFinder" parent="Setup" instance=ExtResource( 3 )]
 
-[node name="SpectateButton" type="Button" parent="PlayerCustomiser"]
+[node name="SpectateButton" type="Button" parent="Setup"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -53,7 +55,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SpectatorText" type="Label" parent="PlayerCustomiser"]
+[node name="SpectatorText" type="Label" parent="Setup"]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -72,7 +74,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="pressed" from="PlayerCustomiser/BackButton" to="." method="_on_BackButton_pressed"]
-[connection signal="toggled" from="PlayerCustomiser/SpectateButton" to="." method="_on_SpectateButton_toggled"]
+[connection signal="pressed" from="Setup/BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="toggled" from="Setup/SpectateButton" to="." method="_on_SpectateButton_toggled"]
 
-[editable path="PlayerCustomiser"]
+[editable path="Setup"]

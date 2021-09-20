@@ -4,18 +4,19 @@ var music_file_path := "res://client/music/"
 var supported_filetypes := ["ogg"]
 var tracks := []
 var current_track := 0
+var current_track_name := ""
+var is_playing := false
 
-
-func _ready():
+func _ready() -> void:
 	tracks = load_music(music_file_path)
 
 
 func load_music(path: String) -> Array:
-	print("[%s] Loading music files" % [get_path().get_name(1)])
+	Logger.print(self, "Loading music files")
 	var files := []
 	var dir = Directory.new()
 	if dir.open(path) != OK:
-		push_error("[%s] An error occurred when trying to access the path: %s" % [get_path().get_name(1), path])
+		push_error("An error occurred when trying to access the path: %s" % [path])
 		return []
 
 	dir.list_dir_begin()
@@ -24,19 +25,21 @@ func load_music(path: String) -> Array:
 		if supported_filetypes.has(file_name.get_extension()):
 			files.append(file_name)
 		file_name = dir.get_next()
-	print("[%s] Found: %s" % [get_path().get_name(1), files])
+	Logger.print(self, "Found: %s" % [files])
 	return files
 
 
 func play_track(track_index: int) -> void:
+	is_playing = true
 	if track_index >= tracks.size():
-		push_error("[%s] Track index %d is out of range. Max is %d" % [get_path().get_name(1), track_index, tracks.size()])
+		push_error("Track index %d is out of range. Max is %d" % [track_index, tracks.size()])
 		return
-	current_track = track_index
 	var file_name = tracks[track_index]
-	print("[%s] Playing track %d: %s " % [get_path().get_name(1), track_index, file_name])
+	Logger.print(self, "Playing track %d: %s " % [track_index, file_name])
 	self.stream = load(music_file_path + file_name)
 	self.play()
+	current_track = track_index
+	current_track_name = file_name
 
 
 func play_next_track() -> void:
@@ -57,11 +60,19 @@ func play_random_track() -> void:
 func play_track_name(track_name: String) -> void:
 	var index = tracks.find(track_name)
 	if index == -1:
-		push_error("[%s] Cannot find track named: %s" % [get_path().get_name(1), track_name])
+		push_error("Cannot find track named: %s" % [track_name])
 		return
 	play_track(index)
 
 
-func _on_MusicPlayer_finished():
-	print("[%s] Finished track %d: %s" % [get_path().get_name(1), current_track, tracks[current_track]])
+func _on_MusicPlayer_finished() -> void:
+	if not is_playing:
+		return
+	Logger.print(self, "Finished track %d: %s" % [current_track, tracks[current_track]])
 	play_next_track()
+
+
+func stop() -> void:
+	is_playing = false
+	.stop()
+	Logger.print(self, "Stopped playing")

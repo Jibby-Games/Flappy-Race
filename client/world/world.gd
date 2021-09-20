@@ -13,7 +13,7 @@ func _ready() -> void:
 	Network.Client.send_client_ready()
 
 
-func _physics_process(_delta) -> void:
+func _physics_process(_delta: float) -> void:
 	var render_time = Network.Client.client_clock - INTERPOLATION_OFFSET
 	if world_state_buffer.size() > 1:
 		# world_state_buffer[0] will always be the oldest received world_state
@@ -27,7 +27,7 @@ func _physics_process(_delta) -> void:
 			extrapolate_world_state(render_time)
 
 
-func interpolate_world_state(render_time) -> void:
+func interpolate_world_state(render_time: int) -> void:
 	var interpolation_factor = float(render_time - world_state_buffer[1]["T"]) / float(world_state_buffer[2]["T"] - world_state_buffer[1]["T"])
 	for player in world_state_buffer[2].keys():
 		if str(player) == "T":
@@ -54,7 +54,7 @@ func interpolate_world_state(render_time) -> void:
 		# 	spawn_player(player, world_state_buffer[2][player]["P"])
 
 
-func extrapolate_world_state(render_time) -> void:
+func extrapolate_world_state(render_time: int) -> void:
 	var extrapolation_factor = float(render_time - world_state_buffer[0]["T"]) / float(world_state_buffer[1]["T"] - world_state_buffer[0]["T"]) - 1.00
 	for player in world_state_buffer[1].keys():
 		if str(player) == "T":
@@ -72,14 +72,14 @@ func extrapolate_world_state(render_time) -> void:
 			get_node(str(player)).move_player(new_position)
 
 
-func update_world_state(world_state) -> void:
+func update_world_state(world_state: Dictionary) -> void:
 	if world_state["T"] > last_world_state:
 		last_world_state = world_state["T"]
 		world_state_buffer.append(world_state)
 
 
-func start_game(game_seed: int, new_player_list: Dictionary) -> void:
-	.start_game(game_seed, new_player_list)
+func start_game(game_seed: int, goal: int, new_player_list: Dictionary) -> void:
+	.start_game(game_seed, goal, new_player_list)
 	reset_camera()
 	MusicPlayer.play_random_track()
 
@@ -110,11 +110,15 @@ func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 
 
 func despawn_player(player_id: int) -> void:
+	if not has_node(str(player_id)):
+		# Player already despawned
+		return
+	.despawn_player(player_id)
 	# If this is the local player show the game over UI
 	if player_id == multiplayer.get_network_unique_id():
 		$UI.show_game_over()
-		switch_camera_to_leader()
-	.despawn_player(player_id)
+		if spawned_players.size() > 0:
+			switch_camera_to_leader()
 
 
 func switch_camera_to_leader() -> void:
@@ -122,35 +126,38 @@ func switch_camera_to_leader() -> void:
 	if leader:
 		$MainCamera.set_target(leader)
 	else:
-		print("[%s] Unable to find lead player: %s" % [get_path().get_name(1), player_list])
+		push_error("Unable to find lead player: %s" % [spawned_players])
 
 
-func get_lead_player() -> Node2D:
+func get_lead_player() -> CommonPlayer:
 	var leader
-	for player_entry in player_list.values():
-		# Ignore spectators
-		if player_entry.spectate:
-			continue
-		var player = player_entry.body
-		# Ignore dead players
-		if not player.enable_movement:
-			continue
+	for player in spawned_players:
 		if leader == null or player.position.x > leader.position.x:
 			leader = player
 	return leader
 
 
-func _on_Player_death(player: Node2D) -> void:
+func _on_Player_death(player: CommonPlayer) -> void:
 	# Only delete the local player for responsiveness.
 	# The server will tell us when to delete other players
 	if int(player.name) == multiplayer.get_network_unique_id():
 		._on_Player_death(player)
 
 
-func _on_Player_score_point(player) -> void:
+func _on_Player_score_point(player: CommonPlayer) -> void:
 	$UI.update_score(player.score)
 	._on_Player_score_point(player)
 
 
 func _on_UI_request_restart() -> void:
 	reset_game()
+
+
+func player_finished(player_id: int, place: int) -> void:
+	# Only show the finished screen if this client finished
+	if player_id == multiplayer.get_network_unique_id():
+		$UI.show_finished(place)
+		MusicPlayer.stop()
+		$FinishMusic.play()
+		$FinishChime.play()
+		switch_camera_to_leader()

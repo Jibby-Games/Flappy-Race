@@ -1,12 +1,92 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://client/ui/pause_menu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/fonts/Score.tres" type="DynamicFont" id=2]
 [ext_resource path="res://client/fonts/DelaGothicOne-48.tres" type="DynamicFont" id=3]
 [ext_resource path="res://client/ui/custom_label.tscn" type="PackedScene" id=4]
 [ext_resource path="res://client/ui/ui.gd" type="Script" id=5]
+[ext_resource path="res://client/theme/flappy.theme" type="Theme" id=6]
+[ext_resource path="res://client/fonts/DelaGothicOne-80.tres" type="DynamicFont" id=7]
+[ext_resource path="res://client/ui/leaderboard_entry.tscn" type="PackedScene" id=8]
+[ext_resource path="res://client/ui/leaderboard.gd" type="Script" id=10]
 
-[sub_resource type="Theme" id=1]
+[sub_resource type="Animation" id=1]
+resource_name = "Finished"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("FinishedLabel:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 2.5, 2.7 ),
+"transitions": PoolRealArray( -2, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PlaceLabel:modulate")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 0.8, 2.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("PlaceLabel:anchor_left")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1.6, 2.7 ),
+"transitions": PoolRealArray( 1, 0.5, 2 ),
+"update": 0,
+"values": [ 0.5, 0.5, 0.93 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("PlaceLabel:anchor_top")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1.6, 2.7 ),
+"transitions": PoolRealArray( 1, 0.5, 2 ),
+"update": 0,
+"values": [ 0.6, 0.6, 0.9 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("PlaceLabel:anchor_right")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 1.6, 2.7 ),
+"transitions": PoolRealArray( 1, 0.5, 2 ),
+"update": 0,
+"values": [ 0.5, 0.5, 0.93 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("PlaceLabel:anchor_bottom")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 1.6, 2.7 ),
+"transitions": PoolRealArray( 1, 0.5, 2 ),
+"update": 0,
+"values": [ 0.6, 0.6, 0.9 ]
+}
+
+[sub_resource type="Theme" id=2]
 
 [node name="UI" type="CanvasLayer"]
 follow_viewport_enable = true
@@ -15,10 +95,104 @@ HighScorePath = NodePath("HighScore")
 ScorePath = NodePath("Score")
 GameOverPath = NodePath("GameOver")
 
+[node name="Finished" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FinishedLabel" type="Label" parent="Finished"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 6 )
+custom_fonts/font = ExtResource( 7 )
+text = "Finished!"
+align = 1
+valign = 1
+
+[node name="PlaceLabel" type="Label" parent="Finished"]
+anchor_left = 0.93
+anchor_top = 0.9
+anchor_right = 0.93
+anchor_bottom = 0.9
+margin_left = -85.0
+margin_top = -55.5
+margin_right = 85.0
+margin_bottom = 55.5
+theme = ExtResource( 6 )
+custom_fonts/font = ExtResource( 7 )
+text = "0th"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Finished"]
+anims/Finished = SubResource( 1 )
+
+[node name="Leaderboard" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 100.0
+margin_top = 85.0
+margin_right = -100.0
+margin_bottom = -85.0
+size_flags_vertical = 5
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+LeaderboardEntry = ExtResource( 8 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Leaderboard"]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -449.0
+margin_right = 449.0
+grow_horizontal = 2
+rect_min_size = Vector2( 420, 800 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Header" type="Label" parent="Leaderboard/VBoxContainer"]
+margin_right = 898.0
+margin_bottom = 85.0
+rect_min_size = Vector2( 0, 85 )
+size_flags_vertical = 1
+theme = ExtResource( 6 )
+custom_fonts/font = ExtResource( 3 )
+text = "Leaderboard"
+align = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Leaderboard/VBoxContainer"]
+margin_left = 224.0
+margin_top = 89.0
+margin_right = 674.0
+margin_bottom = 910.0
+rect_min_size = Vector2( 450, 800 )
+size_flags_horizontal = 6
+size_flags_vertical = 3
+follow_focus = true
+scroll_horizontal_enabled = false
+
+[node name="EntryList" type="VBoxContainer" parent="Leaderboard/VBoxContainer/ScrollContainer"]
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_constants/separation = 5
+
+[node name="LeaderboardEntry" parent="Leaderboard/VBoxContainer/ScrollContainer/EntryList" instance=ExtResource( 8 )]
+visible = false
+
 [node name="Score" type="Label" parent="."]
 anchor_right = 1.0
 margin_bottom = 48.0
-theme = SubResource( 1 )
+theme = SubResource( 2 )
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "0"
@@ -48,18 +222,18 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GameOver"]
-margin_left = 471.0
-margin_right = 808.0
-margin_bottom = 720.0
+margin_left = 791.0
+margin_right = 1128.0
+margin_bottom = 1080.0
 size_flags_horizontal = 4
 alignment = 1
 
 [node name="GameOverLabel" parent="GameOver/VBoxContainer" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 285.0
+margin_top = 505.0
 margin_right = 337.0
-margin_bottom = 355.0
+margin_bottom = 575.0
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Game Over!"
@@ -67,9 +241,10 @@ align = 1
 valign = 1
 
 [node name="RestartButton" type="Button" parent="GameOver/VBoxContainer"]
-margin_top = 359.0
+visible = false
+margin_top = 539.0
 margin_right = 337.0
-margin_bottom = 435.0
+margin_bottom = 615.0
 custom_fonts/font = ExtResource( 3 )
 text = "Restart"
 

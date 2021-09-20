@@ -1,12 +1,12 @@
 extends Node2D
 
 
-func _ready():
+func _ready() -> void:
 	randomize()
 	reset()
 
 
-func _physics_process(_delta) -> void:
+func _physics_process(_delta: float) -> void:
 	# Flap randomly, or when about to go below the screen
 	var do_flap_roll = rand_range(0, 100)
 	if do_flap_roll > 96 or is_below_screen():
