@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Start Server",
+            "label": "Server",
             "type": "shell",
             "command": "godot",
             "args": [
@@ -12,24 +12,28 @@
             ]
         },
         {
-            "label": "Start Client",
+            "label": "Client",
             "type": "shell",
             "command": "godot"
         },
         {
             "label": "Start 2 Clients",
             "dependsOn": [
-                "Start Client",
-                "Start Client"
+                "Client",
+                "Client"
             ],
-            "problemMatcher": []
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         },
         {
             "label": "Start Server and 2 Clients",
             "dependsOn": [
-                "Start Client",
-                "Start Client",
-                "Start Server"
+                "Client",
+                "Client",
+                "Server"
             ],
             "problemMatcher": []
         }
