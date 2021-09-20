@@ -5,7 +5,7 @@ var supported_filetypes := ["ogg"]
 var tracks := []
 var current_track := 0
 var current_track_name := ""
-
+var is_playing := false
 
 func _ready() -> void:
 	tracks = load_music(music_file_path)
@@ -30,6 +30,7 @@ func load_music(path: String) -> Array:
 
 
 func play_track(track_index: int) -> void:
+	is_playing = true
 	if track_index >= tracks.size():
 		push_error("Track index %d is out of range. Max is %d" % [track_index, tracks.size()])
 		return
@@ -65,5 +66,13 @@ func play_track_name(track_name: String) -> void:
 
 
 func _on_MusicPlayer_finished() -> void:
+	if not is_playing:
+		return
 	Logger.print(self, "Finished track %d: %s" % [current_track, tracks[current_track]])
 	play_next_track()
+
+
+func stop() -> void:
+	is_playing = false
+	.stop()
+	Logger.print(self, "Stopped playing")
