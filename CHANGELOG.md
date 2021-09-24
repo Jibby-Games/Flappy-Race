@@ -19,6 +19,16 @@ Types of changes:
 ### Added
 - New music by Drozerix
 - Volume controls in options
+- Improved game logs
+- A finish line at a certain score
+- Game options to change the score to win
+- Show who the host is during setup
+- A leaderboard at the end of the race
+
+### Changed
+- Default resolution is now 1080p
+- Players will now die if they go too far above or below the screen
+- Host only buttons will only appear to the host
 
 ## [0.0.1] - 2021-08-29
 First proper release! :D
