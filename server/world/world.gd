@@ -60,7 +60,8 @@ func end_race() -> void:
 		var entry = {
 			"name": player.name,
 			"colour": player.colour,
-			"place": player.place
+			"place": player.place,
+			"score": player.body.score
 		}
 		# Should sort the order out
 		if player.place:

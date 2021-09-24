@@ -3,12 +3,10 @@ extends CanvasLayer
 
 export(NodePath) var HighScorePath
 export(NodePath) var ScorePath
-export(NodePath) var GameOverPath
 
 
 onready var HighScore := get_node(HighScorePath)
 onready var Score := get_node(ScorePath)
-onready var GameOver := get_node(GameOverPath)
 
 
 signal request_restart
@@ -28,15 +26,6 @@ func update_score(new_score: int) -> void:
 		HighScore.text = str(new_score)
 
 
-func show_game_over() -> void:
-	if Network.Client.is_host():
-		$GameOver/VBoxContainer/RestartButton.show()
-		$GameOver/VBoxContainer/RestartButton.grab_focus()
-	else:
-		$GameOver/VBoxContainer/RestartButton.hide()
-	GameOver.show()
-
-
 func _on_RestartButton_pressed() -> void:
 	emit_signal("request_restart")
 
@@ -50,7 +39,13 @@ func show_leaderboard(player_list: Array) -> void:
 	$Leaderboard.clear_players()
 	for player in player_list:
 		var place_text = "DNF" if player.place == null else int2ordinal(player.place)
-		$Leaderboard.add_player(player.name, player.colour, place_text)
+		$Leaderboard.add_player(player.name, player.colour, place_text, player.score)
+
+	if Network.Client.is_host():
+		$Leaderboard/Footer/RestartButton.show()
+		$Leaderboard/Footer/RestartButton.grab_focus()
+	else:
+		$Leaderboard/Footer/RestartButton.hide()
 	$Leaderboard.show()
 
 

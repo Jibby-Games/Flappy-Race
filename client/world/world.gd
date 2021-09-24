@@ -116,7 +116,6 @@ func despawn_player(player_id: int) -> void:
 	.despawn_player(player_id)
 	# If this is the local player show the game over UI
 	if player_id == multiplayer.get_network_unique_id():
-		$UI.show_game_over()
 		if spawned_players.size() > 0:
 			switch_camera_to_leader()
 
@@ -160,4 +159,5 @@ func player_finished(player_id: int, place: int) -> void:
 		MusicPlayer.stop()
 		$FinishMusic.play()
 		$FinishChime.play()
-		switch_camera_to_leader()
+		if spawned_players.size() > 0:
+			switch_camera_to_leader()

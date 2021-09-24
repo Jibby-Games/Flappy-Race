@@ -111,17 +111,23 @@ func _peer_disconnected(player_id: int) -> void:
 remote func receive_player_settings(player_name: String, player_colour: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	Logger.print(self, "Got settings for player %s. Name: %s, Colour: %s" % [player_id, player_name, player_colour])
-	player_list[player_id] = {
+	player_list[player_id] = create_player_list_entry(player_name, player_colour)
+	send_player_list_update(player_list)
+
+
+func create_player_list_entry(player_name: String, player_colour: int) -> Dictionary:
+	return {
 		"name": player_name,
 		"colour": player_colour,
 		"spectate": false,
-		"place": null
+		"body": null,
+		"place": null,
+		"score": null
 	}
-	send_player_list_update()
 
 
-func send_player_list_update() -> void:
-	rpc("receive_player_list_update", player_list)
+func send_player_list_update(new_player_list: Dictionary) -> void:
+	rpc("receive_player_list_update", new_player_list)
 
 
 remote func receive_player_colour_change(colour_choice: int) -> void:
