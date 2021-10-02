@@ -146,8 +146,10 @@ func _on_Player_death(player: CommonPlayer) -> void:
 
 
 func _on_Player_score_point(player: CommonPlayer) -> void:
-	$UI.update_score(player.score)
-	._on_Player_score_point(player)
+	# Only update the UI for the local player
+	if int(player.name) == multiplayer.get_network_unique_id():
+		$UI.update_score(player.score)
+		._on_Player_score_point(player)
 
 
 func _on_UI_request_restart() -> void:
