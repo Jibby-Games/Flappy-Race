@@ -108,6 +108,8 @@ func despawn_player(player_id: int) -> void:
 	if player:
 		spawned_players.erase(player)
 		player.queue_free()
+		if spawned_players.size() == 0:
+			end_race()
 
 
 #### Wall functions
@@ -143,8 +145,6 @@ func _on_Player_death(player: CommonPlayer) -> void:
 	player.set_enable_movement(false)
 	var player_id = int(player.name)
 	despawn_player(player_id)
-	if spawned_players.size() == 0:
-		end_race()
 
 
 func _on_Player_score_point(player: CommonPlayer) -> void:
@@ -161,8 +161,6 @@ func _on_Player_finish(player: CommonPlayer) -> void:
 	var player_id = int(player.name)
 	Logger.print(self, "Player %s crossed the finish line!" % player_id)
 	despawn_player(player_id)
-	if spawned_players.size() == 0:
-		end_race()
 
 
 func end_race() -> void:

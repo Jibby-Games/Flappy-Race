@@ -189,6 +189,18 @@ remote func receive_client_ready() -> void:
 	$World.set_player_ready(player_id)
 
 
+remote func receive_player_death() -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	$World.despawn_player(player_id)
+	if player_state_collection.has(player_id):
+		assert(player_state_collection.erase(player_id))
+	for peer_id in multiplayer.get_network_connected_peers():
+		# Don't send back to the player who sent the death
+		if peer_id == player_id:
+			continue
+		rpc_id(peer_id, "receive_despawn_player", player_id)
+
+
 remote func receive_start_game_request() -> void:
 	# Only the server or the host can start the game
 	var player_id = multiplayer.get_rpc_sender_id()
@@ -200,6 +212,8 @@ remote func receive_start_game_request() -> void:
 			Logger.print(self, "Cannot start game with just spectators!")
 			return
 		Logger.print(self, "Starting game!")
+		# Flush any old states
+		player_state_collection.clear()
 		send_load_world()
 		change_scene("res://server/world/world.tscn")
 	else:

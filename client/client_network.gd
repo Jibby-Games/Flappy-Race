@@ -205,6 +205,10 @@ func send_client_ready() -> void:
 	rpc_id(SERVER_ID, "receive_client_ready")
 
 
+func send_player_death() -> void:
+	rpc_id(SERVER_ID, "receive_player_death")
+
+
 remote func receive_despawn_player(player_id: int) -> void:
 	if is_rpc_from_server() == false:
 		return

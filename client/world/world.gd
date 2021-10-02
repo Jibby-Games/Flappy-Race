@@ -141,6 +141,7 @@ func _on_Player_death(player: CommonPlayer) -> void:
 	# Only delete the local player for responsiveness.
 	# The server will tell us when to delete other players
 	if int(player.name) == multiplayer.get_network_unique_id():
+		Network.Client.send_player_death()
 		._on_Player_death(player)
 
 
