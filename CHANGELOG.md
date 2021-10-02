@@ -16,6 +16,8 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.0.2] - 2021-10-02
+
 ### Added
 - New music by Drozerix
 - Volume controls in options
@@ -32,6 +34,7 @@ Types of changes:
 
 ### Fixed
 - Stopped players sometimes dying at the start of the game
+- Only update the score in the UI for the local player
 
 ## [0.0.1] - 2021-08-29
 First proper release! :D
@@ -46,5 +49,6 @@ First proper release! :D
 - Animated title screen background
 - Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibbajabbafic/Flappy-Race/compare/v0.0.1...HEAD
+[Unreleased]: https://github.com/Jibbajabbafic/Flappy-Race/compare/v0.0.2...HEAD
+[0.0.2]: https://github.com/Jibbajabbafic/Flappy-Race/releases/tag/v0.0.2
 [0.0.1]: https://github.com/Jibbajabbafic/Flappy-Race/releases/tag/v0.0.1

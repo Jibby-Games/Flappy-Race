@@ -182,7 +182,7 @@ margin_right = 140.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 custom_fonts/font = ExtResource( 5 )
-text = "v0.0.1"
+text = "v0.0.2"
 valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
