@@ -30,6 +30,9 @@ Types of changes:
 - Players will now die if they go too far above or below the screen
 - Host only buttons will only appear to the host
 
+### Fixed
+- Stopped players sometimes dying at the start of the game
+
 ## [0.0.1] - 2021-08-29
 First proper release! :D
 ### Added
