@@ -71,12 +71,15 @@ func reset_players() -> void:
 		player.queue_free()
 	Logger.print(self, "Spawning players in list: %s" % [player_list])
 	for player_id in player_list:
+		var player_entry = player_list[player_id]
+		player_entry.score = 0
+		player_entry.place = null
 		# Don't spawn any spectators
-		if player_list[player_id].spectate == true:
+		if player_entry.spectate == true:
 			continue
-		var player = spawn_player(player_id, Vector2.ZERO)
-		player_list[player_id]["body"] = player
-		spawned_players.append(player)
+		var player_body = spawn_player(player_id, Vector2.ZERO)
+		player_entry["body"] = player_body
+		spawned_players.append(player_body)
 
 
 func spawn_finish_line(x_position: int) -> void:
@@ -138,13 +141,16 @@ func spawn_wall() -> void:
 #### Player helper functions
 func _on_Player_death(player: CommonPlayer) -> void:
 	player.set_enable_movement(false)
-	despawn_player(int(player.name))
+	var player_id = int(player.name)
+	despawn_player(player_id)
 	if spawned_players.size() == 0:
 		end_race()
 
 
 func _on_Player_score_point(player: CommonPlayer) -> void:
-	Logger.print(self, "Player %s scored a point!" % [player.name])
+	var player_id = int(player.name)
+	Logger.print(self, "Player %s scored a point!" % [player_id])
+	player_list[player_id].score = player.score
 	if player.score > highest_score:
 		# Make the walls spawn as players progress
 		highest_score = player.score
