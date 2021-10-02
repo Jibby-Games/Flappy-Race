@@ -30,12 +30,17 @@ func _on_RestartButton_pressed() -> void:
 	emit_signal("request_restart")
 
 
+func show_death() -> void:
+	$Death.show()
+
+
 func show_finished(place: int) -> void:
 	$Finished/PlaceLabel.text = int2ordinal(place)
 	$Finished/AnimationPlayer.play("Finished")
 
 
 func show_leaderboard(player_list: Array) -> void:
+	$Death.hide()
 	$Leaderboard.clear_players()
 	for player in player_list:
 		var place_text = "DNF" if player.place == null else int2ordinal(player.place)

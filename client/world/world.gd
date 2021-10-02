@@ -114,9 +114,10 @@ func despawn_player(player_id: int) -> void:
 		# Player already despawned
 		return
 	.despawn_player(player_id)
-	# If this is the local player show the game over UI
+	# If this is the local player update the camera and UI
 	if player_id == multiplayer.get_network_unique_id():
 		if spawned_players.size() > 0:
+			$UI.show_death()
 			switch_camera_to_leader()
 
 
