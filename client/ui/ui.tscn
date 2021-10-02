@@ -210,9 +210,6 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 custom_constants/separation = 5
 
-[node name="LeaderboardEntry" parent="Leaderboard/VBoxContainer/ScrollContainer/EntryList" instance=ExtResource( 8 )]
-visible = false
-
 [node name="Footer" type="HBoxContainer" parent="Leaderboard"]
 anchor_left = 0.5
 anchor_top = 1.0
