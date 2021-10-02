@@ -2,6 +2,23 @@
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "2.0.0",
+    "problemMatcher": {
+        "owner": "godot",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "pattern": [
+            {
+                "regexp": "^(.*?):\\s(.*?):\\s(.*)",
+                "severity": 1,
+                "code": 2,
+                "message": 3
+            },
+            {
+                "regexp": "^\\s*At: res://(.*):(\\d+)",
+                "file": 1,
+                "line": 2
+            }
+        ]
+    },
     "tasks": [
         {
             "label": "Server",
@@ -9,12 +26,18 @@
             "command": "godot",
             "args": [
                 "--server"
-            ]
+            ],
+            "presentation": {
+                "group": "servers"
+            },
         },
         {
             "label": "Client",
             "type": "shell",
-            "command": "godot"
+            "command": "godot",
+            "presentation": {
+                "group": "clients"
+            },
         },
         {
             "label": "Start 2 Clients",
@@ -22,7 +45,6 @@
                 "Client",
                 "Client"
             ],
-            "problemMatcher": [],
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -35,7 +57,6 @@
                 "Client",
                 "Server"
             ],
-            "problemMatcher": []
         }
     ]
 }
