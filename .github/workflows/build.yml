@@ -27,7 +27,8 @@ jobs:
           - platform: mac
             file: zip
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
           lfs: true
       - name: Build
@@ -42,12 +43,3 @@ jobs:
         with:
           name: FlappyRace-${{ github.sha }}-${{ matrix.platform }}
           path: ${{ github.workspace }}/${{ steps.build.outputs.build }}
-      - name: Update Release
-        uses: marvinpinto/action-automatic-releases@v1.2.1
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: true
-          title: "Development Build"
-          files: |
-            ${{ github.workspace }}/${{ steps.build.outputs.build }}
