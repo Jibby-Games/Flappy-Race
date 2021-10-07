@@ -1,11 +1,14 @@
-        
+
 name: Build Game
 
 on:
-  push: 
+  push:
     branches:
       - main
-  pull_request: {}
+  pull_request:
+    branches:
+     - main
+  workflow_call:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -37,5 +40,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: Client - ${{ matrix.platform }}
+          name: FlappyRace-${{ github.sha }}-${{ matrix.platform }}
           path: ${{ github.workspace }}/${{ steps.build.outputs.build }}
