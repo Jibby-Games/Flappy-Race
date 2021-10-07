@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Godot:
+  build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -42,3 +42,12 @@ jobs:
         with:
           name: FlappyRace-${{ github.sha }}-${{ matrix.platform }}
           path: ${{ github.workspace }}/${{ steps.build.outputs.build }}
+      - name: Update Release
+        uses: marvinpinto/action-automatic-releases@v1.2.1
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            ${{ github.workspace }}/${{ steps.build.outputs.build }}
+            
