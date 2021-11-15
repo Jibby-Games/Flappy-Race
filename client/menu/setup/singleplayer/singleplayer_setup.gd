@@ -1,4 +1,4 @@
-extends Control
+extends MenuControl
 
 
 func _ready() -> void:
@@ -7,4 +7,4 @@ func _ready() -> void:
 
 
 func _on_BackButton_pressed() -> void:
-	Network.Client.change_scene("res://client/menu/title/title_screen.tscn")
+	change_menu_to_previous()

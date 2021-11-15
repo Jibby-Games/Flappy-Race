@@ -36,8 +36,7 @@ func _ready() -> void:
 	# Register with the Network singleton so this node can be easily accessed
 	Network.Client = self
 
-	# The client should always start at the title screen
-	change_scene("res://client/menu/title/title_screen.tscn")
+	change_scene_to_title_screen()
 
 
 func _physics_process(delta: float) -> void:
@@ -53,6 +52,11 @@ func _exit_tree() -> void:
 	multiplayer.disconnect("connection_failed", self, "_on_connection_failed")
 	multiplayer.disconnect("connected_to_server", self, "_on_connected_to_server")
 	multiplayer.disconnect("server_disconnected", self, "_on_server_disconnected")
+
+
+func change_scene_to_title_screen() -> void:
+	# The client should always start in the main menu
+	change_scene("res://client/menu/menu_handler.tscn")
 
 
 func start_client(host: String, port: int, singleplayer: bool = false) -> void:
@@ -85,7 +89,7 @@ func _on_connected_to_server() -> void:
 func _on_server_disconnected() -> void:
 	Logger.print(self, "Disconnected from server!")
 	stop_client()
-	Network.Client.change_scene("res://client/menu/title/title_screen.tscn")
+	change_scene_to_title_screen()
 	Globals.show_message("Lost connection to the server.", "Server Disconnect")
 
 
