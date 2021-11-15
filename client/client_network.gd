@@ -163,7 +163,7 @@ func send_player_settings(player_name: String, player_colour: int) -> void:
 remote func receive_player_list_update(player_list: Dictionary) -> void:
 	if is_rpc_from_server() == false:
 		return
-	var setup = get_node_or_null("MultiplayerSetup")
+	var setup = get_node_or_null("MenuHandler/MultiplayerSetup")
 	if setup:
 		setup.populate_players(player_list)
 
@@ -175,7 +175,7 @@ func send_player_colour_change(colour_choice: int) -> void:
 remote func receive_player_colour_update(player_id: int, colour_choice: int) -> void:
 	if is_rpc_from_server() == false:
 		return
-	var setup = get_node_or_null("MultiplayerSetup")
+	var setup = get_node_or_null("MenuHandler/MultiplayerSetup")
 	if setup:
 		setup.update_player_colour(player_id, colour_choice)
 
@@ -187,7 +187,7 @@ func send_player_spectate_change(is_spectating: bool) -> void:
 remote func receive_player_spectate_update(player_id: int, is_spectating: bool) -> void:
 	if is_rpc_from_server() == false:
 		return
-	var setup = get_node_or_null("MultiplayerSetup")
+	var setup = get_node_or_null("MenuHandler/MultiplayerSetup")
 	if setup:
 		setup.update_player_spectating(player_id, is_spectating)
 
@@ -200,7 +200,7 @@ func send_goal_change(goal: int) -> void:
 remote func receive_goal_change(goal: int) -> void:
 	if is_rpc_from_server() == false:
 		return
-	var options = get_node_or_null("MultiplayerSetup/Setup/GameOptions")
+	var options = get_node_or_null("MenuHandler/MultiplayerSetup/Setup/GameOptions")
 	if options:
 		options.set_goal(goal)
 

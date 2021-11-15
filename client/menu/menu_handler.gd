@@ -21,9 +21,12 @@ func _change_menu_to(next_scene: PackedScene) -> void:
 
 
 func change_menu_to(next_scene: PackedScene) -> void:
+	_change_menu_to(next_scene)
+	# This allows the next menu's network logic to work during the animation
+	_active_scene.hide()
 	$AnimationPlayer.play("fade_in")
 	yield($AnimationPlayer, "animation_finished")
-	_change_menu_to(next_scene)
+	_active_scene.show()
 	$AnimationPlayer.play_backwards("fade_in")
 	yield($AnimationPlayer, "animation_finished")
 
