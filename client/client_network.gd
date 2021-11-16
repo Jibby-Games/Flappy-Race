@@ -36,8 +36,7 @@ func _ready() -> void:
 	# Register with the Network singleton so this node can be easily accessed
 	Network.Client = self
 
-	# The client should always start at the title screen
-	change_scene("res://client/menu/title/title_screen.tscn")
+	change_scene_to_title_screen()
 
 
 func _physics_process(delta: float) -> void:
@@ -53,6 +52,11 @@ func _exit_tree() -> void:
 	multiplayer.disconnect("connection_failed", self, "_on_connection_failed")
 	multiplayer.disconnect("connected_to_server", self, "_on_connected_to_server")
 	multiplayer.disconnect("server_disconnected", self, "_on_server_disconnected")
+
+
+func change_scene_to_title_screen() -> void:
+	# The client should always start in the main menu
+	change_scene("res://client/menu/menu_handler.tscn")
 
 
 func start_client(host: String, port: int, singleplayer: bool = false) -> void:
@@ -85,7 +89,7 @@ func _on_connected_to_server() -> void:
 func _on_server_disconnected() -> void:
 	Logger.print(self, "Disconnected from server!")
 	stop_client()
-	Network.Client.change_scene("res://client/menu/title/title_screen.tscn")
+	change_scene_to_title_screen()
 	Globals.show_message("Lost connection to the server.", "Server Disconnect")
 
 
@@ -159,7 +163,7 @@ func send_player_settings(player_name: String, player_colour: int) -> void:
 remote func receive_player_list_update(player_list: Dictionary) -> void:
 	if is_rpc_from_server() == false:
 		return
-	var setup = get_node_or_null("MultiplayerSetup")
+	var setup = get_node_or_null("MenuHandler/MultiplayerSetup")
 	if setup:
 		setup.populate_players(player_list)
 
@@ -171,7 +175,7 @@ func send_player_colour_change(colour_choice: int) -> void:
 remote func receive_player_colour_update(player_id: int, colour_choice: int) -> void:
 	if is_rpc_from_server() == false:
 		return
-	var setup = get_node_or_null("MultiplayerSetup")
+	var setup = get_node_or_null("MenuHandler/MultiplayerSetup")
 	if setup:
 		setup.update_player_colour(player_id, colour_choice)
 
@@ -183,7 +187,7 @@ func send_player_spectate_change(is_spectating: bool) -> void:
 remote func receive_player_spectate_update(player_id: int, is_spectating: bool) -> void:
 	if is_rpc_from_server() == false:
 		return
-	var setup = get_node_or_null("MultiplayerSetup")
+	var setup = get_node_or_null("MenuHandler/MultiplayerSetup")
 	if setup:
 		setup.update_player_spectating(player_id, is_spectating)
 
@@ -196,7 +200,7 @@ func send_goal_change(goal: int) -> void:
 remote func receive_goal_change(goal: int) -> void:
 	if is_rpc_from_server() == false:
 		return
-	var options = get_node_or_null("MultiplayerSetup/Setup/GameOptions")
+	var options = get_node_or_null("MenuHandler/MultiplayerSetup/Setup/GameOptions")
 	if options:
 		options.set_goal(goal)
 

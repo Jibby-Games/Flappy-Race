@@ -8,10 +8,10 @@
 [node name="Options" instance=ExtResource( 1 )]
 
 [node name="VBoxContainer" parent="CenterContainer" index="0"]
-margin_left = 527.0
-margin_top = 157.0
-margin_right = 753.0
-margin_bottom = 563.0
+margin_left = 847.0
+margin_top = 337.0
+margin_right = 1073.0
+margin_bottom = 743.0
 custom_constants/separation = 20
 
 [node name="Label" parent="CenterContainer/VBoxContainer" index="0"]

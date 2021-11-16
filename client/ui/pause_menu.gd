@@ -28,7 +28,7 @@ func _on_ResumeButton_pressed() -> void:
 func _on_MainMenuButton_pressed() -> void:
 	Network.stop_networking()
 	get_tree().paused = false
-	Network.Client.change_scene("res://client/menu/title/title_screen.tscn")
+	Network.Client.change_scene_to_title_screen()
 
 
 func _on_QuitButton_pressed() -> void:

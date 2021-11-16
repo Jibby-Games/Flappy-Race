@@ -1,4 +1,4 @@
-extends Control
+extends MenuControl
 
 
 onready var master_slider = $CenterContainer/VBoxContainer/MasterVolume/MasterSlider
@@ -41,7 +41,7 @@ func _ready() -> void:
 
 
 func _on_Button_pressed() -> void:
-	Network.Client.change_scene("res://client/menu/title/title_screen.tscn")
+	change_menu_to_previous()
 
 
 func _on_MasterSlider_value_changed(value: float) -> void:

@@ -127,6 +127,7 @@ func create_player_list_entry(player_name: String, player_colour: int) -> Dictio
 
 
 func send_player_list_update(new_player_list: Dictionary) -> void:
+	Logger.print(self, "Sending player list update")
 	rpc("receive_player_list_update", new_player_list)
 
 
@@ -138,6 +139,7 @@ remote func receive_player_colour_change(colour_choice: int) -> void:
 
 
 func send_player_colour_update(player_id: int, colour_choice: int) -> void:
+	Logger.print(self, "Sending player colour update")
 	rpc("receive_player_colour_update", player_id, colour_choice)
 
 
@@ -149,6 +151,7 @@ remote func receive_player_spectate_change(is_spectating: bool) -> void:
 
 
 func send_player_spectate_update(player_id: int, is_spectating: bool) -> void:
+	Logger.print(self, "Sending player spectate update")
 	rpc("receive_player_spectate_update", player_id, is_spectating)
 
 

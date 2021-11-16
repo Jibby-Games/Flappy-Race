@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://common/utils/logger.gd"
 }, {
+"base": "Control",
+"class": "MenuControl",
+"language": "GDScript",
+"path": "res://client/menu/menu_control.gd"
+}, {
 "base": "Node",
 "class": "SceneHandler",
 "language": "GDScript",
@@ -50,6 +55,7 @@ _global_script_class_icons={
 "CommonWall": "",
 "CommonWorld": "",
 "Logger": "",
+"MenuControl": "",
 "SceneHandler": "",
 "ServerNetwork": ""
 }
@@ -69,12 +75,12 @@ default_bus_layout="res://client/audio/default_bus_layout.tres"
 
 Globals="*res://client/singletons/globals.gd"
 Network="*res://common/singletons/network.gd"
-MusicPlayer="*res://client/singletons/music_player.tscn"
 
 [display]
 
 window/size/width=1920
 window/size/height=1080
+window/dpi/allow_hidpi=true
 window/stretch/mode="2d"
 window/stretch/aspect="expand"
 
@@ -94,7 +100,7 @@ ogg_vorbis={
 
 pause_menu={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777217,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777217,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":11,"pressure":0.0,"pressed":false,"script":null)
  ]
 }

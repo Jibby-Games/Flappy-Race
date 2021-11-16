@@ -1,10 +1,9 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://client/menu/title/title_screen.gd" type="Script" id=1]
 [ext_resource path="res://client/world/background/flappy_race_logo.png" type="Texture" id=2]
 [ext_resource path="res://client/menu/title/title_player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=5]
-[ext_resource path="res://client/menu/fade_in.tscn" type="PackedScene" id=6]
 [ext_resource path="res://client/menu/setup/singleplayer/singleplayer_setup.tscn" type="PackedScene" id=7]
 [ext_resource path="res://client/menu/options/options.tscn" type="PackedScene" id=8]
 [ext_resource path="res://client/menu/lobby/lobby.tscn" type="PackedScene" id=9]
@@ -187,9 +186,6 @@ valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="FadeIn" parent="." instance=ExtResource( 6 )]
-visible = false
 
 [connection signal="pressed" from="Menu/Buttons/SingleplayerButton" to="." method="_on_SingleplayerButton_pressed"]
 [connection signal="pressed" from="Menu/Buttons/MultiplayerButton" to="." method="_on_MultiplayerButton_pressed"]

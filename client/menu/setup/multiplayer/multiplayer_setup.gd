@@ -1,4 +1,4 @@
-extends Control
+extends MenuControl
 
 
 onready var player_list = $Setup/PlayerList
@@ -22,7 +22,7 @@ func update_player_spectating(player_id: int, is_spectating: bool) -> void:
 
 
 func _on_BackButton_pressed() -> void:
-	Network.Client.change_scene("res://client/menu/lobby/lobby.tscn")
+	change_menu_to_previous()
 
 
 func _on_SpectateButton_toggled(button_pressed: bool) -> void:
