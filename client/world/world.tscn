@@ -9,7 +9,7 @@
 [ext_resource path="res://client/audio/finish_sfx.ogg" type="AudioStream" id=7]
 [ext_resource path="res://client/world/player/player.tscn" type="PackedScene" id=8]
 [ext_resource path="res://client/world/wall/wall.tscn" type="PackedScene" id=9]
-[ext_resource path="res://client/singletons/music_player.tscn" type="PackedScene" id=10]
+[ext_resource path="res://client/music/music_player.tscn" type="PackedScene" id=10]
 
 [node name="World" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
