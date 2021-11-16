@@ -75,7 +75,6 @@ default_bus_layout="res://client/audio/default_bus_layout.tres"
 
 Globals="*res://client/singletons/globals.gd"
 Network="*res://common/singletons/network.gd"
-MusicPlayer="*res://client/singletons/music_player.tscn"
 
 [display]
 

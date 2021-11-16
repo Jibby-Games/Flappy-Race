@@ -10,6 +10,7 @@ var previous_menu: PackedScene
 
 func _ready() -> void:
 	_change_menu_to(title_scene)
+	$MusicPlayer.play_track_name("Drozerix - Digital Rendezvous")
 
 
 func _change_menu_to(next_scene: PackedScene) -> void:

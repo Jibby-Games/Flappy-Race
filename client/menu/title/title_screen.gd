@@ -8,9 +8,6 @@ export(PackedScene) var options_scene
 
 func _ready() -> void:
 	$Menu/Buttons/SingleplayerButton.grab_focus()
-	# So it doesn't keep restarting
-	if MusicPlayer.current_track_name != "drozerix_-_digital_rendezvous.ogg":
-		MusicPlayer.play_track_name("drozerix_-_digital_rendezvous.ogg")
 
 
 func _on_SingleplayerButton_pressed():

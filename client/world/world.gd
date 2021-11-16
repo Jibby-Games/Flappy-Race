@@ -81,7 +81,7 @@ func update_world_state(world_state: Dictionary) -> void:
 func start_game(game_seed: int, goal: int, new_player_list: Dictionary) -> void:
 	.start_game(game_seed, goal, new_player_list)
 	reset_camera()
-	MusicPlayer.play_random_track()
+	$MusicPlayer.play_random_track()
 
 
 func reset_camera() -> void:
@@ -160,7 +160,7 @@ func player_finished(player_id: int, place: int) -> void:
 	# Only show the finished screen if this client finished
 	if player_id == multiplayer.get_network_unique_id():
 		$UI.show_finished(place)
-		MusicPlayer.stop()
+		$MusicPlayer.stop()
 		$FinishMusic.play()
 		$FinishChime.play()
 		if spawned_players.size() > 0:
