@@ -28,17 +28,17 @@ jobs:
       - name: Prepare windows
         uses: TheDoctor0/zip-release@0.6.0
         with:
-          filename: FlappyRace-${{ tag }}-Windows.zip
+          filename: FlappyRace-${{ github.ref_name }}-Windows.zip
           path: builds/FlappyRace-windows*/*
       - name: Prepare mac
         uses: TheDoctor0/zip-release@0.6.0
         with:
-          filename: FlappyRace-${{ tag }}-Mac.zip
+          filename: FlappyRace-${{ github.ref_name }}-Mac.zip
           path: builds/FlappyRace-mac*/*
       - name: Prepare linux
         uses: TheDoctor0/zip-release@0.6.0
         with:
-          filename: FlappyRace-${{ tag }}-Linux.zip
+          filename: FlappyRace-${{ github.ref_name }}-Linux.zip
           path: builds/FlappyRace-linux*/*
       - name: Display structure of downloaded files
         run: ls -R
