@@ -17,9 +17,18 @@ jobs:
     needs: build
     steps:
       - name: Download all artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v2.0.10
         id: download
+        with:
+          path: builds
       - name: Display structure of downloaded files
         run: ls -R
       - name: 'Echo download path'
         run: echo ${{steps.download.outputs.download-path}}
+      - name: GH Release
+        uses: softprops/action-gh-release@v0.1.14
+        with:
+          body: Test release
+          draft: true
+          files: |
+            builds/*
