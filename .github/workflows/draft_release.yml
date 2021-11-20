@@ -18,19 +18,16 @@ jobs:
     steps:
       - name: Download Windows
         uses: actions/download-artifact@v2.0.10
-        id: download
         with:
           name: FlappyRace-windows-${{ github.sha }}
           path: builds/FlappyRace-${{ github.ref_name }}-Windows
       - name: Download Mac
         uses: actions/download-artifact@v2.0.10
-        id: download
         with:
           name: FlappyRace-mac-${{ github.sha }}
           path: builds/FlappyRace-${{ github.ref_name }}-Mac
       - name: Download Linux
         uses: actions/download-artifact@v2.0.10
-        id: download
         with:
           name: FlappyRace-linux-${{ github.sha }}
           path: builds/FlappyRace-${{ github.ref_name }}-Linux
