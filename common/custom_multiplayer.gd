@@ -34,7 +34,9 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_ENTER_TREE:
 		# We also want to customize all nodes that will be added dinamically
 		# later on.
-		assert(get_tree().connect("node_added", self, "_on_add_node") == OK)
+		var result: int
+		result = get_tree().connect("node_added", self, "_on_add_node")
+		assert(result == OK)
 		_customize_children()
 	elif what == NOTIFICATION_EXIT_TREE:
 		# Don't forget to disconnect

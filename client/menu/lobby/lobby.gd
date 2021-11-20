@@ -14,8 +14,11 @@ onready var name_input = $VBoxContainer/Menu/CenterContainer/ButtonContainer/Nam
 
 
 func _ready() -> void:
-	assert(multiplayer.connect("connected_to_server", self, "_on_connected") == OK)
-	assert(multiplayer.connect("connection_failed", self, "_on_connection_failed") == OK)
+	var result: int
+	result = multiplayer.connect("connected_to_server", self, "_on_connected")
+	assert(result == OK)
+	result = multiplayer.connect("connection_failed", self, "_on_connection_failed")
+	assert(result == OK)
 	name_input.text = Globals.player_name
 
 

@@ -57,6 +57,29 @@
                 "Client",
                 "Server"
             ],
+        },
+        {
+            "label": "Export Windows",
+            "type": "shell",
+            "command": "mkdir -p builds/windows && godot --export windows",
+        },
+        {
+            "label": "Export Mac",
+            "type": "shell",
+            "command": "mkdir -p builds/mac && godot --export mac",
+        },
+        {
+            "label": "Export Linux",
+            "type": "shell",
+            "command": "mkdir -p builds/linux && godot --export linux",
+        },
+        {
+            "label": "Export All",
+            "dependsOn": [
+                "Export Windows",
+                "Export Mac",
+                "Export Linux"
+            ],
         }
     ]
 }

@@ -26,8 +26,11 @@ func _ready() -> void:
 	# stuff we use mutltiplayer.connect . This way, IF (and only IF) the
 	# MultiplayerAPI is customized, we use that instead of the global one.
 	# This makes the custom MultiplayerAPI almost plug-n-play.
-	assert(multiplayer.connect("network_peer_disconnected", self, "_peer_disconnected") == OK)
-	assert(multiplayer.connect("network_peer_connected", self, "_peer_connected") == OK)
+	var result: int
+	result = multiplayer.connect("network_peer_disconnected", self, "_peer_disconnected")
+	assert(result == OK)
+	result = multiplayer.connect("network_peer_connected", self, "_peer_connected")
+	assert(result == OK)
 
 	# Register with the Network singleton so this node can be easily accessed
 	Network.Server = self
@@ -64,7 +67,9 @@ func clear_host() -> void:
 func start_server(port: int, server_max_players: int) -> void:
 	max_players = server_max_players
 	var peer := NetworkedMultiplayerENet.new()
-	assert(peer.create_server(port, max_players) == OK)
+	var result: int
+	result = peer.create_server(port, max_players)
+	assert(result == OK)
 	# Same goes for things like:
 	# get_tree().set_network_peer() -> multiplayer.set_network_peer()
 	# Basically, anything networking related needs to be updated this way.

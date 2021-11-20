@@ -18,11 +18,15 @@ func _load_network_scene(scene_path: String) -> SceneHandler:
 
 
 func change_to_client() -> void:
-	assert(get_tree().change_scene(CLIENT_NETWORK) == OK)
+	var result: int
+	result = get_tree().change_scene(CLIENT_NETWORK)
+	assert(result == OK)
 
 
 func change_to_server() -> void:
-	assert(get_tree().change_scene(SERVER_NETWORK) == OK)
+	var result: int
+	result = get_tree().change_scene(SERVER_NETWORK)
+	assert(result == OK)
 
 
 func start_singleplayer() -> void:

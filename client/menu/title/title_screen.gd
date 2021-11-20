@@ -7,6 +7,7 @@ export(PackedScene) var options_scene
 
 
 func _ready() -> void:
+	$Menu/VersionLabel.text = ProjectSettings.get_setting("application/config/version")
 	$Menu/Buttons/SingleplayerButton.grab_focus()
 
 

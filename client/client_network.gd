@@ -29,9 +29,13 @@ func _ready() -> void:
 	# stuff we use mutltiplayer.connect . This way, IF (and only IF) the
 	# MultiplayerAPI is customized, we use that instead of the global one.
 	# This makes the custom MultiplayerAPI almost plug-n-play.
-	assert(multiplayer.connect("connection_failed", self, "_on_connection_failed") == OK)
-	assert(multiplayer.connect("connected_to_server", self, "_on_connected_to_server") == OK)
-	assert(multiplayer.connect("server_disconnected", self, "_on_server_disconnected") == OK)
+	var result: int
+	result = multiplayer.connect("connection_failed", self, "_on_connection_failed")
+	assert(result == OK)
+	result = multiplayer.connect("connected_to_server", self, "_on_connected_to_server")
+	assert(result == OK)
+	result = multiplayer.connect("server_disconnected", self, "_on_server_disconnected")
+	assert(result == OK)
 
 	# Register with the Network singleton so this node can be easily accessed
 	Network.Client = self

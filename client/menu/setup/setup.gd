@@ -17,7 +17,9 @@ func _ready() -> void:
 	colour_selector.select(Globals.player_colour)
 
 	# Update for any host changes
-	assert(Network.Client.connect("host_changed", self, "_on_host_changed") == OK)
+	var result: int
+	result = Network.Client.connect("host_changed", self, "_on_host_changed")
+	assert(result == OK)
 
 
 func _on_host_changed(_new_host: int) -> void:

@@ -16,6 +16,18 @@ Types of changes:
 
 ## [Unreleased]
 
+Moved main GitHub repo to an organization since the last release.
+
+### Added
+- Enable HiDPI support for Macs
+### Changed
+- All main menus have a nice animation between them now
+- Improved Godot export settings
+### Fixed
+- Music now works in builds!
+- Remove music player from server
+- Replaced asserts to make non-debug builds work
+
 ## [0.0.2] - 2021-10-02
 
 ### Added

@@ -66,6 +66,7 @@ config/name="Flappy Race"
 config/description="Multiplayer flappy bird"
 run/main_scene="res://common/main.tscn"
 config/icon="res://icon.png"
+config/version="v0.0.2"
 
 [audio]
 

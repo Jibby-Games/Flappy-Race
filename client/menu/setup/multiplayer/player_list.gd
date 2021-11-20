@@ -5,8 +5,11 @@ export(PackedScene) var entry_template
 
 
 func _ready() -> void:
-	assert(multiplayer.connect("network_peer_disconnected", self, "remove_player") == OK)
-	assert(Network.Client.connect("host_changed", self, "_on_host_changed") == OK)
+	var result: int
+	result = multiplayer.connect("network_peer_disconnected", self, "remove_player")
+	assert(result == OK)
+	result = Network.Client.connect("host_changed", self, "_on_host_changed")
+	assert(result == OK)
 
 
 func add_player(player_id: int, player_name: String, colour_choice: int) -> void:
