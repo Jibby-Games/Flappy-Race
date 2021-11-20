@@ -17,8 +17,11 @@ func _change_menu_to(next_scene: PackedScene) -> void:
 	.change_scene_to(next_scene)
 	previous_menu = current_menu
 	current_menu = next_scene
-	assert(_active_scene.connect("change_menu_to", self, "change_menu_to") == OK)
-	assert(_active_scene.connect("change_menu_to_previous", self, "change_menu_to_previous") == OK)
+	var result: int
+	result = _active_scene.connect("change_menu_to", self, "change_menu_to")
+	assert(result == OK)
+	result = _active_scene.connect("change_menu_to_previous", self, "change_menu_to_previous")
+	assert(result == OK)
 
 
 func change_menu_to(next_scene: PackedScene) -> void:

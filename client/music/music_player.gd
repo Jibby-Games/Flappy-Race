@@ -13,7 +13,9 @@ func _ready() -> void:
 	for node in get_children():
 		if node is AudioStreamPlayer:
 			tracks.append(node)
-			assert(node.connect("finished", self, "_on_track_finished") == OK)
+			var result: int
+			result = node.connect("finished", self, "_on_track_finished")
+			assert(result == OK)
 
 
 func play_track(track_index: int) -> void:
