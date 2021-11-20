@@ -18,34 +18,34 @@ jobs:
     needs: build
     steps:
       - name: Download Windows Build
-        uses: actions/download-artifact@v2.0.10
+        uses: actions/download-artifact@v2
         with:
           name: FlappyRace-windows-${{ github.sha }}
           path: builds/FlappyRace-${{ github.ref_name }}-Windows
       - name: Download Mac Build
-        uses: actions/download-artifact@v2.0.10
+        uses: actions/download-artifact@v2
         with:
           name: FlappyRace-mac-${{ github.sha }}
           path: builds/FlappyRace-${{ github.ref_name }}-Mac
       - name: Download Linux Build
-        uses: actions/download-artifact@v2.0.10
+        uses: actions/download-artifact@v2
         with:
           name: FlappyRace-linux-${{ github.sha }}
           path: builds/FlappyRace-${{ github.ref_name }}-Linux
       - name: Prepare Windows
-        uses: TheDoctor0/zip-release@0.6.0
+        uses: TheDoctor0/zip-release@0
         with:
           filename: FlappyRace-${{ github.ref_name }}-Windows.zip
           path: FlappyRace-${{ github.ref_name }}-Windows/*
           directory: builds/
       - name: Prepare Mac
-        uses: TheDoctor0/zip-release@0.6.0
+        uses: TheDoctor0/zip-release@0
         with:
           filename: FlappyRace-${{ github.ref_name }}-Mac.zip
           path: FlappyRace-${{ github.ref_name }}-Mac/*
           directory: builds/
       - name: Prepare Linux
-        uses: TheDoctor0/zip-release@0.6.0
+        uses: TheDoctor0/zip-release@0
         with:
           filename: FlappyRace-${{ github.ref_name }}-Linux.zip
           path: FlappyRace-${{ github.ref_name }}-Linux/*
@@ -53,11 +53,13 @@ jobs:
       # For debug
       # - name: Display structure of zipped files
       #   run: ls -R
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Extract Release Notes
-        uses: ffurrer2/extract-release-notes@v1.9.0
+        uses: ffurrer2/extract-release-notes@v1
         id: extract-release-notes
       - name: GH Release
-        uses: softprops/action-gh-release@v0.1.14
+        uses: softprops/action-gh-release@v0
         with:
           name: Flappy Race ${{ github.ref_name }}
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
