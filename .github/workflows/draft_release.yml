@@ -59,7 +59,7 @@ jobs:
         uses: ffurrer2/extract-release-notes@v1
         id: extract-release-notes
       - name: GH Release
-        uses: softprops/action-gh-release@v0
+        uses: softprops/action-gh-release@v1
         with:
           name: Flappy Race ${{ github.ref_name }}
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
