@@ -41,4 +41,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: FlappyRace-${{ matrix.platform }}-${{ github.sha }}
-          path: build/${{ matrix.platform }}
+          path: builds/${{ matrix.platform }}
