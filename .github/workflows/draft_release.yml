@@ -1,0 +1,21 @@
+
+name: Draft Release
+
+on:
+  push:
+    # branches:
+    #   - main
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  draft_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        uses: Jibby-Games/Flappy-Race/.github/workflows/build.yml@main
+      - name: Testing reuse
+        run: |
+          ls -al
+          ls -al builds/windows
