@@ -23,7 +23,7 @@ jobs:
       matrix:
         platform: [linux, windows, mac]
     container:
-      image: barichello/godot-ci:3.4
+      image: barichello/godot-ci:${{ GODOT_VERSION }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
