@@ -37,19 +37,19 @@ jobs:
         uses: TheDoctor0/zip-release@0.6.0
         with:
           filename: FlappyRace-${{ github.ref_name }}-Windows.zip
-          path: builds/FlappyRace-${{ github.ref_name }}-Windows/*
+          path: FlappyRace-${{ github.ref_name }}-Windows/*
           directory: builds/
       - name: Prepare Mac
         uses: TheDoctor0/zip-release@0.6.0
         with:
           filename: FlappyRace-${{ github.ref_name }}-Mac.zip
-          path: builds/FlappyRace-${{ github.ref_name }}-Mac/*
+          path: FlappyRace-${{ github.ref_name }}-Mac/*
           directory: builds/
       - name: Prepare Linux
         uses: TheDoctor0/zip-release@0.6.0
         with:
           filename: FlappyRace-${{ github.ref_name }}-Linux.zip
-          path: builds/FlappyRace-${{ github.ref_name }}-Linux/*
+          path: FlappyRace-${{ github.ref_name }}-Linux/*
           directory: builds/
       - name: Display structure of zipped files
         run: ls -R
