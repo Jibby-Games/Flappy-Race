@@ -10,11 +10,11 @@ on:
   workflow_dispatch:
 
 jobs:
+  build:
+    uses: Jibby-Games/Flappy-Race/.github/workflows/build.yml@main
   draft_release:
     runs-on: ubuntu-latest
     steps:
-      - name: Build
-        uses: Jibby-Games/Flappy-Race/.github/workflows/build.yml@main
       - name: Testing reuse
         run: |
           ls -al
