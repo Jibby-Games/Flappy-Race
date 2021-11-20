@@ -59,4 +59,4 @@ jobs:
           body: Test release
           draft: true
           files: |
-            FlappyRace-*-*.zip
+            builds/FlappyRace-*-*.zip
