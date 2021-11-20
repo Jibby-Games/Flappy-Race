@@ -53,11 +53,14 @@ jobs:
       # For debug
       # - name: Display structure of zipped files
       #   run: ls -R
+      - name: Extract Release Notes
+        uses: ffurrer2/extract-release-notes@v1.9.0
+        id: extract-release-notes
       - name: GH Release
         uses: softprops/action-gh-release@v0.1.14
         with:
           name: Flappy Race ${{ github.ref_name }}
-          body: Test release
+          body: ${{ steps.extract-release-notes.outputs.release_notes }}
           draft: true
           files: |
             builds/FlappyRace-*-*.zip
