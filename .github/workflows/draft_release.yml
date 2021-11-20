@@ -16,31 +16,45 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Download all artifacts
+      - name: Download Windows
         uses: actions/download-artifact@v2.0.10
         id: download
         with:
-          path: builds
+          name: FlappyRace-windows-${{ github.sha }}
+          path: builds/FlappyRace-${{ github.ref_name }}-Windows
+      - name: Download Mac
+        uses: actions/download-artifact@v2.0.10
+        id: download
+        with:
+          name: FlappyRace-mac-${{ github.sha }}
+          path: builds/FlappyRace-${{ github.ref_name }}-Mac
+      - name: Download Linux
+        uses: actions/download-artifact@v2.0.10
+        id: download
+        with:
+          name: FlappyRace-linux-${{ github.sha }}
+          path: builds/FlappyRace-${{ github.ref_name }}-Linux
       - name: Display structure of downloaded files
         run: ls -R
-      - name: 'Echo download path'
-        run: echo ${{steps.download.outputs.download-path}}
-      - name: Prepare windows
+      - name: Prepare Windows
         uses: TheDoctor0/zip-release@0.6.0
         with:
           filename: FlappyRace-${{ github.ref_name }}-Windows.zip
-          path: builds/FlappyRace-windows*/*
-      - name: Prepare mac
+          path: builds/FlappyRace-${{ github.ref_name }}-Windows
+          directory: builds/
+      - name: Prepare Mac
         uses: TheDoctor0/zip-release@0.6.0
         with:
           filename: FlappyRace-${{ github.ref_name }}-Mac.zip
-          path: builds/FlappyRace-mac*/*
-      - name: Prepare linux
+          path: builds/FlappyRace-${{ github.ref_name }}-Mac
+          directory: builds/
+      - name: Prepare Linux
         uses: TheDoctor0/zip-release@0.6.0
         with:
           filename: FlappyRace-${{ github.ref_name }}-Linux.zip
-          path: builds/FlappyRace-linux*/*
-      - name: Display structure of downloaded files
+          path: builds/FlappyRace-${{ github.ref_name }}-Linux
+          directory: builds/
+      - name: Display structure of zipped files
         run: ls -R
       - name: GH Release
         uses: softprops/action-gh-release@v0.1.14
