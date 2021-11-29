@@ -56,7 +56,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Update Changelog
-        uses: thomaseizinger/keep-a-changelog-new-release@v1.3
+        uses: thomaseizinger/keep-a-changelog-new-release@1.3.0
         with:
           tag: ${{ github.ref_name }}
       # For debug
