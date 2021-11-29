@@ -4,8 +4,6 @@ name: Draft Release
 on:
   push:
     tags:
-    # TODO remove once finished:
-    branches:
 
 jobs:
   build:
@@ -57,9 +55,6 @@ jobs:
       - name: Extract Release Notes
         uses: ffurrer2/extract-release-notes@v1
         id: extract-release-notes
-        # DEBUG
-      - run: ls -al .
-      - run: ls -R ./builds/
       - name: Draft GitHub Release
         uses: softprops/action-gh-release@v1
         with:
