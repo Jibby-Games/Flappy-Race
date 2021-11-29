@@ -4,8 +4,6 @@ name: Draft Release
 on:
   push:
     tags:
-    # TODO remove once finished:
-    branches:
 
 jobs:
   build:
@@ -49,6 +47,11 @@ jobs:
           directory: builds/
       - name: Checkout
         uses: actions/checkout@v2
+      # TODO: see if this support our changelog format again in future
+      # - name: Update Changelog
+      #   uses: thomaseizinger/keep-a-changelog-new-release@1.3.0
+      #   with:
+      #     tag: ${{ github.ref_name }}
       - name: Extract Release Notes
         uses: ffurrer2/extract-release-notes@v1
         id: extract-release-notes
