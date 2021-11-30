@@ -4,6 +4,7 @@ name: Draft Release
 on:
   push:
     tags:
+      - '*'
 
 jobs:
   build:
