@@ -15,8 +15,9 @@ Types of changes:
 -->
 
 ## [Unreleased]
+## [0.0.3] - 2021-11-30
 
-Moved main GitHub repo to an organization since the last release.
+Moved main GitHub repo to the Jibby-Games organization since the last release.
 
 ### Added
 - Enable HiDPI support for Macs
@@ -61,6 +62,7 @@ First proper release! :D
 - Animated title screen background
 - Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/v0.0.2...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/v0.0.3...HEAD
+[0.0.3]: https://github.com/Jibby-Games/Flappy-Race/releases/tag/v0.0.3
 [0.0.2]: https://github.com/Jibby-Games/Flappy-Race/releases/tag/v0.0.2
 [0.0.1]: https://github.com/Jibby-Games/Flappy-Race/releases/tag/v0.0.1
