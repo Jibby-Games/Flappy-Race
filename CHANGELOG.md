@@ -61,6 +61,6 @@ First proper release! :D
 - Animated title screen background
 - Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibbajabbafic/Flappy-Race/compare/v0.0.2...HEAD
-[0.0.2]: https://github.com/Jibbajabbafic/Flappy-Race/releases/tag/v0.0.2
-[0.0.1]: https://github.com/Jibbajabbafic/Flappy-Race/releases/tag/v0.0.1
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/v0.0.2...HEAD
+[0.0.2]: https://github.com/Jibby-Games/Flappy-Race/releases/tag/v0.0.2
+[0.0.1]: https://github.com/Jibby-Games/Flappy-Race/releases/tag/v0.0.1
