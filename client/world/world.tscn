@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://client/ui/ui.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/world/world.tscn" type="PackedScene" id=2]
@@ -10,11 +10,7 @@
 [ext_resource path="res://client/world/player/player.tscn" type="PackedScene" id=8]
 [ext_resource path="res://client/world/wall/wall.tscn" type="PackedScene" id=9]
 [ext_resource path="res://client/music/music_player.tscn" type="PackedScene" id=10]
-[ext_resource path="res://client/world/background/cloudLayer1.png" type="Texture" id=11]
-[ext_resource path="res://client/world/background/background1080p.png" type="Texture" id=12]
-[ext_resource path="res://client/world/background/cloudLayer2.png" type="Texture" id=13]
-[ext_resource path="res://client/world/background/cloudLayerB2.png" type="Texture" id=14]
-[ext_resource path="res://client/world/background/cloudLayerB1.png" type="Texture" id=15]
+[ext_resource path="res://client/world/background/cloud_background.tscn" type="PackedScene" id=11]
 
 [node name="World" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
@@ -50,66 +46,6 @@ bus = "Sounds"
 
 [node name="MusicPlayer" parent="." index="4" instance=ExtResource( 10 )]
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="." index="5"]
-offset = Vector2( -960, -540 )
-transform = Transform2D( 1, 0, 0, 1, -960, -540 )
-
-[node name="Sky" type="ParallaxLayer" parent="ParallaxBackground" index="0"]
-motion_mirroring = Vector2( 3840, 0 )
-
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/Sky" index="0"]
-modulate = Color( 0.407843, 0.682353, 0.831373, 1 )
-texture = ExtResource( 12 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 0, 0, 3840, 1080 )
-
-[node name="Clouds1" type="ParallaxLayer" parent="ParallaxBackground" index="1"]
-motion_scale = Vector2( 0.1, 0.1 )
-motion_mirroring = Vector2( 3072, 0 )
-
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/Clouds1" index="0"]
-modulate = Color( 1, 1, 1, 0.913725 )
-position = Vector2( 0, 701 )
-texture = ExtResource( 11 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 0, 0, 3072, 400 )
-
-[node name="Clouds2" type="ParallaxLayer" parent="ParallaxBackground" index="2"]
-motion_scale = Vector2( 0.23, 0.23 )
-motion_mirroring = Vector2( 3072, 0 )
-
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/Clouds2" index="0"]
-modulate = Color( 0.956863, 0.956863, 0.956863, 0.901961 )
-position = Vector2( 0, 725 )
-texture = ExtResource( 13 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 0, 0, 3072, 400 )
-
-[node name="Clouds3" type="ParallaxLayer" parent="ParallaxBackground" index="3"]
-motion_scale = Vector2( 0.37, 0.37 )
-motion_mirroring = Vector2( 3072, 0 )
-
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/Clouds3" index="0"]
-modulate = Color( 1, 1, 1, 0.784314 )
-position = Vector2( 0, 772 )
-texture = ExtResource( 15 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 0, 0, 3072, 400 )
-
-[node name="Clouds4" type="ParallaxLayer" parent="ParallaxBackground" index="4"]
-motion_scale = Vector2( 0.44, 0.44 )
-motion_mirroring = Vector2( 3072, 0 )
-
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/Clouds4" index="0"]
-modulate = Color( 1, 1, 1, 0.784314 )
-position = Vector2( 0, 821 )
-texture = ExtResource( 14 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 0, 0, 3072, 400 )
+[node name="CloudBackground" parent="." index="5" instance=ExtResource( 11 )]
 
 [connection signal="request_restart" from="UI" to="." method="_on_UI_request_restart"]
