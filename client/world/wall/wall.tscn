@@ -8,13 +8,13 @@
 script = ExtResource( 3 )
 
 [node name="UpperSprite" type="Sprite" parent="." index="0"]
-modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 0, -800 )
-scale = Vector2( 1, 20 )
 texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 64, 1280 )
 
 [node name="LowerSprite" type="Sprite" parent="." index="2"]
-modulate = Color( 0, 0, 1, 1 )
 position = Vector2( 0, 800 )
-scale = Vector2( 1, 20 )
 texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 64, 1280 )
