@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/flappy_race_logo.png-d89ebba89445f1be283fe619d12d3c77.stex"
+path="res://.import/hills.png-8443b37a8823fad022fe81e387650b6c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://client/world/background/flappy_race_logo.png"
-dest_files=[ "res://.import/flappy_race_logo.png-d89ebba89445f1be283fe619d12d3c77.stex" ]
+source_file="res://client/world/background/hills.png"
+dest_files=[ "res://.import/hills.png-8443b37a8823fad022fe81e387650b6c.stex" ]
 
 [params]
 
@@ -28,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true

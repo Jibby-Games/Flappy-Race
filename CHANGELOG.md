@@ -15,6 +15,9 @@ Types of changes:
 -->
 
 ## [Unreleased]
+### Added
+- Wall sprites from kenney.nl
+- Menu and world now have a scrolling cloud background
 ## [0.0.3] - 2021-11-30
 
 Moved main GitHub repo to the Jibby-Games organization since the last release.

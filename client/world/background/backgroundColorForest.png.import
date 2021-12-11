@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/wall.png-e4e0bcc11902e671584f601932308887.stex"
+path="res://.import/backgroundColorForest.png-637fa065a1ad097621f3fe54285568bc.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://client/world/wall/wall.png"
-dest_files=[ "res://.import/wall.png-e4e0bcc11902e671584f601932308887.stex" ]
+source_file="res://client/world/background/backgroundColorForest.png"
+dest_files=[ "res://.import/backgroundColorForest.png-637fa065a1ad097621f3fe54285568bc.stex" ]
 
 [params]
 
@@ -19,7 +19,7 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=1
+flags/repeat=0
 flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
