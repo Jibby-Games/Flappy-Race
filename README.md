@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="./client/world/background/flappy_race_logo.png" height="75">
+    <img src="./client/menu/title/flappy_race_logo.png" height="75">
 </p>
 
 <p align="center">
