@@ -21,6 +21,9 @@ func _ready() -> void:
 	result = Network.Client.connect("host_changed", self, "_on_host_changed")
 	assert(result == OK)
 
+	# Need to defer this or the menu animation hides it
+	$StartButton.call_deferred("grab_focus")
+
 
 func _on_host_changed(_new_host: int) -> void:
 	set_enable_host_options(Network.Client.is_host())
