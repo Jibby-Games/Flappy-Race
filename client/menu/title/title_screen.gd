@@ -24,4 +24,4 @@ func _on_OptionsButton_pressed():
 
 
 func _on_QuitButton_pressed() -> void:
-	get_tree().quit()
+	get_tree().notification(MainLoop.NOTIFICATION_WM_QUIT_REQUEST)
