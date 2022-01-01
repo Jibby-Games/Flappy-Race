@@ -1,14 +1,18 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://client/ui/pause_menu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/fonts/Score.tres" type="DynamicFont" id=2]
 [ext_resource path="res://client/fonts/DelaGothicOne-48.tres" type="DynamicFont" id=3]
+[ext_resource path="res://client/world/player/unf.ogg" type="AudioStream" id=4]
 [ext_resource path="res://client/ui/ui.gd" type="Script" id=5]
 [ext_resource path="res://client/theme/flappy.theme" type="Theme" id=6]
 [ext_resource path="res://client/fonts/DelaGothicOne-80.tres" type="DynamicFont" id=7]
 [ext_resource path="res://client/ui/leaderboard_entry.tscn" type="PackedScene" id=8]
 [ext_resource path="res://client/fonts/DelaGothicOne-32.tres" type="DynamicFont" id=9]
 [ext_resource path="res://client/ui/leaderboard.gd" type="Script" id=10]
+[ext_resource path="res://client/world/player/uuh.ogg" type="AudioStream" id=11]
+[ext_resource path="res://client/world/player/ahuah.ogg" type="AudioStream" id=12]
+[ext_resource path="res://client/world/player/huah.ogg" type="AudioStream" id=13]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Finished"
@@ -87,6 +91,137 @@ tracks/5/keys = {
 }
 
 [sub_resource type="Theme" id=2]
+
+[sub_resource type="Animation" id=3]
+resource_name = "Countdown"
+length = 4.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("NumberLabel:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8, 1.8, 2.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ "3", "2", "1", "GO!" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("NumberLabel:modulate")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5, 0.7, 1, 1.3, 1.5, 1.7, 2, 2.3, 2.5, 2.7, 3, 3.3, 3.5, 4.3 ),
+"transitions": PoolRealArray( 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("NumberLabel:rect_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3, 0.7, 1, 1.3, 1.7, 2, 2.3, 2.7, 3, 3.3, 4.3 ),
+"transitions": PoolRealArray( 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5 ),
+"update": 0,
+"values": [ Vector2( 2, 2 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 2, 2 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 2, 2 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 2, 2 ), Vector2( 1, 1 ), Vector2( 1, 1 ) ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath("..")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 3.3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_countdown_finished"
+} ]
+}
+tracks/4/type = "audio"
+tracks/4/path = NodePath("Sounds")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 4 )
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 13 )
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 11 )
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 12 )
+} ],
+"times": PoolRealArray( 0.3, 1.3, 2.3, 3.3 )
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("NumberLabel:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ "3" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("NumberLabel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("NumberLabel:rect_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("NumberLabel:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 835, 415 ) ]
+}
 
 [node name="UI" type="CanvasLayer"]
 follow_viewport_enable = true
@@ -241,8 +376,8 @@ __meta__ = {
 anchor_right = 1.0
 margin_bottom = 48.0
 theme = SubResource( 2 )
-custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 2 )
 text = "0"
 align = 1
 __meta__ = {
@@ -252,14 +387,53 @@ __meta__ = {
 [node name="HighScore" type="Label" parent="."]
 margin_right = 110.0
 margin_bottom = 55.0
-custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0, 0, 1, 1 )
+custom_fonts/font = ExtResource( 2 )
 text = "0"
 align = 1
 uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Countdown" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -960.0
+margin_top = -540.0
+margin_right = 960.0
+margin_bottom = 540.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NumberLabel" type="Label" parent="Countdown"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -125.0
+margin_top = -125.0
+margin_right = 125.0
+margin_bottom = 125.0
+rect_pivot_offset = Vector2( 125, 125 )
+size_flags_horizontal = 5
+custom_fonts/font = ExtResource( 7 )
+text = "3"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Countdown"]
+anims/Countdown = SubResource( 3 )
+anims/RESET = SubResource( 4 )
+
+[node name="Sounds" type="AudioStreamPlayer" parent="Countdown"]
+stream = ExtResource( 12 )
 
 [node name="PauseMenu" parent="." instance=ExtResource( 1 )]
 

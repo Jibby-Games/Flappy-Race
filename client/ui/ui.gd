@@ -9,12 +9,21 @@ onready var HighScore := get_node(HighScorePath)
 onready var Score := get_node(ScorePath)
 
 
+signal countdown_finished
 signal request_restart
 
 
 func _ready() -> void:
 	# Setup gubbins
 	HighScore.text = str(Globals.high_score)
+
+
+func start_countdown() -> void:
+	$Countdown/AnimationPlayer.play("Countdown")
+
+
+func _countdown_finished() -> void:
+	emit_signal("countdown_finished")
 
 
 func update_score(new_score: int) -> void:
