@@ -9,6 +9,9 @@ export(PackedScene) var Player
 export(PackedScene) var FinishLine
 
 
+const COUNTDOWN_TIME := 3.0
+
+
 # Wall vars
 var height_range := 100
 var gap_range_min := 130
@@ -62,6 +65,13 @@ func start_game(game_seed: int, new_goal: int, new_player_list: Dictionary) -> v
 	spawn_finish_line(finish_line_x_pos)
 	reset_walls()
 	reset_players()
+	yield(get_tree().create_timer(COUNTDOWN_TIME), "timeout")
+	start_race()
+
+
+func start_race() -> void:
+	for player in spawned_players:
+		player.enable_movement = true
 
 
 func reset_players() -> void:
@@ -77,7 +87,7 @@ func reset_players() -> void:
 		# Don't spawn any spectators
 		if player_entry.spectate == true:
 			continue
-		var player_body = spawn_player(player_id, Vector2.ZERO)
+		var player_body := spawn_player(player_id, Vector2.ZERO)
 		player_entry["body"] = player_body
 		spawned_players.append(player_body)
 
@@ -97,6 +107,7 @@ func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 		player.connect("score_point", self, "_on_Player_score_point")
 		player.name = str(player_id)
 		player.position = spawn_position
+		player.enable_movement = false
 		add_child(player)
 		return player
 	return null

@@ -81,6 +81,12 @@ func update_world_state(world_state: Dictionary) -> void:
 func start_game(game_seed: int, goal: int, new_player_list: Dictionary) -> void:
 	.start_game(game_seed, goal, new_player_list)
 	reset_camera()
+	$UI.start_countdown()
+
+
+func _on_UI_countdown_finished() -> void:
+	var client_id = multiplayer.get_network_unique_id()
+	player_list[client_id].body.enable_control()
 	$MusicPlayer.play_random_track()
 
 
@@ -90,7 +96,6 @@ func reset_camera() -> void:
 		switch_camera_to_leader()
 	else:
 		var player = player_list[client_id].body
-		player.enable_control()
 		$MainCamera.set_target(player)
 
 
