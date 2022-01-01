@@ -48,4 +48,5 @@ bus = "Sounds"
 
 [node name="CloudBackground" parent="." index="5" instance=ExtResource( 11 )]
 
+[connection signal="countdown_finished" from="UI" to="." method="_on_UI_countdown_finished"]
 [connection signal="request_restart" from="UI" to="." method="_on_UI_request_restart"]

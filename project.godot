@@ -96,6 +96,11 @@ window/stretch/aspect="expand"
 singletons=[  ]
 singletons_disabled=[  ]
 
+[gui]
+
+theme/custom="res://client/theme/flappy.theme"
+theme/custom_font="res://client/fonts/DelaGothicOne-24.tres"
+
 [importer_defaults]
 
 ogg_vorbis={
