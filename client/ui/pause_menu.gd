@@ -32,4 +32,4 @@ func _on_MainMenuButton_pressed() -> void:
 
 
 func _on_QuitButton_pressed() -> void:
-	get_tree().quit()
+	get_tree().notification(MainLoop.NOTIFICATION_WM_QUIT_REQUEST)
