@@ -33,7 +33,7 @@ func start_singleplayer() -> void:
 	if not Server:
 		Server = _load_network_scene(SERVER_NETWORK)
 		yield(Server, "ready")
-	Server.start_server(RPC_PORT, 1)
+	Server.start_server(RPC_PORT, 1, false)
 	Client.start_client("127.0.0.1", RPC_PORT, true)
 
 

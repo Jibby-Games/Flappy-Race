@@ -64,9 +64,13 @@ func clear_host() -> void:
 	Logger.print(self, "Cleared host player")
 
 
-func start_server(port: int, server_max_players: int) -> void:
+func start_server(
+		port: int,
+		server_max_players: int,
+		forward_port: bool = true) -> void:
 	max_players = server_max_players
-	$UpnpHandler.try_add_port_mapping(port)
+	if forward_port:
+		$UpnpHandler.try_add_port_mapping(port)
 	var peer := NetworkedMultiplayerENet.new()
 	var result: int
 	result = peer.create_server(port, max_players)
