@@ -66,6 +66,7 @@ func clear_host() -> void:
 
 func start_server(port: int, server_max_players: int) -> void:
 	max_players = server_max_players
+	$UpnpHandler.try_add_port_mapping(port)
 	var peer := NetworkedMultiplayerENet.new()
 	var result: int
 	result = peer.create_server(port, max_players)
@@ -79,6 +80,7 @@ func start_server(port: int, server_max_players: int) -> void:
 
 
 func stop_server() -> void:
+	$UpnpHandler.remove_port_mapping()
 	clear_host()
 	player_state_collection.clear()
 	player_list.clear()
