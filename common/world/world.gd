@@ -9,7 +9,8 @@ export(PackedScene) var Player
 export(PackedScene) var FinishLine
 
 
-const COUNTDOWN_TIME := 3.0
+# This delay feels right
+const COUNTDOWN_TIME := 3.1
 
 
 # Wall vars
