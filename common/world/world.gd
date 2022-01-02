@@ -11,6 +11,7 @@ export(PackedScene) var FinishLine
 
 # This delay feels right
 const COUNTDOWN_TIME := 3.1
+const STARTING_JUMP := 500
 
 
 # Wall vars
@@ -73,6 +74,8 @@ func start_game(game_seed: int, new_goal: int, new_player_list: Dictionary) -> v
 func start_race() -> void:
 	for player in spawned_players:
 		player.enable_movement = true
+		# Give everyone a jump at the start
+		player.motion.y = -STARTING_JUMP
 
 
 func reset_players() -> void:
