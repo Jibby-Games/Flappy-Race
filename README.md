@@ -26,18 +26,27 @@ See [CHANGELOG.md](CHANGELOG.md) for a summary of changes from all upcoming and 
 All scripts and scene files are distributed under the [MIT license](LICENSE).
 
 ## Assets
-Unless mentioned otherwise, all art assets (images, sounds and files under raw_assets/) are distributed under the [Creative Commons Attribution 4.0 International license](http://creativecommons.org/licenses/by/4.0/).
+Unless mentioned otherwise, all art assets (images, sounds and files under raw_assets/) are distributed under the [Creative Commons Attribution 4.0 International license](https://creativecommons.org/licenses/by/4.0/).
 
 ### Sprites
 Licensed under the [CC0 1.0 Universal License](https://creativecommons.org/publicdomain/zero/1.0/).
-- Kenney.nl - Wall sprite
+- Wall sprite by [www.kenney.nl](https://www.kenney.nl/)
+
 ### Music
 Licensed under the [Public Domain License](https://creativecommons.org/licenses/publicdomain/):
-- Drozerix - Computer F***!
-- Drozerix - Crush
-- Drozerix - Digital Rendezvous
-- Drozerix - Dream Candy
-- Peak and Drozerix - Spectrum
+- Computer F***! by Drozerix
+- Crush by Drozerix
+- Digital Rendezvous by Drozerix
+- Dream Candy by Drozerix
+- Spectrum by Peak and Drozerix
+
+### Audio
+Licensed under the [CC0 1.0 Universal License](https://creativecommons.org/publicdomain/zero/1.0/).
+- Voiceover pack by [www.kenney.nl](https://www.kenney.nl/)
+
+Licensed under the [Creative Commons Attribution 3.0 Unported License](https://creativecommons.org/licenses/by/3.0/)
+- Level-Up Sound FX by [elmasmalo1](https://freesound.org/people/elmasmalo1/)
+- JJJ2 96 countdown - cheer.wav by [FreqMan](https://freesound.org/people/FreqMan/)
 
 ### Fonts
 Licensed under the [Open Font License](https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL):
