@@ -18,6 +18,13 @@ Types of changes:
 ### Added
 - Wall sprites from kenney.nl
 - Menu and world now have a scrolling cloud background
+- Android support
+- UPnP support for automatic port forwarding on some routers
+- Countdown before each race starts
+
+### Changed
+- You can now also left click to flap!
+
 ## [0.0.3] - 2021-11-30
 
 Moved main GitHub repo to the Jibby-Games organization since the last release.
