@@ -21,11 +21,10 @@ var gap_range_max := 250
 var wall_spacing := 400
 var wall_spawn_range := 5000
 var starting_wall_pos := 1500
-var current_wall_pos := starting_wall_pos
+var next_wall_pos := starting_wall_pos
 
 
 var game_rng := RandomNumberGenerator.new()
-var highest_score := 0
 var goal := 100 setget set_goal
 var finish_line_x_pos : int
 
@@ -139,18 +138,18 @@ func reset_walls() -> void:
 
 
 func spawn_wall() -> void:
-	if current_wall_pos >= finish_line_x_pos:
+	if next_wall_pos >= finish_line_x_pos:
 		# Don't spawn walls after the finish line
 		return
 	var inst = Wall.instance()
-	inst.set_name("Wall" + str(current_wall_pos))
+	inst.set_name("Wall" + str(next_wall_pos))
 	# Use the game RNG to keep the levels deterministic
 	var height = game_rng.randf_range(-height_range, height_range)
 	var gap = game_rng.randf_range(gap_range_min, gap_range_max)
-	Logger.print(self, "Spawning wall - pos: %s height: %s - gap: %s" % [current_wall_pos, height, gap])
-	inst.position = Vector2(current_wall_pos, height)
+	Logger.print(self, "Spawning wall - pos: %s height: %s - gap: %s" % [next_wall_pos, height, gap])
+	inst.position = Vector2(next_wall_pos, height)
 	inst.gap = gap
-	current_wall_pos += wall_spacing
+	next_wall_pos += wall_spacing
 	call_deferred("add_child", inst)
 	spawned_walls.append(inst)
 
@@ -165,11 +164,6 @@ func _on_Player_death(player: CommonPlayer) -> void:
 func _on_Player_score_point(player: CommonPlayer) -> void:
 	var player_id = int(player.name)
 	Logger.print(self, "Player %s scored a point!" % [player_id])
-	player_list[player_id].score = player.score
-	if player.score > highest_score:
-		# Make the walls spawn as players progress
-		highest_score = player.score
-		spawn_wall()
 
 
 func _on_Player_finish(player: CommonPlayer) -> void:
