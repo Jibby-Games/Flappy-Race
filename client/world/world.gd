@@ -86,7 +86,8 @@ func start_game(game_seed: int, goal: int, new_player_list: Dictionary) -> void:
 
 func _on_UI_countdown_finished() -> void:
 	var client_id = multiplayer.get_network_unique_id()
-	player_list[client_id].body.enable_control()
+	if player_list[client_id].spectate == false:
+		player_list[client_id].body.enable_control()
 	$MusicPlayer.play_random_track()
 
 
