@@ -102,6 +102,7 @@ func _peer_connected(player_id: int) -> void:
 		rpc_id(player_id, "receive_host_change", _host_player_id)
 	else:
 		set_host(player_id)
+	rpc_id(player_id, "receive_game_options", game_options)
 
 
 func _peer_disconnected(player_id: int) -> void:
