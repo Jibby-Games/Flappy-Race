@@ -2,64 +2,89 @@
 name: Draft Release
 
 on:
-  push:
-    tags:
-      - '*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        required: true
+        description: The tag to release
+        type: string
 
 jobs:
-  build:
-    uses: Jibby-Games/Flappy-Race/.github/workflows/build.yml@main
-  draft_release:
+  update_version:
     runs-on: ubuntu-latest
-    needs: build
+    outputs:
+      commit_hash: ${{ steps.commit.outputs.commit_hash }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Update project and export versions
+        run: |
+          sed -i "s/config\/version=.*/config\/version=\"v${{ github.event.inputs.tag }}\"/g" project.godot
+          sed -i "s/=\"[0-9]\.[0-9]\.[0-9]\"/\"${{ github.event.inputs.tag }}\"/g" export_presets.cfg
+      - name: Update Changelog
+        uses: thomaseizinger/keep-a-changelog-new-release@1.3.0
+        with:
+          tag: ${{ github.event.inputs.tag }}
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        id: commit
+        with:
+          commit_message: "Update version to ${{ github.event.inputs.tag }}"
+          file_pattern: project.godot export_presets.cfg CHANGELOG.md
+  build:
+    uses: Jibby-Games/Flappy-Race/.github/workflows/build.yml@main
+    needs: update_version
+    with:
+      commit_hash: ${{ needs.update_version.outputs.commit_hash }}
+  draft_release:
+    runs-on: ubuntu-latest
+    needs: [update_version, build]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ needs.update_version.outputs.commit_hash }}
       - name: Download Windows Build
         uses: actions/download-artifact@v2
         with:
-          name: FlappyRace-windows-${{ github.sha }}
-          path: builds/FlappyRace-${{ github.ref_name }}-Windows
+          name: FlappyRace-windows-${{ needs.update_version.outputs.commit_hash }}
+          path: builds/FlappyRace-${{ github.event.inputs.tag }}-Windows
       - name: Download Mac Build
         uses: actions/download-artifact@v2
         with:
-          name: FlappyRace-mac-${{ github.sha }}
-          path: builds/FlappyRace-${{ github.ref_name }}-Mac
+          name: FlappyRace-mac-${{ needs.update_version.outputs.commit_hash }}
+          path: builds/FlappyRace-${{ github.event.inputs.tag }}-Mac
       - name: Download Linux Build
         uses: actions/download-artifact@v2
         with:
-          name: FlappyRace-linux-${{ github.sha }}
-          path: builds/FlappyRace-${{ github.ref_name }}-Linux
+          name: FlappyRace-linux-${{ needs.update_version.outputs.commit_hash }}
+          path: builds/FlappyRace-${{ github.event.inputs.tag }}-Linux
       - name: Prepare Windows
         uses: TheDoctor0/zip-release@0.6.0
         with:
-          filename: FlappyRace-${{ github.ref_name }}-Windows.zip
-          path: FlappyRace-${{ github.ref_name }}-Windows/*
+          filename: FlappyRace-${{ github.event.inputs.tag }}-Windows.zip
+          path: FlappyRace-${{ github.event.inputs.tag }}-Windows/*
           directory: builds/
       - name: Prepare Mac
         uses: TheDoctor0/zip-release@0.6.0
         with:
-          filename: FlappyRace-${{ github.ref_name }}-Mac.zip
-          path: FlappyRace-${{ github.ref_name }}-Mac/*
+          filename: FlappyRace-${{ github.event.inputs.tag }}-Mac.zip
+          path: FlappyRace-${{ github.event.inputs.tag }}-Mac/*
           directory: builds/
       - name: Prepare Linux
         uses: TheDoctor0/zip-release@0.6.0
         with:
-          filename: FlappyRace-${{ github.ref_name }}-Linux.zip
-          path: FlappyRace-${{ github.ref_name }}-Linux/*
+          filename: FlappyRace-${{ github.event.inputs.tag }}-Linux.zip
+          path: FlappyRace-${{ github.event.inputs.tag }}-Linux/*
           directory: builds/
-      # TODO: see if this supports our changelog format in future
-      # - name: Update Changelog
-      #   uses: thomaseizinger/keep-a-changelog-new-release@1.3.0
-      #   with:
-      #     tag: ${{ github.ref_name }}
       - name: Extract Release Notes
         uses: ffurrer2/extract-release-notes@v1
         id: extract-release-notes
       - name: Draft GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          name: Flappy Race ${{ github.ref_name }}
+          tag_name: ${{ github.events.inputs.tag }}
+          name: Flappy Race ${{ github.event.inputs.tag }}
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
           draft: true
           files: |
