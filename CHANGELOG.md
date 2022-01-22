@@ -73,6 +73,6 @@ First proper release! :D
 - Spectator mode and death camera
 
 [Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/v0.0.3...HEAD
-[0.0.3]: https://github.com/Jibby-Games/Flappy-Race/releases/tag/v0.0.3
-[0.0.2]: https://github.com/Jibby-Games/Flappy-Race/releases/tag/v0.0.2
+[0.0.3]: https://github.com/Jibby-Games/Flappy-Race/compare/v0.0.2...v0.0.3
+[0.0.2]: https://github.com/Jibby-Games/Flappy-Race/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/Jibby-Games/Flappy-Race/releases/tag/v0.0.1
