@@ -144,6 +144,15 @@ remote func receive_latency_response(client_time: int) -> void:
 		latency_array.clear()
 
 
+remote func receive_game_options(game_options: Dictionary) -> void:
+	if is_rpc_from_server() == false:
+		return
+	Logger.print(self, "Received game options: %s" % [game_options])
+	var options = get_node_or_null("MenuHandler/MultiplayerSetup/Setup/GameOptions")
+	if options:
+		options.set_goal(game_options.goal)
+
+
 remote func receive_host_change(new_host_id: int) -> void:
 	if is_rpc_from_server() == false:
 		return
@@ -205,6 +214,7 @@ remote func receive_goal_change(goal: int) -> void:
 	if is_rpc_from_server() == false:
 		return
 	var options = get_node_or_null("MenuHandler/MultiplayerSetup/Setup/GameOptions")
+	Logger.print(self, "Received new goal: %d" % [goal])
 	if options:
 		options.set_goal(goal)
 
@@ -254,6 +264,14 @@ remote func receive_world_state(world_state: Dictionary) -> void:
 	var world = get_node_or_null("World")
 	if world:
 		world.update_world_state(world_state)
+
+
+remote func receive_spawn_wall() -> void:
+	if is_rpc_from_server() == false:
+		return
+	var world = get_node_or_null("World")
+	if world:
+		world.spawn_wall()
 
 
 remote func receive_player_finished_race(player_id: int, place: int) -> void:

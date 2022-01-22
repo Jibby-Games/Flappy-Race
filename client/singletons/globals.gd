@@ -35,6 +35,7 @@ func load_high_score() -> int:
 	# JSON parsing returns numbers as floats by default
 	var score = data['highscore']
 	if score and score is float:
+		Logger.print(self, "Loaded high score: %s", [score])
 		return int(score)
 	else:
 		reset_high_score()
@@ -56,6 +57,7 @@ func save_high_score(score: int) -> void:
 
 func reset_high_score() -> void:
 	save_high_score(0)
+	Logger.print(self, "Reset highscore to 0")
 
 
 func show_message(text: String, title: String='Message') -> void:

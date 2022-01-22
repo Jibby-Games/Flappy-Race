@@ -102,6 +102,7 @@ func _peer_connected(player_id: int) -> void:
 		rpc_id(player_id, "receive_host_change", _host_player_id)
 	else:
 		set_host(player_id)
+	rpc_id(player_id, "receive_game_options", game_options)
 
 
 func _peer_disconnected(player_id: int) -> void:
@@ -262,6 +263,10 @@ remote func receive_player_state(player_state: Dictionary) -> void:
 
 func send_world_state(world_state: Dictionary) -> void:
 	rpc_unreliable("receive_world_state", world_state)
+
+
+func send_spawn_wall() -> void:
+	rpc("receive_spawn_wall")
 
 
 func send_player_finished_race(player_id: int, place: int) -> void:

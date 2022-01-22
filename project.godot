@@ -80,8 +80,8 @@ default_bus_layout="res://client/audio/default_bus_layout.tres"
 
 [autoload]
 
-Globals="*res://client/singletons/globals.gd"
 Network="*res://common/singletons/network.gd"
+Globals="*res://common/singletons/globals.gd"
 
 [display]
 
