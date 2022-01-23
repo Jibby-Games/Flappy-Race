@@ -84,7 +84,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.events.inputs.tag }}
-          name: Flappy Race ${{ github.event.inputs.tag }}
+          name: Flappy Race v${{ github.event.inputs.tag }}
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
           draft: true
           files: |
