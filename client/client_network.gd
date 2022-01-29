@@ -150,7 +150,7 @@ remote func receive_game_options(game_options: Dictionary) -> void:
 	Logger.print(self, "Received game options: %s" % [game_options])
 	var options = get_node_or_null("MenuHandler/MultiplayerSetup/Setup/GameOptions")
 	if options:
-		options.set_goal(game_options.goal)
+		options.set_game_options(game_options)
 
 
 remote func receive_host_change(new_host_id: int) -> void:
@@ -219,6 +219,20 @@ remote func receive_goal_change(goal: int) -> void:
 		options.set_goal(goal)
 
 
+func send_lives_change(lives: int) -> void:
+	if is_host():
+		rpc_id(SERVER_ID, "receive_lives_change", lives)
+
+
+remote func receive_lives_change(lives: int) -> void:
+	if is_rpc_from_server() == false:
+		return
+	var options = get_node_or_null("MenuHandler/MultiplayerSetup/Setup/GameOptions")
+	Logger.print(self, "Received new lives: %d" % [lives])
+	if options:
+		options.set_lives(lives)
+
+
 func send_client_ready() -> void:
 	rpc_id(SERVER_ID, "receive_client_ready")
 
@@ -246,12 +260,12 @@ remote func receive_load_world() -> void:
 	change_scene("res://client/world/world.tscn")
 
 
-remote func receive_game_started(game_seed: int, goal: int, player_list: Dictionary) -> void:
+remote func receive_game_started(game_seed: int, game_options: Dictionary, player_list: Dictionary) -> void:
 	if is_rpc_from_server() == false:
 		return
 	var world = get_node_or_null("World")
 	if world:
-		world.start_game(game_seed, goal, player_list)
+		world.start_game(game_seed, game_options, player_list)
 
 
 func send_player_state(player_state: Dictionary) -> void:

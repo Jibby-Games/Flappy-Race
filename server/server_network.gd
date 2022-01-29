@@ -17,7 +17,8 @@ var _host_player_id := 0 setget set_host
 var player_state_collection := {}
 var player_list := {}
 var game_options := {
-	"goal": 100
+	"goal": 100,
+	"lives": 0,
 }
 
 
@@ -172,15 +173,35 @@ remote func receive_goal_change(new_goal: int) -> void:
 	if not is_host_id(player_id):
 		Logger.print(self, "Player %s tried to change the goal but they're not the host!"
 			% [player_id])
+		# Reset clients back to server value
 		rpc("receive_goal_change", game_options.goal)
 		return
 	if new_goal < 1 or new_goal > 9999:
 		Logger.print(self, "Player %s tried to set goal to invalid value: %d", [player_id, new_goal])
+		# Reset clients back to server value
 		rpc("receive_goal_change", game_options.goal)
 		return
 	game_options.goal = new_goal
 	Logger.print(self, "Player %s set the goal to %s " % [player_id, new_goal])
 	rpc("receive_goal_change", new_goal)
+
+
+remote func receive_lives_change(new_lives: int) -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	if not is_host_id(player_id):
+		Logger.print(self, "Player %s tried to change the lives but they're not the host!"
+			% [player_id])
+		# Reset clients back to server value
+		rpc("receive_lives_change", game_options.lives)
+		return
+	if new_lives < 0 or new_lives > 9999:
+		Logger.print(self, "Player %s tried to set lives to invalid value: %d", [player_id, new_lives])
+		# Reset clients back to server value
+		rpc("receive_lives_change", game_options.lives)
+		return
+	game_options.lives = new_lives
+	Logger.print(self, "Player %s set the lives to %s " % [player_id, new_lives])
+	rpc("receive_lives_change", new_lives)
 
 
 func send_despawn_player(player_id: int) -> void:
@@ -247,8 +268,8 @@ func send_load_world() -> void:
 	rpc("receive_load_world")
 
 
-func send_game_started(game_seed: int, goal: int) -> void:
-	rpc("receive_game_started", game_seed, goal, player_list)
+func send_game_started(game_seed: int) -> void:
+	rpc("receive_game_started", game_seed, game_options, player_list)
 
 
 remote func receive_player_state(player_state: Dictionary) -> void:
