@@ -33,6 +33,8 @@ func set_enable_host_options(is_host: bool) -> void:
 	$StartButton.visible = is_host
 	$GameOptions/Panel/DisableGameOptions.visible = not is_host
 	$GameOptions/Panel/VBoxContainer/ScoreToWin/ScoreInput.editable = is_host
+	$GameOptions/Panel/VBoxContainer/PlayerLives/LivesToggle.disabled = not is_host
+	$GameOptions/Panel/VBoxContainer/PlayerLives/LivesInput.editable = is_host
 
 
 func _on_BackButton_pressed() -> void:

@@ -159,6 +159,42 @@ rounded = true
 align = 1
 editable = false
 
+[node name="PlayerLives" type="HBoxContainer" parent="GameOptions/Panel/VBoxContainer"]
+margin_top = 44.0
+margin_right = 300.0
+margin_bottom = 79.0
+alignment = 1
+
+[node name="Label" type="Label" parent="GameOptions/Panel/VBoxContainer/PlayerLives"]
+margin_left = 84.0
+margin_top = 5.0
+margin_right = 137.0
+margin_bottom = 29.0
+text = "Lives"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LivesToggle" type="CheckButton" parent="GameOptions/Panel/VBoxContainer/PlayerLives"]
+margin_left = 141.0
+margin_right = 215.0
+margin_bottom = 35.0
+disabled = true
+flat = true
+
+[node name="LivesInput" type="SpinBox" parent="GameOptions/Panel/VBoxContainer/PlayerLives"]
+visible = false
+margin_left = 175.0
+margin_right = 260.0
+margin_bottom = 35.0
+rect_min_size = Vector2( 85, 0 )
+min_value = 1.0
+max_value = 9999.0
+value = 3.0
+rounded = true
+align = 1
+editable = false
+
 [node name="DisableGameOptions" type="Panel" parent="GameOptions/Panel"]
 modulate = Color( 1, 1, 1, 0.580392 )
 anchor_right = 1.0
@@ -188,4 +224,6 @@ anims/OpenPanel = SubResource( 1 )
 [connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="value_changed" from="GameOptions/Panel/VBoxContainer/ScoreToWin/ScoreInput" to="GameOptions" method="_on_ScoreInput_value_changed"]
+[connection signal="toggled" from="GameOptions/Panel/VBoxContainer/PlayerLives/LivesToggle" to="GameOptions" method="_on_LivesToggle_toggled"]
+[connection signal="value_changed" from="GameOptions/Panel/VBoxContainer/PlayerLives/LivesInput" to="GameOptions" method="_on_LivesInput_value_changed"]
 [connection signal="toggled" from="GameOptions/GameOptionsToggle" to="GameOptions" method="_on_GameOptionsToggle_toggled"]

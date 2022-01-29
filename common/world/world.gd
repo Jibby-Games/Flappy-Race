@@ -25,7 +25,7 @@ var next_wall_pos := starting_wall_pos
 
 
 var game_rng := RandomNumberGenerator.new()
-var goal := 100 setget set_goal
+var game_options := {} setget set_game_options
 var finish_line_x_pos : int
 
 
@@ -51,18 +51,18 @@ func set_game_seed(new_seed: int) -> void:
 	Logger.print(self, "Set game seed to: %d" % [new_seed])
 
 
-func set_goal(new_goal: int) -> void:
-	goal = new_goal
-	Logger.print(self, "Set goal to: %d" % [new_goal])
+func set_game_options(new_game_options: Dictionary) -> void:
+	game_options = new_game_options
+	Logger.print(self, "Set game options to: %s" % [new_game_options])
 
 
-func start_game(game_seed: int, new_goal: int, new_player_list: Dictionary) -> void:
-	Logger.print(self, "Starting game with seed = %d, goal = %d and players: %s" %
-		[game_seed, new_goal, new_player_list])
+func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary) -> void:
+	Logger.print(self, "Starting game with seed = %d, game options: %s and players: %s" %
+		[game_seed, new_game_options, new_player_list])
 	set_game_seed(game_seed)
-	set_goal(new_goal)
+	set_game_options(new_game_options)
 	self.player_list = new_player_list
-	finish_line_x_pos = ((goal - 1) * wall_spacing) + starting_wall_pos
+	finish_line_x_pos = ((game_options.goal - 1) * wall_spacing) + starting_wall_pos
 	spawn_finish_line(finish_line_x_pos)
 	reset_walls()
 	reset_players()
@@ -111,6 +111,11 @@ func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 		player.name = str(player_id)
 		player.position = spawn_position
 		player.enable_movement = false
+		if game_options.lives > 0:
+			player.enable_lives = true
+			player.lives = game_options.lives
+		else:
+			player.enable_lives = false
 		add_child(player)
 		return player
 	return null

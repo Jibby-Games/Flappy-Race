@@ -78,8 +78,8 @@ func update_world_state(world_state: Dictionary) -> void:
 		world_state_buffer.append(world_state)
 
 
-func start_game(game_seed: int, goal: int, new_player_list: Dictionary) -> void:
-	.start_game(game_seed, goal, new_player_list)
+func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary) -> void:
+	.start_game(game_seed, new_game_options, new_player_list)
 	reset_camera()
 	$UI.start_countdown()
 

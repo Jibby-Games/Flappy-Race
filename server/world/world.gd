@@ -31,9 +31,8 @@ func is_everyone_ready() -> bool:
 func setup_and_start_game() -> void:
 	Logger.print(self, "Setting up and starting game!")
 	var game_seed = randomize_game_seed()
-	var goal = Network.Server.game_options.goal
-	Network.Server.send_game_started(game_seed, goal)
-	start_game(game_seed, goal, Network.Server.player_list)
+	Network.Server.send_game_started(game_seed)
+	start_game(game_seed, Network.Server.game_options, Network.Server.player_list)
 
 
 func _on_Player_death(player: CommonPlayer) -> void:

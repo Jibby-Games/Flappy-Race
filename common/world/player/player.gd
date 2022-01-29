@@ -13,8 +13,12 @@ signal death(player)
 signal score_point(player)
 
 
-var motion: Vector2 = Vector2()
 var score: int = 0
+var enable_lives: bool = true
+var lives: int = 1
+
+# Movement vars
+var motion: Vector2 = Vector2()
 var enable_movement: bool = true
 var has_gravity: bool = true
 
@@ -41,10 +45,17 @@ func update_movement() -> void:
 
 
 func check_position() -> void:
-	var upper_bound = (ProjectSettings.get_setting("display/window/size/height") / 2) + 200
-	var lower_bound = -upper_bound
-	if self.position.y > upper_bound or self.position.y < lower_bound:
-		emit_signal("death", self)
+	var upper_bound = (ProjectSettings.get_setting("display/window/size/height") / 2)
+
+	if enable_lives:
+		# Give the player a chance to recover from death
+		var threshold = 200
+		if abs(self.position.y) > (upper_bound + threshold):
+			emit_signal("death", self)
+	else:
+		var lower_bound = -upper_bound
+		# Stop the player going off screen
+		self.position.y = clamp(self.position.y, lower_bound, upper_bound)
 
 
 func _on_Detect_area_entered(_area: Area2D) -> void:
@@ -56,7 +67,15 @@ func _on_Detect_area_entered(_area: Area2D) -> void:
 
 func _on_Detect_body_entered(_body: Node) -> void:
 	Logger.print(self, "Player entered body %s" % [_body.name])
-	emit_signal("death", self)
+	if enable_lives:
+		lose_life()
+
+
+func lose_life() -> void:
+	lives -= 1
+	Logger.print(self, "Player %s lost a life - Remaining lives = %d" % [self.name, lives])
+	if lives <= 0:
+		emit_signal("death", self)
 
 
 func set_enable_movement(_new_value: bool) -> void:
