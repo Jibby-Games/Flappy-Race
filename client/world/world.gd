@@ -81,6 +81,7 @@ func update_world_state(world_state: Dictionary) -> void:
 func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary) -> void:
 	.start_game(game_seed, new_game_options, new_player_list)
 	reset_camera()
+	$UI.update_lives(game_options.lives)
 	$UI.start_countdown()
 
 
