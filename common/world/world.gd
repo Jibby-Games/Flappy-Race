@@ -111,11 +111,6 @@ func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 		player.name = str(player_id)
 		player.position = spawn_position
 		player.enable_movement = false
-		if game_options.lives > 0:
-			player.enable_lives = true
-			player.lives = game_options.lives
-		else:
-			player.enable_lives = false
 		add_child(player)
 		return player
 	return null
@@ -161,9 +156,8 @@ func spawn_wall() -> void:
 
 #### Player helper functions
 func _on_Player_death(player: CommonPlayer) -> void:
-	player.set_enable_movement(false)
 	var player_id = int(player.name)
-	despawn_player(player_id)
+	Logger.print(self, "Player %s died!" % [player_id])
 
 
 func _on_Player_score_point(player: CommonPlayer) -> void:

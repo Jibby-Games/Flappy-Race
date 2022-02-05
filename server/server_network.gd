@@ -204,6 +204,10 @@ remote func receive_lives_change(new_lives: int) -> void:
 	rpc("receive_lives_change", new_lives)
 
 
+func send_player_lost_life(player_id: int, lives_left: int) -> void:
+	rpc_id(player_id, "receive_player_lost_life", lives_left)
+
+
 func send_despawn_player(player_id: int) -> void:
 	if player_state_collection.has(player_id):
 		assert(player_state_collection.erase(player_id))
@@ -223,18 +227,6 @@ remote func receive_latency_request(client_time: int) -> void:
 remote func receive_client_ready() -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	$World.set_player_ready(player_id)
-
-
-remote func receive_player_death() -> void:
-	var player_id = multiplayer.get_rpc_sender_id()
-	$World.despawn_player(player_id)
-	if player_state_collection.has(player_id):
-		assert(player_state_collection.erase(player_id))
-	for peer_id in multiplayer.get_network_connected_peers():
-		# Don't send back to the player who sent the death
-		if peer_id == player_id:
-			continue
-		rpc_id(peer_id, "receive_despawn_player", player_id)
 
 
 remote func receive_start_game_request() -> void:
