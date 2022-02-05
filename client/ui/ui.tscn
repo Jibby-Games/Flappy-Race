@@ -464,7 +464,7 @@ anims/Countdown = SubResource( 3 )
 anims/RESET = SubResource( 4 )
 
 [node name="Sounds" type="AudioStreamPlayer" parent="Countdown"]
-stream = ExtResource( 13 )
+stream = ExtResource( 4 )
 volume_db = -7.634
 bus = "Sounds"
 
