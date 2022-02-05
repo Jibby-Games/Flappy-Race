@@ -5,13 +5,14 @@ class_name ServerNetwork
 
 
 const SERVER_ID := 0
-
+const UpnpHandler = preload("res://server/upnp_handler.gd")
 
 # IMPORTANT:
 # This node is a Viewport with zero size intentionally in order to separate
 # the client and server physics, so objects from the client and the server can't
 # interact with eachother when self hosting.
 
+var upnp_handler: UpnpHandler
 var max_players := 0
 var _host_player_id := 0 setget set_host
 var player_state_collection := {}
@@ -71,7 +72,10 @@ func start_server(
 		forward_port: bool = true) -> void:
 	max_players = server_max_players
 	if forward_port:
-		$UpnpHandler.try_add_port_mapping(port)
+		upnp_handler = UpnpHandler.new()
+		upnp_handler.set_name("UpnpHandler")
+		add_child(upnp_handler)
+		upnp_handler.try_add_port_mapping(port)
 	var peer := NetworkedMultiplayerENet.new()
 	var result: int
 	result = peer.create_server(port, max_players)
@@ -84,8 +88,15 @@ func start_server(
 	Logger.print(self, "Server started - waiting for players")
 
 
+func _notification(what) -> void:
+	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+		Logger.print(self, "Got close request, stopping server")
+		stop_server()
+
+
 func stop_server() -> void:
-	$UpnpHandler.remove_port_mapping()
+	if upnp_handler:
+		upnp_handler.remove_port_mapping()
 	clear_host()
 	player_state_collection.clear()
 	player_list.clear()

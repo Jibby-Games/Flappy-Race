@@ -25,6 +25,7 @@ func try_add_port_mapping(server_port: int) -> void:
 
 
 func _add_port(server_port: int) -> void:
+	Logger.print(self, "Attempting to forward port %d", [server_port])
 	# UPNP queries take some time.
 	var result: int = upnp.discover()
 	if result != UPNP.UPNP_RESULT_SUCCESS:
@@ -53,14 +54,8 @@ func _add_port(server_port: int) -> void:
 		push_error("UPnP add port error code: %s" % [result])
 
 
-func _exit_tree():
-	Logger.print(self, "Leaving tree, removing port mapping")
-	remove_port_mapping()
-
-
 func _notification(what) -> void:
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
-		Logger.print(self, "Got close request, removing port mapping")
 		if add_thread != null:
 			Logger.print(self, "Waiting for UPNP add port thread to finish.")
 			add_thread.wait_to_finish()
@@ -76,6 +71,8 @@ func remove_port_mapping() -> void:
 		return
 	if remove_thread != null and remove_thread.is_active():
 		remove_thread.wait_to_finish()
+		# Removal already in progress
+		return
 	remove_thread = Thread.new()
 	var result = remove_thread.start(self, "_remove_port", port)
 	if result != OK:
@@ -87,6 +84,7 @@ func _remove_port(server_port: int) -> void:
 	var result := upnp.delete_port_mapping(server_port)
 	if result == upnp.UPNP_RESULT_SUCCESS:
 		port = 0
-		Logger.print(self, "Successfully remove port %d", [server_port])
+		Logger.print(self, "Successfully removed port %d", [server_port])
 	else:
 		push_error("UPnP remove port error code: %s" % [result])
+	queue_free()
