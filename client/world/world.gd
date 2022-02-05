@@ -88,7 +88,11 @@ func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: D
 func _on_UI_countdown_finished() -> void:
 	var client_id = multiplayer.get_network_unique_id()
 	if player_list[client_id].spectate == false:
-		player_list[client_id].body.enable_control()
+		var player = player_list[client_id].body
+		player.enable_movement = true
+		# Give the player a jump at the start
+		player.motion.y = -STARTING_JUMP
+		player.enable_control()
 	$MusicPlayer.play_random_track()
 
 

@@ -141,7 +141,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 3.3 ),
+"times": PoolRealArray( 3 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
@@ -464,7 +464,7 @@ anims/Countdown = SubResource( 3 )
 anims/RESET = SubResource( 4 )
 
 [node name="Sounds" type="AudioStreamPlayer" parent="Countdown"]
-stream = ExtResource( 4 )
+stream = ExtResource( 13 )
 volume_db = -7.634
 bus = "Sounds"
 

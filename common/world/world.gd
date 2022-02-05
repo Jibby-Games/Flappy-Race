@@ -9,8 +9,6 @@ export(PackedScene) var Player
 export(PackedScene) var FinishLine
 
 
-# This delay feels right
-const COUNTDOWN_TIME := 3.1
 const STARTING_JUMP := 500
 
 
@@ -66,15 +64,6 @@ func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: D
 	spawn_finish_line(finish_line_x_pos)
 	reset_walls()
 	reset_players()
-	yield(get_tree().create_timer(COUNTDOWN_TIME), "timeout")
-	start_race()
-
-
-func start_race() -> void:
-	for player in spawned_players:
-		player.enable_movement = true
-		# Give everyone a jump at the start
-		player.motion.y = -STARTING_JUMP
 
 
 func reset_players() -> void:
