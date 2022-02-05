@@ -24,6 +24,7 @@ Types of changes:
 - Death sound and respawn animation
 ### Changed
 - Default to unlimited lives
+- Make UPnP usage optional
 
 ### Fixed
 - Made collision detection more responsive on the client

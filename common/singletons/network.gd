@@ -37,11 +37,11 @@ func start_singleplayer() -> void:
 	Client.start_client("127.0.0.1", RPC_PORT, true)
 
 
-func start_multiplayer_host() -> void:
+func start_multiplayer_host(use_upnp: bool) -> void:
 	if not Server:
 		Server = _load_network_scene(SERVER_NETWORK)
 		yield(Server, "ready")
-	Server.start_server(RPC_PORT, MAX_PLAYERS)
+	Server.start_server(RPC_PORT, MAX_PLAYERS, use_upnp)
 	Client.start_client("127.0.0.1", RPC_PORT)
 
 

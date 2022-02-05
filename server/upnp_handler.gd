@@ -56,13 +56,17 @@ func _add_port(server_port: int) -> void:
 
 func _notification(what) -> void:
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
-		if add_thread != null:
-			Logger.print(self, "Waiting for UPNP add port thread to finish.")
-			add_thread.wait_to_finish()
-		remove_port_mapping()
-		if remove_thread != null:
-			Logger.print(self, "Waiting for UPNP remove port thread to finish.")
-			remove_thread.wait_to_finish()
+		wait_for_threads()
+
+
+func wait_for_threads() -> void:
+	if add_thread != null:
+		Logger.print(self, "Waiting for UPNP add port thread to finish.")
+		add_thread.wait_to_finish()
+	remove_port_mapping()
+	if remove_thread != null:
+		Logger.print(self, "Waiting for UPNP remove port thread to finish.")
+		remove_thread.wait_to_finish()
 
 
 func remove_port_mapping() -> void:

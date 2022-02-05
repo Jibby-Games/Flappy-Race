@@ -12,7 +12,6 @@ const UpnpHandler = preload("res://server/upnp_handler.gd")
 # the client and server physics, so objects from the client and the server can't
 # interact with eachother when self hosting.
 
-var upnp_handler: UpnpHandler
 var max_players := 0
 var _host_player_id := 0 setget set_host
 var player_state_collection := {}
@@ -72,7 +71,7 @@ func start_server(
 		forward_port: bool = true) -> void:
 	max_players = server_max_players
 	if forward_port:
-		upnp_handler = UpnpHandler.new()
+		var upnp_handler = UpnpHandler.new()
 		upnp_handler.set_name("UpnpHandler")
 		add_child(upnp_handler)
 		upnp_handler.try_add_port_mapping(port)
@@ -90,13 +89,14 @@ func start_server(
 
 func _notification(what) -> void:
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
-		Logger.print(self, "Got close request, stopping server")
-		stop_server()
+		if multiplayer.network_peer != null:
+			Logger.print(self, "Got close request, stopping server")
+			stop_server()
 
 
 func stop_server() -> void:
-	if upnp_handler:
-		upnp_handler.remove_port_mapping()
+	if $UpnpHandler:
+		$UpnpHandler.remove_port_mapping()
 	clear_host()
 	player_state_collection.clear()
 	player_list.clear()
