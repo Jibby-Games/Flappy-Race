@@ -208,6 +208,10 @@ func send_player_lost_life(player_id: int, lives_left: int) -> void:
 	rpc_id(player_id, "receive_player_lost_life", lives_left)
 
 
+func send_player_knockback(player_id: int) -> void:
+	rpc_id(player_id, "receive_player_knockback")
+
+
 func send_despawn_player(player_id: int) -> void:
 	if player_state_collection.has(player_id):
 		assert(player_state_collection.erase(player_id))

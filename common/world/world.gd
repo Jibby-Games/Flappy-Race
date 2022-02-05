@@ -156,8 +156,9 @@ func spawn_wall() -> void:
 
 #### Player helper functions
 func _on_Player_death(player: CommonPlayer) -> void:
+	player.set_enable_movement(false)
 	var player_id = int(player.name)
-	Logger.print(self, "Player %s died!" % [player_id])
+	Logger.print(self, "Player %s died at %s!" % [player_id, player.position])
 
 
 func _on_Player_score_point(player: CommonPlayer) -> void:

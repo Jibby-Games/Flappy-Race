@@ -246,6 +246,14 @@ remote func receive_player_lost_life(lives_left: int) -> void:
 		ui.update_lives(lives_left)
 
 
+remote func receive_player_knockback() -> void:
+	if is_rpc_from_server() == false:
+		return
+	var world = get_node_or_null("World")
+	if world:
+		world.knockback_player(multiplayer.get_network_unique_id())
+
+
 remote func receive_despawn_player(player_id: int) -> void:
 	if is_rpc_from_server() == false:
 		return
