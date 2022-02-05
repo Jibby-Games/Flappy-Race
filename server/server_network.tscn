@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://server/server_network.gd" type="Script" id=1]
 [ext_resource path="res://common/custom_multiplayer.gd" type="Script" id=2]
 [ext_resource path="res://server/state_processing.gd" type="Script" id=3]
-[ext_resource path="res://server/upnp_handler.gd" type="Script" id=4]
 
 [node name="Server" type="Node"]
 script = ExtResource( 2 )
@@ -14,6 +13,3 @@ script = ExtResource( 1 )
 
 [node name="StateProcessing" type="Node" parent="Network"]
 script = ExtResource( 3 )
-
-[node name="UpnpHandler" type="Node" parent="Network"]
-script = ExtResource( 4 )

@@ -13,6 +13,9 @@ onready var ip_input = $VBoxContainer/Menu/CenterContainer/ButtonContainer/IpCon
 onready var name_input = $VBoxContainer/Menu/CenterContainer/ButtonContainer/NameContainer/NameInput
 
 
+var enable_upnp := true
+
+
 func _ready() -> void:
 	var result: int
 	result = multiplayer.connect("connected_to_server", self, "_on_connected")
@@ -26,7 +29,7 @@ func _on_HostButton_pressed() -> void:
 	if is_name_empty():
 		return
 	Globals.player_name = name_input.text
-	Network.start_multiplayer_host()
+	Network.start_multiplayer_host(enable_upnp)
 
 
 func _on_JoinButton_pressed() -> void:
@@ -80,3 +83,7 @@ func show_error(message: String) -> void:
 	info_message.hide()
 	error_message.text = message
 	error_message.show()
+
+
+func _on_UpnpToggle_toggled(button_pressed: bool) -> void:
+	enable_upnp = button_pressed

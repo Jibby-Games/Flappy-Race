@@ -63,9 +63,9 @@ __meta__ = {
 
 [node name="ButtonContainer" type="VBoxContainer" parent="VBoxContainer/Menu/CenterContainer"]
 margin_left = 594.0
-margin_top = 314.0
+margin_top = 260.0
 margin_right = 1305.0
-margin_bottom = 630.0
+margin_bottom = 684.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -107,10 +107,27 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HostButton" type="Button" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
 margin_top = 120.0
 margin_right = 711.0
-margin_bottom = 193.0
+margin_bottom = 124.0
+
+[node name="HostOptions" type="HBoxContainer" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+margin_top = 174.0
+margin_right = 711.0
+margin_bottom = 247.0
+size_flags_horizontal = 3
+size_flags_vertical = 5
+custom_constants/separation = 30
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HostButton" type="Button" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer/HostOptions"]
+margin_right = 340.0
+margin_bottom = 73.0
+size_flags_horizontal = 3
 theme = ExtResource( 8 )
 custom_fonts/font = ExtResource( 7 )
 text = "Host"
@@ -118,10 +135,27 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IpContainer" type="HBoxContainer" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
-margin_top = 243.0
+[node name="UpnpToggle" type="CheckButton" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer/HostOptions"]
+margin_left = 460.0
+margin_right = 621.0
+margin_bottom = 73.0
+hint_tooltip = "Use UPnP to try to automatically perform port forwarding."
+size_flags_horizontal = 6
+pressed = true
+text = "UPnP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+margin_top = 297.0
 margin_right = 711.0
-margin_bottom = 316.0
+margin_bottom = 301.0
+
+[node name="IpContainer" type="HBoxContainer" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+margin_top = 351.0
+margin_right = 711.0
+margin_bottom = 424.0
 size_flags_horizontal = 3
 custom_constants/separation = 15
 __meta__ = {
@@ -145,6 +179,7 @@ margin_top = 1.0
 margin_right = 711.0
 margin_bottom = 71.0
 rect_min_size = Vector2( 300, 70 )
+hint_tooltip = "The IP address to connect to."
 size_flags_horizontal = 7
 size_flags_vertical = 4
 custom_fonts/font = ExtResource( 4 )
@@ -185,6 +220,7 @@ alignment = 1
 
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
 [connection signal="timeout" from="ConnectionTimer" to="." method="_on_ConnectionTimer_timeout"]
-[connection signal="pressed" from="VBoxContainer/Menu/CenterContainer/ButtonContainer/HostButton" to="." method="_on_HostButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/Menu/CenterContainer/ButtonContainer/HostOptions/HostButton" to="." method="_on_HostButton_pressed"]
+[connection signal="toggled" from="VBoxContainer/Menu/CenterContainer/ButtonContainer/HostOptions/UpnpToggle" to="." method="_on_UpnpToggle_toggled"]
 [connection signal="pressed" from="VBoxContainer/Menu/CenterContainer/ButtonContainer/IpContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Menu/BackButton" to="." method="_on_BackButton_pressed"]
