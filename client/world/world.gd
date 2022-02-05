@@ -154,20 +154,11 @@ func _on_Player_death(player: CommonPlayer) -> void:
 
 
 func knockback_player(player_id: int) -> void:
-	if player_list[player_id].spectate == false:
-		var player = player_list[player_id].body
-		player.set_enable_movement(false)
-		# Calculate the last wall position plus 25% of the spacing
-		var last_x_position = get_last_spawn_position(player.position.x)
-		Logger.print(self, "Knocking player back to %s" % [last_x_position])
-		player.set_position(Vector2(last_x_position, 0))
-		yield(get_tree().create_timer(1), "timeout")
-		player.set_enable_movement(true)
-
-
-func get_last_spawn_position(current_position: float) -> float:
-	# Minus 64 to account for the wall's size, add 0.25 so just ahead of the last wall
-	return (floor(((current_position - 64 - starting_wall_pos) / wall_spacing)) + 0.25) * wall_spacing + starting_wall_pos
+	var player = player_list[player_id].body
+	player.set_enable_movement(false)
+	.knockback_player(player_id)
+	yield(get_tree().create_timer(1), "timeout")
+	player.set_enable_movement(true)
 
 
 func _on_Player_score_point(player: CommonPlayer) -> void:

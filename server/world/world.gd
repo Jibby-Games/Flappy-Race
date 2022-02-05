@@ -57,17 +57,22 @@ func _on_Player_death(player: CommonPlayer) -> void:
 func player_lose_life(player_id: int) -> void:
 	if game_options.lives <= 0:
 		# Lives are disabled so only knockback
-		Network.Server.send_player_knockback(player_id)
+		knockback_player(player_id)
 		return
 	player_lives[player_id] -= 1
 	Network.Server.send_player_lost_life(player_id, player_lives[player_id])
 	if player_lives[player_id] > 0:
 		Logger.print(self, "Player %s lost a life - Remaining lives = %d" % [player_id, player_lives[player_id]])
-		Network.Server.send_player_knockback(player_id)
+		knockback_player(player_id)
 	else:
 		Logger.print(self, "Player %s lost all their lives!" % [player_id])
 		Network.Server.send_despawn_player(player_id)
 		despawn_player(player_id)
+
+
+func knockback_player(player_id: int) -> void:
+	Network.Server.send_player_knockback(player_id)
+	.knockback_player(player_id)
 
 
 func _on_Player_score_point(player: CommonPlayer) -> void:

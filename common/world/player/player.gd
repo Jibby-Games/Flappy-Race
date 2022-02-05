@@ -7,12 +7,14 @@ class_name CommonPlayer
 const MAXFALLSPEED = 800
 const GRAVITY = 17
 const BASE_SPEED = 500
+const DEATH_COOLDOWN_TIME = 1
 
 
 signal death(player)
 signal score_point(player)
 
 
+var in_death_cooldown: bool = false
 var score: int = 0
 
 # Movement vars
@@ -48,7 +50,7 @@ func check_position() -> void:
 	# Give the player a chance to recover from death
 	var threshold = 200
 	if abs(self.position.y) > (upper_bound + threshold):
-		emit_signal("death", self)
+		death()
 
 
 func _on_Detect_area_entered(_area: Area2D) -> void:
@@ -60,7 +62,29 @@ func _on_Detect_area_entered(_area: Area2D) -> void:
 
 func _on_Detect_body_entered(_body: Node) -> void:
 	Logger.print(self, "Player entered body %s" % [_body.name])
+	death()
+
+
+func death() -> void:
+	if in_death_cooldown:
+		return
+	in_death_cooldown = true
 	emit_signal("death", self)
+	$DeathCooldownTimer.start(DEATH_COOLDOWN_TIME)
+	on_death()
+
+
+func on_death() -> void:
+	# Used on the client
+	pass
+
+
+func despawn() -> void:
+	queue_free()
+
+
+func _on_DeathCooldownTimer_timeout() -> void:
+	in_death_cooldown = false
 
 
 func set_enable_movement(_new_value: bool) -> void:
