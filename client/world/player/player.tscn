@@ -4,7 +4,7 @@
 [ext_resource path="res://client/world/player/bird_outline_1.png" type="Texture" id=2]
 [ext_resource path="res://client/world/player/unf.ogg" type="AudioStream" id=3]
 [ext_resource path="res://client/world/player/uuh.ogg" type="AudioStream" id=4]
-[ext_resource path="res://client/audio/mouthsounds.ogg" type="AudioStream" id=5]
+[ext_resource path="res://client/audio/death.ogg" type="AudioStream" id=5]
 [ext_resource path="res://client/world/player/ahuah.ogg" type="AudioStream" id=6]
 [ext_resource path="res://client/world/player/huah.ogg" type="AudioStream" id=7]
 [ext_resource path="res://client/world/player/player.gd" type="Script" id=8]
@@ -62,7 +62,8 @@ bus = "Player"
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="." index="10"]
 stream = ExtResource( 5 )
-attenuation = 5.37187e-08
+volume_db = 13.386
+attenuation = 3.36358
 bus = "Player"
 
 [node name="NameLabel" type="Label" parent="." index="11"]

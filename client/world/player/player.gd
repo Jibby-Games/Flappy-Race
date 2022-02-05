@@ -87,3 +87,15 @@ func set_body_colour(value: int) -> void:
 func set_player_name(value: String) -> void:
 	$NameLabel.text = value
 	$NameLabel.show()
+
+
+func on_death() -> void:
+	$DeathSound.play()
+
+
+func despawn() -> void:
+	$DeathSound.play()
+	hide()
+	# Delay freeing so the sound can finish playing
+	yield(get_tree().create_timer(1), "timeout")
+	queue_free()
