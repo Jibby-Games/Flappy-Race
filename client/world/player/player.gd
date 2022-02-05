@@ -27,10 +27,11 @@ export(PoolColorArray) var colour_options = [
 
 var is_controlled
 var player_state
+var enable_death_animation: bool = true
 
 
 func _ready() -> void:
-	$AnimatedOutline.playing = true
+	$Sprites/AnimatedOutline.playing = true
 
 
 func _physics_process(_delta: float) -> void:
@@ -81,9 +82,24 @@ func disable_control() -> void:
 
 
 func set_body_colour(value: int) -> void:
-	$Body.modulate = colour_options[value]
+	$Sprites/Body.modulate = colour_options[value]
 
 
 func set_player_name(value: String) -> void:
 	$NameLabel.text = value
 	$NameLabel.show()
+
+
+func on_death() -> void:
+	if enable_death_animation == false:
+		return
+	$DeathSound.play()
+	$AnimationPlayer.play("DeathCooldown")
+
+
+func despawn() -> void:
+	$DeathSound.play()
+	hide()
+	# Delay freeing so the sound can finish playing
+	yield(get_tree().create_timer(1), "timeout")
+	queue_free()

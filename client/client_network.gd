@@ -237,8 +237,21 @@ func send_client_ready() -> void:
 	rpc_id(SERVER_ID, "receive_client_ready")
 
 
-func send_player_death() -> void:
-	rpc_id(SERVER_ID, "receive_player_death")
+remote func receive_player_lost_life(lives_left: int) -> void:
+	if is_rpc_from_server() == false:
+		return
+	Logger.print(self, "Received player lost life - remaining = %d" % [lives_left])
+	var ui = get_node_or_null("World/UI")
+	if ui:
+		ui.update_lives(lives_left)
+
+
+remote func receive_player_knockback() -> void:
+	if is_rpc_from_server() == false:
+		return
+	var world = get_node_or_null("World")
+	if world:
+		world.knockback_player(multiplayer.get_network_unique_id())
 
 
 remote func receive_despawn_player(player_id: int) -> void:

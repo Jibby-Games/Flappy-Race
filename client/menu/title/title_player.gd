@@ -2,6 +2,8 @@ extends Node2D
 
 
 func _ready() -> void:
+	# Stop death sounds and animations playing on the title screen
+	$Player.enable_death_animation = false
 	randomize()
 	reset()
 

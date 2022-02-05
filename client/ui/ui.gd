@@ -3,10 +3,12 @@ extends CanvasLayer
 
 export(NodePath) var HighScorePath
 export(NodePath) var ScorePath
+export(NodePath) var LivesPath
 
 
 onready var HighScore := get_node(HighScorePath)
 onready var Score := get_node(ScorePath)
+onready var Lives := get_node(LivesPath)
 
 
 signal countdown_finished
@@ -24,6 +26,11 @@ func start_countdown() -> void:
 
 func _countdown_finished() -> void:
 	emit_signal("countdown_finished")
+	$Ingame.show()
+
+
+func update_lives(new_lives: int) -> void:
+	Lives.set_lives(new_lives)
 
 
 func update_score(new_score: int) -> void:

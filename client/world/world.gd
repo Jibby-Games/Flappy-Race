@@ -81,13 +81,18 @@ func update_world_state(world_state: Dictionary) -> void:
 func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary) -> void:
 	.start_game(game_seed, new_game_options, new_player_list)
 	reset_camera()
+	$UI.update_lives(game_options.lives)
 	$UI.start_countdown()
 
 
 func _on_UI_countdown_finished() -> void:
 	var client_id = multiplayer.get_network_unique_id()
 	if player_list[client_id].spectate == false:
-		player_list[client_id].body.enable_control()
+		var player = player_list[client_id].body
+		player.enable_movement = true
+		# Give the player a jump at the start
+		player.motion.y = -STARTING_JUMP
+		player.enable_control()
 	$MusicPlayer.play_random_track()
 
 
@@ -144,11 +149,16 @@ func get_lead_player() -> CommonPlayer:
 
 
 func _on_Player_death(player: CommonPlayer) -> void:
-	# Only delete the local player for responsiveness.
-	# The server will tell us when to delete other players
 	if int(player.name) == multiplayer.get_network_unique_id():
-		Network.Client.send_player_death()
 		._on_Player_death(player)
+
+
+func knockback_player(player_id: int) -> void:
+	var player = player_list[player_id].body
+	player.set_enable_movement(false)
+	.knockback_player(player_id)
+	yield(get_tree().create_timer(1), "timeout")
+	player.set_enable_movement(true)
 
 
 func _on_Player_score_point(player: CommonPlayer) -> void:

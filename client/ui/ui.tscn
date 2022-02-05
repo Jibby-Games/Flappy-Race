@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://client/ui/pause_menu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/fonts/Score.tres" type="DynamicFont" id=2]
@@ -13,6 +13,8 @@
 [ext_resource path="res://client/audio/countdown_2.ogg" type="AudioStream" id=11]
 [ext_resource path="res://client/audio/countdown_1.ogg" type="AudioStream" id=12]
 [ext_resource path="res://client/audio/countdown_go.ogg" type="AudioStream" id=13]
+[ext_resource path="res://client/ui/heart.png" type="Texture" id=14]
+[ext_resource path="res://client/ui/lives.gd" type="Script" id=15]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Finished"
@@ -139,7 +141,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 3.3 ),
+"times": PoolRealArray( 3 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
@@ -227,8 +229,9 @@ tracks/3/keys = {
 [node name="UI" type="CanvasLayer"]
 follow_viewport_enable = true
 script = ExtResource( 5 )
-HighScorePath = NodePath("HighScore")
-ScorePath = NodePath("Score")
+HighScorePath = NodePath("Ingame/HighScore")
+ScorePath = NodePath("Ingame/Score")
+LivesPath = NodePath("Ingame/Lives")
 
 [node name="Death" type="Control" parent="."]
 visible = false
@@ -292,6 +295,178 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Finished"]
 anims/Finished = SubResource( 1 )
+
+[node name="Ingame" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Score" type="Label" parent="Ingame"]
+anchor_right = 1.0
+margin_bottom = 48.0
+theme = SubResource( 2 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "0"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HighScore" type="Label" parent="Ingame"]
+margin_right = 110.0
+margin_bottom = 55.0
+custom_colors/font_color = Color( 0, 0, 1, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "0"
+align = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lives" type="MarginContainer" parent="Ingame"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -164.0
+margin_right = 833.0
+grow_vertical = 0
+theme = ExtResource( 6 )
+script = ExtResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LifeBar" type="HBoxContainer" parent="Ingame/Lives"]
+margin_left = 50.0
+margin_top = 50.0
+margin_right = 783.0
+margin_bottom = 114.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Heart1" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
+margin_right = 64.0
+margin_bottom = 64.0
+texture = ExtResource( 14 )
+
+[node name="Heart2" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
+margin_left = 68.0
+margin_right = 132.0
+margin_bottom = 64.0
+texture = ExtResource( 14 )
+
+[node name="Heart3" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
+margin_left = 136.0
+margin_right = 200.0
+margin_bottom = 64.0
+texture = ExtResource( 14 )
+
+[node name="Heart4" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
+margin_left = 204.0
+margin_right = 268.0
+margin_bottom = 64.0
+texture = ExtResource( 14 )
+
+[node name="Heart5" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
+margin_left = 272.0
+margin_right = 336.0
+margin_bottom = 64.0
+texture = ExtResource( 14 )
+
+[node name="Heart6" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
+margin_left = 340.0
+margin_right = 404.0
+margin_bottom = 64.0
+texture = ExtResource( 14 )
+
+[node name="Heart7" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
+margin_left = 408.0
+margin_right = 472.0
+margin_bottom = 64.0
+texture = ExtResource( 14 )
+
+[node name="Heart8" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
+margin_left = 476.0
+margin_right = 540.0
+margin_bottom = 64.0
+texture = ExtResource( 14 )
+
+[node name="Heart9" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
+margin_left = 544.0
+margin_right = 608.0
+margin_bottom = 64.0
+texture = ExtResource( 14 )
+
+[node name="Heart10" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
+margin_left = 612.0
+margin_right = 676.0
+margin_bottom = 64.0
+texture = ExtResource( 14 )
+
+[node name="ExtraLives" type="Label" parent="Ingame/Lives/LifeBar"]
+margin_left = 680.0
+margin_top = 8.0
+margin_right = 733.0
+margin_bottom = 56.0
+theme = ExtResource( 6 )
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+
+[node name="Countdown" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -960.0
+margin_top = -540.0
+margin_right = 960.0
+margin_bottom = 540.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NumberLabel" type="Label" parent="Countdown"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -125.0
+margin_top = -125.0
+margin_right = 125.0
+margin_bottom = 125.0
+rect_pivot_offset = Vector2( 125, 125 )
+size_flags_horizontal = 5
+custom_fonts/font = ExtResource( 7 )
+text = "3"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Countdown"]
+anims/Countdown = SubResource( 3 )
+anims/RESET = SubResource( 4 )
+
+[node name="Sounds" type="AudioStreamPlayer" parent="Countdown"]
+stream = ExtResource( 13 )
+volume_db = -7.634
+bus = "Sounds"
 
 [node name="Leaderboard" type="Control" parent="."]
 visible = false
@@ -372,72 +547,6 @@ text = "Restart"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Score" type="Label" parent="."]
-anchor_right = 1.0
-margin_bottom = 48.0
-theme = SubResource( 2 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 2 )
-text = "0"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HighScore" type="Label" parent="."]
-margin_right = 110.0
-margin_bottom = 55.0
-custom_colors/font_color = Color( 0, 0, 1, 1 )
-custom_fonts/font = ExtResource( 2 )
-text = "0"
-align = 1
-uppercase = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Countdown" type="Control" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -960.0
-margin_top = -540.0
-margin_right = 960.0
-margin_bottom = 540.0
-mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="NumberLabel" type="Label" parent="Countdown"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -125.0
-margin_top = -125.0
-margin_right = 125.0
-margin_bottom = 125.0
-rect_pivot_offset = Vector2( 125, 125 )
-size_flags_horizontal = 5
-custom_fonts/font = ExtResource( 7 )
-text = "3"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Countdown"]
-anims/Countdown = SubResource( 3 )
-anims/RESET = SubResource( 4 )
-
-[node name="Sounds" type="AudioStreamPlayer" parent="Countdown"]
-stream = ExtResource( 13 )
-volume_db = -7.634
-bus = "Sounds"
 
 [node name="PauseMenu" parent="." instance=ExtResource( 1 )]
 

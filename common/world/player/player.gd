@@ -7,15 +7,15 @@ class_name CommonPlayer
 const MAXFALLSPEED = 800
 const GRAVITY = 17
 const BASE_SPEED = 500
+const DEATH_COOLDOWN_TIME = 1
 
 
 signal death(player)
 signal score_point(player)
 
 
+var in_death_cooldown: bool = false
 var score: int = 0
-var enable_lives: bool = true
-var lives: int = 1
 
 # Movement vars
 var motion: Vector2 = Vector2()
@@ -47,15 +47,10 @@ func update_movement() -> void:
 func check_position() -> void:
 	var upper_bound = (ProjectSettings.get_setting("display/window/size/height") / 2)
 
-	if enable_lives:
-		# Give the player a chance to recover from death
-		var threshold = 200
-		if abs(self.position.y) > (upper_bound + threshold):
-			emit_signal("death", self)
-	else:
-		var lower_bound = -upper_bound
-		# Stop the player going off screen
-		self.position.y = clamp(self.position.y, lower_bound, upper_bound)
+	# Give the player a chance to recover from death
+	var threshold = 200
+	if abs(self.position.y) > (upper_bound + threshold):
+		death()
 
 
 func _on_Detect_area_entered(_area: Area2D) -> void:
@@ -67,15 +62,29 @@ func _on_Detect_area_entered(_area: Area2D) -> void:
 
 func _on_Detect_body_entered(_body: Node) -> void:
 	Logger.print(self, "Player entered body %s" % [_body.name])
-	if enable_lives:
-		lose_life()
+	death()
 
 
-func lose_life() -> void:
-	lives -= 1
-	Logger.print(self, "Player %s lost a life - Remaining lives = %d" % [self.name, lives])
-	if lives <= 0:
-		emit_signal("death", self)
+func death() -> void:
+	if in_death_cooldown:
+		return
+	in_death_cooldown = true
+	emit_signal("death", self)
+	$DeathCooldownTimer.start(DEATH_COOLDOWN_TIME)
+	on_death()
+
+
+func on_death() -> void:
+	# Used on the client
+	pass
+
+
+func despawn() -> void:
+	queue_free()
+
+
+func _on_DeathCooldownTimer_timeout() -> void:
+	in_death_cooldown = false
 
 
 func set_enable_movement(_new_value: bool) -> void:
