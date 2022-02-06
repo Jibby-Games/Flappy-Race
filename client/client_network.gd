@@ -91,6 +91,9 @@ func stop_client() -> void:
 	$LatencyUpdater.stop()
 	multiplayer.network_peer.close_connection()
 	multiplayer.set_network_peer(null)
+	host_player_id = 0
+	player_list.clear()
+	game_options.clear()
 	Logger.print(self, "Client stopped")
 
 
