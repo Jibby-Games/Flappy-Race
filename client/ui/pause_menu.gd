@@ -25,6 +25,11 @@ func _on_ResumeButton_pressed() -> void:
 	disable_pause_menu()
 
 
+func _on_NewRaceButton_pressed() -> void:
+	get_tree().paused = false
+	Network.Client.change_scene_to_setup()
+
+
 func _on_MainMenuButton_pressed() -> void:
 	Network.stop_networking()
 	get_tree().paused = false
