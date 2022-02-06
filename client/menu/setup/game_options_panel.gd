@@ -13,6 +13,8 @@ var emit_changes := false
 func set_game_options(game_options: Dictionary) -> void:
 	set_goal(game_options.goal)
 	set_lives(game_options.lives)
+	# Don't emit signals the first time the values are set or it can infinitely loop
+	emit_changes = true
 
 
 func set_goal(new_goal: int) -> void:

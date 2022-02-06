@@ -30,6 +30,7 @@ func _ready() -> void:
 		if not Network.Client.game_options.empty():
 			$GameOptions.set_game_options(Network.Client.game_options)
 
+
 	# Need to defer this or the menu animation hides it
 	$StartButton.call_deferred("grab_focus")
 
@@ -40,8 +41,6 @@ func _on_host_changed(_new_host: int) -> void:
 
 func _on_game_options_changed(new_game_options: Dictionary) -> void:
 	$GameOptions.set_game_options(new_game_options)
-	# Don't emit signals the first time the values are set, or it can infinitely loop
-	$GameOptions.emit_changes = true
 
 
 func set_enable_host_options(is_host: bool) -> void:
