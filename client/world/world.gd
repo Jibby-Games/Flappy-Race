@@ -100,6 +100,7 @@ func reset_camera() -> void:
 	var client_id = multiplayer.get_network_unique_id()
 	if player_list[client_id].spectate:
 		switch_camera_to_leader()
+		$UI.spectating = true
 	else:
 		var player = player_list[client_id].body
 		$MainCamera.set_target(player)

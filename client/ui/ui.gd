@@ -15,6 +15,9 @@ signal countdown_finished
 signal request_restart
 
 
+var spectating := false
+
+
 func _ready() -> void:
 	# Setup gubbins
 	HighScore.text = str(Globals.high_score)
@@ -26,7 +29,8 @@ func start_countdown() -> void:
 
 func _countdown_finished() -> void:
 	emit_signal("countdown_finished")
-	$Ingame.show()
+	if spectating == false:
+		$Ingame.show()
 
 
 func update_lives(new_lives: int) -> void:
