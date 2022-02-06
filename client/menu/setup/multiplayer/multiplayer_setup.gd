@@ -20,7 +20,8 @@ func populate_players(new_player_list: Dictionary) -> void:
 	for player_id in new_player_list:
 		var colour_choice = new_player_list[player_id]["colour"]
 		var player_name = new_player_list[player_id]["name"]
-		player_list.add_player(player_id, player_name, colour_choice)
+		var spectating = new_player_list[player_id]["spectate"]
+		player_list.add_player(player_id, player_name, colour_choice, spectating)
 
 
 func update_player_colour(player_id: int, colour_choice: int) -> void:
