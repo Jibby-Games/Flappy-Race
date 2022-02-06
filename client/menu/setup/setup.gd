@@ -16,10 +16,19 @@ func _ready() -> void:
 	player.set_body_colour(Globals.player_colour)
 	colour_selector.select(Globals.player_colour)
 
-	# Update for any host changes
+	# Update for any host or game option changes
 	var result: int
 	result = Network.Client.connect("host_changed", self, "_on_host_changed")
 	assert(result == OK)
+	result = Network.Client.connect("game_options_changed", self, "_on_game_options_changed")
+	assert(result == OK)
+
+	if multiplayer.has_network_peer():
+		# Already connected to the server, so set all of the values
+		if Network.Client.is_host():
+			set_enable_host_options(true)
+		if not Network.Client.game_options.empty():
+			$GameOptions.set_game_options(Network.Client.game_options)
 
 	# Need to defer this or the menu animation hides it
 	$StartButton.call_deferred("grab_focus")
@@ -27,6 +36,12 @@ func _ready() -> void:
 
 func _on_host_changed(_new_host: int) -> void:
 	set_enable_host_options(Network.Client.is_host())
+
+
+func _on_game_options_changed(new_game_options: Dictionary) -> void:
+	$GameOptions.set_game_options(new_game_options)
+	# Don't emit signals the first time the values are set, or it can infinitely loop
+	$GameOptions.emit_changes = true
 
 
 func set_enable_host_options(is_host: bool) -> void:

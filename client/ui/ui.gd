@@ -65,8 +65,10 @@ func show_leaderboard(player_list: Array) -> void:
 	if Network.Client.is_host():
 		$Leaderboard/Footer/RestartButton.show()
 		$Leaderboard/Footer/RestartButton.grab_focus()
+		$Leaderboard/Footer/NewRaceButton.show()
 	else:
 		$Leaderboard/Footer/RestartButton.hide()
+		$Leaderboard/Footer/NewRaceButton.hide()
 	$Leaderboard.show()
 
 
@@ -84,3 +86,7 @@ func int2ordinal(value: int) -> String:
 		suffix = "th"
 
 	return "%d%s" % [value, suffix]
+
+
+func _on_NewRaceButton_pressed() -> void:
+	Network.Client.change_scene_to_setup()

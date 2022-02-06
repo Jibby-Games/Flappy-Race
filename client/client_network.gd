@@ -9,6 +9,10 @@ const LATENCY_BUFFER_SIZE := 9
 const LATENCY_THRESHOLD := 20
 
 
+export(PackedScene) var SingleplayerSetupScene
+export(PackedScene) var MultiplayerSetupScene
+
+
 # Clock sync and latency vars
 var client_clock: int = 0
 var latency = 0
@@ -19,9 +23,13 @@ var latency_array = []
 
 var is_singleplayer := false
 var host_player_id := 0
+var player_list := {}
+var game_options := {}
 
 
 signal host_changed(new_host_id)
+signal player_list_changed(new_player_list)
+signal game_options_changed(new_options)
 
 
 func _ready() -> void:
@@ -61,6 +69,14 @@ func _exit_tree() -> void:
 func change_scene_to_title_screen() -> void:
 	# The client should always start in the main menu
 	change_scene("res://client/menu/menu_handler.tscn")
+
+
+func change_scene_to_setup() -> void:
+	change_scene("res://client/menu/menu_handler.tscn")
+	if is_singleplayer:
+		$MenuHandler.change_menu_to(SingleplayerSetupScene)
+	else:
+		$MenuHandler.change_menu_to(MultiplayerSetupScene)
 
 
 func start_client(host: String, port: int, singleplayer: bool = false) -> void:
@@ -144,13 +160,25 @@ remote func receive_latency_response(client_time: int) -> void:
 		latency_array.clear()
 
 
-remote func receive_game_options(game_options: Dictionary) -> void:
+remote func receive_game_info(
+		new_host_id: int,
+		new_player_list: Dictionary,
+		new_game_options: Dictionary
+	) -> void:
+	host_player_id = new_host_id
+	emit_signal("host_changed", new_host_id)
+	player_list = new_player_list
+	emit_signal("player_list_changed", new_player_list)
+	game_options = new_game_options
+	emit_signal("game_options_changed", new_game_options)
+
+
+remote func receive_game_options(new_game_options: Dictionary) -> void:
 	if is_rpc_from_server() == false:
 		return
-	Logger.print(self, "Received game options: %s" % [game_options])
-	var options = get_node_or_null("MenuHandler/MultiplayerSetup/Setup/GameOptions")
-	if options:
-		options.set_game_options(game_options)
+	game_options = new_game_options
+	Logger.print(self, "Received game options: %s" % [new_game_options])
+	emit_signal("game_options_changed", new_game_options)
 
 
 remote func receive_host_change(new_host_id: int) -> void:
@@ -173,12 +201,11 @@ func send_player_settings(player_name: String, player_colour: int) -> void:
 	rpc_id(SERVER_ID, "receive_player_settings", player_name, player_colour)
 
 
-remote func receive_player_list_update(player_list: Dictionary) -> void:
+remote func receive_player_list_update(new_player_list: Dictionary) -> void:
 	if is_rpc_from_server() == false:
 		return
-	var setup = get_node_or_null("MenuHandler/MultiplayerSetup")
-	if setup:
-		setup.populate_players(player_list)
+	player_list = new_player_list
+	emit_signal("player_list_changed", new_player_list)
 
 
 func send_player_colour_change(colour_choice: int) -> void:
@@ -188,6 +215,7 @@ func send_player_colour_change(colour_choice: int) -> void:
 remote func receive_player_colour_update(player_id: int, colour_choice: int) -> void:
 	if is_rpc_from_server() == false:
 		return
+	player_list[player_id].colour = colour_choice
 	var setup = get_node_or_null("MenuHandler/MultiplayerSetup")
 	if setup:
 		setup.update_player_colour(player_id, colour_choice)
@@ -200,6 +228,7 @@ func send_player_spectate_change(is_spectating: bool) -> void:
 remote func receive_player_spectate_update(player_id: int, is_spectating: bool) -> void:
 	if is_rpc_from_server() == false:
 		return
+	player_list[player_id].spectate = is_spectating
 	var setup = get_node_or_null("MenuHandler/MultiplayerSetup")
 	if setup:
 		setup.update_player_spectating(player_id, is_spectating)
@@ -213,6 +242,7 @@ func send_goal_change(goal: int) -> void:
 remote func receive_goal_change(goal: int) -> void:
 	if is_rpc_from_server() == false:
 		return
+	game_options.goal = goal
 	var options = get_node_or_null("MenuHandler/MultiplayerSetup/Setup/GameOptions")
 	Logger.print(self, "Received new goal: %d" % [goal])
 	if options:
@@ -227,6 +257,7 @@ func send_lives_change(lives: int) -> void:
 remote func receive_lives_change(lives: int) -> void:
 	if is_rpc_from_server() == false:
 		return
+	game_options.lives = lives
 	var options = get_node_or_null("MenuHandler/MultiplayerSetup/Setup/GameOptions")
 	Logger.print(self, "Received new lives: %d" % [lives])
 	if options:

@@ -7,6 +7,9 @@ onready var LivesToggle = $Panel/VBoxContainer/PlayerLives/LivesToggle
 onready var LivesInput = $Panel/VBoxContainer/PlayerLives/LivesInput
 
 
+var emit_changes := false
+
+
 func set_game_options(game_options: Dictionary) -> void:
 	set_goal(game_options.goal)
 	set_lives(game_options.lives)
@@ -34,16 +37,19 @@ func _on_GameOptionsToggle_toggled(button_pressed: bool) -> void:
 
 
 func _on_ScoreInput_value_changed(new_goal: float) -> void:
-	Network.Client.send_goal_change(int(new_goal))
+	if emit_changes:
+		Network.Client.send_goal_change(int(new_goal))
 
 
 func _on_LivesToggle_toggled(button_pressed: bool) -> void:
-	LivesInput.visible = button_pressed
-	if button_pressed:
-		Network.Client.send_lives_change(int(LivesInput.value))
-	else:
-		Network.Client.send_lives_change(0)
+		LivesInput.visible = button_pressed
+		if emit_changes:
+			if button_pressed:
+				Network.Client.send_lives_change(int(LivesInput.value))
+			else:
+				Network.Client.send_lives_change(0)
 
 
 func _on_LivesInput_value_changed(value: float) -> void:
-	Network.Client.send_lives_change(int(value))
+	if emit_changes:
+		Network.Client.send_lives_change(int(value))

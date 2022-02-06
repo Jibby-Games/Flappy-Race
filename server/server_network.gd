@@ -6,6 +6,10 @@ class_name ServerNetwork
 
 const SERVER_ID := 0
 const UpnpHandler = preload("res://server/upnp_handler.gd")
+const DEFAULT_GAME_OPTIONS := {
+	"goal": 100,
+	"lives": 0,
+}
 
 # IMPORTANT:
 # This node is a Viewport with zero size intentionally in order to separate
@@ -16,10 +20,7 @@ var max_players := 0
 var _host_player_id := 0 setget set_host
 var player_state_collection := {}
 var player_list := {}
-var game_options := {
-	"goal": 100,
-	"lives": 0,
-}
+var game_options := {}
 
 
 func _ready() -> void:
@@ -70,6 +71,7 @@ func start_server(
 		server_max_players: int,
 		forward_port: bool = true) -> void:
 	max_players = server_max_players
+	game_options = DEFAULT_GAME_OPTIONS.duplicate()
 	if forward_port:
 		var upnp_handler = UpnpHandler.new()
 		upnp_handler.set_name("UpnpHandler")
@@ -115,6 +117,7 @@ func _peer_connected(player_id: int) -> void:
 	else:
 		set_host(player_id)
 	rpc_id(player_id, "receive_game_options", game_options)
+	send_game_info(player_id)
 
 
 func _peer_disconnected(player_id: int) -> void:
@@ -130,6 +133,11 @@ func _peer_disconnected(player_id: int) -> void:
 	send_despawn_player(player_id)
 	if player_list.has(player_id):
 		assert(player_list.erase(player_id))
+
+
+func send_game_info(player_id: int) -> void:
+	Logger.print(self, "Sending initial game info to player %s" % [player_id])
+	rpc_id(player_id, "receive_game_info", _host_player_id, player_list, game_options)
 
 
 remote func receive_player_settings(player_name: String, player_colour: int) -> void:

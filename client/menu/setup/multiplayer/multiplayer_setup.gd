@@ -4,6 +4,16 @@ extends MenuControl
 onready var player_list = $Setup/PlayerList
 
 
+func _ready() -> void:
+	var result = Network.Client.connect("player_list_changed", self, "populate_players")
+	assert(result == OK)
+
+	if multiplayer.has_network_peer():
+		# Already connected to the server, so set all of the values
+		if not Network.Client.player_list.empty():
+			populate_players(Network.Client.player_list)
+
+
 func populate_players(new_player_list: Dictionary) -> void:
 	Logger.print(self, "Got player list: %s" % [new_player_list])
 	player_list.clear_players()

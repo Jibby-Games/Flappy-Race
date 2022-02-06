@@ -537,10 +537,10 @@ __meta__ = {
 
 [node name="RestartButton" type="Button" parent="Leaderboard/Footer"]
 visible = false
-margin_left = 90.0
+margin_left = 40.0
 margin_right = 290.0
 margin_bottom = 64.0
-rect_min_size = Vector2( 200, 64 )
+rect_min_size = Vector2( 250, 64 )
 theme = ExtResource( 6 )
 custom_fonts/font = ExtResource( 9 )
 text = "Restart"
@@ -548,6 +548,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="NewRaceButton" type="Button" parent="Leaderboard/Footer"]
+visible = false
+margin_left = 175.0
+margin_right = 425.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 250, 64 )
+theme = ExtResource( 6 )
+custom_fonts/font = ExtResource( 9 )
+text = "New Race"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="PauseMenu" parent="." instance=ExtResource( 1 )]
 
 [connection signal="pressed" from="Leaderboard/Footer/RestartButton" to="." method="_on_RestartButton_pressed"]
+[connection signal="pressed" from="Leaderboard/Footer/NewRaceButton" to="." method="_on_NewRaceButton_pressed"]
