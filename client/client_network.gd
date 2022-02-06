@@ -116,6 +116,10 @@ func _on_server_disconnected() -> void:
 	Globals.show_message("Lost connection to the server.", "Server Disconnect")
 
 
+func is_server_connected() -> bool:
+	return (multiplayer.network_peer.get_connection_status() == multiplayer.CONNECTION_CONNECTED)
+
+
 func is_rpc_from_server() -> bool:
 	var sender: int = multiplayer.get_rpc_sender_id()
 	if sender != SERVER_ID:

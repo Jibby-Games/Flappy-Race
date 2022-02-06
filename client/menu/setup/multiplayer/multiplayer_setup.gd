@@ -8,7 +8,7 @@ func _ready() -> void:
 	var result = Network.Client.connect("player_list_changed", self, "populate_players")
 	assert(result == OK)
 
-	if multiplayer.has_network_peer():
+	if Network.Client.is_server_connected():
 		# Already connected to the server, so set all of the values
 		if not Network.Client.player_list.empty():
 			populate_players(Network.Client.player_list)

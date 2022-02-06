@@ -23,7 +23,7 @@ func _ready() -> void:
 	result = Network.Client.connect("game_options_changed", self, "_on_game_options_changed")
 	assert(result == OK)
 
-	if multiplayer.has_network_peer():
+	if Network.Client.is_server_connected():
 		# Already connected to the server, so set all of the values
 		if Network.Client.is_host():
 			set_enable_host_options(true)
