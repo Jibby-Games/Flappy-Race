@@ -117,7 +117,7 @@ func _on_server_disconnected() -> void:
 
 
 func is_server_connected() -> bool:
-	return (multiplayer.network_peer.get_connection_status() == multiplayer.CONNECTION_CONNECTED)
+	return multiplayer.has_network_peer() and (multiplayer.network_peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED)
 
 
 func is_rpc_from_server() -> bool:
