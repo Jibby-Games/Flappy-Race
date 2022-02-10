@@ -20,16 +20,19 @@ var spectating := false
 
 func _ready() -> void:
 	# Setup gubbins
+	$Ingame.hide()
 	HighScore.text = str(Globals.high_score)
 
 
 func start_countdown() -> void:
+	$Countdown.show()
 	$Countdown/AnimationPlayer.play("Countdown")
 
 
 func _countdown_finished() -> void:
 	emit_signal("countdown_finished")
 	if spectating == false:
+		$Ingame/Stopwatch.start()
 		$Ingame.show()
 
 
@@ -55,6 +58,7 @@ func show_death() -> void:
 
 
 func show_finished(place: int) -> void:
+	$Ingame/Stopwatch.stop()
 	$Finished/PlaceLabel.text = int2ordinal(place)
 	$Finished/AnimationPlayer.play("Finished")
 

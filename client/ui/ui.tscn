@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://client/ui/pause_menu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/fonts/Score.tres" type="DynamicFont" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://client/audio/countdown_go.ogg" type="AudioStream" id=13]
 [ext_resource path="res://client/ui/heart.png" type="Texture" id=14]
 [ext_resource path="res://client/ui/lives.gd" type="Script" id=15]
+[ext_resource path="res://client/ui/stopwatch.gd" type="Script" id=16]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Finished"
@@ -297,7 +298,6 @@ __meta__ = {
 anims/Finished = SubResource( 1 )
 
 [node name="Ingame" type="Control" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
@@ -305,8 +305,13 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Ingame"]
-anchor_right = 1.0
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -100.0
+margin_top = 10.0
+margin_right = 100.0
 margin_bottom = 48.0
+rect_min_size = Vector2( 200, 0 )
 theme = SubResource( 2 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 2 )
@@ -317,13 +322,33 @@ __meta__ = {
 }
 
 [node name="HighScore" type="Label" parent="Ingame"]
-margin_right = 110.0
-margin_bottom = 55.0
+margin_left = 20.0
+margin_top = 10.0
+margin_right = 220.0
+margin_bottom = 58.0
+rect_min_size = Vector2( 200, 0 )
 custom_colors/font_color = Color( 0, 0, 1, 1 )
 custom_fonts/font = ExtResource( 2 )
 text = "0"
-align = 1
 uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Stopwatch" type="Label" parent="Ingame"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -279.0
+margin_top = 10.0
+margin_right = -20.0
+margin_bottom = 58.0
+grow_horizontal = 0
+rect_min_size = Vector2( 259, 0 )
+size_flags_horizontal = 9
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 9 )
+text = "00:00:00.00"
+script = ExtResource( 16 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
