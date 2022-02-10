@@ -13,6 +13,8 @@ func enable_pause_menu() -> void:
 	# Only allow the game to be paused in singleplayer
 	if Network.Client.is_singleplayer:
 		get_tree().paused = true
+	# Should only be shown to the host player
+	$VBoxContainer/NewRaceButton.visible = Network.Client.is_host()
 	self.popup()
 
 
