@@ -25,8 +25,7 @@ func _ready() -> void:
 
 	if Network.Client.is_server_connected():
 		# Already connected to the server, so set all of the values
-		if Network.Client.is_host():
-			set_enable_host_options(true)
+		set_enable_host_options(Network.Client.is_host())
 		if not Network.Client.game_options.empty():
 			$GameOptions.set_game_options(Network.Client.game_options)
 

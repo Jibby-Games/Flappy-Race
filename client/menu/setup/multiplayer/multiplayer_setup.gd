@@ -12,6 +12,11 @@ func _ready() -> void:
 		# Already connected to the server, so set all of the values
 		if not Network.Client.player_list.empty():
 			populate_players(Network.Client.player_list)
+			var player_id = multiplayer.get_network_unique_id()
+			if Network.Client.player_list[player_id].spectate == true:
+				$Setup/SpectateButton.set_pressed_no_signal(true)
+				$Setup/SpectatorText.show()
+				$Setup/PlayerOptions.hide()
 
 
 func populate_players(new_player_list: Dictionary) -> void:
