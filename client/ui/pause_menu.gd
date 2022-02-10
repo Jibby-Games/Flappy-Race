@@ -27,7 +27,7 @@ func _on_ResumeButton_pressed() -> void:
 
 func _on_NewRaceButton_pressed() -> void:
 	get_tree().paused = false
-	Network.Client.change_scene_to_setup()
+	Network.Client.send_change_to_setup_request()
 
 
 func _on_MainMenuButton_pressed() -> void:

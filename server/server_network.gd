@@ -129,6 +129,15 @@ func _peer_disconnected(player_id: int) -> void:
 		assert(player_list.erase(player_id))
 
 
+remote func receive_change_to_setup_request() -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	if not is_host_id(player_id):
+		Logger.print(self, "Player %s tried to go back to setup but they're not the host!" % [player_id])
+		return
+	Logger.print(self, "Player %s requested change to setup scene" % [player_id])
+	rpc("receive_change_to_setup")
+
+
 remote func receive_player_settings(player_name: String, player_colour: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	Logger.print(self, "Got settings for player %s. Name: %s, Colour: %s" % [player_id, player_name, player_colour])

@@ -167,6 +167,17 @@ remote func receive_latency_response(client_time: int) -> void:
 		latency_array.clear()
 
 
+func send_change_to_setup_request() -> void:
+	rpc_id(SERVER_ID, "receive_change_to_setup_request")
+
+
+remote func receive_change_to_setup() -> void:
+	if is_rpc_from_server() == false:
+		return
+	Logger.print(self, "Received change scene to setup")
+	change_scene_to_setup()
+
+
 remote func receive_game_info(
 		new_host_id: int,
 		new_player_list: Dictionary,
@@ -311,12 +322,12 @@ remote func receive_load_world() -> void:
 	change_scene("res://client/world/world.tscn")
 
 
-remote func receive_game_started(game_seed: int, game_options: Dictionary, player_list: Dictionary) -> void:
+remote func receive_game_started(game_seed: int, start_game_options: Dictionary, start_player_list: Dictionary) -> void:
 	if is_rpc_from_server() == false:
 		return
 	var world = get_node_or_null("World")
 	if world:
-		world.start_game(game_seed, game_options, player_list)
+		world.start_game(game_seed, start_game_options, start_player_list)
 
 
 func send_player_state(player_state: Dictionary) -> void:

@@ -93,4 +93,4 @@ func int2ordinal(value: int) -> String:
 
 
 func _on_NewRaceButton_pressed() -> void:
-	Network.Client.change_scene_to_setup()
+	Network.Client.send_change_to_setup_request()
