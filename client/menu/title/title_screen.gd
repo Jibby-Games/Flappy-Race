@@ -13,6 +13,7 @@ func _ready() -> void:
 
 func _on_SingleplayerButton_pressed():
 	change_menu_to(singleplayer_scene)
+	Network.start_singleplayer()
 
 
 func _on_MultiplayerButton_pressed():

@@ -15,6 +15,9 @@ signal countdown_finished
 signal request_restart
 
 
+var spectating := false
+
+
 func _ready() -> void:
 	# Setup gubbins
 	HighScore.text = str(Globals.high_score)
@@ -26,7 +29,8 @@ func start_countdown() -> void:
 
 func _countdown_finished() -> void:
 	emit_signal("countdown_finished")
-	$Ingame.show()
+	if spectating == false:
+		$Ingame.show()
 
 
 func update_lives(new_lives: int) -> void:
@@ -65,8 +69,10 @@ func show_leaderboard(player_list: Array) -> void:
 	if Network.Client.is_host():
 		$Leaderboard/Footer/RestartButton.show()
 		$Leaderboard/Footer/RestartButton.grab_focus()
+		$Leaderboard/Footer/NewRaceButton.show()
 	else:
 		$Leaderboard/Footer/RestartButton.hide()
+		$Leaderboard/Footer/NewRaceButton.hide()
 	$Leaderboard.show()
 
 
@@ -84,3 +90,7 @@ func int2ordinal(value: int) -> String:
 		suffix = "th"
 
 	return "%d%s" % [value, suffix]
+
+
+func _on_NewRaceButton_pressed() -> void:
+	Network.Client.send_change_to_setup_request()

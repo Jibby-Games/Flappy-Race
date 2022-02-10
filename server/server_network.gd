@@ -6,6 +6,10 @@ class_name ServerNetwork
 
 const SERVER_ID := 0
 const UpnpHandler = preload("res://server/upnp_handler.gd")
+const DEFAULT_GAME_OPTIONS := {
+	"goal": 100,
+	"lives": 0,
+}
 
 # IMPORTANT:
 # This node is a Viewport with zero size intentionally in order to separate
@@ -16,10 +20,7 @@ var max_players := 0
 var _host_player_id := 0 setget set_host
 var player_state_collection := {}
 var player_list := {}
-var game_options := {
-	"goal": 100,
-	"lives": 0,
-}
+var game_options := {}
 
 
 func _ready() -> void:
@@ -70,6 +71,7 @@ func start_server(
 		server_max_players: int,
 		forward_port: bool = true) -> void:
 	max_players = server_max_players
+	game_options = DEFAULT_GAME_OPTIONS.duplicate()
 	if forward_port:
 		var upnp_handler = UpnpHandler.new()
 		upnp_handler.set_name("UpnpHandler")
@@ -100,6 +102,7 @@ func stop_server() -> void:
 	clear_host()
 	player_state_collection.clear()
 	player_list.clear()
+	game_options.clear()
 	multiplayer.network_peer.close_connection()
 	multiplayer.set_network_peer(null)
 	Logger.print(self, "Server stopped")
@@ -109,12 +112,6 @@ func _peer_connected(player_id: int) -> void:
 	var num_players = multiplayer.get_network_connected_peers().size()
 	Logger.print(self, "Player %s connected - %d/%d" %
 			[player_id, num_players, max_players])
-	if is_host_set():
-		# Tell the new player who the host is
-		rpc_id(player_id, "receive_host_change", _host_player_id)
-	else:
-		set_host(player_id)
-	rpc_id(player_id, "receive_game_options", game_options)
 
 
 func _peer_disconnected(player_id: int) -> void:
@@ -132,11 +129,29 @@ func _peer_disconnected(player_id: int) -> void:
 		assert(player_list.erase(player_id))
 
 
+remote func receive_change_to_setup_request() -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	if not is_host_id(player_id):
+		Logger.print(self, "Player %s tried to go back to setup but they're not the host!" % [player_id])
+		return
+	Logger.print(self, "Player %s requested change to setup scene" % [player_id])
+	rpc("receive_change_to_setup")
+
+
 remote func receive_player_settings(player_name: String, player_colour: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	Logger.print(self, "Got settings for player %s. Name: %s, Colour: %s" % [player_id, player_name, player_colour])
+	if not is_host_set():
+		# Set the initial host
+		set_host(player_id)
 	player_list[player_id] = create_player_list_entry(player_name, player_colour)
+	send_game_info(player_id)
 	send_player_list_update(player_list)
+
+
+func send_game_info(player_id: int) -> void:
+	Logger.print(self, "Sending initial game info to player %s" % [player_id])
+	rpc_id(player_id, "receive_game_info", _host_player_id, player_list, game_options)
 
 
 func create_player_list_entry(player_name: String, player_colour: int) -> Dictionary:
