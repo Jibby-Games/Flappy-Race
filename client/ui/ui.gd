@@ -33,9 +33,10 @@ func start_countdown() -> void:
 
 func _countdown_finished() -> void:
 	emit_signal("countdown_finished")
-	if spectating == false:
-		$Ingame/Stopwatch.start()
-		$Ingame.show()
+	if spectating:
+		$Ingame/Player.hide()
+	$Ingame/Stopwatch.start()
+	$Ingame.show()
 
 
 func update_lives(new_lives: int) -> void:

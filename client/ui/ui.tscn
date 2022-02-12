@@ -413,9 +413,9 @@ tracks/3/keys = {
 [node name="UI" type="CanvasLayer"]
 follow_viewport_enable = true
 script = ExtResource( 5 )
-HighScorePath = NodePath("Ingame/HighScore")
-ScorePath = NodePath("Ingame/Score")
-LivesPath = NodePath("Ingame/Lives")
+HighScorePath = NodePath("Ingame/Player/HighScore")
+ScorePath = NodePath("Ingame/Player/Score")
+LivesPath = NodePath("Ingame/Player/Lives")
 
 [node name="Death" type="Control" parent="."]
 visible = false
@@ -519,13 +519,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Score" type="Label" parent="Ingame"]
+[node name="Player" type="Control" parent="Ingame"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Score" type="Label" parent="Ingame/Player"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -100.0
 margin_top = 10.0
 margin_right = 100.0
-margin_bottom = 48.0
+margin_bottom = 58.0
 rect_min_size = Vector2( 200, 0 )
 theme = SubResource( 2 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -536,7 +540,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HighScore" type="Label" parent="Ingame"]
+[node name="HighScore" type="Label" parent="Ingame/Player"]
 margin_left = 20.0
 margin_top = 10.0
 margin_right = 220.0
@@ -550,25 +554,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Stopwatch" type="Label" parent="Ingame"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -279.0
-margin_top = 10.0
-margin_right = -20.0
-margin_bottom = 58.0
-grow_horizontal = 0
-rect_min_size = Vector2( 259, 0 )
-size_flags_horizontal = 9
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 9 )
-text = "00:00:00.00"
-script = ExtResource( 16 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Lives" type="MarginContainer" parent="Ingame"]
+[node name="Lives" type="MarginContainer" parent="Ingame/Player"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -164.0
@@ -580,7 +566,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LifeBar" type="HBoxContainer" parent="Ingame/Lives"]
+[node name="LifeBar" type="HBoxContainer" parent="Ingame/Player/Lives"]
 margin_left = 50.0
 margin_top = 50.0
 margin_right = 783.0
@@ -589,76 +575,76 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Heart1" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+[node name="Heart1" type="TextureRect" parent="Ingame/Player/Lives/LifeBar"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 margin_right = 64.0
 margin_bottom = 64.0
 texture = ExtResource( 14 )
 
-[node name="Heart2" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+[node name="Heart2" type="TextureRect" parent="Ingame/Player/Lives/LifeBar"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 margin_left = 68.0
 margin_right = 132.0
 margin_bottom = 64.0
 texture = ExtResource( 14 )
 
-[node name="Heart3" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+[node name="Heart3" type="TextureRect" parent="Ingame/Player/Lives/LifeBar"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 margin_left = 136.0
 margin_right = 200.0
 margin_bottom = 64.0
 texture = ExtResource( 14 )
 
-[node name="Heart4" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+[node name="Heart4" type="TextureRect" parent="Ingame/Player/Lives/LifeBar"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 margin_left = 204.0
 margin_right = 268.0
 margin_bottom = 64.0
 texture = ExtResource( 14 )
 
-[node name="Heart5" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+[node name="Heart5" type="TextureRect" parent="Ingame/Player/Lives/LifeBar"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 margin_left = 272.0
 margin_right = 336.0
 margin_bottom = 64.0
 texture = ExtResource( 14 )
 
-[node name="Heart6" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+[node name="Heart6" type="TextureRect" parent="Ingame/Player/Lives/LifeBar"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 margin_left = 340.0
 margin_right = 404.0
 margin_bottom = 64.0
 texture = ExtResource( 14 )
 
-[node name="Heart7" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+[node name="Heart7" type="TextureRect" parent="Ingame/Player/Lives/LifeBar"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 margin_left = 408.0
 margin_right = 472.0
 margin_bottom = 64.0
 texture = ExtResource( 14 )
 
-[node name="Heart8" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+[node name="Heart8" type="TextureRect" parent="Ingame/Player/Lives/LifeBar"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 margin_left = 476.0
 margin_right = 540.0
 margin_bottom = 64.0
 texture = ExtResource( 14 )
 
-[node name="Heart9" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+[node name="Heart9" type="TextureRect" parent="Ingame/Player/Lives/LifeBar"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 margin_left = 544.0
 margin_right = 608.0
 margin_bottom = 64.0
 texture = ExtResource( 14 )
 
-[node name="Heart10" type="TextureRect" parent="Ingame/Lives/LifeBar"]
+[node name="Heart10" type="TextureRect" parent="Ingame/Player/Lives/LifeBar"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 margin_left = 612.0
 margin_right = 676.0
 margin_bottom = 64.0
 texture = ExtResource( 14 )
 
-[node name="ExtraLives" type="Label" parent="Ingame/Lives/LifeBar"]
+[node name="ExtraLives" type="Label" parent="Ingame/Player/Lives/LifeBar"]
 margin_left = 680.0
 margin_top = 8.0
 margin_right = 733.0
@@ -666,6 +652,24 @@ margin_bottom = 56.0
 theme = ExtResource( 6 )
 custom_fonts/font = ExtResource( 9 )
 text = "+ 0"
+
+[node name="Stopwatch" type="Label" parent="Ingame"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -218.0
+margin_top = 10.0
+margin_right = -20.0
+margin_bottom = 58.0
+grow_horizontal = 0
+rect_min_size = Vector2( 198, 0 )
+size_flags_horizontal = 9
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 9 )
+text = "00:00.00"
+script = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Countdown" type="Control" parent="."]
 visible = false
