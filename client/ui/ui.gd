@@ -61,6 +61,7 @@ func show_death() -> void:
 
 
 func show_finished(place: int, time: float) -> void:
+	$Death.hide()
 	$Finished/PlaceLabel.text = int2ordinal(place)
 	$Finished/FinishTime.set_time(time)
 	$Finished.show()
