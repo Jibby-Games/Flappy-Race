@@ -69,7 +69,7 @@ func show_leaderboard(player_list: Array) -> void:
 	$Leaderboard.clear_players()
 	for player in player_list:
 		var place_text = "DNF" if player.place == null else int2ordinal(player.place)
-		$Leaderboard.add_player(player.name, player.colour, place_text, player.score)
+		$Leaderboard.add_player(player.name, player.colour, place_text, player.score, player.time)
 
 	if Network.Client.is_host():
 		$Leaderboard/Footer/RestartButton.show()
