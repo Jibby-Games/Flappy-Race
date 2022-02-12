@@ -65,11 +65,14 @@ func show_finished(place: int, time: float) -> void:
 
 
 func show_leaderboard(player_list: Array) -> void:
+	$Ingame/Stopwatch.stop()
+	$Ingame.hide()
 	$Death.hide()
 	$Leaderboard.clear_players()
 	for player in player_list:
-		var place_text = "DNF" if player.place == null else int2ordinal(player.place)
-		$Leaderboard.add_player(player.name, player.colour, place_text, player.score, player.time)
+		var place_text = int2ordinal(player.place) if player.has("place") else "DNF"
+		var time = player.get("time", 0.0)
+		$Leaderboard.add_player(player.name, player.colour, place_text, player.score, time)
 
 	if Network.Client.is_host():
 		$Leaderboard/Footer/RestartButton.show()

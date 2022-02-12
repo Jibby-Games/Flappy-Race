@@ -160,7 +160,6 @@ func create_player_list_entry(player_name: String, player_colour: int) -> Dictio
 		"colour": player_colour,
 		"spectate": false,
 		"body": null,
-		"place": null,
 		"score": 0
 	}
 

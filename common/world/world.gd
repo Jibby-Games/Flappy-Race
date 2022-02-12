@@ -75,7 +75,6 @@ func reset_players() -> void:
 	for player_id in player_list:
 		var player_entry = player_list[player_id]
 		player_entry.score = 0
-		player_entry.place = null
 		# Don't spawn any spectators
 		if player_entry.spectate == true:
 			continue

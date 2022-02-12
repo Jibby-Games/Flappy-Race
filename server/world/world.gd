@@ -6,6 +6,9 @@ var player_ready: Dictionary
 var next_place := 1
 var players
 var player_lives := {}
+var players_died := []
+var players_finished := []
+
 
 # Timing
 var time_running := false
@@ -81,7 +84,18 @@ func player_lose_life(player_id: int) -> void:
 		Logger.print(self, "Player %s lost a life - Remaining lives = %d" % [player_id, player_lives[player_id]])
 		knockback_player(player_id)
 	else:
+		var death_time = time
+		var player_info = player_list[player_id]
 		Logger.print(self, "Player %s lost all their lives!" % [player_id])
+		var death_entry = {
+			"player_id": player_id,
+			"time": death_time,
+			"name": player_info.name,
+			"colour": player_info.colour,
+			"score": player_info.score,
+		}
+		# Push to front so first player to die shows up last
+		players_died.push_front(death_entry)
 		Network.Server.send_despawn_player(player_id)
 		despawn_player(player_id)
 
@@ -107,31 +121,25 @@ func _on_Player_finish(player: CommonPlayer) -> void:
 	var place := next_place
 	next_place += 1
 	var finish_time = time
+	Logger.print(self, "Player %s finished: Place = %d Time = %f" % [player.name, place, finish_time])
 	var player_id := int(player.name)
-	player_list[player_id].place = place
-	player_list[player_id].time = finish_time
+	var player_info = player_list[player_id]
+	var finish_entry = {
+		"player_id": player_id,
+		"place": place,
+		"time": finish_time,
+		"name": player_info.name,
+		"colour": player_info.colour,
+		"score": player_info.score,
+	}
+	players_finished.push_back(finish_entry)
 	Network.Server.send_player_finished_race(player_id, place, finish_time)
 	._on_Player_finish(player)
 
 
 func end_race() -> void:
 	time_running = false
-	var leaderboard := []
-	for player_id in player_list:
-		var player = player_list[player_id]
-		if player.spectate:
-			continue
-		var entry = {
-			"name": player.name,
-			"colour": player.colour,
-			"place": player.place,
-			"score": player.score,
-			"time": player.time
-		}
-		# Should sort the order out
-		if player.place:
-			leaderboard.insert(player.place - 1, entry)
-		else:
-			leaderboard.push_back(entry)
+	var leaderboard := players_finished.duplicate()
+	leaderboard.append_array(players_died)
 	Network.Server.send_leaderboard(leaderboard)
 	Logger.print(self, "Server Leaderboard: %s" % [leaderboard])
