@@ -19,8 +19,10 @@ var spectating := false
 
 
 func _ready() -> void:
-	# Setup gubbins
-	$Ingame.hide()
+	# Hide all UI elements by default
+	for child in get_children():
+		if child is Control:
+			child.hide()
 	HighScore.text = str(Globals.high_score)
 
 
@@ -58,9 +60,9 @@ func show_death() -> void:
 
 
 func show_finished(place: int, time: float) -> void:
-	$Ingame/Stopwatch.stop()
-	$Ingame/Stopwatch.set_time(time)
 	$Finished/PlaceLabel.text = int2ordinal(place)
+	$Finished/FinishTime.set_time(time)
+	$Finished.show()
 	$Finished/AnimationPlayer.play("Finished")
 
 
