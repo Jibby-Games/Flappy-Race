@@ -4,7 +4,7 @@ extends Control
 export var LeaderboardEntry: PackedScene
 
 
-func add_player(player_name: String, colour: int, place_text: String, score: int) -> void:
+func add_player(player_name: String, colour: int, place_text: String, score: int, time: float) -> void:
 	var entry = LeaderboardEntry.instance()
 	var player_body = entry.get_node("PlayerHolder/Player")
 	# Stop player from falling
@@ -16,6 +16,8 @@ func add_player(player_name: String, colour: int, place_text: String, score: int
 	place.text = place_text
 	var score_label = entry.get_node("Score")
 	score_label.text = str(score)
+	var time_label = entry.get_node("Time")
+	time_label.set_time(time)
 	$VBoxContainer/ScrollContainer/EntryList.add_child(entry)
 
 

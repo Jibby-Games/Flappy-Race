@@ -350,12 +350,12 @@ remote func receive_spawn_wall() -> void:
 		world.spawn_wall()
 
 
-remote func receive_player_finished_race(player_id: int, place: int) -> void:
+remote func receive_player_finished_race(player_id: int, place: int, time: float) -> void:
 	if is_rpc_from_server() == false:
 		return
 	var world = get_node_or_null("World")
 	if world:
-		world.player_finished(player_id, place)
+		world.player_finished(player_id, place, time)
 
 
 remote func receive_leaderboard(leaderboard: Array) -> void:

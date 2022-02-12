@@ -97,7 +97,7 @@ func _notification(what) -> void:
 
 
 func stop_server() -> void:
-	if $UpnpHandler:
+	if has_node("UpnpHandler"):
 		$UpnpHandler.remove_port_mapping()
 	clear_host()
 	player_state_collection.clear()
@@ -160,7 +160,6 @@ func create_player_list_entry(player_name: String, player_colour: int) -> Dictio
 		"colour": player_colour,
 		"spectate": false,
 		"body": null,
-		"place": null,
 		"score": 0
 	}
 
@@ -312,8 +311,8 @@ func send_spawn_wall() -> void:
 	rpc("receive_spawn_wall")
 
 
-func send_player_finished_race(player_id: int, place: int) -> void:
-	rpc("receive_player_finished_race", player_id, place)
+func send_player_finished_race(player_id: int, place: int, time: float) -> void:
+	rpc("receive_player_finished_race", player_id, place, time)
 
 
 func send_leaderboard(leaderboard: Array) -> void:

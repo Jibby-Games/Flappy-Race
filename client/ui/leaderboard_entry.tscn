@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
+[ext_resource path="res://client/ui/stopwatch.gd" type="Script" id=1]
 [ext_resource path="res://client/world/player/player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://client/theme/flappy.theme" type="Theme" id=3]
 [ext_resource path="res://client/fonts/DelaGothicOne-32.tres" type="DynamicFont" id=4]
@@ -51,3 +52,15 @@ size_flags_horizontal = 0
 theme = ExtResource( 3 )
 custom_fonts/font = ExtResource( 4 )
 text = "PlayerName"
+
+[node name="Time" type="Label" parent="."]
+margin_left = 476.0
+margin_top = 8.0
+margin_right = 735.0
+margin_bottom = 56.0
+rect_clip_content = true
+size_flags_horizontal = 0
+theme = ExtResource( 3 )
+custom_fonts/font = ExtResource( 4 )
+text = "00:00:00.00"
+script = ExtResource( 1 )

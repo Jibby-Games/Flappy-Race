@@ -19,18 +19,24 @@ var spectating := false
 
 
 func _ready() -> void:
-	# Setup gubbins
+	# Hide all UI elements by default
+	for child in get_children():
+		if child is Control:
+			child.hide()
 	HighScore.text = str(Globals.high_score)
 
 
 func start_countdown() -> void:
+	$Countdown.show()
 	$Countdown/AnimationPlayer.play("Countdown")
 
 
 func _countdown_finished() -> void:
 	emit_signal("countdown_finished")
-	if spectating == false:
-		$Ingame.show()
+	if spectating:
+		$Ingame/Player.hide()
+	$Ingame/Stopwatch.start()
+	$Ingame.show()
 
 
 func update_lives(new_lives: int) -> void:
@@ -54,17 +60,23 @@ func show_death() -> void:
 	$Death.show()
 
 
-func show_finished(place: int) -> void:
+func show_finished(place: int, time: float) -> void:
+	$Death.hide()
 	$Finished/PlaceLabel.text = int2ordinal(place)
+	$Finished/FinishTime.set_time(time)
+	$Finished.show()
 	$Finished/AnimationPlayer.play("Finished")
 
 
 func show_leaderboard(player_list: Array) -> void:
+	$Ingame/Stopwatch.stop()
+	$Ingame.hide()
 	$Death.hide()
 	$Leaderboard.clear_players()
 	for player in player_list:
-		var place_text = "DNF" if player.place == null else int2ordinal(player.place)
-		$Leaderboard.add_player(player.name, player.colour, place_text, player.score)
+		var place_text = int2ordinal(player.place) if player.has("place") else "DNF"
+		var time = player.get("time", 0.0)
+		$Leaderboard.add_player(player.name, player.colour, place_text, player.score, time)
 
 	if Network.Client.is_host():
 		$Leaderboard/Footer/RestartButton.show()

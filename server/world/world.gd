@@ -6,6 +6,13 @@ var player_ready: Dictionary
 var next_place := 1
 var players
 var player_lives := {}
+var players_died := []
+var players_finished := []
+
+
+# Timing
+var time_running := false
+var time := 0.0
 
 
 func _ready() -> void:
@@ -13,6 +20,11 @@ func _ready() -> void:
 		# The server isn't a player
 		if player_id != 1:
 			player_ready[player_id] = false
+
+
+func _process(delta: float) -> void:
+	if time_running:
+		time += delta
 
 
 func set_player_ready(player_id: int) -> void:
@@ -35,6 +47,13 @@ func setup_and_start_game() -> void:
 	var game_seed = randomize_game_seed()
 	Network.Server.send_game_started(game_seed)
 	start_game(game_seed, Network.Server.game_options, Network.Server.player_list)
+
+
+func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary) -> void:
+	.start_game(game_seed, new_game_options, new_player_list)
+	# Countdown
+	yield(get_tree().create_timer(3), "timeout")
+	time_running = true
 
 
 func reset_players() -> void:
@@ -65,7 +84,18 @@ func player_lose_life(player_id: int) -> void:
 		Logger.print(self, "Player %s lost a life - Remaining lives = %d" % [player_id, player_lives[player_id]])
 		knockback_player(player_id)
 	else:
+		var death_time = time
+		var player_info = player_list[player_id]
 		Logger.print(self, "Player %s lost all their lives!" % [player_id])
+		var death_entry = {
+			"player_id": player_id,
+			"time": death_time,
+			"name": player_info.name,
+			"colour": player_info.colour,
+			"score": player_info.score,
+		}
+		# Push to front so first player to die shows up last
+		players_died.push_front(death_entry)
 		Network.Server.send_despawn_player(player_id)
 		despawn_player(player_id)
 
@@ -90,28 +120,26 @@ func _on_Player_finish(player: CommonPlayer) -> void:
 	# Store the place immediately in case the funciton gets called multiple times while it's running
 	var place := next_place
 	next_place += 1
+	var finish_time = time
+	Logger.print(self, "Player %s finished: Place = %d Time = %f" % [player.name, place, finish_time])
 	var player_id := int(player.name)
-	player_list[player_id].place = place
-	Network.Server.send_player_finished_race(player_id, place)
+	var player_info = player_list[player_id]
+	var finish_entry = {
+		"player_id": player_id,
+		"place": place,
+		"time": finish_time,
+		"name": player_info.name,
+		"colour": player_info.colour,
+		"score": player_info.score,
+	}
+	players_finished.push_back(finish_entry)
+	Network.Server.send_player_finished_race(player_id, place, finish_time)
 	._on_Player_finish(player)
 
 
 func end_race() -> void:
-	var leaderboard := []
-	for player_id in player_list:
-		var player = player_list[player_id]
-		if player.spectate:
-			continue
-		var entry = {
-			"name": player.name,
-			"colour": player.colour,
-			"place": player.place,
-			"score": player.score
-		}
-		# Should sort the order out
-		if player.place:
-			leaderboard.insert(player.place - 1, entry)
-		else:
-			leaderboard.push_back(entry)
+	time_running = false
+	var leaderboard := players_finished.duplicate()
+	leaderboard.append_array(players_died)
 	Network.Server.send_leaderboard(leaderboard)
 	Logger.print(self, "Server Leaderboard: %s" % [leaderboard])
