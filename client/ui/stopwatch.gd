@@ -32,3 +32,8 @@ func format_time_string(time_in: float) -> String:
 		return "%02d:%02d:%02d.%02d" % [hours, minutes, seconds, milliseconds]
 	else:
 		return "%02d:%02d.%02d" % [minutes, seconds, milliseconds]
+
+
+func set_time(time_in: float) -> void:
+	time = time_in
+	self.text = format_time_string(time)

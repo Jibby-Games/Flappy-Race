@@ -173,10 +173,10 @@ func _on_UI_request_restart() -> void:
 	reset_game()
 
 
-func player_finished(player_id: int, place: int) -> void:
+func player_finished(player_id: int, place: int, time: float) -> void:
 	# Only show the finished screen if this client finished
 	if player_id == multiplayer.get_network_unique_id():
-		$UI.show_finished(place)
+		$UI.show_finished(place, time)
 		$MusicPlayer.stop()
 		$FinishMusic.play()
 		$FinishChime.play()

@@ -57,8 +57,9 @@ func show_death() -> void:
 	$Death.show()
 
 
-func show_finished(place: int) -> void:
+func show_finished(place: int, time: float) -> void:
 	$Ingame/Stopwatch.stop()
+	$Ingame/Stopwatch.set_time(time)
 	$Finished/PlaceLabel.text = int2ordinal(place)
 	$Finished/AnimationPlayer.play("Finished")
 

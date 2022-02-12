@@ -7,12 +7,21 @@ var next_place := 1
 var players
 var player_lives := {}
 
+# Timing
+var time_running := false
+var time := 0.0
+
 
 func _ready() -> void:
 	for player_id in multiplayer.get_network_connected_peers():
 		# The server isn't a player
 		if player_id != 1:
 			player_ready[player_id] = false
+
+
+func _process(delta: float) -> void:
+	if time_running:
+		time += delta
 
 
 func set_player_ready(player_id: int) -> void:
@@ -35,6 +44,13 @@ func setup_and_start_game() -> void:
 	var game_seed = randomize_game_seed()
 	Network.Server.send_game_started(game_seed)
 	start_game(game_seed, Network.Server.game_options, Network.Server.player_list)
+
+
+func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary) -> void:
+	.start_game(game_seed, new_game_options, new_player_list)
+	# Countdown
+	yield(get_tree().create_timer(3), "timeout")
+	time_running = true
 
 
 func reset_players() -> void:
@@ -90,13 +106,16 @@ func _on_Player_finish(player: CommonPlayer) -> void:
 	# Store the place immediately in case the funciton gets called multiple times while it's running
 	var place := next_place
 	next_place += 1
+	var finish_time = time
 	var player_id := int(player.name)
 	player_list[player_id].place = place
-	Network.Server.send_player_finished_race(player_id, place)
+	player_list[player_id].time = finish_time
+	Network.Server.send_player_finished_race(player_id, place, finish_time)
 	._on_Player_finish(player)
 
 
 func end_race() -> void:
+	time_running = false
 	var leaderboard := []
 	for player_id in player_list:
 		var player = player_list[player_id]
@@ -106,7 +125,8 @@ func end_race() -> void:
 			"name": player.name,
 			"colour": player.colour,
 			"place": player.place,
-			"score": player.score
+			"score": player.score,
+			"time": player.time
 		}
 		# Should sort the order out
 		if player.place:
