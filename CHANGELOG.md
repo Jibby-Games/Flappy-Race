@@ -17,22 +17,27 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.2.0] - 2022-02-12
+
 ### Added
-- New game option to change the amount of lives
-- UI shows the amount of lives left if enabled
-- Players get knocked back on death
-- Death sound and respawn animation
-- You can now go back to the setup screen from the game
-- Racers are now timed with a stopwatch
-- Leaderboard displays race times
+
+-   New game option to change the amount of lives
+-   UI shows the amount of lives left if enabled
+-   Players get knocked back on death
+-   Death sound and respawn animation
+-   You can now go back to the setup screen from the game
+-   Racers are now timed with a stopwatch
+-   Leaderboard displays race times
 
 ### Changed
-- Default to unlimited lives
-- Make UPnP usage optional
+
+-   Default to unlimited lives
+-   Make UPnP usage optional
 
 ### Fixed
-- Made collision detection more responsive on the client
-- Walls can no longer give multiple points
+
+-   Made collision detection more responsive on the client
+-   Walls can no longer give multiple points
 
 ## [0.1.0] - 2022-01-22
 
@@ -106,7 +111,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.2.0...HEAD
+
+[0.2.0]: https://github.com/Jibby-Games/Flappy-Race/compare/v0.1.0...0.2.0
 
 [0.1.0]: https://github.com/Jibby-Games/Flappy-Race/compare/v0.0.3...v0.1.0
 
