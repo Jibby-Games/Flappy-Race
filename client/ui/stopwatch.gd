@@ -10,11 +10,14 @@ func _process(delta: float) -> void:
 		return
 
 	time += delta
+	if time >= 3600:
+		self.rect_min_size.x = 266
+	else:
+		self.rect_min_size.x = 198
 	self.text = format_time_string(time)
 
 
 func start() -> void:
-	time = 0.0
 	running = true
 
 
