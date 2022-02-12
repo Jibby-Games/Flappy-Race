@@ -22,6 +22,10 @@ Types of changes:
 - UI shows the amount of lives left if enabled
 - Players get knocked back on death
 - Death sound and respawn animation
+- You can now go back to the setup screen from the game
+- Racers are now timed with a stopwatch
+- Leaderboard displays race times
+
 ### Changed
 - Default to unlimited lives
 - Make UPnP usage optional
