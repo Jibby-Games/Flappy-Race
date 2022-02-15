@@ -29,7 +29,7 @@ func _on_HostButton_pressed() -> void:
 	if is_name_empty():
 		return
 	Globals.player_name = name_input.text
-	Network.start_multiplayer_host(enable_upnp)
+	Network.start_multiplayer_host(Network.RPC_PORT, enable_upnp)
 
 
 func _on_JoinButton_pressed() -> void:

@@ -9,6 +9,7 @@ const LATENCY_BUFFER_SIZE := 9
 const LATENCY_THRESHOLD := 20
 
 
+export(PackedScene) var LobbyScene
 export(PackedScene) var SingleplayerSetupScene
 export(PackedScene) var MultiplayerSetupScene
 
@@ -77,6 +78,10 @@ func change_scene_to_setup() -> void:
 		$MenuHandler.change_menu_to(SingleplayerSetupScene)
 	else:
 		$MenuHandler.change_menu_to(MultiplayerSetupScene)
+
+
+func change_scene_to_lobby() -> void:
+	$MenuHandler.change_menu_to(LobbyScene)
 
 
 func start_client(host: String, port: int, singleplayer: bool = false) -> void:
