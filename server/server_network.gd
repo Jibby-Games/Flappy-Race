@@ -37,9 +37,6 @@ func _ready() -> void:
 	# Register with the Network singleton so this node can be easily accessed
 	Network.Server = self
 
-	# Start automatically if this is a headless server
-	if "--server" in OS.get_cmdline_args():
-		start_server(Network.RPC_PORT, Network.MAX_PLAYERS)
 
 
 func _exit_tree() -> void:
@@ -86,7 +83,7 @@ func start_server(
 	# Basically, anything networking related needs to be updated this way.
 	# See the MultiplayerAPI docs for reference.
 	multiplayer.set_network_peer(peer)
-	Logger.print(self, "Server started - waiting for players")
+	Logger.print(self, "Server started on port %d - Max Players = %d, UPnP = %s - waiting for players" % [port, max_players, forward_port])
 
 
 func _notification(what) -> void:
