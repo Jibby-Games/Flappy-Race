@@ -95,7 +95,7 @@ func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 		Logger.print(self, "Spawning player %d" % [player_id])
 		var player = Player.instance()
 		player.connect("death", self, "_on_Player_death")
-		player.connect("score_point", self, "_on_Player_score_point")
+		player.connect("score_changed", self, "_on_Player_score_changed")
 		player.name = str(player_id)
 		player.position = spawn_position
 		player.enable_movement = false
@@ -163,7 +163,7 @@ func _on_Player_death(player: CommonPlayer) -> void:
 	Logger.print(self, "Player %s died at %s!" % [player_id, player.position])
 
 
-func _on_Player_score_point(player: CommonPlayer) -> void:
+func _on_Player_score_changed(player: CommonPlayer) -> void:
 	var player_id = int(player.name)
 	Logger.print(self, "Player %s scored a point!" % [player_id])
 

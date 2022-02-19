@@ -8,6 +8,7 @@ func set_gap(size: float) -> void:
 
 
 func _on_PointArea_body_entered(body:Node) -> void:
+	._on_PointArea_body_entered(body)
 	# Only disable score zone for the local client
 	if int(body.name) == multiplayer.get_network_unique_id():
 		$PointArea/CollisionShape2D.set_deferred("disabled", true)

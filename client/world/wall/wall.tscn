@@ -18,8 +18,3 @@ position = Vector2( 0, 800 )
 texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 64, 1280 )
-
-[node name="PointArea" parent="." index="4"]
-collision_mask = 1
-
-[connection signal="body_entered" from="PointArea" to="." method="_on_PointArea_body_entered"]

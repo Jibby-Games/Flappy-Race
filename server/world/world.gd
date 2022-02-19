@@ -105,9 +105,9 @@ func knockback_player(player_id: int) -> void:
 	.knockback_player(player_id)
 
 
-func _on_Player_score_point(player: CommonPlayer) -> void:
+func _on_Player_score_changed(player: CommonPlayer) -> void:
+	._on_Player_score_changed(player)
 	var player_id = int(player.name)
-	Logger.print(self, "Player %s scored a point!" % [player_id])
 	player_list[player_id].score = player.score
 	if player.score > highest_score:
 		# Make the walls spawn as players progress

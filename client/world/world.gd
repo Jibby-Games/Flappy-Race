@@ -162,11 +162,11 @@ func knockback_player(player_id: int) -> void:
 	player.set_enable_movement(true)
 
 
-func _on_Player_score_point(player: CommonPlayer) -> void:
+func _on_Player_score_changed(player: CommonPlayer) -> void:
 	# Only update the UI for the local player
 	if int(player.name) == multiplayer.get_network_unique_id():
 		$UI.update_score(player.score)
-		._on_Player_score_point(player)
+		._on_Player_score_changed(player)
 
 
 func _on_UI_request_restart() -> void:

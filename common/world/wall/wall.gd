@@ -14,3 +14,8 @@ func set_gap(size: float) -> void:
 	var rect_collider_pos = half_wall_height + (gap / 2)
 	$LowerCollider.position.y = rect_collider_pos
 	$UpperCollider.position.y = -rect_collider_pos
+
+
+func _on_PointArea_body_entered(body: Node) -> void:
+	if body.has_method("add_score"):
+		body.add_score()

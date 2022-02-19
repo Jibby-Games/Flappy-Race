@@ -70,6 +70,7 @@ script = ExtResource( 8 )
 PlayerController = ExtResource( 10 )
 
 [node name="Sprites" type="Node2D" parent="." index="1"]
+position = Vector2( 0, 1 )
 
 [node name="Body" type="Sprite" parent="Sprites" index="0"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )

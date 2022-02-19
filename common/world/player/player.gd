@@ -8,14 +8,18 @@ const MAXFALLSPEED = 800
 const GRAVITY = 17
 const BASE_SPEED = 500
 const DEATH_COOLDOWN_TIME = 1
+const COIN_BOOST := 20
+const COIN_LIMIT := 10
 
 
 signal death(player)
-signal score_point(player)
+signal score_changed(player)
+signal coins_changed(player)
 
 
 var in_death_cooldown: bool = false
-var score: int = 0
+var score := 0
+var coins := 0
 
 # Movement vars
 var motion: Vector2 = Vector2()
@@ -40,7 +44,7 @@ func update_movement() -> void:
 		if motion.y > MAXFALLSPEED:
 			motion.y = MAXFALLSPEED
 
-	motion.x = BASE_SPEED
+	motion.x = BASE_SPEED + (coins * COIN_BOOST)
 	motion = move_and_slide(motion, Vector2.UP)
 
 
@@ -54,14 +58,11 @@ func check_position() -> void:
 
 
 func _on_Detect_area_entered(_area: Area2D) -> void:
-	Logger.print(self, "Player entered area %s" % [_area.name])
-	# Detects entering the score zone. Signals to the world to update other nodes.
-	score += 1
-	emit_signal("score_point", self)
+	Logger.print(self, "Player %s entered area %s" % [self.name, _area.name])
 
 
 func _on_Detect_body_entered(_body: Node) -> void:
-	Logger.print(self, "Player entered body %s" % [_body.name])
+	Logger.print(self, "Player %s entered body %s" % [self.name, _body.name])
 	death()
 
 
@@ -93,3 +94,15 @@ func set_enable_movement(_new_value: bool) -> void:
 
 func move_player(new_position: Vector2) -> void:
 	set_position(new_position)
+
+
+func add_score() -> void:
+	score += 1
+	emit_signal("score_changed", self)
+
+
+func add_coin() -> void:
+	if coins < COIN_LIMIT:
+		coins += 1
+		emit_signal("coins_changed", self)
+		Logger.print(self, "Player %s got a coin! Coins = %d" % [self.name, coins])

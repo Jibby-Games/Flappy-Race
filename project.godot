@@ -129,6 +129,7 @@ flap={
 2d_physics/layer_1="player"
 2d_physics/layer_2="walls"
 2d_physics/layer_3="score"
+2d_physics/layer_4="coins"
 
 [locale]
 
