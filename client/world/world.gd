@@ -112,6 +112,7 @@ func reset_game() -> void:
 
 func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 	var player = .spawn_player(player_id, spawn_position)
+	player.connect("coins_changed", self, "_on_Player_coins_changed")
 	if Network.Client.is_singleplayer:
 		# Player list isn't populated in singleplayer
 		player.set_body_colour(Globals.player_colour)
@@ -167,6 +168,11 @@ func _on_Player_score_changed(player: CommonPlayer) -> void:
 	if int(player.name) == multiplayer.get_network_unique_id():
 		$UI.update_score(player.score)
 		._on_Player_score_changed(player)
+
+
+func _on_Player_coins_changed(player: CommonPlayer) -> void:
+	# Should only be connected for the local player
+	$UI.update_coins(player.coins)
 
 
 func _on_UI_request_restart() -> void:

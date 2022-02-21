@@ -10,6 +10,7 @@ const BASE_SPEED = 500
 const DEATH_COOLDOWN_TIME = 1
 const COIN_BOOST := 20
 const COIN_LIMIT := 10
+const COINS_LOST_ON_DEATH := 3
 
 
 signal death(player)
@@ -72,6 +73,12 @@ func death() -> void:
 	in_death_cooldown = true
 	emit_signal("death", self)
 	$DeathCooldownTimer.start(DEATH_COOLDOWN_TIME)
+	if coins > 0:
+		coins -= COINS_LOST_ON_DEATH
+		if coins < 0:
+			coins = 0
+		Logger.print(self, "Player %s lost some coins! Coins = %d" % [self.name, coins])
+		emit_signal("coins_changed", self)
 	on_death()
 
 
