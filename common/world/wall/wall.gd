@@ -27,4 +27,13 @@ func _on_PointArea_body_entered(body: Node) -> void:
 
 func spawn_coin() -> void:
 	var coin = Coin.instance()
+	coin.connect("tree_exiting", self, "_on_Coin_taken")
 	add_child(coin)
+
+
+func _on_Coin_taken() -> void:
+	$CoinRespawnTimer.start()
+
+
+func _on_CoinRespawnTimer_timeout() -> void:
+	spawn_coin()
