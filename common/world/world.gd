@@ -20,6 +20,7 @@ var wall_spacing := 400
 var wall_spawn_range := 3000
 var starting_wall_pos := 1500
 var next_wall_pos := starting_wall_pos
+var spawn_coin_chance := 0.5
 
 
 var game_rng := RandomNumberGenerator.new()
@@ -146,11 +147,14 @@ func spawn_wall() -> void:
 	var inst = Wall.instance()
 	inst.set_name("Wall" + str(next_wall_pos))
 	# Use the game RNG to keep the levels deterministic
-	var height = game_rng.randf_range(-height_range, height_range)
-	var gap = game_rng.randf_range(gap_range_min, gap_range_max)
+	var height := game_rng.randf_range(-height_range, height_range)
+	var gap := game_rng.randf_range(gap_range_min, gap_range_max)
+	var should_spawn_coin : bool = game_rng.randf() < spawn_coin_chance
 	Logger.print(self, "Spawning wall - pos: %s height: %s - gap: %s" % [next_wall_pos, height, gap])
 	inst.position = Vector2(next_wall_pos, height)
 	inst.gap = gap
+	if should_spawn_coin:
+		inst.spawn_coin()
 	next_wall_pos += wall_spacing
 	call_deferred("add_child", inst)
 	spawned_walls.append(inst)
