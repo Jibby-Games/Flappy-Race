@@ -95,7 +95,7 @@ func start_client(host: String, port: int, singleplayer: bool = false) -> void:
 func stop_client() -> void:
 	$LatencyUpdater.stop()
 	multiplayer.network_peer.close_connection()
-	multiplayer.set_network_peer(null)
+	multiplayer.call_deferred("set_network_peer", null)
 	host_player_id = 0
 	player_list.clear()
 	game_options.clear()

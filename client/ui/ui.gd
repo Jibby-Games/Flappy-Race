@@ -4,11 +4,13 @@ extends CanvasLayer
 export(NodePath) var HighScorePath
 export(NodePath) var ScorePath
 export(NodePath) var LivesPath
+export(NodePath) var CoinsPath
 
 
 onready var HighScore := get_node(HighScorePath)
 onready var Score := get_node(ScorePath)
 onready var Lives := get_node(LivesPath)
+onready var Coins := get_node(CoinsPath)
 
 
 signal countdown_finished
@@ -50,6 +52,10 @@ func update_score(new_score: int) -> void:
 	if new_score > Globals.high_score:
 		Globals.save_high_score(new_score)
 		HighScore.text = str(new_score)
+
+
+func update_coins(value: int) -> void:
+	Coins.text = "%d / 10" % value
 
 
 func _on_RestartButton_pressed() -> void:

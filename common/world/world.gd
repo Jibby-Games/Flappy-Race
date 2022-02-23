@@ -20,6 +20,7 @@ var wall_spacing := 400
 var wall_spawn_range := 3000
 var starting_wall_pos := 1500
 var next_wall_pos := starting_wall_pos
+var spawn_coin_chance := 0.5
 
 
 var game_rng := RandomNumberGenerator.new()
@@ -95,7 +96,7 @@ func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 		Logger.print(self, "Spawning player %d" % [player_id])
 		var player = Player.instance()
 		player.connect("death", self, "_on_Player_death")
-		player.connect("score_point", self, "_on_Player_score_point")
+		player.connect("score_changed", self, "_on_Player_score_changed")
 		player.name = str(player_id)
 		player.position = spawn_position
 		player.enable_movement = false
@@ -146,11 +147,14 @@ func spawn_wall() -> void:
 	var inst = Wall.instance()
 	inst.set_name("Wall" + str(next_wall_pos))
 	# Use the game RNG to keep the levels deterministic
-	var height = game_rng.randf_range(-height_range, height_range)
-	var gap = game_rng.randf_range(gap_range_min, gap_range_max)
+	var height := game_rng.randf_range(-height_range, height_range)
+	var gap := game_rng.randf_range(gap_range_min, gap_range_max)
+	var should_spawn_coin : bool = game_rng.randf() < spawn_coin_chance
 	Logger.print(self, "Spawning wall - pos: %s height: %s - gap: %s" % [next_wall_pos, height, gap])
 	inst.position = Vector2(next_wall_pos, height)
 	inst.gap = gap
+	if should_spawn_coin:
+		inst.spawn_coin()
 	next_wall_pos += wall_spacing
 	call_deferred("add_child", inst)
 	spawned_walls.append(inst)
@@ -163,7 +167,7 @@ func _on_Player_death(player: CommonPlayer) -> void:
 	Logger.print(self, "Player %s died at %s!" % [player_id, player.position])
 
 
-func _on_Player_score_point(player: CommonPlayer) -> void:
+func _on_Player_score_changed(player: CommonPlayer) -> void:
 	var player_id = int(player.name)
 	Logger.print(self, "Player %s scored a point!" % [player_id])
 

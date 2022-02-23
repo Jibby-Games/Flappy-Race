@@ -17,6 +17,18 @@ Types of changes:
 
 ## [Unreleased]
 
+### Added
+- Coins which give you a little speed boost!
+- Command line options for starting the game or server:
+  - --join \<ip:port\> - join a game at an ip address and optional port
+  - --host - host a game as a client
+  - --server - start a headless server
+  - --port - specify port for server/host
+  - --upnp - to enable UPnP for server/host
+
+### Fixed
+- Stopped errors and crashes that could appear when stopping the server
+
 ## [0.2.0] - 2022-02-12
 
 ### Added

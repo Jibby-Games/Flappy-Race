@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://client/world/player/bird_eyes.png" type="Texture" id=1]
 [ext_resource path="res://client/world/player/bird_outline_1.png" type="Texture" id=2]
@@ -14,6 +14,8 @@
 [ext_resource path="res://client/world/player/bird_outline_0.png" type="Texture" id=12]
 [ext_resource path="res://client/world/player/bird_beak.png" type="Texture" id=13]
 [ext_resource path="res://client/theme/flappy.theme" type="Theme" id=14]
+[ext_resource path="res://client/audio/coin.ogg" type="AudioStream" id=15]
+[ext_resource path="res://client/audio/coin_lost.ogg" type="AudioStream" id=16]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -70,6 +72,7 @@ script = ExtResource( 8 )
 PlayerController = ExtResource( 10 )
 
 [node name="Sprites" type="Node2D" parent="." index="1"]
+position = Vector2( 0, 1 )
 
 [node name="Body" type="Sprite" parent="Sprites" index="0"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
@@ -110,7 +113,19 @@ volume_db = 13.386
 attenuation = 3.36358
 bus = "Player"
 
-[node name="NameLabel" type="Label" parent="." index="8"]
+[node name="Coin" type="AudioStreamPlayer2D" parent="." index="8"]
+stream = ExtResource( 15 )
+volume_db = 1.029
+attenuation = 3.86374
+bus = "Player"
+
+[node name="CoinLost" type="AudioStreamPlayer2D" parent="." index="9"]
+stream = ExtResource( 16 )
+volume_db = 5.149
+attenuation = 3.86374
+bus = "Player"
+
+[node name="NameLabel" type="Label" parent="." index="10"]
 visible = false
 anchor_top = 1.0
 anchor_right = 1.0
@@ -128,6 +143,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="10"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="12"]
 anims/DeathCooldown = SubResource( 2 )
 anims/RESET = SubResource( 3 )

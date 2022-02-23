@@ -9,20 +9,17 @@ radius = 26.6054
 radius = 32.4149
 
 [node name="Player" type="KinematicBody2D" groups=["players"]]
-collision_layer = 2147483649
 collision_mask = 2
 script = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -1, -1 )
 shape = SubResource( 1 )
 
 [node name="Detect" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 6
+collision_mask = 14
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detect"]
-position = Vector2( -1, -2 )
 shape = SubResource( 2 )
 
 [node name="DeathCooldownTimer" type="Timer" parent="."]
