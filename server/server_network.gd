@@ -101,7 +101,7 @@ func stop_server() -> void:
 	player_list.clear()
 	game_options.clear()
 	multiplayer.network_peer.close_connection()
-	multiplayer.set_network_peer(null)
+	multiplayer.call_deferred("set_network_peer", null)
 	Logger.print(self, "Server stopped")
 
 
