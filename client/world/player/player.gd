@@ -90,6 +90,12 @@ func set_player_name(value: String) -> void:
 	$NameLabel.show()
 
 
+func death() -> void:
+	if coins > 0:
+		$CoinLost.play()
+	.death()
+
+
 func on_death() -> void:
 	if enable_death_animation == false:
 		return
@@ -103,3 +109,8 @@ func despawn() -> void:
 	# Delay freeing so the sound can finish playing
 	yield(get_tree().create_timer(1), "timeout")
 	queue_free()
+
+
+func add_coin() -> void:
+	.add_coin()
+	$Coin.play()

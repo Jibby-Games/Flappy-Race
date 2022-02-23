@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/coin_lost.ogg-f3d166c591c16a79f2d3fd7545d1308b.oggstr"
+
+[deps]
+
+source_file="res://client/audio/coin_lost.ogg"
+dest_files=[ "res://.import/coin_lost.ogg-f3d166c591c16a79f2d3fd7545d1308b.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
