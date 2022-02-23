@@ -112,7 +112,9 @@ func reset_game() -> void:
 
 func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 	var player = .spawn_player(player_id, spawn_position)
-	player.connect("coins_changed", self, "_on_Player_coins_changed")
+	if player_id == multiplayer.get_network_unique_id():
+		# Only connect for the local player
+		player.connect("coins_changed", self, "_on_Player_coins_changed")
 	if Network.Client.is_singleplayer:
 		# Player list isn't populated in singleplayer
 		player.set_body_colour(Globals.player_colour)
