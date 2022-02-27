@@ -3,7 +3,6 @@
 [ext_resource path="res://client/ui/ui.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/world/world.tscn" type="PackedScene" id=2]
 [ext_resource path="res://client/world/world.gd" type="Script" id=3]
-[ext_resource path="res://client/world/main_camera.gd" type="Script" id=4]
 [ext_resource path="res://client/world/finish_line/finish_line.tscn" type="PackedScene" id=5]
 [ext_resource path="res://client/music/peak_and_drozerix_-_spectrum.ogg" type="AudioStream" id=6]
 [ext_resource path="res://client/audio/finish_sfx.ogg" type="AudioStream" id=7]
@@ -11,6 +10,7 @@
 [ext_resource path="res://client/world/wall/wall.tscn" type="PackedScene" id=9]
 [ext_resource path="res://client/music/music_player.tscn" type="PackedScene" id=10]
 [ext_resource path="res://client/world/background/cloud_background.tscn" type="PackedScene" id=11]
+[ext_resource path="res://client/world/main_camera.tscn" type="PackedScene" id=12]
 
 [node name="World" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
@@ -21,16 +21,7 @@ FinishLine = ExtResource( 5 )
 [node name="UI" parent="." index="0" instance=ExtResource( 1 )]
 follow_viewport_enable = false
 
-[node name="MainCamera" type="Camera2D" parent="." index="1"]
-current = true
-process_mode = 0
-limit_top = -540
-limit_bottom = 540
-smoothing_enabled = true
-smoothing_speed = 18.0
-editor_draw_limits = true
-editor_draw_drag_margin = true
-script = ExtResource( 4 )
+[node name="MainCamera" parent="." index="1" instance=ExtResource( 12 )]
 
 [node name="FinishMusic" type="AudioStreamPlayer" parent="." index="2"]
 stream = ExtResource( 6 )

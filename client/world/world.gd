@@ -94,6 +94,7 @@ func _on_UI_countdown_finished() -> void:
 		player.motion.y = -STARTING_JUMP
 		player.enable_control()
 	$MusicPlayer.play_random_track()
+	$MainCamera.add_trauma(0.8)
 
 
 func reset_camera() -> void:
@@ -132,6 +133,7 @@ func despawn_player(player_id: int) -> void:
 	# If this is the local player update the camera and UI
 	if player_id == multiplayer.get_network_unique_id():
 		if spawned_players.size() > 0:
+			$MainCamera.add_trauma(0.8)
 			$UI.show_death()
 			switch_camera_to_leader()
 
@@ -160,6 +162,7 @@ func _on_Player_death(player: CommonPlayer) -> void:
 func knockback_player(player_id: int) -> void:
 	var player = player_list[player_id].body
 	player.set_enable_movement(false)
+	$MainCamera.add_trauma(0.8)
 	.knockback_player(player_id)
 	yield(get_tree().create_timer(1), "timeout")
 	player.set_enable_movement(true)
@@ -175,6 +178,7 @@ func _on_Player_score_changed(player: CommonPlayer) -> void:
 func _on_Player_coins_changed(player: CommonPlayer) -> void:
 	# Should only be connected for the local player
 	$UI.update_coins(player.coins)
+	$MainCamera.add_trauma(0.4)
 
 
 func _on_UI_request_restart() -> void:
@@ -188,5 +192,6 @@ func player_finished(player_id: int, place: int, time: float) -> void:
 		$MusicPlayer.stop()
 		$FinishMusic.play()
 		$FinishChime.play()
+		$MainCamera.add_trauma(0.8)
 		if spawned_players.size() > 0:
 			switch_camera_to_leader()
