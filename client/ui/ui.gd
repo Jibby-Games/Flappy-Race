@@ -55,7 +55,7 @@ func update_score(new_score: int) -> void:
 
 
 func update_coins(value: int) -> void:
-	Coins.text = "%d / 10" % value
+	Coins.text = "%d" % value
 
 
 func _on_RestartButton_pressed() -> void:
