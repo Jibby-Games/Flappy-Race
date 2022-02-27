@@ -9,7 +9,6 @@ const GRAVITY = 17
 const BASE_SPEED = 500
 const DEATH_COOLDOWN_TIME = 1
 const COIN_BOOST := 20
-const COIN_LIMIT := 10
 const COINS_LOST_ON_DEATH := 3
 
 
@@ -109,7 +108,6 @@ func add_score() -> void:
 
 
 func add_coin() -> void:
-	if coins < COIN_LIMIT:
-		coins += 1
-		emit_signal("coins_changed", self)
-		Logger.print(self, "Player %s got a coin! Coins = %d" % [self.name, coins])
+	coins += 1
+	emit_signal("coins_changed", self)
+	Logger.print(self, "Player %s got a coin! Coins = %d" % [self.name, coins])

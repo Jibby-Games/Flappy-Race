@@ -671,34 +671,36 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="Ingame/Player/Coins"]
 margin_left = 50.0
 margin_top = 50.0
-margin_right = 256.0
+margin_right = 250.0
 margin_bottom = 134.0
 custom_constants/separation = 20
 
 [node name="Coins" type="Label" parent="Ingame/Player/Coins/HBoxContainer"]
+margin_left = 74.0
 margin_top = 18.0
-margin_right = 102.0
+margin_right = 96.0
 margin_bottom = 66.0
-size_flags_horizontal = 3
+size_flags_horizontal = 10
 size_flags_vertical = 6
 theme = SubResource( 2 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 2 )
-text = "0 / 10"
+text = "0"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Control" type="Control" parent="Ingame/Player/Coins/HBoxContainer"]
-margin_left = 122.0
-margin_right = 206.0
+margin_left = 116.0
+margin_right = 200.0
 margin_bottom = 84.0
 rect_min_size = Vector2( 84, 84 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Ingame/Player/Coins/HBoxContainer/Control"]
 frames = ExtResource( 17 )
 animation = "spin"
+frame = 4
 playing = true
 offset = Vector2( 42, 42 )
 
