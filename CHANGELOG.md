@@ -19,6 +19,7 @@ Types of changes:
 
 ### Added
 - Coins which give you a little speed boost!
+- Screen shake camera effect
 - Command line options for starting the game or server:
   - --join \<ip:port\> - join a game at an ip address and optional port
   - --host - host a game as a client
