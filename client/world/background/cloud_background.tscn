@@ -17,8 +17,9 @@ motion_mirroring = Vector2( 3840, 0 )
 modulate = Color( 0.493, 0.72505, 0.85, 1 )
 texture = ExtResource( 2 )
 centered = false
+offset = Vector2( 0, -540 )
 region_enabled = true
-region_rect = Rect2( 0, 0, 3840, 1080 )
+region_rect = Rect2( 0, 0, 3840, 2160 )
 
 [node name="Clouds1" type="ParallaxLayer" parent="."]
 motion_scale = Vector2( 0.1, 0.1 )
