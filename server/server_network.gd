@@ -138,12 +138,38 @@ remote func receive_change_to_setup_request() -> void:
 remote func receive_player_settings(player_name: String, player_colour: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	Logger.print(self, "Got settings for player %s. Name: %s, Colour: %s" % [player_id, player_name, player_colour])
+	if does_name_already_exist(player_name):
+		player_name = rename_player(player_name)
+		Logger.print(self, "Player %s renamed to %s" % [player_id, player_name])
 	if not is_host_set():
 		# Set the initial host
 		set_host(player_id)
 	player_list[player_id] = create_player_list_entry(player_name, player_colour)
 	send_game_info(player_id)
 	send_player_list_update(player_list)
+
+
+func does_name_already_exist(player_name: String) -> bool:
+	for player_entry in player_list.values():
+		if player_entry.name == player_name:
+			return true
+	return false
+
+
+func rename_player(player_name: String) -> String:
+	var regex := RegEx.new()
+	# Finds any numbers at the end of the string
+	var compile := regex.compile("(.*?)(\\d*)$")
+	assert(compile == OK)
+	var result := regex.search(player_name)
+	var main_name := result.get_string(1)
+	var number_suffix := result.get_string(2)
+	var new_number := int(number_suffix) + 1
+	player_name = "%s%d" % [main_name, new_number]
+	while does_name_already_exist(player_name):
+		player_name = "%s%d" % [main_name, new_number]
+		new_number += 1
+	return player_name
 
 
 func send_game_info(player_id: int) -> void:
