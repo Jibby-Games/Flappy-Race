@@ -29,6 +29,7 @@ Types of changes:
 
 ### Fixed
 - Stopped errors and crashes that could appear when stopping the server
+- Players will now be renamed if they have a name that is already in use
 
 ## [0.2.0] - 2022-02-12
 
