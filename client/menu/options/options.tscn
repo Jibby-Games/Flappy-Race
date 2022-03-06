@@ -93,37 +93,37 @@ margin_bottom = 35.0
 size_flags_horizontal = 4
 theme = ExtResource( 2 )
 
-[node name="ResolutionLabel" type="Label" parent="CenterContainer/GridContainer/Graphics/GridContainer"]
-margin_top = 40.0
-margin_right = 102.0
-margin_bottom = 64.0
-theme = ExtResource( 2 )
-text = "Resolution"
-
-[node name="ResolutionOptionButton" type="OptionButton" parent="CenterContainer/GridContainer/Graphics/GridContainer"]
-margin_left = 117.0
-margin_top = 39.0
-margin_right = 272.0
-margin_bottom = 66.0
-rect_min_size = Vector2( 155, 0 )
-theme = ExtResource( 2 )
-text = "1920x1080"
-align = 1
-
 [node name="VsyncLabel" type="Label" parent="CenterContainer/GridContainer/Graphics/GridContainer"]
-margin_top = 75.0
+margin_top = 44.0
 margin_right = 102.0
-margin_bottom = 99.0
+margin_bottom = 68.0
 theme = ExtResource( 2 )
 text = "VSync"
 
 [node name="VsyncCheckButton" type="CheckButton" parent="CenterContainer/GridContainer/Graphics/GridContainer"]
 margin_left = 157.0
-margin_top = 70.0
+margin_top = 39.0
 margin_right = 231.0
-margin_bottom = 105.0
+margin_bottom = 74.0
 size_flags_horizontal = 4
 theme = ExtResource( 2 )
+
+[node name="ResolutionLabel" type="Label" parent="CenterContainer/GridContainer/Graphics/GridContainer"]
+margin_top = 79.0
+margin_right = 102.0
+margin_bottom = 103.0
+theme = ExtResource( 2 )
+text = "Resolution"
+
+[node name="ResolutionOptionButton" type="OptionButton" parent="CenterContainer/GridContainer/Graphics/GridContainer"]
+margin_left = 117.0
+margin_top = 78.0
+margin_right = 272.0
+margin_bottom = 105.0
+rect_min_size = Vector2( 155, 0 )
+theme = ExtResource( 2 )
+text = "1920x1080"
+align = 1
 
 [node name="Volume" type="VBoxContainer" parent="CenterContainer/GridContainer"]
 margin_left = 440.0
@@ -343,7 +343,22 @@ rect_min_size = Vector2( 177, 80 )
 label = "Back"
 alignment = 1
 
+[node name="ResetButton" parent="." instance=ExtResource( 1 )]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -141.5
+margin_top = -80.0
+margin_right = 141.5
+margin_bottom = 0.0
+grow_horizontal = 2
+rect_min_size = Vector2( 283, 80 )
+label = "Reset All"
+alignment = 1
+
 [connection signal="value_changed" from="CenterContainer/GridContainer/Volume/MasterVolume/MasterSlider" to="." method="_on_MasterSlider_value_changed"]
 [connection signal="value_changed" from="CenterContainer/GridContainer/Volume/MusicVolume/MusicSlider" to="." method="_on_MusicSlider_value_changed"]
 [connection signal="pressed" from="CenterContainer/GridContainer/Gameplay/VBoxContainer/ResetHighScoreButton" to="." method="_on_ResetHighScoreButton_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="ResetButton" to="." method="_on_ResetButton_pressed"]

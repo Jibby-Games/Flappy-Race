@@ -50,7 +50,7 @@ func update_score(new_score: int) -> void:
 	Score.text = str(new_score)
 	# See if we have a new PB
 	if new_score > Globals.high_score:
-		Globals.save_high_score(new_score)
+		Globals.high_score = new_score
 		HighScore.text = str(new_score)
 
 
