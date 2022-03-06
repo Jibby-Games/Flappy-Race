@@ -96,6 +96,7 @@ anchor_bottom = 1.0
 margin_top = -75.0
 margin_right = 177.0
 margin_bottom = 5.0
+rect_min_size = Vector2( 177, 80 )
 label = "Back"
 alignment = 1
 

@@ -2,6 +2,13 @@ extends Node
 
 
 const HIGH_SCORE_FNAME := "user://highscore.save"
+const RESOLUTIONS := [
+	Vector2(1366, 768),
+	Vector2(1600, 900),
+	Vector2(1920, 1080),
+	Vector2(2560, 1440),
+	Vector2(3840, 216)
+]
 
 
 # Game Settings
@@ -17,6 +24,16 @@ var default_sounds_volume: float = 0.8
 var master_volume: float = 1.0
 var music_volume: float = 0.8
 var sounds_volume: float = 0.8
+
+
+# Video Settings
+var default_resolution: Vector2 = Vector2(
+	ProjectSettings.get_setting("display/window/size/width"),
+	ProjectSettings.get_setting("display/window/size/height")
+)
+var resolution: Vector2 = default_resolution
+var fullscreen: bool = false
+var vsync: bool = true
 
 
 func _ready() -> void:
