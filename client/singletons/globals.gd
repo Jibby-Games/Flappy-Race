@@ -7,7 +7,7 @@ const RESOLUTIONS := [
 	Vector2(1600, 900),
 	Vector2(1920, 1080),
 	Vector2(2560, 1440),
-	Vector2(3840, 216)
+	Vector2(3840, 2160)
 ]
 
 
