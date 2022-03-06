@@ -27,6 +27,7 @@ sounds_percent_path = NodePath("CenterContainer/GridContainer/Volume/SoundsVolum
 resolution_options_path = NodePath("CenterContainer/GridContainer/Graphics/GridContainer/ResolutionOptionButton")
 fullscreen_button_path = NodePath("CenterContainer/GridContainer/Graphics/GridContainer/FullscreenCheckButton")
 vsync_button_path = NodePath("CenterContainer/GridContainer/Graphics/GridContainer/VsyncCheckButton")
+high_score_label_path = NodePath("CenterContainer/GridContainer/Gameplay/VBoxContainer/HBoxContainer/HighScore")
 
 [node name="Title" parent="." instance=ExtResource( 6 )]
 margin_top = -10.0
@@ -41,13 +42,13 @@ __meta__ = {
 }
 
 [node name="GridContainer" type="GridContainer" parent="CenterContainer"]
-margin_left = 530.0
+margin_left = 310.0
 margin_top = 401.0
-margin_right = 1370.0
+margin_right = 1590.0
 margin_bottom = 659.0
 custom_constants/vseparation = 10
 custom_constants/hseparation = 40
-columns = 2
+columns = 3
 
 [node name="Graphics" type="VBoxContainer" parent="CenterContainer/GridContainer"]
 margin_right = 400.0
@@ -274,6 +275,60 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Gameplay" type="VBoxContainer" parent="CenterContainer/GridContainer"]
+margin_left = 880.0
+margin_right = 1280.0
+margin_bottom = 258.0
+rect_min_size = Vector2( 400, 0 )
+custom_constants/separation = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Header" type="Label" parent="CenterContainer/GridContainer/Gameplay"]
+margin_right = 400.0
+margin_bottom = 48.0
+theme = ExtResource( 2 )
+custom_fonts/font = ExtResource( 3 )
+text = "Gameplay"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/GridContainer/Gameplay"]
+margin_top = 68.0
+margin_right = 400.0
+margin_bottom = 129.0
+custom_constants/separation = 10
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/GridContainer/Gameplay/VBoxContainer"]
+margin_right = 400.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="CenterContainer/GridContainer/Gameplay/VBoxContainer/HBoxContainer"]
+margin_right = 120.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 120, 0 )
+theme = ExtResource( 2 )
+text = "High Score:"
+
+[node name="HighScore" type="Label" parent="CenterContainer/GridContainer/Gameplay/VBoxContainer/HBoxContainer"]
+margin_left = 124.0
+margin_right = 400.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+theme = ExtResource( 2 )
+text = "0"
+
+[node name="ResetHighScoreButton" type="Button" parent="CenterContainer/GridContainer/Gameplay/VBoxContainer"]
+margin_top = 34.0
+margin_right = 400.0
+margin_bottom = 61.0
+theme = ExtResource( 2 )
+text = "Reset High Score"
+
 [node name="SoundsVolumeTester" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 bus = "Sounds"
@@ -290,4 +345,5 @@ alignment = 1
 
 [connection signal="value_changed" from="CenterContainer/GridContainer/Volume/MasterVolume/MasterSlider" to="." method="_on_MasterSlider_value_changed"]
 [connection signal="value_changed" from="CenterContainer/GridContainer/Volume/MusicVolume/MusicSlider" to="." method="_on_MusicSlider_value_changed"]
+[connection signal="pressed" from="CenterContainer/GridContainer/Gameplay/VBoxContainer/ResetHighScoreButton" to="." method="_on_ResetHighScoreButton_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
