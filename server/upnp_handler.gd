@@ -60,11 +60,11 @@ func _notification(what) -> void:
 
 
 func wait_for_threads() -> void:
-	if add_thread != null:
+	if add_thread != null and add_thread.is_active():
 		Logger.print(self, "Waiting for UPNP add port thread to finish.")
 		add_thread.wait_to_finish()
 	remove_port_mapping()
-	if remove_thread != null:
+	if remove_thread != null and remove_thread.is_active():
 		Logger.print(self, "Waiting for UPNP remove port thread to finish.")
 		remove_thread.wait_to_finish()
 
