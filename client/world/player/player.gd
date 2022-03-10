@@ -105,7 +105,9 @@ func on_death() -> void:
 
 func despawn() -> void:
 	$DeathSound.play()
-	hide()
+	$Sprites.hide()
+	$DespawnSprite.show()
+	$DespawnSprite.playing = true
 	# Delay freeing so the sound can finish playing
 	yield(get_tree().create_timer(1), "timeout")
 	queue_free()
