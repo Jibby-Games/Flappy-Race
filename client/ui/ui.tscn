@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://client/ui/pause_menu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/fonts/Score.tres" type="DynamicFont" id=2]
@@ -17,6 +17,98 @@
 [ext_resource path="res://client/ui/lives.gd" type="Script" id=15]
 [ext_resource path="res://client/ui/stopwatch.gd" type="Script" id=16]
 [ext_resource path="res://client/world/coin/coin_animation.tres" type="SpriteFrames" id=17]
+[ext_resource path="res://client/ui/death-skull.png" type="Texture" id=18]
+
+[sub_resource type="Animation" id=7]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Skull:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Skull:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Label:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Label:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "show"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Skull:rect_scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 4 ),
+"transitions": PoolRealArray( 0.5, 2 ),
+"update": 0,
+"values": [ Vector2( 0.2, 0.2 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Skull:modulate")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2.6, 3.5 ),
+"transitions": PoolRealArray( 0.5, -2, 2 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.631373 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Label:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1.8, 2.8, 4 ),
+"transitions": PoolRealArray( 1, 2, 2, 0.5 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="Animation" id=1]
 resource_name = "Finished"
@@ -428,6 +520,7 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="Death"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -442,6 +535,28 @@ text = "You died!"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Skull" type="TextureRect" parent="Death"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -256.0
+margin_top = -256.0
+margin_right = 256.0
+margin_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_pivot_offset = Vector2( 256, 256 )
+texture = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Death"]
+anims/RESET = SubResource( 7 )
+anims/show = SubResource( 6 )
 
 [node name="Finished" type="Control" parent="."]
 visible = false
@@ -700,7 +815,7 @@ rect_min_size = Vector2( 84, 84 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Ingame/Player/Coins/HBoxContainer/Control"]
 frames = ExtResource( 17 )
 animation = "spin"
-frame = 4
+frame = 1
 playing = true
 offset = Vector2( 42, 42 )
 
@@ -723,7 +838,6 @@ __meta__ = {
 }
 
 [node name="Countdown" type="Control" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

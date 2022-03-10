@@ -63,7 +63,9 @@ func _on_RestartButton_pressed() -> void:
 
 
 func show_death() -> void:
+	$Ingame/Player.hide()
 	$Death.show()
+	$Death/AnimationPlayer.play("show")
 
 
 func show_finished(place: int, time: float) -> void:
