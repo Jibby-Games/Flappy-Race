@@ -83,10 +83,13 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -156.0
+margin_left = -180.0
 margin_top = -80.0
-margin_right = 156.0
+margin_right = 180.0
 margin_bottom = 0.0
+grow_horizontal = 2
+rect_min_size = Vector2( 360, 80 )
+size_flags_horizontal = 5
 label = "Start Game"
 alignment = 1
 
@@ -96,6 +99,7 @@ anchor_bottom = 1.0
 margin_top = -75.0
 margin_right = 177.0
 margin_bottom = 5.0
+rect_min_size = Vector2( 177, 80 )
 label = "Back"
 alignment = 1
 
