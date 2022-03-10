@@ -13,7 +13,11 @@ func add_player(player_name: String, colour: int, place_text: String, score: int
 	var label = entry.get_node("Name")
 	label.text = player_name
 	var place = entry.get_node("Place")
-	place.text = place_text
+	if place_text.empty():
+		place.hide()
+		entry.get_node("Skull").show()
+	else:
+		place.text = place_text
 	var score_label = entry.get_node("Score")
 	score_label.text = str(score)
 	var time_label = entry.get_node("Time")
