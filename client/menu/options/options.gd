@@ -38,69 +38,65 @@ func _ready() -> void:
 	load_all_settings()
 
 	# Only connect the signal after to stop the inital set_value from firing it
+	master_slider.connect("value_changed", self, "_on_MasterSlider_value_changed")
+	music_slider.connect("value_changed", self, "_on_MusicSlider_value_changed")
+	sounds_slider.connect("value_changed", self, "_on_SoundsSlider_value_changed")
 	resolution_options.connect("item_selected", self, "_on_ResolutionOptionButton_item_selected")
 	fullscreen_button.connect("toggled", self, "_on_FullscreenCheckButton_toggled")
 	vsync_button.connect("toggled", self, "_on_VsyncCheckButton_toggled")
 
 
 func load_all_settings() -> void:
-
-	# Disconnect signals to stop value changed firing
-	if sounds_slider.is_connected("value_changed", self, "_on_SoundsSlider_value_changed"):
-		sounds_slider.disconnect("value_changed", self, "_on_SoundsSlider_value_changed")
-
 	# Graphics
-	var res_index = Globals.RESOLUTIONS.find(Globals.resolution)
+	var res_index = Globals.RESOLUTIONS.find(Globals.settings.resolution)
 	if res_index != -1:
 		resolution_options.select(res_index)
-	fullscreen_button.pressed = Globals.fullscreen
-	vsync_button.pressed = Globals.vsync
+	fullscreen_button.pressed = Globals.settings.fullscreen
+	vsync_button.pressed = Globals.settings.vsync
 
 	# Audio
-	master_slider.set_value(Globals.master_volume)
-	master_percent.set_text(float2percent(Globals.master_volume))
-	music_slider.set_value(Globals.music_volume)
-	music_percent.set_text(float2percent(Globals.music_volume))
-	sounds_slider.set_value(Globals.sounds_volume)
-	sounds_percent.set_text(float2percent(Globals.sounds_volume))
+	master_slider.set_value(Globals.settings.master_volume)
+	master_percent.set_text(float2percent(Globals.settings.master_volume))
+	music_slider.set_value(Globals.settings.music_volume)
+	music_percent.set_text(float2percent(Globals.settings.music_volume))
+	sounds_slider.set_value(Globals.settings.sounds_volume)
+	sounds_percent.set_text(float2percent(Globals.settings.sounds_volume))
 
 	# Gameplay
 	high_score_label.set_text(str(Globals.high_score))
 
-	# Reconnect signals again
-	sounds_slider.connect("value_changed", self, "_on_SoundsSlider_value_changed")
-
 
 func _on_BackButton_pressed() -> void:
+	Globals.save_settings(Globals.settings)
 	change_menu_to_previous()
 
 
 func _on_MasterSlider_value_changed(value: float) -> void:
-	Globals.master_volume = value
+	Globals.set_master_volume(value)
 	master_percent.set_text(float2percent(value))
 
 
 func _on_MusicSlider_value_changed(value: float) -> void:
-	Globals.music_volume = value
+	Globals.set_music_volume(value)
 	music_percent.set_text(float2percent(value))
 
 
 func _on_SoundsSlider_value_changed(value: float) -> void:
-	Globals.sounds_volume = value
+	Globals.set_sounds_volume(value)
 	sounds_percent.set_text(float2percent(value))
 	$SoundsVolumeTester.play()
 
 
 func _on_FullscreenCheckButton_toggled(button_pressed: bool) -> void:
-	Globals.fullscreen = button_pressed
+	Globals.set_fullscreen(button_pressed)
 
 
 func _on_ResolutionOptionButton_item_selected(index: int) -> void:
-	Globals.resolution = Globals.RESOLUTIONS[index]
+	Globals.set_resolution(Globals.RESOLUTIONS[index])
 
 
 func _on_VsyncCheckButton_toggled(button_pressed: bool) -> void:
-	Globals.vsync = button_pressed
+	Globals.set_vsync(button_pressed)
 
 
 func _on_ResetHighScoreButton_pressed() -> void:

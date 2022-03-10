@@ -357,8 +357,6 @@ rect_min_size = Vector2( 283, 80 )
 label = "Reset All"
 alignment = 1
 
-[connection signal="value_changed" from="CenterContainer/GridContainer/Volume/MasterVolume/MasterSlider" to="." method="_on_MasterSlider_value_changed"]
-[connection signal="value_changed" from="CenterContainer/GridContainer/Volume/MusicVolume/MusicSlider" to="." method="_on_MusicSlider_value_changed"]
 [connection signal="pressed" from="CenterContainer/GridContainer/Gameplay/VBoxContainer/ResetHighScoreButton" to="." method="_on_ResetHighScoreButton_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="pressed" from="ResetButton" to="." method="_on_ResetButton_pressed"]
