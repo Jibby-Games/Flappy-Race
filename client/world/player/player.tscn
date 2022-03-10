@@ -35,7 +35,7 @@ animations = [ {
 "frames": [ ExtResource( 20 ), ExtResource( 21 ), ExtResource( 17 ), ExtResource( 19 ), ExtResource( 18 ) ],
 "loop": false,
 "name": "default",
-"speed": 6.0
+"speed": 8.0
 } ]
 
 [sub_resource type="Animation" id=2]
