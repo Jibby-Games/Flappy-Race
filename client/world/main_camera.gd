@@ -14,6 +14,7 @@ var trauma := 0.0  # Current shake strength.
 var trauma_power := 2  # Trauma exponent. Use [2, 3].
 
 
+var speed := 5.0
 var _target : Node2D setget set_target
 
 
@@ -30,9 +31,13 @@ func add_trauma(amount: float) -> void:
 	trauma = min(trauma + amount, 1.0)
 
 
-func _process(delta: float) -> void:
+# Only move the camera in the physics process to stop jittery objects
+func _physics_process(delta: float) -> void:
 	if _target and is_instance_valid(_target):
-		global_position = _target.global_position
+		global_position = lerp(global_position, _target.global_position, delta*speed)
+
+
+func _process(delta: float) -> void:
 	if trauma:
 		trauma = max(trauma - decay * delta, 0)
 		shake()
