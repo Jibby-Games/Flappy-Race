@@ -63,7 +63,9 @@ func _on_RestartButton_pressed() -> void:
 
 
 func show_death() -> void:
+	$Ingame/Player.hide()
 	$Death.show()
+	$Death/AnimationPlayer.play("show")
 
 
 func show_finished(place: int, time: float) -> void:
@@ -80,7 +82,7 @@ func show_leaderboard(player_list: Array) -> void:
 	$Death.hide()
 	$Leaderboard.clear_players()
 	for player in player_list:
-		var place_text = int2ordinal(player.place) if player.has("place") else "DNF"
+		var place_text := int2ordinal(player.place) if player.has("place") else ""
 		var time = player.get("time", 0.0)
 		$Leaderboard.add_player(player.name, player.colour, place_text, player.score, time)
 

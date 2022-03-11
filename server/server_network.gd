@@ -287,9 +287,11 @@ remote func receive_start_game_request() -> void:
 	if player_id == SERVER_ID or is_host_id(player_id):
 		if player_list.empty():
 			Logger.print(self, "Cannot start game without any players!")
+			send_setup_info_message("Not enough players!")
 			return
 		if is_everyone_spectating():
 			Logger.print(self, "Cannot start game with just spectators!")
+			send_setup_info_message("Too many spectators!")
 			return
 		Logger.print(self, "Starting game!")
 		# Flush any old states
@@ -299,6 +301,10 @@ remote func receive_start_game_request() -> void:
 	else:
 		Logger.print(self, "Player %s tried to start the game but they're not the host!" %
 				[player_id])
+
+
+func send_setup_info_message(message: String) -> void:
+	rpc("receive_setup_info_message", message)
 
 
 func is_everyone_spectating() -> bool:

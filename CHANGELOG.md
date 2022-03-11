@@ -20,6 +20,8 @@ Types of changes:
 ### Added
 - Coins which give you a little speed boost!
 - Screen shake camera effect
+- Death animation
+- Smooth camera movement and switching
 - Expanded options menu with:
   - Resolution
   - Fullscreen
@@ -34,9 +36,14 @@ Types of changes:
   - --port - specify port for server/host
   - --upnp - to enable UPnP for server/host
 
+### Changed
+- Leaderboard now shows a skull next to players that died
+- Setup menu will now show a message if the game cannot start
+
 ### Fixed
 - Stopped errors and crashes that could appear when stopping the server
 - Players will now be renamed if they have a name that is already in use
+- Stop audio breaking when setting volume < 34%
 
 ## [0.2.0] - 2022-02-12
 

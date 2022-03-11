@@ -2,11 +2,14 @@ extends MenuControl
 
 
 onready var player_list = $Setup/PlayerList
+onready var info_message = $Setup/InfoMessage
 
 
 func _ready() -> void:
 	var result = Network.Client.connect("player_list_changed", self, "populate_players")
 	assert(result == OK)
+
+	info_message.hide()
 
 	if Network.Client.is_server_connected():
 		# Already connected to the server, so set all of the values
@@ -45,3 +48,10 @@ func _on_SpectateButton_toggled(button_pressed: bool) -> void:
 	Network.Client.send_player_spectate_change(button_pressed)
 	$Setup/SpectatorText.visible = button_pressed
 	$Setup/PlayerOptions.visible = not button_pressed
+
+
+func show_message(message: String) -> void:
+	info_message.text = message
+	var animation = info_message.get_node("AnimationPlayer")
+	animation.stop()
+	animation.play("show")

@@ -321,6 +321,14 @@ func send_start_game_request() -> void:
 	rpc_id(SERVER_ID, "receive_start_game_request")
 
 
+remote func receive_setup_info_message(message: String) -> void:
+	if is_rpc_from_server() == false:
+		return
+	var setup = get_node_or_null("MenuHandler/MultiplayerSetup")
+	if setup:
+		setup.show_message(message)
+
+
 remote func receive_load_world() -> void:
 	if is_rpc_from_server() == false:
 		return

@@ -135,6 +135,8 @@ func despawn_player(player_id: int) -> void:
 		if spawned_players.size() > 0:
 			$MainCamera.add_trauma(0.8)
 			$UI.show_death()
+			# Delay to see death animation
+			yield(get_tree().create_timer(1), "timeout")
 			switch_camera_to_leader()
 
 

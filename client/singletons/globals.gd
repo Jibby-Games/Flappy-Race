@@ -31,15 +31,10 @@ var master_bus_index = AudioServer.get_bus_index("Master")
 var music_bus_index = AudioServer.get_bus_index("Music")
 var sounds_bus_index = AudioServer.get_bus_index("Sounds")
 
-var default_master_linear_db = db2linear(AudioServer.get_bus_volume_db(master_bus_index))
-var default_music_linear_db = db2linear(AudioServer.get_bus_volume_db(music_bus_index))
-var default_sounds_linear_db = db2linear(AudioServer.get_bus_volume_db(sounds_bus_index))
-
-# These offsets anchor the volume around the default audio bus values
-# E.g. 100% = -6db
-var master_offset = DEFAULT_SETTINGS.master_volume - default_master_linear_db
-var music_offset = DEFAULT_SETTINGS.music_volume - default_music_linear_db
-var sounds_offset = DEFAULT_SETTINGS.sounds_volume - default_sounds_linear_db
+# These ratios anchor the volume around the default audio bus values e.g. 100% = -2.6db
+var master_volume_ratio = db2linear(AudioServer.get_bus_volume_db(master_bus_index)) / DEFAULT_SETTINGS.master_volume
+var music_volume_ratio = db2linear(AudioServer.get_bus_volume_db(music_bus_index)) / DEFAULT_SETTINGS.music_volume
+var sounds_volume_ratio = db2linear(AudioServer.get_bus_volume_db(sounds_bus_index)) / DEFAULT_SETTINGS.sounds_volume
 
 
 func _ready() -> void:
@@ -146,7 +141,7 @@ func set_master_volume(value: float) -> void:
 	settings.master_volume = value
 	AudioServer.set_bus_volume_db(
 		master_bus_index,
-		linear2db(value-master_offset)
+		linear2db(value * master_volume_ratio)
 	)
 
 
@@ -154,7 +149,7 @@ func set_music_volume(value: float) -> void:
 	settings.music_volume = value
 	AudioServer.set_bus_volume_db(
 		music_bus_index,
-		linear2db(value-music_offset)
+		linear2db(value * music_volume_ratio)
 	)
 
 
@@ -162,7 +157,7 @@ func set_sounds_volume(value: float) -> void:
 	settings.sounds_volume = value
 	AudioServer.set_bus_volume_db(
 		sounds_bus_index,
-		linear2db(value-sounds_offset)
+		linear2db(value * sounds_volume_ratio)
 	)
 
 
