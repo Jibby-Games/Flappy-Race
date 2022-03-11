@@ -17,33 +17,38 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.3.0] - 2022-03-11
+
 ### Added
-- Coins which give you a little speed boost!
-- Screen shake camera effect
-- Death animation
-- Smooth camera movement and switching
-- Expanded options menu with:
-  - Resolution
-  - Fullscreen
-  - Vsync
-  - High score reset
-  - Reset all options
-- Settings are now saved and loaded from a file
-- Command line options for starting the game or server:
-  - --join \<ip:port\> - join a game at an ip address and optional port
-  - --host - host a game as a client
-  - --server - start a headless server
-  - --port - specify port for server/host
-  - --upnp - to enable UPnP for server/host
+
+-   Coins which give you a little speed boost!
+-   Screen shake camera effect
+-   Death animation
+-   Smooth camera movement and switching
+-   Expanded options menu with:
+    -   Resolution
+    -   Fullscreen
+    -   Vsync
+    -   High score reset
+    -   Reset all options
+-   Settings are now saved and loaded from a file
+-   Command line options for starting the game or server:
+    -   \--join \\&lt;ip:port> - join a game at an ip address and optional port
+    -   \--host - host a game as a client
+    -   \--server - start a headless server
+    -   \--port - specify port for server/host
+    -   \--upnp - to enable UPnP for server/host
 
 ### Changed
-- Leaderboard now shows a skull next to players that died
-- Setup menu will now show a message if the game cannot start
+
+-   Leaderboard now shows a skull next to players that died
+-   Setup menu will now show a message if the game cannot start
 
 ### Fixed
-- Stopped errors and crashes that could appear when stopping the server
-- Players will now be renamed if they have a name that is already in use
-- Stop audio breaking when setting volume < 34%
+
+-   Stopped errors and crashes that could appear when stopping the server
+-   Players will now be renamed if they have a name that is already in use
+-   Stop audio breaking when setting volume &lt; 34%
 
 ## [0.2.0] - 2022-02-12
 
@@ -139,7 +144,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.2.0...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.3.0...HEAD
+
+[0.3.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.2.0...0.3.0
 
 [0.2.0]: https://github.com/Jibby-Games/Flappy-Race/compare/v0.1.0...0.2.0
 
