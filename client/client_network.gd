@@ -9,9 +9,10 @@ const LATENCY_BUFFER_SIZE := 9
 const LATENCY_THRESHOLD := 20
 
 
-export(PackedScene) var LobbyScene
-export(PackedScene) var SingleplayerSetupScene
-export(PackedScene) var MultiplayerSetupScene
+var title_scene := "res://client/menu/title/title_screen.tscn"
+var lobby_scene := "res://client/menu/lobby/lobby.tscn"
+var singleplayer_setup_scene := "res://client/menu/setup/singleplayer/singleplayer_setup.tscn"
+var multiplayer_setup_scene := "res://client/menu/setup/multiplayer/multiplayer_setup.tscn"
 
 
 # Clock sync and latency vars
@@ -49,7 +50,7 @@ func _ready() -> void:
 	# Register with the Network singleton so this node can be easily accessed
 	Network.Client = self
 
-	change_scene_to_title_screen()
+	change_scene_to_title_screen(false)
 
 
 func _physics_process(delta: float) -> void:
@@ -67,21 +68,25 @@ func _exit_tree() -> void:
 	multiplayer.disconnect("server_disconnected", self, "_on_server_disconnected")
 
 
-func change_scene_to_title_screen() -> void:
+func change_scene_to_title_screen(fade: bool = true) -> void:
 	# The client should always start in the main menu
 	change_scene("res://client/menu/menu_handler.tscn")
+	if fade:
+		$MenuHandler.change_menu_with_fade(title_scene)
+	else:
+		$MenuHandler.change_menu(title_scene)
 
 
 func change_scene_to_setup() -> void:
 	change_scene("res://client/menu/menu_handler.tscn")
 	if is_singleplayer:
-		$MenuHandler.change_menu_to(SingleplayerSetupScene)
+		$MenuHandler.change_menu_with_fade(singleplayer_setup_scene)
 	else:
-		$MenuHandler.change_menu_to(MultiplayerSetupScene)
+		$MenuHandler.change_menu_with_fade(multiplayer_setup_scene)
 
 
 func change_scene_to_lobby() -> void:
-	$MenuHandler.change_menu_to(LobbyScene)
+	$MenuHandler.change_menu_with_fade(lobby_scene)
 
 
 func start_client(host: String, port: int, singleplayer: bool = false) -> void:

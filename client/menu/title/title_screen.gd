@@ -1,9 +1,9 @@
 extends MenuControl
 
 
-export(PackedScene) var singleplayer_scene
-export(PackedScene) var multiplayer_scene
-export(PackedScene) var options_scene
+var singleplayer_scene := "res://client/menu/setup/singleplayer/singleplayer_setup.tscn"
+var multiplayer_scene := "res://client/menu/lobby/lobby.tscn"
+var options_scene := "res://client/menu/options/options.tscn"
 
 
 func _ready() -> void:
@@ -12,16 +12,16 @@ func _ready() -> void:
 
 
 func _on_SingleplayerButton_pressed():
-	change_menu_to(singleplayer_scene)
+	change_menu(singleplayer_scene)
 	Network.start_singleplayer()
 
 
 func _on_MultiplayerButton_pressed():
-	change_menu_to(multiplayer_scene)
+	change_menu(multiplayer_scene)
 
 
 func _on_OptionsButton_pressed():
-	change_menu_to(options_scene)
+	change_menu(options_scene)
 
 
 func _on_QuitButton_pressed() -> void:

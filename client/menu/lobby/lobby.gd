@@ -4,8 +4,8 @@ extends MenuControl
 const MAX_CONNECT_TIME := 10
 
 
-export (PackedScene) var setup_scene
-
+var title_scene := "res://client/menu/title/title_screen.tscn"
+var multiplayer_setup_scene := "res://client/menu/setup/multiplayer/multiplayer_setup.tscn"
 
 onready var error_message = $VBoxContainer/Menu/ErrorMessage
 onready var info_message = $VBoxContainer/Menu/InfoMessage
@@ -46,7 +46,7 @@ func _on_JoinButton_pressed() -> void:
 
 
 func _on_BackButton_pressed() -> void:
-	change_menu_to_previous()
+	change_menu(title_scene)
 
 
 func is_name_empty() -> bool:
@@ -64,7 +64,7 @@ func try_connect_to_server(ip: String) -> void:
 
 func _on_connected() -> void:
 	$ConnectionTimer.stop()
-	change_menu_to(setup_scene)
+	change_menu(multiplayer_setup_scene)
 
 
 func _on_ConnectionTimer_timeout() -> void:
