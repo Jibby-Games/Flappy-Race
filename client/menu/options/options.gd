@@ -1,5 +1,6 @@
 extends MenuControl
 
+var title_scene := "res://client/menu/title/title_screen.tscn"
 
 export(NodePath) var master_slider_path
 export(NodePath) var master_percent_path
@@ -68,7 +69,7 @@ func load_all_settings() -> void:
 
 func _on_BackButton_pressed() -> void:
 	Globals.save_settings(Globals.settings)
-	change_menu_to_previous()
+	change_menu(title_scene)
 
 
 func _on_MasterSlider_value_changed(value: float) -> void:

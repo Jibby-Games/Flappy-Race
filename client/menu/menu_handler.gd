@@ -1,16 +1,10 @@
 extends SceneHandler
 
 
-export (PackedScene) var title_scene
-
-
-var current_menu: PackedScene
-var previous_menu: PackedScene
 var scroll_x = 0
 var scroll_speed = 200
 
 func _ready() -> void:
-	_change_menu_to(title_scene)
 	$MusicPlayer.play_track_name("Drozerix - Digital Rendezvous")
 
 
@@ -20,19 +14,16 @@ func _process(delta: float) -> void:
 	$ParallaxBackground.scroll_offset.x = scroll_x
 
 
-func _change_menu_to(next_scene: PackedScene) -> void:
-	.change_scene_to(next_scene)
-	previous_menu = current_menu
-	current_menu = next_scene
+func change_menu(next_scene: String) -> void:
+	.change_scene(next_scene)
 	var result: int
-	result = _active_scene.connect("change_menu_to", self, "change_menu_to")
-	assert(result == OK)
-	result = _active_scene.connect("change_menu_to_previous", self, "change_menu_to_previous")
+	result = _active_scene.connect("change_menu", self, "change_menu_with_fade")
 	assert(result == OK)
 
 
-func change_menu_to(next_scene: PackedScene) -> void:
-	_change_menu_to(next_scene)
+func change_menu_with_fade(next_scene_path: String) -> void:
+	change_menu(next_scene_path)
+
 	# This allows the next menu's network logic to work during the animation
 	_active_scene.hide()
 	$AnimationPlayer.play("fade_in")
@@ -40,7 +31,3 @@ func change_menu_to(next_scene: PackedScene) -> void:
 	_active_scene.show()
 	$AnimationPlayer.play_backwards("fade_in")
 	yield($AnimationPlayer, "animation_finished")
-
-
-func change_menu_to_previous() -> void:
-	change_menu_to(previous_menu)

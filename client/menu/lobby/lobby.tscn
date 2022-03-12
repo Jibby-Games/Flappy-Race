@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://client/menu/lobby/lobby.gd" type="Script" id=1]
 [ext_resource path="res://client/ui/custom_label.tscn" type="PackedScene" id=2]
 [ext_resource path="res://client/menu/menu_button.tscn" type="PackedScene" id=3]
 [ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=4]
 [ext_resource path="res://client/ui/title_label.tscn" type="PackedScene" id=5]
-[ext_resource path="res://client/menu/setup/multiplayer/multiplayer_setup.tscn" type="PackedScene" id=6]
 [ext_resource path="res://client/fonts/DelaGothicOne-48.tres" type="DynamicFont" id=7]
 [ext_resource path="res://client/theme/flappy.theme" type="Theme" id=8]
 
@@ -20,7 +19,6 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-setup_scene = ExtResource( 6 )
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
