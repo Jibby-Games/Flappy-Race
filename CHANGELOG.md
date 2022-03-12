@@ -17,6 +17,8 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.3.1] - 2022-03-12
+
 ## [0.3.0] - 2022-03-11
 
 ### Added
@@ -144,7 +146,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.3.0...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.3.1...HEAD
+
+[0.3.1]: https://github.com/Jibby-Games/Flappy-Race/compare/0.3.0...0.3.1
 
 [0.3.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.2.0...0.3.0
 
