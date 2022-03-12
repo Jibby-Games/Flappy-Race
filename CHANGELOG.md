@@ -19,6 +19,11 @@ Types of changes:
 
 ## [0.3.1] - 2022-03-12
 
+### Fixed
+- Stopped walls giving multiple points
+- Made crossing the finish line give a point again
+- Fixed menus breaking when using the back button
+
 ## [0.3.0] - 2022-03-11
 
 ### Added
@@ -35,7 +40,7 @@ Types of changes:
     -   Reset all options
 -   Settings are now saved and loaded from a file
 -   Command line options for starting the game or server:
-    -   \--join \\&lt;ip:port> - join a game at an ip address and optional port
+    -   \--join \<ip:port> - join a game at an ip address and optional port
     -   \--host - host a game as a client
     -   \--server - start a headless server
     -   \--port - specify port for server/host
