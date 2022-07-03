@@ -21,7 +21,10 @@ func add_player(player_name: String, colour: int, place_text: String, score: int
 	var score_label = entry.get_node("Score")
 	score_label.text = str(score)
 	var time_label = entry.get_node("Time")
-	time_label.set_time(time)
+	if place_text.empty():
+		time_label.hide()
+	else:
+		time_label.set_time(time)
 	$VBoxContainer/ScrollContainer/EntryList.add_child(entry)
 
 
