@@ -376,7 +376,7 @@ resource_name = "Countdown"
 length = 7.3
 step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath("NumberLabel:text")
+tracks/0/path = NodePath("CenterContainer/NumberLabel:text")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -388,7 +388,7 @@ tracks/0/keys = {
 "values": [ "3", "2", "1", "GO!" ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("NumberLabel:modulate")
+tracks/1/path = NodePath("CenterContainer/NumberLabel:modulate")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -400,7 +400,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("NumberLabel:rect_scale")
+tracks/2/path = NodePath("CenterContainer/NumberLabel:rect_scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -455,7 +455,7 @@ tracks/4/keys = {
 [sub_resource type="Animation" id=4]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("NumberLabel:text")
+tracks/0/path = NodePath("CenterContainer/NumberLabel:text")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -467,7 +467,7 @@ tracks/0/keys = {
 "values": [ "3" ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("NumberLabel:modulate")
+tracks/1/path = NodePath("CenterContainer/NumberLabel:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -479,7 +479,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("NumberLabel:rect_scale")
+tracks/2/path = NodePath("CenterContainer/NumberLabel:rect_scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -491,7 +491,7 @@ tracks/2/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("NumberLabel:rect_position")
+tracks/3/path = NodePath("CenterContainer/NumberLabel:rect_position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -530,9 +530,6 @@ SpectateLabelPath = NodePath("Ingame/Spectator/CenterContainer/HBoxContainer/Spe
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="Death"]
 modulate = Color( 1, 1, 1, 0 )
@@ -541,15 +538,12 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -130.0
-margin_top = -117.0
+margin_top = -243.0
 margin_right = 130.0
-margin_bottom = -47.0
+margin_bottom = -173.0
 theme = ExtResource( 6 )
 custom_fonts/font = ExtResource( 3 )
 text = "You died!"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Skull" type="TextureRect" parent="Death"]
 modulate = Color( 1, 1, 1, 0 )
@@ -657,24 +651,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NumberLabel" type="Label" parent="Countdown"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -125.0
-margin_top = -125.0
-margin_right = 125.0
-margin_bottom = 125.0
+[node name="CenterContainer" type="CenterContainer" parent="Countdown"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="NumberLabel" type="Label" parent="Countdown/CenterContainer"]
+margin_left = 835.0
+margin_top = 415.0
+margin_right = 1012.0
+margin_bottom = 526.0
 rect_pivot_offset = Vector2( 125, 125 )
 size_flags_horizontal = 5
 custom_fonts/font = ExtResource( 7 )
 text = "3"
 align = 1
 valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Countdown"]
 anims/Countdown = SubResource( 3 )
@@ -779,6 +770,7 @@ __meta__ = {
 }
 
 [node name="Ingame" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -963,7 +955,7 @@ rect_min_size = Vector2( 84, 84 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Ingame/Player/Coins/HBoxContainer/Control"]
 frames = ExtResource( 17 )
 animation = "spin"
-frame = 5
+frame = 1
 playing = true
 offset = Vector2( 42, 42 )
 

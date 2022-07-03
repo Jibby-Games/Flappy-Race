@@ -139,7 +139,7 @@ func despawn_player(player_id: int) -> void:
 			$MainCamera.add_trauma(0.8)
 			$UI.show_death()
 			# Delay to see death animation
-			yield(get_tree().create_timer(1), "timeout")
+			yield(get_tree().create_timer(4), "timeout")
 			spectate_leader()
 
 
