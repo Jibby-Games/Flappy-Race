@@ -66,9 +66,10 @@
             }
         },
         {
-            "label": "Start 3 Clients",
+            "label": "Start 4 Clients",
             "dependsOn": [
                 "Client Host",
+                "Client Join",
                 "Client Join",
                 "Client Join"
             ],
