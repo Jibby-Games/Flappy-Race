@@ -28,6 +28,7 @@ export(PoolColorArray) var colour_options = [
 var is_controlled
 var player_state
 var enable_death_animation: bool = true
+var player_name: String
 
 
 func _ready() -> void:
@@ -86,6 +87,7 @@ func set_body_colour(value: int) -> void:
 
 
 func set_player_name(value: String) -> void:
+	player_name = value
 	$NameLabel.text = value
 	$NameLabel.show()
 

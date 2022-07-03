@@ -8,6 +8,9 @@ const INTERPOLATION_OFFSET = 100
 var last_world_state := 0
 var world_state_buffer := []
 
+# Camera vars
+var camera_target_index := 0
+
 
 func _ready() -> void:
 	Network.Client.send_client_ready()
@@ -100,9 +103,9 @@ func _on_UI_countdown_finished() -> void:
 func reset_camera() -> void:
 	var client_id = multiplayer.get_network_unique_id()
 	if player_list[client_id].spectate:
-		switch_camera_to_leader()
-		$UI.spectating = true
+		spectate_leader()
 	else:
+		$UI.set_spectating(false)
 		var player = player_list[client_id].body
 		$MainCamera.set_target(player)
 
@@ -137,23 +140,26 @@ func despawn_player(player_id: int) -> void:
 			$UI.show_death()
 			# Delay to see death animation
 			yield(get_tree().create_timer(1), "timeout")
-			switch_camera_to_leader()
+			spectate_leader()
 
 
-func switch_camera_to_leader() -> void:
+func spectate_leader() -> void:
 	var leader = get_lead_player()
-	if leader:
-		$MainCamera.set_target(leader)
-	else:
-		push_error("Unable to find lead player: %s" % [spawned_players])
+	camera_target_index = leader
+	$MainCamera.set_target(spawned_players[leader])
+	$UI.set_spectating(true)
+	$UI.set_spectate_player_name(spawned_players[leader].player_name)
 
 
-func get_lead_player() -> CommonPlayer:
+func get_lead_player() -> int:
 	var leader
-	for player in spawned_players:
+	var leader_index := 0
+	for i in spawned_players.size():
+		var player = spawned_players[i]
 		if leader == null or player.position.x > leader.position.x:
 			leader = player
-	return leader
+			leader_index = i
+	return leader_index
 
 
 func _on_Player_death(player: CommonPlayer) -> void:
@@ -196,4 +202,13 @@ func player_finished(player_id: int, place: int, time: float) -> void:
 		$FinishChime.play()
 		$MainCamera.add_trauma(0.8)
 		if spawned_players.size() > 0:
-			switch_camera_to_leader()
+			spectate_leader()
+
+
+func _on_UI_spectate_change(forward_not_back) -> void:
+	if forward_not_back:
+		camera_target_index = (camera_target_index + 1) % spawned_players.size()
+	else:
+		camera_target_index = (camera_target_index - 1) % spawned_players.size()
+	$MainCamera.set_target(spawned_players[camera_target_index])
+	$UI.set_spectate_player_name(spawned_players[camera_target_index].player_name)
