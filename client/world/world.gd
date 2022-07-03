@@ -8,8 +8,9 @@ const INTERPOLATION_OFFSET = 100
 var last_world_state := 0
 var world_state_buffer := []
 
-# Camera vars
-var camera_target_index := 0
+# Spectate vars
+var is_spectating
+var spectate_target: Node
 
 
 func _ready() -> void:
@@ -103,6 +104,7 @@ func _on_UI_countdown_finished() -> void:
 func reset_camera() -> void:
 	var client_id = multiplayer.get_network_unique_id()
 	if player_list[client_id].spectate:
+		is_spectating = true
 		spectate_leader()
 	else:
 		$UI.set_spectating(false)
@@ -143,23 +145,37 @@ func despawn_player(player_id: int) -> void:
 			spectate_leader()
 
 
+func set_spectate_target(target: Node2D) -> void:
+	assert(target != null)
+	if spectate_target == target:
+		# Already spectating this player
+		return
+	# Disconnect camera switching from old target if they exist
+	if spectate_target != null and spectate_target.is_connected("tree_exited", self, "spectate_leader"):
+		spectate_target.disconnect("tree_exited", self, "spectate_leader")
+	# Ensure the camera switches when the target despawns
+	var result := target.connect("tree_exited", self, "spectate_leader")
+	assert(result == OK)
+	spectate_target = target
+	$MainCamera.set_target(target)
+	$UI.set_spectate_player_name(target.player_name)
+
+
 func spectate_leader() -> void:
-	var leader = get_lead_player()
-	camera_target_index = leader
-	$MainCamera.set_target(spawned_players[leader])
+	var leader := get_lead_player()
+	if leader == null:
+		# No leader so don't do anything - race should be finished
+		return
+	set_spectate_target(leader)
 	$UI.set_spectating(true)
-	$UI.set_spectate_player_name(spawned_players[leader].player_name)
 
 
-func get_lead_player() -> int:
+func get_lead_player() -> Node2D:
 	var leader
-	var leader_index := 0
-	for i in spawned_players.size():
-		var player = spawned_players[i]
+	for player in spawned_players:
 		if leader == null or player.position.x > leader.position.x:
 			leader = player
-			leader_index = i
-	return leader_index
+	return leader
 
 
 func _on_Player_death(player: CommonPlayer) -> void:
@@ -206,9 +222,10 @@ func player_finished(player_id: int, place: int, time: float) -> void:
 
 
 func _on_UI_spectate_change(forward_not_back) -> void:
+	var new_target_index := 0
+	var current_target_index: int = spawned_players.find(spectate_target)
 	if forward_not_back:
-		camera_target_index = (camera_target_index + 1) % spawned_players.size()
+		new_target_index = (current_target_index + 1) % spawned_players.size()
 	else:
-		camera_target_index = (camera_target_index - 1) % spawned_players.size()
-	$MainCamera.set_target(spawned_players[camera_target_index])
-	$UI.set_spectate_player_name(spawned_players[camera_target_index].player_name)
+		new_target_index = (current_target_index - 1) % spawned_players.size()
+	set_spectate_target(spawned_players[new_target_index])
