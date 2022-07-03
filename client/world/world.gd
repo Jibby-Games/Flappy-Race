@@ -8,6 +8,10 @@ const INTERPOLATION_OFFSET = 100
 var last_world_state := 0
 var world_state_buffer := []
 
+# Spectate vars
+var is_spectating
+var spectate_target: Node
+
 
 func _ready() -> void:
 	Network.Client.send_client_ready()
@@ -100,9 +104,10 @@ func _on_UI_countdown_finished() -> void:
 func reset_camera() -> void:
 	var client_id = multiplayer.get_network_unique_id()
 	if player_list[client_id].spectate:
-		switch_camera_to_leader()
-		$UI.spectating = true
+		is_spectating = true
+		spectate_leader()
 	else:
+		$UI.set_spectating(false)
 		var player = player_list[client_id].body
 		$MainCamera.set_target(player)
 
@@ -136,19 +141,36 @@ func despawn_player(player_id: int) -> void:
 			$MainCamera.add_trauma(0.8)
 			$UI.show_death()
 			# Delay to see death animation
-			yield(get_tree().create_timer(1), "timeout")
-			switch_camera_to_leader()
+			yield(get_tree().create_timer(4), "timeout")
+			spectate_leader()
 
 
-func switch_camera_to_leader() -> void:
-	var leader = get_lead_player()
-	if leader:
-		$MainCamera.set_target(leader)
-	else:
-		push_error("Unable to find lead player: %s" % [spawned_players])
+func set_spectate_target(target: Node2D) -> void:
+	assert(target != null)
+	if spectate_target == target:
+		# Already spectating this player
+		return
+	# Disconnect camera switching from old target if they exist
+	if spectate_target != null and spectate_target.is_connected("tree_exited", self, "spectate_leader"):
+		spectate_target.disconnect("tree_exited", self, "spectate_leader")
+	# Ensure the camera switches when the target despawns
+	var result := target.connect("tree_exited", self, "spectate_leader")
+	assert(result == OK)
+	spectate_target = target
+	$MainCamera.set_target(target)
+	$UI.set_spectate_player_name(target.player_name)
 
 
-func get_lead_player() -> CommonPlayer:
+func spectate_leader() -> void:
+	var leader := get_lead_player()
+	if leader == null:
+		# No leader so don't do anything - race should be finished
+		return
+	set_spectate_target(leader)
+	$UI.set_spectating(true)
+
+
+func get_lead_player() -> Node2D:
 	var leader
 	for player in spawned_players:
 		if leader == null or player.position.x > leader.position.x:
@@ -196,4 +218,14 @@ func player_finished(player_id: int, place: int, time: float) -> void:
 		$FinishChime.play()
 		$MainCamera.add_trauma(0.8)
 		if spawned_players.size() > 0:
-			switch_camera_to_leader()
+			spectate_leader()
+
+
+func _on_UI_spectate_change(forward_not_back) -> void:
+	var new_target_index := 0
+	var current_target_index: int = spawned_players.find(spectate_target)
+	if forward_not_back:
+		new_target_index = (current_target_index + 1) % spawned_players.size()
+	else:
+		new_target_index = (current_target_index - 1) % spawned_players.size()
+	set_spectate_target(spawned_players[new_target_index])

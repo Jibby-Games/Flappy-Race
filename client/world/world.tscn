@@ -41,3 +41,4 @@ bus = "Sounds"
 
 [connection signal="countdown_finished" from="UI" to="." method="_on_UI_countdown_finished"]
 [connection signal="request_restart" from="UI" to="." method="_on_UI_request_restart"]
+[connection signal="spectate_change" from="UI" to="." method="_on_UI_spectate_change"]

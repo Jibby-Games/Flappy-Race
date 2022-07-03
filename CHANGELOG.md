@@ -17,6 +17,12 @@ Types of changes:
 
 ## [Unreleased]
 
+### Added
+- Add spectator controls so you can control the camera.
+
+### Fixed
+- Improved the leaderboard alignment
+
 ## [0.3.1] - 2022-03-12
 
 ### Fixed

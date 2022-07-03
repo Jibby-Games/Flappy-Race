@@ -5,19 +5,19 @@ export(NodePath) var HighScorePath
 export(NodePath) var ScorePath
 export(NodePath) var LivesPath
 export(NodePath) var CoinsPath
+export(NodePath) var SpectateLabelPath
 
 
 onready var HighScore := get_node(HighScorePath)
 onready var Score := get_node(ScorePath)
 onready var Lives := get_node(LivesPath)
 onready var Coins := get_node(CoinsPath)
+onready var SpectateLabel := get_node(SpectateLabelPath)
 
 
 signal countdown_finished
 signal request_restart
-
-
-var spectating := false
+signal spectate_change(forward_not_back)
 
 
 func _ready() -> void:
@@ -28,6 +28,11 @@ func _ready() -> void:
 	HighScore.text = str(Globals.high_score)
 
 
+func set_spectating(value: bool) -> void:
+	$Ingame/Player.visible = not value
+	$Ingame/Spectator.visible = value
+
+
 func start_countdown() -> void:
 	$Countdown.show()
 	$Countdown/AnimationPlayer.play("Countdown")
@@ -35,8 +40,6 @@ func start_countdown() -> void:
 
 func _countdown_finished() -> void:
 	emit_signal("countdown_finished")
-	if spectating:
-		$Ingame/Player.hide()
 	$Ingame/Stopwatch.start()
 	$Ingame.show()
 
@@ -112,5 +115,17 @@ func int2ordinal(value: int) -> String:
 	return "%d%s" % [value, suffix]
 
 
+func set_spectate_player_name(name: String) -> void:
+	SpectateLabel.text = "Spectating:\n%s" % name
+
+
 func _on_NewRaceButton_pressed() -> void:
 	Network.Client.send_change_to_setup_request()
+
+
+func _on_PreviousButton_pressed() -> void:
+	emit_signal("spectate_change", false)
+
+
+func _on_NextButton_pressed() -> void:
+	emit_signal("spectate_change", true)

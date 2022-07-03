@@ -66,6 +66,18 @@
             }
         },
         {
+            "label": "Start 4 Clients",
+            "dependsOn": [
+                "Client Host",
+                "Client Join",
+                "Client Join",
+                "Client Join"
+            ],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
             "label": "Start Server and 2 Clients",
             "dependsOn": [
                 "Client Join",
