@@ -27,8 +27,10 @@ var game_rng := RandomNumberGenerator.new()
 var game_options := {} setget set_game_options
 var finish_line_x_pos : int
 
-
+# Dictionary of all players in the current game
+# Includes player preferences and a reference to the player body if playing
 var player_list := {}
+# Array of all spawned player bodies
 var spawned_players := []
 var spawned_walls := []
 

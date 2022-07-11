@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://client/ui/pause_menu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/fonts/Score.tres" type="DynamicFont" id=2]
@@ -20,6 +20,8 @@
 [ext_resource path="res://client/ui/death-skull.png" type="Texture" id=18]
 [ext_resource path="res://client/ui/arrow-right.png" type="Texture" id=19]
 [ext_resource path="res://client/ui/arrow-left.png" type="Texture" id=20]
+[ext_resource path="res://client/ui/progress-bar-64px.png" type="Texture" id=22]
+[ext_resource path="res://client/ui/race_progress.gd" type="Script" id=23]
 
 [sub_resource type="Animation" id=7]
 length = 0.001
@@ -525,6 +527,7 @@ ScorePath = NodePath("Ingame/Player/Score")
 LivesPath = NodePath("Ingame/Player/Lives")
 CoinsPath = NodePath("Ingame/Player/Coins/HBoxContainer/Coins")
 SpectateLabelPath = NodePath("Ingame/Spectator/CenterContainer/HBoxContainer/SpectatingLabel")
+RaceProgressPath = NodePath("Ingame/RaceProgress")
 
 [node name="Death" type="Control" parent="."]
 visible = false
@@ -658,7 +661,7 @@ anchor_bottom = 1.0
 [node name="NumberLabel" type="Label" parent="Countdown/CenterContainer"]
 margin_left = 835.0
 margin_top = 415.0
-margin_right = 1012.0
+margin_right = 905.0
 margin_bottom = 526.0
 rect_pivot_offset = Vector2( 125, 125 )
 size_flags_horizontal = 5
@@ -770,12 +773,10 @@ __meta__ = {
 }
 
 [node name="Ingame" type="Control" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Player" type="Control" parent="Ingame"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -955,7 +956,7 @@ rect_min_size = Vector2( 84, 84 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Ingame/Player/Coins/HBoxContainer/Control"]
 frames = ExtResource( 17 )
 animation = "spin"
-frame = 1
+frame = 2
 playing = true
 offset = Vector2( 42, 42 )
 
@@ -973,9 +974,6 @@ custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 9 )
 text = "00:00.00"
 script = ExtResource( 16 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Spectator" type="Control" parent="Ingame"]
 anchor_right = 1.0
@@ -1028,6 +1026,31 @@ rect_min_size = Vector2( 64, 64 )
 shortcut_in_tooltip = false
 shortcut = SubResource( 11 )
 icon = ExtResource( 19 )
+
+[node name="RaceProgress" type="Control" parent="Ingame"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -560.0
+margin_top = 58.0
+margin_right = 560.0
+margin_bottom = 122.0
+script = ExtResource( 23 )
+MarkerAreaPath = NodePath("Background/MarkerArea")
+
+[node name="Background" type="NinePatchRect" parent="Ingame/RaceProgress"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 22 )
+patch_margin_left = 6
+patch_margin_right = 8
+
+[node name="MarkerArea" type="Control" parent="Ingame/RaceProgress/Background"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -5.0
+margin_top = -32.0
+margin_bottom = -32.0
 
 [node name="PauseMenu" parent="." instance=ExtResource( 1 )]
 

@@ -18,7 +18,8 @@ Types of changes:
 ## [Unreleased]
 
 ### Added
-- Add spectator controls so you can control the camera.
+- Spectator controls so you can control the camera
+- Race progress bar so you can see where all players are in the race
 
 ### Fixed
 - Improved the leaderboard alignment
