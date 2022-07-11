@@ -6,6 +6,7 @@ export(NodePath) var ScorePath
 export(NodePath) var LivesPath
 export(NodePath) var CoinsPath
 export(NodePath) var SpectateLabelPath
+export(NodePath) var RaceProgressPath
 
 
 onready var HighScore := get_node(HighScorePath)
@@ -13,6 +14,7 @@ onready var Score := get_node(ScorePath)
 onready var Lives := get_node(LivesPath)
 onready var Coins := get_node(CoinsPath)
 onready var SpectateLabel := get_node(SpectateLabelPath)
+onready var RaceProgress := get_node(RaceProgressPath)
 
 
 signal countdown_finished
@@ -26,6 +28,13 @@ func _ready() -> void:
 		if child is Control:
 			child.hide()
 	HighScore.text = str(Globals.high_score)
+
+
+func set_player_list(player_list: Dictionary) -> void:
+	for player_id in player_list:
+		if not player_list[player_id].spectate:
+			var colour = Globals.COLOUR_OPTIONS[player_list[player_id].colour]
+			RaceProgress.add_player(player_id, colour)
 
 
 func set_spectating(value: bool) -> void:

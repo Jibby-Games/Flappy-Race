@@ -19,6 +19,25 @@ const DEFAULT_SETTINGS := {
 	"vsync": true
 }
 
+# Colour palette by PineappleOnPizza: https://lospec.com/palette-list/bubblegum-16
+const COLOUR_OPTIONS: PoolColorArray = PoolColorArray([
+	"#d62411",
+	"#7f0622",
+	"#ff8426",
+	"#ffd100",
+	"#ff80a4",
+	"#ff2674",
+	"#94216a",
+	"#430067",
+	"#234975",
+	"#68aed4",
+	"#bfff3c",
+	"#10d275",
+	"#007899",
+	"#002859",
+	"#fafdff",
+	"#16171a",
+])
 
 # Settings
 var high_score: int = 0 setget set_highscore

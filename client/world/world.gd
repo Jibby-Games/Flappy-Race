@@ -7,6 +7,7 @@ const INTERPOLATION_OFFSET = 100
 # World state vars
 var last_world_state := 0
 var world_state_buffer := []
+var local_player : Node2D
 
 # Spectate vars
 var is_spectating
@@ -15,6 +16,16 @@ var spectate_target: Node
 
 func _ready() -> void:
 	Network.Client.send_client_ready()
+
+
+func _process(_delta: float) -> void:
+	# Update the player's progress in the UI
+	for player_id in player_list:
+		var player_entry = player_list[player_id]
+		if not player_entry.spectate and player_entry.body != null and is_instance_valid(player_entry.body):
+			var player_progress: float = 0.0
+			player_progress = player_entry.body.position.x / finish_line_x_pos
+			$UI.RaceProgress.set_progress(player_id, player_progress)
 
 
 func _physics_process(_delta: float) -> void:
@@ -84,9 +95,10 @@ func update_world_state(world_state: Dictionary) -> void:
 
 func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary) -> void:
 	.start_game(game_seed, new_game_options, new_player_list)
-	reset_camera()
+	$UI.set_player_list(new_player_list)
 	$UI.update_lives(game_options.lives)
 	$UI.start_countdown()
+	reset_camera()
 
 
 func _on_UI_countdown_finished() -> void:
@@ -108,6 +120,7 @@ func reset_camera() -> void:
 		spectate_leader()
 	else:
 		$UI.set_spectating(false)
+		$UI.RaceProgress.set_active_player(client_id)
 		var player = player_list[client_id].body
 		$MainCamera.set_target(player)
 
@@ -134,6 +147,7 @@ func despawn_player(player_id: int) -> void:
 	if not has_node(str(player_id)):
 		# Player already despawned
 		return
+	$UI.RaceProgress.remove_player(player_id)
 	.despawn_player(player_id)
 	# If this is the local player update the camera and UI
 	if player_id == multiplayer.get_network_unique_id():
@@ -158,6 +172,8 @@ func set_spectate_target(target: Node2D) -> void:
 	assert(result == OK)
 	spectate_target = target
 	$MainCamera.set_target(target)
+	# Target name should be the player ID
+	$UI.RaceProgress.set_active_player(int(target.name))
 	$UI.set_spectate_player_name(target.player_name)
 
 
