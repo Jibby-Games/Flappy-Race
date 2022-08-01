@@ -15,7 +15,6 @@
 
 [node name="World" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
-Wall = ExtResource( 9 )
 Player = ExtResource( 8 )
 FinishLine = ExtResource( 5 )
 Confetti = ExtResource( 4 )
@@ -41,7 +40,10 @@ bus = "Sounds"
 
 [node name="CloudBackground" parent="." index="5" instance=ExtResource( 11 )]
 
-[node name="ConfettiParticles" parent="." index="6" instance=ExtResource( 4 )]
+[node name="WallSpawner" parent="." index="6"]
+Wall = ExtResource( 9 )
+
+[node name="ConfettiParticles" parent="." index="7" instance=ExtResource( 4 )]
 
 [connection signal="countdown_finished" from="UI" to="." method="_on_UI_countdown_finished"]
 [connection signal="request_restart" from="UI" to="." method="_on_UI_request_restart"]
