@@ -8,7 +8,7 @@ export(PackedScene) var swatch_template
 
 # These colours are only used for generating a preview in the editor.
 # Actual colours are defined in the Client Player scene.
-export(PoolColorArray) var preview_player_colours = [
+export(PoolColorArray) var preview_player_colours: PoolColorArray = [
 	"#d62411",
 	"#7f0622",
 	"#ff8426",
