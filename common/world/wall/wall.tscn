@@ -5,7 +5,7 @@
 [ext_resource path="res://common/world/checkpoint.tscn" type="PackedScene" id=3]
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 26, 632 )
+extents = Vector2( 32, 640 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 16, 1280 )
