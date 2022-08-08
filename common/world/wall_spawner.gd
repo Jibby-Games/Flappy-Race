@@ -32,11 +32,6 @@ func get_finish_line_x_position(goal: int) -> int:
 	return finish_line_x_pos
 
 
-func get_last_spawn_position(current_position: float) -> float:
-	# Minus 64 to account for the wall's size, add 0.25 so just ahead of the last wall
-	return (floor(((current_position - 64 - starting_wall_pos) / wall_spacing)) + 0.25) * wall_spacing + starting_wall_pos
-
-
 func reset_walls() -> void:
 	for wall in spawned_walls:
 		spawned_walls.erase(wall)

@@ -30,7 +30,6 @@ func _on_PointArea_body_entered(body: Node) -> void:
 		players_already_scored.append(body.name)
 
 
-
 func spawn_coin() -> void:
 	var coin = Coin.instance()
 	coin.connect("tree_exiting", self, "_on_Coin_taken")

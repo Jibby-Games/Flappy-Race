@@ -108,15 +108,14 @@ func despawn_player(player_id: int) -> void:
 
 func knockback_player(player_id: int) -> void:
 	if player_list[player_id].spectate == false:
-		var player = player_list[player_id].body
-		# Calculate the last wall position plus 25% of the spacing
-		var last_x_position = wall_spawner.get_last_spawn_position(player.position.x)
-		Logger.print(self, "Knocking player %d back to %s" % [player_id, last_x_position])
-		player.set_position(Vector2(last_x_position, 0))
+		var player = player_list[player_id].body as CommonPlayer
+		player.knockback()
 
 
 func spawn_wall() -> void:
 	wall_spawner.spawn_wall()
+
+
 #### Player helper functions
 func _on_Player_death(player: CommonPlayer) -> void:
 	player.set_enable_movement(false)
