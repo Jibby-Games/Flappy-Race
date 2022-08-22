@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=2]
+
+[sub_resource type="Gradient" id=1]
+interpolation_mode = 2
+offsets = PoolRealArray( 0, 0.248466, 0.509202, 0.757669, 1 )
+colors = PoolColorArray( 1, 0, 0, 1, 1, 1, 0.482353, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 0.653254 ), 0.0, 2.64431, 0, 0, Vector2( 1, 0.763277 ), -0.799146, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+lifetime_randomness = 0.3
+emission_shape = 2
+emission_box_extents = Vector3( 0, 720, 1 )
+flag_disable_z = true
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.3
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 200.0
+angle = 90.0
+angle_random = 1.0
+scale = 8.0
+scale_random = 0.5
+scale_curve = SubResource( 4 )
+color_initial_ramp = SubResource( 2 )
+
+[node name="ConfettiParticles" type="Particles2D"]
+emitting = false
+amount = 800
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.8
+randomness = 0.2
+process_material = SubResource( 5 )
