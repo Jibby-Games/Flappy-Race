@@ -4,6 +4,9 @@ extends CommonWorld
 const INTERPOLATION_OFFSET = 100
 
 
+export(PackedScene) var Confetti
+
+
 # World state vars
 var last_world_state := 0
 var world_state_buffer := []
@@ -111,6 +114,14 @@ func _on_UI_countdown_finished() -> void:
 		player.enable_control()
 	$MusicPlayer.play_random_track()
 	$MainCamera.add_trauma(0.8)
+	spawn_confetti(Vector2.ZERO)
+
+
+func spawn_confetti(pos: Vector2) -> void:
+	var confetti: Particles2D = Confetti.instance()
+	confetti.set_position(pos)
+	confetti.set_emitting(true)
+	add_child(confetti)
 
 
 func reset_camera() -> void:
@@ -226,6 +237,9 @@ func _on_UI_request_restart() -> void:
 
 
 func player_finished(player_id: int, place: int, time: float) -> void:
+	# Spawn confetti whenever a player finishes
+	spawn_confetti(Vector2(finish_line_x_pos, 0))
+
 	# Only show the finished screen if this client finished
 	if player_id == multiplayer.get_network_unique_id():
 		$UI.show_finished(place, time)

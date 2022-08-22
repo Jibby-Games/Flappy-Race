@@ -6,7 +6,7 @@ const FLAP = 350
 
 export(PackedScene) var PlayerController
 # Colour palette by PineappleOnPizza: https://lospec.com/palette-list/bubblegum-16
-export(PoolColorArray) var colour_options = [
+export(PoolColorArray) var colour_options: PoolColorArray = [
 	"#d62411",
 	"#7f0622",
 	"#ff8426",
@@ -24,11 +24,13 @@ export(PoolColorArray) var colour_options = [
 	"#fafdff",
 	"#16171a",
 ]
+export(PackedScene) var ImpactParticles
 
 var is_controlled
 var player_state
 var enable_death_animation: bool = true
 var player_name: String
+var body_colour: Color
 
 
 func _ready() -> void:
@@ -83,7 +85,8 @@ func disable_control() -> void:
 
 
 func set_body_colour(value: int) -> void:
-	$Sprites/Body.modulate = colour_options[value]
+	body_colour = colour_options[value]
+	$Sprites/Body.modulate = body_colour
 
 
 func set_player_name(value: String) -> void:
@@ -103,6 +106,11 @@ func on_death() -> void:
 		return
 	$DeathSound.play()
 	$AnimationPlayer.play("DeathCooldown")
+	var particles: Particles2D = ImpactParticles.instance()
+	particles.set_modulate(body_colour)
+	particles.set_global_position(get_global_position())
+	particles.set_emitting(true)
+	$"..".add_child(particles)
 
 
 func despawn() -> void:

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://client/materials/particle_explosion.tres" type="Material" id=1]
+[ext_resource path="res://client/effects/one_shot_particles.gd" type="Script" id=2]
+
+[node name="ImpactParticles" type="Particles2D"]
+emitting = false
+amount = 50
+one_shot = true
+explosiveness = 1.0
+randomness = 0.4
+local_coords = false
+process_material = ExtResource( 1 )
+script = ExtResource( 2 )
