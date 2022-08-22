@@ -20,6 +20,8 @@ Types of changes:
 ### Added
 - Spectator controls so you can control the camera
 - Race progress bar so you can see where all players are in the race
+- Players now emit coloured particles when they die
+- Confetti for the start and end of the race
 
 ### Fixed
 - Improved the leaderboard alignment
