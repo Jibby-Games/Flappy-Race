@@ -11,6 +11,8 @@ export(PackedScene) var Confetti
 var last_world_state := 0
 var world_state_buffer := []
 var local_player : Node2D
+# Used for the race progress bar
+var finish_line_x_pos : int
 
 # Spectate vars
 var is_spectating
@@ -100,8 +102,13 @@ func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: D
 	.start_game(game_seed, new_game_options, new_player_list)
 	$UI.set_player_list(new_player_list)
 	$UI.update_lives(game_options.lives)
-	$UI.start_countdown()
+
+
+func _on_LevelGenerator_level_ready() -> void:
+	._on_LevelGenerator_level_ready()
+	finish_line_x_pos = level_generator.finish_line.position.x
 	reset_camera()
+	$UI.start_countdown()
 
 
 func _on_UI_countdown_finished() -> void:

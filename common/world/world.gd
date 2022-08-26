@@ -5,7 +5,6 @@ class_name CommonWorld
 
 
 export(PackedScene) var Player
-export(PackedScene) var FinishLine
 
 
 const STARTING_JUMP := 500
@@ -13,7 +12,6 @@ const STARTING_JUMP := 500
 
 var game_rng := RandomNumberGenerator.new()
 var game_options := {} setget set_game_options
-var finish_line_x_pos : int
 
 # Dictionary of all players in the current game
 # Includes player preferences and a reference to the player body if playing
@@ -21,10 +19,9 @@ var player_list := {}
 # Array of all spawned player bodies
 var spawned_players := []
 
-onready var wall_spawner = $WallSpawner as WallSpawner
+onready var level_generator = $LevelGenerator as LevelGenerator
 
 func _ready() -> void:
-	wall_spawner.set_game_rng(game_rng)
 	Logger.print(self, "World ready!")
 
 
@@ -52,10 +49,18 @@ func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: D
 	set_game_seed(game_seed)
 	set_game_options(new_game_options)
 	self.player_list = new_player_list
-	finish_line_x_pos = wall_spawner.get_finish_line_x_position(game_options.goal)
-	spawn_finish_line(finish_line_x_pos)
-	wall_spawner.reset_walls()
+	# Minus 1 to account for the finish line
+	level_generator.generate(game_rng, game_options.goal - 1)
+
+
+func _on_LevelGenerator_level_ready() -> void:
+	var result: int = level_generator.finish_line.connect("finish", self, "_on_Player_finish")
+	assert(result == OK)
 	reset_players()
+
+
+func spawn_obstacle() -> void:
+	level_generator.spawn_obstacle()
 
 
 func reset_players() -> void:
@@ -73,13 +78,6 @@ func reset_players() -> void:
 		var player_body := spawn_player(player_id, Vector2.ZERO)
 		player_entry["body"] = player_body
 		spawned_players.append(player_body)
-
-
-func spawn_finish_line(x_position: int) -> void:
-	var finish_line = FinishLine.instance()
-	finish_line.position = Vector2(x_position, 0)
-	finish_line.connect("finish", self, "_on_Player_finish")
-	add_child(finish_line)
 
 
 func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
@@ -110,10 +108,6 @@ func knockback_player(player_id: int) -> void:
 	if player_list[player_id].spectate == false:
 		var player = player_list[player_id].body as CommonPlayer
 		player.knockback()
-
-
-func spawn_wall() -> void:
-	wall_spawner.spawn_wall()
 
 
 #### Player helper functions

@@ -51,6 +51,10 @@ func setup_and_start_game() -> void:
 
 func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary) -> void:
 	.start_game(game_seed, new_game_options, new_player_list)
+
+
+func _on_LevelGenerator_level_ready() -> void:
+	._on_LevelGenerator_level_ready()
 	# Countdown
 	yield(get_tree().create_timer(3), "timeout")
 	time_running = true
@@ -112,8 +116,8 @@ func _on_Player_score_changed(player: CommonPlayer) -> void:
 	if player.score > highest_score:
 		# Make the walls spawn as players progress
 		highest_score = player.score
-		spawn_wall()
-		Network.Server.send_spawn_wall()
+		spawn_obstacle()
+		Network.Server.send_spawn_obstacle()
 
 
 func _on_Player_finish(player: CommonPlayer) -> void:

@@ -22,12 +22,17 @@ _global_script_classes=[ {
 "base": "StaticBody2D",
 "class": "CommonWall",
 "language": "GDScript",
-"path": "res://common/world/wall/wall.gd"
+"path": "res://common/world/obstacles/wall/wall.gd"
 }, {
 "base": "Node2D",
 "class": "CommonWorld",
 "language": "GDScript",
 "path": "res://common/world/world.gd"
+}, {
+"base": "Node",
+"class": "LevelGenerator",
+"language": "GDScript",
+"path": "res://common/world/level_generator.gd"
 }, {
 "base": "Node",
 "class": "Logger",
@@ -38,6 +43,11 @@ _global_script_classes=[ {
 "class": "MenuControl",
 "language": "GDScript",
 "path": "res://client/menu/menu_control.gd"
+}, {
+"base": "Node2D",
+"class": "Obstacle",
+"language": "GDScript",
+"path": "res://common/world/obstacles/obstacle.gd"
 }, {
 "base": "Node",
 "class": "SceneHandler",
@@ -53,23 +63,19 @@ _global_script_classes=[ {
 "class": "UpnpHandler",
 "language": "GDScript",
 "path": "res://server/upnp_handler.gd"
-}, {
-"base": "Node",
-"class": "WallSpawner",
-"language": "GDScript",
-"path": "res://common/world/wall_spawner.gd"
 } ]
 _global_script_class_icons={
 "ClientNetwork": "",
 "CommonPlayer": "",
 "CommonWall": "",
 "CommonWorld": "",
+"LevelGenerator": "",
 "Logger": "",
 "MenuControl": "",
+"Obstacle": "",
 "SceneHandler": "",
 "ServerNetwork": "",
-"UpnpHandler": "",
-"WallSpawner": ""
+"UpnpHandler": ""
 }
 
 [application]

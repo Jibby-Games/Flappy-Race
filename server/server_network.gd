@@ -336,8 +336,8 @@ func send_world_state(world_state: Dictionary) -> void:
 	rpc_unreliable("receive_world_state", world_state)
 
 
-func send_spawn_wall() -> void:
-	rpc("receive_spawn_wall")
+func send_spawn_obstacle() -> void:
+	rpc("receive_spawn_obstacle")
 
 
 func send_player_finished_race(player_id: int, place: int, time: float) -> void:
