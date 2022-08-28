@@ -4,9 +4,7 @@ extends Obstacle
 export(PackedScene) var Coin
 
 
-# Half the height of one of the walls
-var half_wall_height = 640
-var height_range := 100
+var height_range := 200
 var gap_range_min := 130
 var gap_range_max := 250
 var spawn_coin_chance := 0.5
@@ -30,7 +28,7 @@ func calculate_length() -> int:
 
 
 func set_gap(size: float) -> void:
-	var rect_collider_pos = half_wall_height + (size / 2)
+	var rect_collider_pos = $Wall/UpperCollider.shape.extents.y + (size / 2)
 	$Wall/LowerCollider.position.y = rect_collider_pos
 	$Wall/UpperCollider.position.y = -rect_collider_pos
 
