@@ -102,12 +102,12 @@ func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: D
 	.start_game(game_seed, new_game_options, new_player_list)
 	$UI.set_player_list(new_player_list)
 	$UI.update_lives(game_options.lives)
+	reset_camera()
 
 
 func _on_LevelGenerator_level_ready() -> void:
 	._on_LevelGenerator_level_ready()
 	finish_line_x_pos = level_generator.finish_line.position.x
-	reset_camera()
 	$UI.start_countdown()
 
 
