@@ -1,7 +1,7 @@
 extends Obstacle
 
 
-export(PackedScene) var Coin
+export(PackedScene) var CoinSpawner
 
 
 var height_range := 200
@@ -18,7 +18,8 @@ func do_generate(game_rng) -> void:
 	$Wall.position.y = height
 	set_gap(gap)
 	if should_spawn_coin:
-		spawn_coin()
+		var spawner = CoinSpawner.instance()
+		$Wall.add_child(spawner)
 	# So spawn point lines up with wall gap
 	$"%Checkpoint".position.y = height
 
@@ -31,17 +32,3 @@ func set_gap(size: float) -> void:
 	var rect_collider_pos = $Wall/UpperCollider.shape.extents.y + (size / 2)
 	$Wall/LowerCollider.position.y = rect_collider_pos
 	$Wall/UpperCollider.position.y = -rect_collider_pos
-
-
-func spawn_coin() -> void:
-	var coin = Coin.instance()
-	coin.connect("tree_exiting", self, "_on_Coin_taken")
-	$Wall.add_child(coin)
-
-
-func _on_Coin_taken() -> void:
-	$CoinRespawnTimer.start()
-
-
-func _on_CoinRespawnTimer_timeout() -> void:
-	spawn_coin()

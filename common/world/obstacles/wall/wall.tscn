@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://common/world/obstacles/wall/wall.gd" type="Script" id=1]
-[ext_resource path="res://common/world/coin/coin.tscn" type="PackedScene" id=2]
+[ext_resource path="res://common/world/coin_spawner/coin_spawner.tscn" type="PackedScene" id=2]
 [ext_resource path="res://common/world/obstacles/obstacle.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=3]
@@ -9,16 +9,12 @@ extents = Vector2( 32, 640 )
 
 [node name="Wall" instance=ExtResource( 4 )]
 script = ExtResource( 1 )
-Coin = ExtResource( 2 )
+CoinSpawner = ExtResource( 2 )
 
 [node name="Checkpoint" parent="." index="1"]
 position = Vector2( 100, 0 )
 
-[node name="CoinRespawnTimer" type="Timer" parent="." index="2"]
-process_mode = 0
-one_shot = true
-
-[node name="Wall" type="StaticBody2D" parent="." index="3"]
+[node name="Wall" type="StaticBody2D" parent="." index="2"]
 collision_layer = 2
 
 [node name="UpperCollider" type="CollisionShape2D" parent="Wall" index="0"]
@@ -28,5 +24,3 @@ shape = SubResource( 3 )
 [node name="LowerCollider" type="CollisionShape2D" parent="Wall" index="1"]
 position = Vector2( 0, 800 )
 shape = SubResource( 3 )
-
-[connection signal="timeout" from="CoinRespawnTimer" to="." method="_on_CoinRespawnTimer_timeout"]

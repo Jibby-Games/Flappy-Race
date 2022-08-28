@@ -2,10 +2,10 @@
 
 [ext_resource path="res://common/world/obstacles/wall/wall.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/world/obstacles/wall/wall.png" type="Texture" id=2]
-[ext_resource path="res://client/world/coin/coin.tscn" type="PackedScene" id=4]
+[ext_resource path="res://client/world/coin_spawner/coin_spawner.tscn" type="PackedScene" id=4]
 
 [node name="Wall" instance=ExtResource( 1 )]
-Coin = ExtResource( 4 )
+CoinSpawner = ExtResource( 4 )
 
 [node name="UpperColliderUpperSprite" type="Sprite" parent="Wall/UpperCollider" index="0"]
 texture = ExtResource( 2 )
