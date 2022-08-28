@@ -21,5 +21,3 @@ position = Vector2( 928, 0 )
 
 [node name="Checkpoint" parent="." index="1"]
 position = Vector2( 928, 0 )
-
-[node name="Blocks" type="Node2D" parent="." index="2"]

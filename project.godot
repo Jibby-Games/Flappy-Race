@@ -19,11 +19,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://common/world/player/player.gd"
 }, {
-"base": "StaticBody2D",
-"class": "CommonWall",
-"language": "GDScript",
-"path": "res://common/world/obstacles/wall/wall.gd"
-}, {
 "base": "Node2D",
 "class": "CommonWorld",
 "language": "GDScript",
@@ -67,7 +62,6 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "ClientNetwork": "",
 "CommonPlayer": "",
-"CommonWall": "",
 "CommonWorld": "",
 "LevelGenerator": "",
 "Logger": "",

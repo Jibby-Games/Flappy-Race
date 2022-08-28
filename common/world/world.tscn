@@ -1,16 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://common/world/world.gd" type="Script" id=1]
 [ext_resource path="res://common/world/level_generator.tscn" type="PackedScene" id=2]
 [ext_resource path="res://common/world/player/player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://common/world/obstacles/wall/wall_holder.tscn" type="PackedScene" id=5]
-[ext_resource path="res://common/world/obstacles/block_field/block_field.tscn" type="PackedScene" id=6]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 1 )
 Player = ExtResource( 3 )
 
 [node name="LevelGenerator" parent="." instance=ExtResource( 2 )]
-Obstacles = [ ExtResource( 5 ), ExtResource( 6 ) ]
 
 [connection signal="level_ready" from="LevelGenerator" to="." method="_on_LevelGenerator_level_ready"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://common/world/level_generator.gd" type="Script" id=1]
-[ext_resource path="res://common/world/obstacles/wall/wall_holder.tscn" type="PackedScene" id=2]
+[ext_resource path="res://common/world/obstacles/wall/wall.tscn" type="PackedScene" id=2]
 [ext_resource path="res://common/world/obstacles/block_field/block_field.tscn" type="PackedScene" id=3]
 [ext_resource path="res://client/world/finish_line/finish_line.tscn" type="PackedScene" id=4]
 
