@@ -8,6 +8,8 @@ var height_range := 200
 var gap_range_min := 130
 var gap_range_max := 250
 var spawn_coin_chance := 0.5
+# Needed so there's no impossible walls
+var extra_spacing := 150
 
 
 func do_generate(game_rng) -> void:
@@ -25,7 +27,7 @@ func do_generate(game_rng) -> void:
 
 
 func calculate_length() -> int:
-	return $"%Checkpoint".position.x
+	return $"%Checkpoint".position.x + extra_spacing
 
 
 func set_gap(size: float) -> void:
