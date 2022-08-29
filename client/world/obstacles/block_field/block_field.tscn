@@ -7,4 +7,3 @@
 [node name="BlockField" instance=ExtResource( 1 )]
 Block = ExtResource( 2 )
 CoinSpawner = ExtResource( 3 )
-max_coins = 3

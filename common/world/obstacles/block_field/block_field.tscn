@@ -12,14 +12,15 @@ __meta__ = {
 }
 Block = ExtResource( 3 )
 CoinSpawner = ExtResource( 4 )
-block_density = 0.075
-field_length = 800
-field_height = 1280
-generate_blocks = false
+block_density = 0.07
+field_length = 900
+field_height = 1016
 checkpoint_distance = 128
+max_coins = 3
+generate_blocks = false
 
 [node name="PointArea" parent="." index="0"]
-position = Vector2( 928, 0 )
+position = Vector2( 1028, 0 )
 
 [node name="Checkpoint" parent="." index="1"]
-position = Vector2( 928, 0 )
+position = Vector2( 1028, 0 )

@@ -6,12 +6,13 @@ const BLOCK_SIZE := 64
 
 export(PackedScene) var Block
 export(PackedScene) var CoinSpawner
-export(float) var block_density := 0.075 setget set_block_density
-export(int) var field_length := 800 setget set_field_length
-export(int) var field_height := 1280 setget set_field_height
-export(bool) var generate_blocks := false setget _do_generate_blocks
+export(float) var block_density := 0.07 setget set_block_density
+export(int) var field_length := 900 setget set_field_length
+export(int) var field_height := 1016 setget set_field_height
 export(int) var checkpoint_distance := 128 setget set_checkpoint_distance
 export(int) var max_coins := 3 setget set_max_coins
+# This is just to regenerate the editor preview
+export(bool) var generate_blocks := false setget _do_generate_blocks
 
 
 var blocks := []
