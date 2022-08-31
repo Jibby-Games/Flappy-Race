@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://common/world/world.gd" type="Script" id=1]
 [ext_resource path="res://common/world/level_generator.tscn" type="PackedScene" id=2]
 [ext_resource path="res://common/world/player/player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://common/world/chunk_tracker.tscn" type="PackedScene" id=4]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 1 )
@@ -10,4 +11,8 @@ Player = ExtResource( 3 )
 
 [node name="LevelGenerator" parent="." instance=ExtResource( 2 )]
 
+[node name="ChunkTracker" parent="." instance=ExtResource( 4 )]
+
 [connection signal="level_ready" from="LevelGenerator" to="." method="_on_LevelGenerator_level_ready"]
+[connection signal="load_chunk" from="ChunkTracker" to="LevelGenerator" method="spawn_obstacle"]
+[connection signal="unload_chunk" from="ChunkTracker" to="LevelGenerator" method="despawn_obstacle"]

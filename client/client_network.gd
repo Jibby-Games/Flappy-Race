@@ -360,14 +360,6 @@ remote func receive_world_state(world_state: Dictionary) -> void:
 		world.update_world_state(world_state)
 
 
-remote func receive_spawn_obstacle() -> void:
-	if is_rpc_from_server() == false:
-		return
-	var world = get_node_or_null("World")
-	if world:
-		world.spawn_obstacle()
-
-
 remote func receive_player_finished_race(player_id: int, place: int, time: float) -> void:
 	if is_rpc_from_server() == false:
 		return

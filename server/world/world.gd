@@ -67,9 +67,16 @@ func reset_players() -> void:
 
 
 func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
+	# Server should track all players
+	chunk_tracker.add_player(player_id)
 	if game_options.lives > 0:
 		player_lives[player_id] = game_options.lives
 	return .spawn_player(player_id, spawn_position)
+
+
+func despawn_player(player_id: int) -> void:
+	.despawn_player(player_id)
+	chunk_tracker.remove_player(player_id)
 
 
 func _on_Player_death(player: CommonPlayer) -> void:
@@ -113,11 +120,6 @@ func _on_Player_score_changed(player: CommonPlayer) -> void:
 	._on_Player_score_changed(player)
 	var player_id = int(player.name)
 	player_list[player_id].score = player.score
-	if player.score > highest_score:
-		# Make the walls spawn as players progress
-		highest_score = player.score
-		spawn_obstacle()
-		Network.Server.send_spawn_obstacle()
 
 
 func _on_Player_finish(player: CommonPlayer) -> void:

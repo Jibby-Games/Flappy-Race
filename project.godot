@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "ChunkTracker",
+"language": "GDScript",
+"path": "res://common/world/chunk_tracker.gd"
+}, {
 "base": "SceneHandler",
 "class": "ClientNetwork",
 "language": "GDScript",
@@ -60,6 +65,7 @@ _global_script_classes=[ {
 "path": "res://server/upnp_handler.gd"
 } ]
 _global_script_class_icons={
+"ChunkTracker": "",
 "ClientNetwork": "",
 "CommonPlayer": "",
 "CommonWorld": "",

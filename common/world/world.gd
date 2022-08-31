@@ -20,6 +20,8 @@ var player_list := {}
 var spawned_players := []
 
 onready var level_generator = $LevelGenerator as LevelGenerator
+onready var chunk_tracker = $ChunkTracker as ChunkTracker
+
 
 func _ready() -> void:
 	Logger.print(self, "World ready!")
@@ -49,18 +51,14 @@ func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: D
 	set_game_seed(game_seed)
 	set_game_options(new_game_options)
 	self.player_list = new_player_list
-	# Minus 1 to account for the finish line
-	level_generator.generate(game_rng, game_options.goal - 1)
+	chunk_tracker.chunk_limit = game_options.goal
+	level_generator.generate(game_rng, game_options.goal)
 
 
 func _on_LevelGenerator_level_ready() -> void:
 	var result: int = level_generator.finish_line.connect("finish", self, "_on_Player_finish")
 	assert(result == OK)
 	reset_players()
-
-
-func spawn_obstacle() -> void:
-	level_generator.spawn_obstacle()
 
 
 func reset_players() -> void:
@@ -120,6 +118,7 @@ func _on_Player_death(player: CommonPlayer) -> void:
 func _on_Player_score_changed(player: CommonPlayer) -> void:
 	var player_id = int(player.name)
 	Logger.print(self, "Player %s scored a point!" % [player_id])
+	chunk_tracker.increment_player_chunk(player_id)
 
 
 func _on_Player_finish(player: CommonPlayer) -> void:

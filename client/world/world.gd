@@ -152,6 +152,8 @@ func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 	if player_id == multiplayer.get_network_unique_id():
 		# Only connect for the local player
 		player.connect("coins_changed", self, "_on_Player_coins_changed")
+		# Clients should only track themselves
+		chunk_tracker.add_player(player_id)
 	if Network.Client.is_singleplayer:
 		# Player list isn't populated in singleplayer
 		player.set_body_colour(Globals.player_colour)
@@ -169,6 +171,7 @@ func despawn_player(player_id: int) -> void:
 	.despawn_player(player_id)
 	# If this is the local player update the camera and UI
 	if player_id == multiplayer.get_network_unique_id():
+		chunk_tracker.remove_player(player_id)
 		if spawned_players.size() > 0:
 			$MainCamera.add_trauma(0.8)
 			$UI.show_death()
@@ -191,8 +194,10 @@ func set_spectate_target(target: Node2D) -> void:
 	spectate_target = target
 	$MainCamera.set_target(target)
 	# Target name should be the player ID
-	$UI.RaceProgress.set_active_player(int(target.name))
+	var player_id = int(target.name)
+	$UI.RaceProgress.set_active_player(player_id)
 	$UI.set_spectate_player_name(target.player_name)
+	chunk_tracker.add_player(player_id, target.score)
 
 
 func spectate_leader() -> void:
