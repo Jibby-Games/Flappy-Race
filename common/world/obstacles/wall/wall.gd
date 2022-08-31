@@ -4,7 +4,7 @@ extends Obstacle
 export(PackedScene) var CoinSpawner
 
 
-var height_range := 200
+var height_range := 180
 var gap_range_min := 130
 var gap_range_max := 250
 var spawn_coin_chance := 0.5
