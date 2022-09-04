@@ -56,8 +56,6 @@ func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: D
 
 
 func _on_LevelGenerator_level_ready() -> void:
-	var result: int = level_generator.finish_line.connect("finish", self, "_on_Player_finish")
-	assert(result == OK)
 	reset_players()
 
 
@@ -84,6 +82,7 @@ func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 		var player = Player.instance()
 		player.connect("death", self, "_on_Player_death")
 		player.connect("score_changed", self, "_on_Player_score_changed")
+		player.connect("finish", self, "_on_Player_finish")
 		player.name = str(player_id)
 		player.position = spawn_position
 		player.enable_movement = false
