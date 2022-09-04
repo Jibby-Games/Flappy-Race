@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "ChunkTracker",
+"language": "GDScript",
+"path": "res://common/world/chunk_tracker.gd"
+}, {
 "base": "SceneHandler",
 "class": "ClientNetwork",
 "language": "GDScript",
@@ -19,15 +24,15 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://common/world/player/player.gd"
 }, {
-"base": "StaticBody2D",
-"class": "CommonWall",
-"language": "GDScript",
-"path": "res://common/world/wall/wall.gd"
-}, {
 "base": "Node2D",
 "class": "CommonWorld",
 "language": "GDScript",
 "path": "res://common/world/world.gd"
+}, {
+"base": "Node",
+"class": "LevelGenerator",
+"language": "GDScript",
+"path": "res://common/world/level_generator.gd"
 }, {
 "base": "Node",
 "class": "Logger",
@@ -38,6 +43,11 @@ _global_script_classes=[ {
 "class": "MenuControl",
 "language": "GDScript",
 "path": "res://client/menu/menu_control.gd"
+}, {
+"base": "Node2D",
+"class": "Obstacle",
+"language": "GDScript",
+"path": "res://common/world/obstacles/obstacle.gd"
 }, {
 "base": "Node",
 "class": "SceneHandler",
@@ -55,12 +65,14 @@ _global_script_classes=[ {
 "path": "res://server/upnp_handler.gd"
 } ]
 _global_script_class_icons={
+"ChunkTracker": "",
 "ClientNetwork": "",
 "CommonPlayer": "",
-"CommonWall": "",
 "CommonWorld": "",
+"LevelGenerator": "",
 "Logger": "",
 "MenuControl": "",
+"Obstacle": "",
 "SceneHandler": "",
 "ServerNetwork": "",
 "UpnpHandler": ""

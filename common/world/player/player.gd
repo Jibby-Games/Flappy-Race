@@ -15,11 +15,13 @@ const COINS_LOST_ON_DEATH := 3
 signal death(player)
 signal score_changed(player)
 signal coins_changed(player)
+signal finish(player)
 
 
 var in_death_cooldown: bool = false
 var score := 0
 var coins := 0
+var checkpoint_position := Vector2()
 
 # Movement vars
 var motion: Vector2 = Vector2()
@@ -111,3 +113,13 @@ func add_coin() -> void:
 	coins += 1
 	emit_signal("coins_changed", self)
 	Logger.print(self, "Player %s got a coin! Coins = %d" % [self.name, coins])
+
+
+func finish() -> void:
+	add_score()
+	emit_signal("finish", self)
+
+
+func knockback() -> void:
+	Logger.print(self, "Knocking player %s back to %s" % [name, checkpoint_position])
+	set_position(checkpoint_position)

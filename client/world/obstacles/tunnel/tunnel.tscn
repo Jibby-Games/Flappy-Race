@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://common/world/obstacles/tunnel/tunnel.tscn" type="PackedScene" id=1]
+[ext_resource path="res://client/world/obstacles/wall/wall.png" type="Texture" id=2]
+[ext_resource path="res://client/world/obstacles/tunnel/tunnel.gd" type="Script" id=3]
+[ext_resource path="res://client/world/coin_spawner/coin_spawner.tscn" type="PackedScene" id=4]
+
+[node name="Tunnel" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+CoinSpawner = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="Tunnel/Top" index="0"]
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 1280, 1600 )
+
+[node name="Sprite" type="Sprite" parent="Tunnel/Bottom" index="0"]
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 1280, 1600 )

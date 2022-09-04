@@ -4,35 +4,23 @@ extends Node2D
 class_name CommonWorld
 
 
-export(PackedScene) var Wall
 export(PackedScene) var Player
-export(PackedScene) var FinishLine
 
 
 const STARTING_JUMP := 500
 
 
-# Wall vars
-var height_range := 100
-var gap_range_min := 130
-var gap_range_max := 250
-var wall_spacing := 400
-var wall_spawn_range := 3000
-var starting_wall_pos := 1500
-var next_wall_pos := starting_wall_pos
-var spawn_coin_chance := 0.5
-
-
 var game_rng := RandomNumberGenerator.new()
 var game_options := {} setget set_game_options
-var finish_line_x_pos : int
 
 # Dictionary of all players in the current game
 # Includes player preferences and a reference to the player body if playing
 var player_list := {}
 # Array of all spawned player bodies
 var spawned_players := []
-var spawned_walls := []
+
+onready var level_generator = $LevelGenerator as LevelGenerator
+onready var chunk_tracker = $ChunkTracker as ChunkTracker
 
 
 func _ready() -> void:
@@ -63,9 +51,11 @@ func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: D
 	set_game_seed(game_seed)
 	set_game_options(new_game_options)
 	self.player_list = new_player_list
-	finish_line_x_pos = ((game_options.goal - 1) * wall_spacing) + starting_wall_pos
-	spawn_finish_line(finish_line_x_pos)
-	reset_walls()
+	chunk_tracker.chunk_limit = game_options.goal
+	level_generator.generate(game_rng, game_options.goal)
+
+
+func _on_LevelGenerator_level_ready() -> void:
 	reset_players()
 
 
@@ -86,19 +76,14 @@ func reset_players() -> void:
 		spawned_players.append(player_body)
 
 
-func spawn_finish_line(x_position: int) -> void:
-	var finish_line = FinishLine.instance()
-	finish_line.position = Vector2(x_position, 0)
-	finish_line.connect("finish", self, "_on_Player_finish")
-	add_child(finish_line)
-
-
 func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 	if not has_node(str(player_id)):
+		chunk_tracker.add_player(player_id)
 		Logger.print(self, "Spawning player %d" % [player_id])
 		var player = Player.instance()
 		player.connect("death", self, "_on_Player_death")
 		player.connect("score_changed", self, "_on_Player_score_changed")
+		player.connect("finish", self, "_on_Player_finish")
 		player.name = str(player_id)
 		player.position = spawn_position
 		player.enable_movement = false
@@ -113,53 +98,15 @@ func despawn_player(player_id: int) -> void:
 	if player:
 		spawned_players.erase(player)
 		player.despawn()
-		if spawned_players.size() == 0:
+		if spawned_players.empty():
+			# Everyone is dead/finished
 			end_race()
 
 
 func knockback_player(player_id: int) -> void:
 	if player_list[player_id].spectate == false:
-		var player = player_list[player_id].body
-		# Calculate the last wall position plus 25% of the spacing
-		var last_x_position = get_last_spawn_position(player.position.x)
-		Logger.print(self, "Knocking player %d back to %s" % [player_id, last_x_position])
-		player.set_position(Vector2(last_x_position, 0))
-
-
-func get_last_spawn_position(current_position: float) -> float:
-	# Minus 64 to account for the wall's size, add 0.25 so just ahead of the last wall
-	return (floor(((current_position - 64 - starting_wall_pos) / wall_spacing)) + 0.25) * wall_spacing + starting_wall_pos
-
-
-#### Wall functions
-func reset_walls() -> void:
-	# Delete all existing walls
-	for wall in spawned_walls:
-		spawned_walls.erase(wall)
-		wall.queue_free()
-	var walls_to_spawn = round(wall_spawn_range / float(wall_spacing))
-	for i in walls_to_spawn:
-		spawn_wall()
-
-
-func spawn_wall() -> void:
-	if next_wall_pos >= finish_line_x_pos:
-		# Don't spawn walls after the finish line
-		return
-	var inst = Wall.instance()
-	inst.set_name("Wall" + str(next_wall_pos))
-	# Use the game RNG to keep the levels deterministic
-	var height := game_rng.randf_range(-height_range, height_range)
-	var gap := game_rng.randf_range(gap_range_min, gap_range_max)
-	var should_spawn_coin : bool = game_rng.randf() < spawn_coin_chance
-	Logger.print(self, "Spawning wall - pos: %s height: %s - gap: %s" % [next_wall_pos, height, gap])
-	inst.position = Vector2(next_wall_pos, height)
-	inst.gap = gap
-	if should_spawn_coin:
-		inst.spawn_coin()
-	next_wall_pos += wall_spacing
-	call_deferred("add_child", inst)
-	spawned_walls.append(inst)
+		var player = player_list[player_id].body as CommonPlayer
+		player.knockback()
 
 
 #### Player helper functions
@@ -172,6 +119,7 @@ func _on_Player_death(player: CommonPlayer) -> void:
 func _on_Player_score_changed(player: CommonPlayer) -> void:
 	var player_id = int(player.name)
 	Logger.print(self, "Player %s scored a point!" % [player_id])
+	chunk_tracker.increment_player_chunk(player_id)
 
 
 func _on_Player_finish(player: CommonPlayer) -> void:

@@ -1,10 +1,8 @@
 extends CommonWorld
 
 
-var highest_score := 0
 var player_ready: Dictionary
 var next_place := 1
-var players
 var player_lives := {}
 var players_died := []
 var players_finished := []
@@ -51,6 +49,10 @@ func setup_and_start_game() -> void:
 
 func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary) -> void:
 	.start_game(game_seed, new_game_options, new_player_list)
+
+
+func _on_LevelGenerator_level_ready() -> void:
+	._on_LevelGenerator_level_ready()
 	# Countdown
 	yield(get_tree().create_timer(3), "timeout")
 	time_running = true
@@ -66,6 +68,11 @@ func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 	if game_options.lives > 0:
 		player_lives[player_id] = game_options.lives
 	return .spawn_player(player_id, spawn_position)
+
+
+func despawn_player(player_id: int) -> void:
+	.despawn_player(player_id)
+	chunk_tracker.remove_player(player_id)
 
 
 func _on_Player_death(player: CommonPlayer) -> void:
@@ -109,11 +116,6 @@ func _on_Player_score_changed(player: CommonPlayer) -> void:
 	._on_Player_score_changed(player)
 	var player_id = int(player.name)
 	player_list[player_id].score = player.score
-	if player.score > highest_score:
-		# Make the walls spawn as players progress
-		highest_score = player.score
-		spawn_wall()
-		Network.Server.send_spawn_wall()
 
 
 func _on_Player_finish(player: CommonPlayer) -> void:

@@ -40,5 +40,6 @@ func set_active_player(new_player_id: int) -> void:
 
 func set_progress(player_id: int, player_progress: float) -> void:
 	if players.has(player_id):
-		# Maximum position minus a bit so the marker doesn't go past the end
-		players[player_id].rect_position.x = (MarkerArea.rect_size.x * min(player_progress, 1.0)) - (players[player_id].rect_size.x / 2)
+		# Minus the marker size so it doesn't go past the end
+		var max_pos = MarkerArea.rect_size.x - players[player_id].rect_size.x
+		players[player_id].rect_position.x = min(MarkerArea.rect_size.x * player_progress, max_pos)

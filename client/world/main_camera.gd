@@ -16,6 +16,9 @@ var trauma_power := 2  # Trauma exponent. Use [2, 3].
 
 var speed := 5.0
 var _target : Node2D setget set_target
+# The offset relative to the viewport size, 0.0 = centred
+var offset_ratio = 0.333
+var camera_x_offset = 640
 
 
 func _ready() -> void:
@@ -25,6 +28,8 @@ func _ready() -> void:
 	noise.octaves = 2
 	if initial_target:
 		_target = get_node(initial_target)
+	camera_x_offset = get_viewport_rect().size.x * offset_ratio
+	offset.x = camera_x_offset
 
 
 func add_trauma(amount: float) -> void:
@@ -47,7 +52,7 @@ func shake() -> void:
 	var amount = pow(trauma, trauma_power)
 	noise_y += 1
 	rotation = max_roll * amount * noise.get_noise_2d(noise.seed, noise_y)
-	offset.x = max_offset.x * amount * noise.get_noise_2d(noise.seed*2, noise_y)
+	offset.x = camera_x_offset + max_offset.x * amount * noise.get_noise_2d(noise.seed*2, noise_y)
 	offset.y = max_offset.y * amount * noise.get_noise_2d(noise.seed*3, noise_y)
 
 

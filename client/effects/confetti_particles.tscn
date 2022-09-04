@@ -5,7 +5,7 @@
 
 [sub_resource type="CanvasItemMaterial" id=8]
 particles_animation = true
-particles_anim_h_frames = 3
+particles_anim_h_frames = 4
 particles_anim_v_frames = 1
 particles_anim_loop = true
 
@@ -64,8 +64,6 @@ lifetime = 2.5
 one_shot = true
 explosiveness = 0.6
 randomness = 0.4
-fixed_fps = 60
-visibility_rect = Rect2( 0, -1744.07, 1865.83, 3531.65 )
 process_material = SubResource( 5 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )

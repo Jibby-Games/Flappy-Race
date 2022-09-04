@@ -20,8 +20,18 @@ Types of changes:
 ### Added
 - Spectator controls so you can control the camera
 - Race progress bar so you can see where all players are in the race
-- Players now emit coloured particles when they die
-- Confetti for the start and end of the race
+- Particles:
+  - Players now emit coloured particles when they die
+  - Confetti for the start and end of the race
+  - Particles when a coin is taken
+- Improved level generation and chunking
+- More obstacles:
+  - Block fields
+  - Coin circles
+  - Tunnels
+
+### Changed
+- The camera is now offset a bit so you can see obstacles ahead better
 
 ### Fixed
 - Improved the leaderboard alignment

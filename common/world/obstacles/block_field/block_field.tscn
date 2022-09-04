@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://common/world/obstacles/obstacle.tscn" type="PackedScene" id=1]
+[ext_resource path="res://common/world/obstacles/block_field/block_field.gd" type="Script" id=2]
+[ext_resource path="res://common/world/obstacles/block_field/block.tscn" type="PackedScene" id=3]
+[ext_resource path="res://common/world/coin_spawner/coin_spawner.tscn" type="PackedScene" id=4]
+
+[node name="BlockField" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+__meta__ = {
+"_editor_description_": ""
+}
+Block = ExtResource( 3 )
+CoinSpawner = ExtResource( 4 )
+block_density = 0.05
+field_length = 900
+field_height = 1016
+checkpoint_distance = 128
+max_coins = 3
+generate_blocks = false
+
+[node name="PointArea" parent="." index="0"]
+position = Vector2( 1028, 0 )
+
+[node name="Checkpoint" parent="." index="1"]
+position = Vector2( 1028, 0 )
