@@ -12,5 +12,4 @@ ImpactParticles = ExtResource( 3 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Coin" index="1"]
 frames = ExtResource( 2 )
 animation = "spin"
-frame = 2
 playing = true
