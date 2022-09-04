@@ -12,7 +12,7 @@ __meta__ = {
 }
 Block = ExtResource( 3 )
 CoinSpawner = ExtResource( 4 )
-block_density = 0.07
+block_density = 0.05
 field_length = 900
 field_height = 1016
 checkpoint_distance = 128

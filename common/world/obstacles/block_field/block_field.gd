@@ -6,7 +6,7 @@ const BLOCK_SIZE := 64
 
 export(PackedScene) var Block
 export(PackedScene) var CoinSpawner
-export(float) var block_density := 0.07 setget set_block_density
+export(float) var block_density := 0.05 setget set_block_density
 export(int) var field_length := 900 setget set_field_length
 export(int) var field_height := 1016 setget set_field_height
 export(int) var checkpoint_distance := 128 setget set_checkpoint_distance
