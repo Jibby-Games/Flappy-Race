@@ -81,8 +81,9 @@ func unload_chunk(chunk: int) -> void:
 		# Another player is still in range of this chunk
 		return
 	Logger.print(self, "Unloaded chunk %s" % chunk)
-	var result = loaded_chunks.erase(chunk)
-	assert(result)
+	if loaded_chunks.has(chunk):
+		var result = loaded_chunks.erase(chunk)
+		assert(result)
 	emit_signal("unload_chunk", chunk)
 
 
