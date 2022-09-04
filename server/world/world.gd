@@ -1,10 +1,8 @@
 extends CommonWorld
 
 
-var highest_score := 0
 var player_ready: Dictionary
 var next_place := 1
-var players
 var player_lives := {}
 var players_died := []
 var players_finished := []
@@ -67,8 +65,6 @@ func reset_players() -> void:
 
 
 func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
-	# Server should track all players
-	chunk_tracker.add_player(player_id)
 	if game_options.lives > 0:
 		player_lives[player_id] = game_options.lives
 	return .spawn_player(player_id, spawn_position)

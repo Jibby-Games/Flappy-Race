@@ -78,6 +78,7 @@ func reset_players() -> void:
 
 func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 	if not has_node(str(player_id)):
+		chunk_tracker.add_player(player_id)
 		Logger.print(self, "Spawning player %d" % [player_id])
 		var player = Player.instance()
 		player.connect("death", self, "_on_Player_death")
@@ -97,7 +98,8 @@ func despawn_player(player_id: int) -> void:
 	if player:
 		spawned_players.erase(player)
 		player.despawn()
-		if spawned_players.size() == 0:
+		if spawned_players.empty():
+			# Everyone is dead/finished
 			end_race()
 
 

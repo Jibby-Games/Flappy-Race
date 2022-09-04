@@ -10,13 +10,12 @@ export(PackedScene) var Confetti
 # World state vars
 var last_world_state := 0
 var world_state_buffer := []
-var local_player : Node2D
 # Used for the race progress bar
 var finish_line_x_pos : int
 
 # Spectate vars
-var is_spectating
 var spectate_target: Node
+var camera_target_id := -1
 
 
 func _ready() -> void:
@@ -134,13 +133,20 @@ func spawn_confetti(pos: Vector2) -> void:
 func reset_camera() -> void:
 	var client_id = multiplayer.get_network_unique_id()
 	if player_list[client_id].spectate:
-		is_spectating = true
 		spectate_leader()
 	else:
 		$UI.set_spectating(false)
-		$UI.RaceProgress.set_active_player(client_id)
-		var player = player_list[client_id].body
-		$MainCamera.set_target(player)
+		set_camera_target(client_id)
+
+
+func set_camera_target(player_id: int) -> void:
+	if camera_target_id == player_id:
+		push_error("This player is already the camera target!")
+		return
+	camera_target_id = player_id
+	var player = player_list[player_id].body
+	$UI.RaceProgress.set_active_player(player_id)
+	$MainCamera.set_target(player)
 
 
 func reset_game() -> void:
@@ -149,11 +155,8 @@ func reset_game() -> void:
 
 func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 	var player = .spawn_player(player_id, spawn_position)
-	if player_id == multiplayer.get_network_unique_id():
-		# Only connect for the local player
-		player.connect("coins_changed", self, "_on_Player_coins_changed")
-		# Clients should only track themselves
-		chunk_tracker.add_player(player_id)
+	# Only needed on the client
+	player.connect("coins_changed", self, "_on_Player_coins_changed")
 	if Network.Client.is_singleplayer:
 		# Player list isn't populated in singleplayer
 		player.set_body_colour(Globals.player_colour)
@@ -169,15 +172,20 @@ func despawn_player(player_id: int) -> void:
 		return
 	$UI.RaceProgress.remove_player(player_id)
 	.despawn_player(player_id)
-	# If this is the local player update the camera and UI
-	if player_id == multiplayer.get_network_unique_id():
-		chunk_tracker.remove_player(player_id)
-		if spawned_players.size() > 0:
-			$MainCamera.add_trauma(0.8)
+	if player_id == camera_target_id:
+		$MainCamera.add_trauma(0.8)
+		if spawned_players.empty():
+			# Race should be finished so stop here
+			return
+
+		# Only show the death UI if this client was controlling the player
+		if player_id == multiplayer.get_network_unique_id():
 			$UI.show_death()
-			# Delay to see death animation
-			yield(get_tree().create_timer(4), "timeout")
-			spectate_leader()
+
+		# Delay to see death animation
+		yield(get_tree().create_timer(4), "timeout")
+		chunk_tracker.remove_player(player_id)
+		spectate_leader()
 
 
 func set_spectate_target(target: Node2D) -> void:
@@ -192,12 +200,10 @@ func set_spectate_target(target: Node2D) -> void:
 	var result := target.connect("tree_exited", self, "spectate_leader")
 	assert(result == OK)
 	spectate_target = target
-	$MainCamera.set_target(target)
 	# Target name should be the player ID
-	var player_id = int(target.name)
-	$UI.RaceProgress.set_active_player(player_id)
+	var new_player_id = int(target.name)
+	set_camera_target(new_player_id)
 	$UI.set_spectate_player_name(target.player_name)
-	chunk_tracker.add_player(player_id, target.score)
 
 
 func spectate_leader() -> void:
@@ -218,7 +224,8 @@ func get_lead_player() -> Node2D:
 
 
 func _on_Player_death(player: CommonPlayer) -> void:
-	if int(player.name) == multiplayer.get_network_unique_id():
+	# Only update for the camera target
+	if int(player.name) == camera_target_id:
 		._on_Player_death(player)
 
 
@@ -232,16 +239,17 @@ func knockback_player(player_id: int) -> void:
 
 
 func _on_Player_score_changed(player: CommonPlayer) -> void:
-	# Only update the UI for the local player
-	if int(player.name) == multiplayer.get_network_unique_id():
+	._on_Player_score_changed(player)
+	# Only update for the camera target
+	if int(player.name) == camera_target_id:
 		$UI.update_score(player.score)
-		._on_Player_score_changed(player)
 
 
 func _on_Player_coins_changed(player: CommonPlayer) -> void:
-	# Should only be connected for the local player
-	$UI.update_coins(player.coins)
-	$MainCamera.add_trauma(0.4)
+	# Only update for the camera target
+	if int(player.name) == camera_target_id:
+		$UI.update_coins(player.coins)
+		$MainCamera.add_trauma(0.4)
 
 
 func _on_UI_request_restart() -> void:
@@ -252,15 +260,15 @@ func player_finished(player_id: int, place: int, time: float) -> void:
 	# Spawn confetti whenever a player finishes
 	spawn_confetti(Vector2(finish_line_x_pos, 0))
 
-	# Only show the finished screen if this client finished
+	if player_id == camera_target_id:
+		$MainCamera.add_trauma(0.8)
+
+	# Only show the finished screen if this client was controlling the player
 	if player_id == multiplayer.get_network_unique_id():
 		$UI.show_finished(place, time)
 		$MusicPlayer.stop()
 		$FinishMusic.play()
 		$FinishChime.play()
-		$MainCamera.add_trauma(0.8)
-		if spawned_players.size() > 0:
-			spectate_leader()
 
 
 func _on_UI_spectate_change(forward_not_back) -> void:
