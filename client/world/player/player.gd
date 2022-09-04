@@ -106,11 +106,7 @@ func on_death() -> void:
 		return
 	$DeathSound.play()
 	$AnimationPlayer.play("DeathCooldown")
-	var particles: Particles2D = ImpactParticles.instance()
-	particles.set_modulate(body_colour)
-	particles.set_global_position(get_global_position())
-	particles.set_emitting(true)
-	$"..".add_child(particles)
+	spawn_particles()
 
 
 func despawn() -> void:
@@ -118,9 +114,18 @@ func despawn() -> void:
 	$Sprites.hide()
 	$DespawnSprite.show()
 	$DespawnSprite.playing = true
+	spawn_particles()
 	# Delay freeing so the sound can finish playing
 	yield(get_tree().create_timer(1), "timeout")
 	queue_free()
+
+
+func spawn_particles() -> void:
+	var particles: Particles2D = ImpactParticles.instance()
+	particles.set_modulate(body_colour)
+	particles.set_global_position(get_global_position())
+	particles.set_emitting(true)
+	$"..".add_child(particles)
 
 
 func add_coin() -> void:
