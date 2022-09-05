@@ -17,33 +17,39 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.4.0] - 2022-09-05
+
 ### Added
-- Spectator controls so you can control the camera
-- Race progress bar so you can see where all players are in the race
-- Particles:
-  - Players now emit coloured particles when they die
-  - Confetti for the start and end of the race
-  - Particles when a coin is taken
-- Improved level generation and chunking
-- More obstacles:
-  - Block fields
-  - Coin circles
-  - Tunnels
-- The controls are now shown at the start of the race to help new players
-  - Will automatically detect controllers and switch icons as needed
+
+-   Spectator controls so you can control the camera
+-   Race progress bar so you can see where all players are in the race
+-   Particles:
+    -   Players now emit coloured particles when they die
+    -   Confetti for the start and end of the race
+    -   Particles when a coin is taken
+-   Improved level generation and chunking
+-   More obstacles:
+    -   Block fields
+    -   Coin circles
+    -   Tunnels
+-   The controls are now shown at the start of the race to help new players
+    -   Will automatically detect controllers and switch icons as needed
 
 ### Changed
-- The camera is now offset a bit so you can see obstacles ahead better
+
+-   The camera is now offset a bit so you can see obstacles ahead better
 
 ### Fixed
-- Improved the leaderboard alignment
+
+-   Improved the leaderboard alignment
 
 ## [0.3.1] - 2022-03-12
 
 ### Fixed
-- Stopped walls giving multiple points
-- Made crossing the finish line give a point again
-- Fixed menus breaking when using the back button
+
+-   Stopped walls giving multiple points
+-   Made crossing the finish line give a point again
+-   Fixed menus breaking when using the back button
 
 ## [0.3.0] - 2022-03-11
 
@@ -61,7 +67,7 @@ Types of changes:
     -   Reset all options
 -   Settings are now saved and loaded from a file
 -   Command line options for starting the game or server:
-    -   \--join \<ip:port> - join a game at an ip address and optional port
+    -   \--join \\&lt;ip:port> - join a game at an ip address and optional port
     -   \--host - host a game as a client
     -   \--server - start a headless server
     -   \--port - specify port for server/host
@@ -172,7 +178,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.3.1...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.4.0...HEAD
+
+[0.4.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.3.1...0.4.0
 
 [0.3.1]: https://github.com/Jibby-Games/Flappy-Race/compare/0.3.0...0.3.1
 
