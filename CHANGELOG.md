@@ -19,6 +19,8 @@ Types of changes:
 
 ## [0.4.0] - 2022-09-05
 
+## [0.4.0] - 2022-09-05
+
 ### Added
 
 -   Spectator controls so you can control the camera
@@ -179,6 +181,8 @@ First proper release! :D
 -   Spectator mode and death camera
 
 [Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.4.0...HEAD
+
+[0.4.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.4.0...0.4.0
 
 [0.4.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.3.1...0.4.0
 
