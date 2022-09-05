@@ -22,6 +22,9 @@ signal request_restart
 signal spectate_change(forward_not_back)
 
 
+var is_spectating := false
+
+
 func _ready() -> void:
 	# Hide all UI elements by default
 	for child in get_children():
@@ -38,6 +41,7 @@ func set_player_list(player_list: Dictionary) -> void:
 
 
 func set_spectating(value: bool) -> void:
+	is_spectating = value
 	$Ingame/Player.visible = not value
 	$Ingame/Spectator.visible = value
 
@@ -51,6 +55,8 @@ func _countdown_finished() -> void:
 	emit_signal("countdown_finished")
 	$Ingame/Stopwatch.start()
 	$Ingame.show()
+	if not is_spectating:
+		$Ingame/InputControls.start_checking_for_input()
 
 
 func update_lives(new_lives: int) -> void:
@@ -77,6 +83,7 @@ func _on_RestartButton_pressed() -> void:
 func show_death() -> void:
 	$Ingame/Player.hide()
 	$Death.show()
+	$Ingame/InputControls.stop_checking_for_input()
 	$Death/AnimationPlayer.play("show")
 
 
@@ -85,6 +92,7 @@ func show_finished(place: int, time: float) -> void:
 	$Finished/PlaceLabel.text = int2ordinal(place)
 	$Finished/FinishTime.set_time(time)
 	$Finished.show()
+	$Ingame/InputControls.stop_checking_for_input()
 	$Finished/AnimationPlayer.play("Finished")
 
 
