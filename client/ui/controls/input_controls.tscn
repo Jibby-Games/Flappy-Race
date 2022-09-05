@@ -25,7 +25,7 @@ resource_name = "Icon Pulse"
 length = 1.4
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("CenterContainer/HBoxContainer/MouseIcon:rect_scale")
+tracks/0/path = NodePath("CenterContainer/HBoxContainer/LeftIcon:rect_scale")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -37,7 +37,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.2, 0.95 ), Vector2( 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("CenterContainer/HBoxContainer/SpacebarIcon:rect_scale")
+tracks/1/path = NodePath("CenterContainer/HBoxContainer/RightIcon:rect_scale")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -48,11 +48,23 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 1.2, 0.95 ), Vector2( 1, 1 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("CenterContainer:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="Animation" id=13]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("CenterContainer/HBoxContainer/MouseIcon:rect_scale")
+tracks/0/path = NodePath("CenterContainer/HBoxContainer/LeftIcon:rect_scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -64,7 +76,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("CenterContainer/HBoxContainer/SpacebarIcon:rect_scale")
+tracks/1/path = NodePath("CenterContainer/HBoxContainer/RightIcon:rect_scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -111,7 +123,7 @@ margin_right = 381.0
 margin_bottom = 130.0
 custom_constants/separation = 15
 
-[node name="MouseIcon" type="TextureRect" parent="CenterContainer/HBoxContainer"]
+[node name="LeftIcon" type="TextureRect" parent="CenterContainer/HBoxContainer"]
 margin_right = 100.0
 margin_bottom = 100.0
 grow_horizontal = 2
@@ -119,7 +131,7 @@ grow_vertical = 2
 rect_pivot_offset = Vector2( 50, 50 )
 texture = ExtResource( 2 )
 
-[node name="Label" type="Label" parent="CenterContainer/HBoxContainer"]
+[node name="OrLabel" type="Label" parent="CenterContainer/HBoxContainer"]
 margin_left = 115.0
 margin_top = 32.0
 margin_right = 147.0
@@ -127,7 +139,7 @@ margin_bottom = 67.0
 custom_fonts/font = ExtResource( 4 )
 text = "or"
 
-[node name="SpacebarIcon" type="TextureRect" parent="CenterContainer/HBoxContainer"]
+[node name="RightIcon" type="TextureRect" parent="CenterContainer/HBoxContainer"]
 margin_left = 162.0
 margin_right = 262.0
 margin_bottom = 100.0
