@@ -29,6 +29,8 @@ Types of changes:
   - Block fields
   - Coin circles
   - Tunnels
+- The controls are now shown at the start of the race to help new players
+  - Will automatically detect controllers and switch icons as needed
 
 ### Changed
 - The camera is now offset a bit so you can see obstacles ahead better
