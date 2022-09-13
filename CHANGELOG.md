@@ -16,6 +16,8 @@ Types of changes:
 -->
 
 ## [Unreleased]
+### Added
+- Give the birds a rotation effect
 
 ## [0.4.0] - 2022-09-05
 

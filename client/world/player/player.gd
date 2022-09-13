@@ -38,6 +38,8 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
+	# Make the sprite face the direction it's going
+	$Sprites.rotation = motion.angle()
 	if is_controlled:
 		update_player_state()
 
