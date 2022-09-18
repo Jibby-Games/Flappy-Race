@@ -25,6 +25,8 @@ export(PoolColorArray) var colour_options: PoolColorArray = [
 	"#16171a",
 ]
 export(PackedScene) var ImpactParticles
+export(PackedScene) var FlapParticles
+
 
 var is_controlled
 var player_state
@@ -53,6 +55,7 @@ func do_flap() -> void:
 	if enable_movement:
 		motion.y = -FLAP
 		play_flap_sound()
+		spawn_flap_particles()
 
 
 func play_flap_sound() -> void:
@@ -109,7 +112,7 @@ func on_death() -> void:
 		return
 	$DeathSound.play()
 	$AnimationPlayer.play("DeathCooldown")
-	spawn_particles()
+	spawn_impact_particles()
 
 
 func despawn() -> void:
@@ -118,18 +121,23 @@ func despawn() -> void:
 	$Trail.hide()
 	$DespawnSprite.show()
 	$DespawnSprite.playing = true
-	spawn_particles()
+	spawn_impact_particles()
 	# Delay freeing so the sound can finish playing
 	yield(get_tree().create_timer(1), "timeout")
 	queue_free()
 
 
-func spawn_particles() -> void:
+func spawn_impact_particles() -> void:
 	var particles: Particles2D = ImpactParticles.instance()
 	particles.set_modulate(body_colour)
-	particles.set_global_position(get_global_position())
 	particles.set_emitting(true)
-	$"..".add_child(particles)
+	add_child(particles)
+
+
+func spawn_flap_particles() -> void:
+	var particles: Particles2D = FlapParticles.instance()
+	particles.set_emitting(true)
+	add_child(particles)
 
 
 func add_coin() -> void:
