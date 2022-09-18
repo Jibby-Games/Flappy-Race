@@ -89,6 +89,7 @@ func disable_control() -> void:
 func set_body_colour(value: int) -> void:
 	body_colour = colour_options[value]
 	$Sprites/Body.modulate = body_colour
+	$Trail.modulate = body_colour
 
 
 func set_player_name(value: String) -> void:
@@ -114,6 +115,7 @@ func on_death() -> void:
 func despawn() -> void:
 	$DeathSound.play()
 	$Sprites.hide()
+	$Trail.hide()
 	$DespawnSprite.show()
 	$DespawnSprite.playing = true
 	spawn_particles()
