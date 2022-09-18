@@ -5,8 +5,8 @@ var singleplayer_scene := "res://client/menu/setup/singleplayer/singleplayer_set
 var multiplayer_scene := "res://client/menu/lobby/lobby.tscn"
 var options_scene := "res://client/menu/options/options.tscn"
 var title_player := preload("res://client/menu/title/title_player.tscn")
-# Aim for about 32 players
-var area_per_player := (1920 * 1080) / 32
+# Aim for about 16 players
+var area_per_player := (1920 * 1080) / 16
 var spawned_title_players := []
 
 
