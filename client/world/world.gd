@@ -30,6 +30,8 @@ func _process(_delta: float) -> void:
 			var player_progress: float = 0.0
 			player_progress = player_entry.body.position.x / finish_line_x_pos
 			$UI.RaceProgress.set_progress(player_id, player_progress)
+	# Make wind particles spawn ahead of the camera
+	$WindParticles.position.x = $MainCamera.position.x + get_viewport_rect().size.x
 
 
 func _physics_process(_delta: float) -> void:
