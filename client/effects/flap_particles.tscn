@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://client/effects/one_shot_particles.gd" type="Script" id=1]
+
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+
+[sub_resource type="ParticlesMaterial" id=1]
+emission_shape = 1
+emission_sphere_radius = 32.0
+flag_disable_z = true
+direction = Vector3( -1, 1, 0 )
+spread = 15.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 200.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = -200.0
+radial_accel = 100.0
+scale = 4.0
+scale_random = 0.5
+color_ramp = SubResource( 3 )
+
+[node name="FlapParticles" type="Particles2D"]
+emitting = false
+amount = 5
+lifetime = 0.3
+one_shot = true
+explosiveness = 0.8
+process_material = SubResource( 1 )
+script = ExtResource( 1 )

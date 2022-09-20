@@ -25,6 +25,8 @@ export(PoolColorArray) var colour_options: PoolColorArray = [
 	"#16171a",
 ]
 export(PackedScene) var ImpactParticles
+export(PackedScene) var FlapParticles
+
 
 var is_controlled
 var player_state
@@ -34,10 +36,16 @@ var body_colour: Color
 
 
 func _ready() -> void:
-	$Sprites/AnimatedOutline.playing = true
+	$AnimationPlayer.set_assigned_animation("idle")
+	# Stops all idle animations being in sync
+	var start_time = rand_range(0, $AnimationPlayer.get_current_animation_length())
+	$AnimationPlayer.seek(start_time)
+	$AnimationPlayer.play()
 
 
 func _physics_process(_delta: float) -> void:
+	# Make the sprite face the direction it's going
+	$Sprites.rotation = motion.angle()
 	if is_controlled:
 		update_player_state()
 
@@ -51,6 +59,8 @@ func do_flap() -> void:
 	if enable_movement:
 		motion.y = -FLAP
 		play_flap_sound()
+		spawn_flap_particles()
+		$AnimationPlayer.play("flap")
 
 
 func play_flap_sound() -> void:
@@ -87,6 +97,7 @@ func disable_control() -> void:
 func set_body_colour(value: int) -> void:
 	body_colour = colour_options[value]
 	$Sprites/Body.modulate = body_colour
+	$Trail.modulate = body_colour
 
 
 func set_player_name(value: String) -> void:
@@ -105,27 +116,33 @@ func on_death() -> void:
 	if enable_death_animation == false:
 		return
 	$DeathSound.play()
-	$AnimationPlayer.play("DeathCooldown")
-	spawn_particles()
+	$AnimationPlayer.play("death_cooldown")
+	spawn_impact_particles()
 
 
 func despawn() -> void:
 	$DeathSound.play()
 	$Sprites.hide()
+	$Trail.hide()
 	$DespawnSprite.show()
 	$DespawnSprite.playing = true
-	spawn_particles()
+	spawn_impact_particles()
 	# Delay freeing so the sound can finish playing
 	yield(get_tree().create_timer(1), "timeout")
 	queue_free()
 
 
-func spawn_particles() -> void:
+func spawn_impact_particles() -> void:
 	var particles: Particles2D = ImpactParticles.instance()
 	particles.set_modulate(body_colour)
-	particles.set_global_position(get_global_position())
 	particles.set_emitting(true)
-	$"..".add_child(particles)
+	add_child(particles)
+
+
+func spawn_flap_particles() -> void:
+	var particles: Particles2D = FlapParticles.instance()
+	particles.set_emitting(true)
+	add_child(particles)
 
 
 func add_coin() -> void:

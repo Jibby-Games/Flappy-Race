@@ -16,6 +16,15 @@ Types of changes:
 -->
 
 ## [Unreleased]
+### Added
+- Give the birds a rotation effect
+- Player has a trail effect when going fast
+- Wind particle effect
+- Players emit particles when flapping
+- Players have new and improved animations!
+
+### Changed
+- Reduced title screen birds from 32 to 16
 
 ## [0.4.0] - 2022-09-05
 

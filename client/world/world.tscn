@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://client/ui/ui.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/world/world.tscn" type="PackedScene" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://client/world/main_camera.tscn" type="PackedScene" id=12]
 [ext_resource path="res://client/world/obstacles/coin_circle/coin_circle.tscn" type="PackedScene" id=13]
 [ext_resource path="res://client/world/obstacles/tunnel/tunnel.tscn" type="PackedScene" id=14]
+[ext_resource path="res://client/effects/wind_particles.tscn" type="PackedScene" id=15]
 
 [node name="World" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
@@ -43,6 +44,8 @@ bus = "Sounds"
 
 [node name="LevelGenerator" parent="." index="6"]
 Obstacles = [ ExtResource( 9 ), ExtResource( 5 ), ExtResource( 13 ), ExtResource( 14 ) ]
+
+[node name="WindParticles" parent="." index="8" instance=ExtResource( 15 )]
 
 [connection signal="countdown_finished" from="UI" to="." method="_on_UI_countdown_finished"]
 [connection signal="request_restart" from="UI" to="." method="_on_UI_request_restart"]

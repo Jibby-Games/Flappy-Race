@@ -1,11 +1,23 @@
 extends Node2D
 
 
+var threshold := 100
+var remove_when_off_screen := false
+
+
 func _ready() -> void:
 	# Stop death sounds and animations playing on the title screen
 	$Player.enable_death_animation = false
 	randomize()
-	reset()
+	randomise_spawn_position()
+	randomise_colour()
+
+
+func randomise_spawn_position() -> void:
+	# Reset position to the left side of the screen somewhere
+	var x_pos = rand_range(-threshold, -get_viewport_rect().size.x)
+	var y_pos = rand_range(0, get_viewport_rect().size.y)
+	$Player.position = Vector2(x_pos, y_pos)
 
 
 func _physics_process(_delta: float) -> void:
@@ -15,27 +27,23 @@ func _physics_process(_delta: float) -> void:
 		$Player.do_flap()
 
 	if is_right_of_screen():
-		reset()
+		if remove_when_off_screen:
+			self.queue_free()
+		else:
+			reset()
 
 
 func is_below_screen() -> bool:
-	return $Player.position.y > get_viewport().size.y
+	return $Player.position.y > get_viewport_rect().size.y
 
 
 func is_right_of_screen() -> bool:
-	return $Player.position.x > get_viewport().size.x
+	return $Player.position.x > get_viewport_rect().size.x + threshold
 
 
 func reset() -> void:
-	randomise_start_position()
-	randomise_colour()
-
-
-func randomise_start_position() -> void:
-	# Reset position to the left side of the screen somewhere
-	var x_pos = rand_range(-100, -2000)
-	var y_pos = rand_range(0, get_viewport().size.y)
-	$Player.position = Vector2(x_pos, y_pos)
+	# Make player loop back around
+	$Player.position.x = -threshold
 
 
 func randomise_colour() -> void:
