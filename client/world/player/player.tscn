@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://client/world/player/bird_eyes.png" type="Texture" id=1]
 [ext_resource path="res://client/world/player/bird_outline_1.png" type="Texture" id=2]
@@ -30,7 +30,7 @@ _data = [ Vector2( 0, 0.256757 ), 0.0, 0.743243, 0, 1, Vector2( 1, 1 ), 0.743243
 
 [sub_resource type="Gradient" id=7]
 interpolation_mode = 2
-colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 0.27451 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 0.337255 )
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -47,21 +47,6 @@ animations = [ {
 "name": "default",
 "speed": 8.0
 } ]
-
-[sub_resource type="Animation" id=2]
-resource_name = "DeathCooldown"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprites:modulate")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1 ),
-"transitions": PoolRealArray( -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
 
 [sub_resource type="Animation" id=3]
 length = 0.001
@@ -89,9 +74,107 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprites:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "death_cooldown"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1 ),
+"transitions": PoolRealArray( -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.12549 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.12549 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.12549 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.12549 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.12549 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1 ),
+"transitions": PoolRealArray( -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.8, 1.2 ), Vector2( 1, 1 ), Vector2( 1.2, 0.8 ), Vector2( 1, 1 ), Vector2( 0.8, 1.2 ), Vector2( 1, 1 ), Vector2( 1.2, 0.8 ), Vector2( 1, 1 ), Vector2( 0.8, 1.2 ), Vector2( 1, 1 ) ]
+}
 
 [sub_resource type="Animation" id=4]
 resource_name = "despawn"
+
+[sub_resource type="Animation" id=9]
+resource_name = "flap"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( -0.5, -0.5, -0.5, -0.5 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.15, 0.85 ), Vector2( 0.85, 1.15 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/AnimatedOutline:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 0, 1 ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "idle"
+length = 1.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.3, 0.8 ),
+"transitions": PoolRealArray( -0.5, -0.5 ),
+"update": 0,
+"values": [ Vector2( 1.05, 0.95 ), Vector2( 0.95, 1.05 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/AnimatedOutline:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 0, 1 ]
+}
 
 [node name="Player" instance=ExtResource( 9 )]
 script = ExtResource( 8 )
@@ -102,7 +185,8 @@ FlapParticles = ExtResource( 24 )
 
 [node name="Trail" type="Line2D" parent="." index="1"]
 show_behind_parent = true
-width = 60.0
+z_index = -1
+width = 56.0
 width_curve = SubResource( 8 )
 gradient = SubResource( 7 )
 joint_mode = 2
@@ -185,6 +269,8 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="14"]
-anims/DeathCooldown = SubResource( 2 )
 anims/RESET = SubResource( 3 )
+anims/death_cooldown = SubResource( 2 )
 anims/despawn = SubResource( 4 )
+anims/flap = SubResource( 9 )
+anims/idle = SubResource( 10 )

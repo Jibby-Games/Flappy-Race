@@ -21,6 +21,7 @@ Types of changes:
 - Player has a trail effect when going fast
 - Wind particle effect
 - Players emit particles when flapping
+- Players have new and improved animations!
 
 ### Changed
 - Reduced title screen birds from 32 to 16

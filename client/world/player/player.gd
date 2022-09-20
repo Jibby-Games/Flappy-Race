@@ -36,7 +36,11 @@ var body_colour: Color
 
 
 func _ready() -> void:
-	$Sprites/AnimatedOutline.playing = true
+	$AnimationPlayer.set_assigned_animation("idle")
+	# Stops all idle animations being in sync
+	var start_time = rand_range(0, $AnimationPlayer.get_current_animation_length())
+	$AnimationPlayer.seek(start_time)
+	$AnimationPlayer.play()
 
 
 func _physics_process(_delta: float) -> void:
@@ -56,6 +60,7 @@ func do_flap() -> void:
 		motion.y = -FLAP
 		play_flap_sound()
 		spawn_flap_particles()
+		$AnimationPlayer.play("flap")
 
 
 func play_flap_sound() -> void:
@@ -111,7 +116,7 @@ func on_death() -> void:
 	if enable_death_animation == false:
 		return
 	$DeathSound.play()
-	$AnimationPlayer.play("DeathCooldown")
+	$AnimationPlayer.play("death_cooldown")
 	spawn_impact_particles()
 
 
