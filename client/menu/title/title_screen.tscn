@@ -32,9 +32,6 @@ size_flags_horizontal = 5
 size_flags_vertical = 5
 texture = ExtResource( 2 )
 stretch_mode = 4
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Buttons" type="VBoxContainer" parent="Menu"]
 anchor_left = 0.5

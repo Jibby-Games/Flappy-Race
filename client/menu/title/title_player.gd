@@ -47,5 +47,5 @@ func reset() -> void:
 
 
 func randomise_colour() -> void:
-	var colour_choice = randi() % $Player.colour_options.size()
+	var colour_choice = randi() % Globals.COLOUR_OPTIONS.size()
 	$Player.set_body_colour(colour_choice)
