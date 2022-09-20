@@ -19,6 +19,9 @@ func _ready() -> void:
 
 
 func spawn_title_players() -> void:
+	if not is_inside_tree():
+		# Scene might not be fully loaded if using command line args to join
+		return
 	var total_players := get_viewport_rect().get_area() / area_per_player
 	Logger.print(self, "Viewport size changed - Need %d players" % total_players)
 	if total_players > spawned_title_players.size():
