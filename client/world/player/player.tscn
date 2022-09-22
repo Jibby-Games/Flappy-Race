@@ -185,6 +185,7 @@ FlapParticles = ExtResource( 24 )
 [node name="Trail" type="Line2D" parent="." index="1"]
 show_behind_parent = true
 z_index = -1
+z_as_relative = false
 width = 56.0
 width_curve = SubResource( 8 )
 gradient = SubResource( 7 )
