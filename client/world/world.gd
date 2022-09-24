@@ -16,10 +16,12 @@ var finish_line_x_pos : int
 # Spectate vars
 var spectate_target: Node
 var camera_target_id := -1
+var camera_starting_position := Vector2(-10000, 0)
 
 
 func _ready() -> void:
 	Network.Client.send_client_ready()
+	$MainCamera.position = camera_starting_position
 
 
 func _process(_delta: float) -> void:
@@ -110,6 +112,9 @@ func _on_LevelGenerator_level_ready() -> void:
 	._on_LevelGenerator_level_ready()
 	finish_line_x_pos = level_generator.finish_line.position.x
 	$UI.start_countdown()
+	# Make the camera swoop into the starting position
+	var tween = get_tree().create_tween()
+	tween.tween_property($MainCamera, "position", Vector2.ZERO, 3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 
 
 func _on_UI_countdown_finished() -> void:
