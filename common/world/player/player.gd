@@ -24,7 +24,7 @@ var coins := 0
 var checkpoint_position := Vector2()
 
 # Movement vars
-var motion: Vector2 = Vector2()
+var velocity: Vector2 = Vector2()
 var enable_movement: bool = true
 var has_gravity: bool = true
 
@@ -36,18 +36,18 @@ func _physics_process(_delta: float) -> void:
 
 func update_movement() -> void:
 	if not enable_movement:
-		motion.x = 0
-		motion.y = 0
-		motion = move_and_slide(motion, Vector2.UP)
+		velocity.x = 0
+		velocity.y = 0
+		velocity = move_and_slide(velocity, Vector2.UP)
 		return
 
 	if has_gravity:
-		motion.y += GRAVITY
-		if motion.y > MAXFALLSPEED:
-			motion.y = MAXFALLSPEED
+		velocity.y += GRAVITY
+		if velocity.y > MAXFALLSPEED:
+			velocity.y = MAXFALLSPEED
 
-	motion.x = BASE_SPEED + (coins * COIN_BOOST)
-	motion = move_and_slide(motion, Vector2.UP)
+	velocity.x = BASE_SPEED + (coins * COIN_BOOST)
+	velocity = move_and_slide(velocity, Vector2.UP)
 
 
 func check_position() -> void:

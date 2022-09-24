@@ -123,7 +123,7 @@ func _on_UI_countdown_finished() -> void:
 		var player = player_list[client_id].body
 		player.enable_movement = true
 		# Give the player a jump at the start
-		player.motion.y = -STARTING_JUMP
+		player.velocity.y = -STARTING_JUMP
 		player.enable_control()
 	$MusicPlayer.play_random_track()
 	$MainCamera.add_trauma(0.8)

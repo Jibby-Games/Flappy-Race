@@ -26,7 +26,7 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	# Make the sprite face the direction it's going
-	$Sprites.rotation = motion.angle()
+	$Sprites.rotation = velocity.angle()
 	if is_controlled:
 		update_player_state()
 
@@ -38,7 +38,7 @@ func update_player_state() -> void:
 
 func do_flap() -> void:
 	if enable_movement:
-		motion.y = -FLAP
+		velocity.y = -FLAP
 		play_flap_sound()
 		spawn_flap_particles()
 		$AnimationPlayer.play("flap")
