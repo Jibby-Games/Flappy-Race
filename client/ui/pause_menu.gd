@@ -3,6 +3,7 @@ extends PopupPanel
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause_menu"):
+		get_tree().set_input_as_handled()
 		if visible:
 			disable_pause_menu()
 		else:

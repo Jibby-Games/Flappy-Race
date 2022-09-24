@@ -4,7 +4,6 @@ extends CommonPlayer
 const FLAP = 350
 
 
-export(PackedScene) var PlayerController
 export(PackedScene) var ImpactParticles
 export(PackedScene) var FlapParticles
 
@@ -29,6 +28,11 @@ func _physics_process(_delta: float) -> void:
 	$Sprites.rotation = velocity.angle()
 	if is_controlled:
 		update_player_state()
+
+
+func _input(event: InputEvent) -> void:
+	if is_controlled and event.is_action_pressed("flap"):
+		do_flap()
 
 
 func update_player_state() -> void:
@@ -62,17 +66,11 @@ func play_flap_sound() -> void:
 func enable_control() -> void:
 	if not is_controlled:
 		is_controlled = true
-		var controller = PlayerController.instance()
-		controller.connect("flap", self, "do_flap")
-		add_child(controller)
 
 
 func disable_control() -> void:
 	if is_controlled:
 		is_controlled = false
-		var controller = $PlayerController
-		if controller:
-			controller.queue_free()
 
 
 func set_body_colour(value: int) -> void:
