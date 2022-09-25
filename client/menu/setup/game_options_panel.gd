@@ -2,7 +2,6 @@ extends Control
 
 
 onready var ScoreInput = $Panel/VBoxContainer/ScoreToWin/ScoreInput
-onready var MenuAnimation = $AnimationPlayer
 onready var LivesToggle = $Panel/VBoxContainer/PlayerLives/LivesToggle
 onready var LivesInput = $Panel/VBoxContainer/PlayerLives/LivesInput
 
@@ -29,13 +28,6 @@ func set_lives(new_lives: int) -> void:
 		LivesToggle.pressed = true
 		LivesInput.value = new_lives
 		LivesInput.show()
-
-
-func _on_GameOptionsToggle_toggled(button_pressed: bool) -> void:
-	if button_pressed:
-		MenuAnimation.play("OpenPanel")
-	else:
-		MenuAnimation.play_backwards("OpenPanel")
 
 
 func _on_ScoreInput_value_changed(new_goal: float) -> void:

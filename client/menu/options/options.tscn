@@ -15,9 +15,6 @@ margin_top = 10.0
 margin_right = -10.0
 margin_bottom = -10.0
 script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 master_slider_path = NodePath("CenterContainer/GridContainer/Volume/MasterVolume/MasterSlider")
 master_percent_path = NodePath("CenterContainer/GridContainer/Volume/MasterVolume/Percent")
 music_slider_path = NodePath("CenterContainer/GridContainer/Volume/MusicVolume/MusicSlider")
