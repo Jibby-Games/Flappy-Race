@@ -17,8 +17,9 @@ var trauma_power := 2  # Trauma exponent. Use [2, 3].
 var speed := 5.0
 var _target : Node2D setget set_target
 # The offset relative to the viewport size, 0.0 = centred
-var offset_ratio = 0.333
-var camera_x_offset = 640
+var offset_ratio := 0.333
+var camera_x_offset := 640
+var velocity := Vector2.ZERO
 
 
 func _ready() -> void:
@@ -28,7 +29,7 @@ func _ready() -> void:
 	noise.octaves = 2
 	if initial_target:
 		_target = get_node(initial_target)
-	camera_x_offset = get_viewport_rect().size.x * offset_ratio
+	camera_x_offset = int(get_viewport_rect().size.x * offset_ratio)
 	offset.x = camera_x_offset
 
 
@@ -40,6 +41,8 @@ func add_trauma(amount: float) -> void:
 func _physics_process(delta: float) -> void:
 	if _target and is_instance_valid(_target):
 		global_position = lerp(global_position, _target.global_position, delta*speed)
+	else:
+		global_position += velocity
 
 
 func _process(delta: float) -> void:

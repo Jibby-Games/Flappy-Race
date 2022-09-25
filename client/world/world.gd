@@ -22,6 +22,7 @@ var camera_starting_position := Vector2(-10000, 0)
 func _ready() -> void:
 	Network.Client.send_client_ready()
 	$MainCamera.position = camera_starting_position
+	$MainCamera.velocity = Vector2.ZERO
 
 
 func _process(_delta: float) -> void:
@@ -290,3 +291,10 @@ func _on_UI_spectate_change(forward_not_back) -> void:
 	else:
 		new_target_index = (current_target_index - 1) % spawned_players.size()
 	set_spectate_target(spawned_players[new_target_index])
+
+
+func end_race() -> void:
+	.end_race()
+	# Make the camera swoop past the finish line
+	var tween = get_tree().create_tween()
+	tween.tween_property($MainCamera, "velocity", Vector2(100, 0), 3).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
