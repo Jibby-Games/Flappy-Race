@@ -245,12 +245,8 @@ func _on_Player_death(player: CommonPlayer) -> void:
 
 
 func knockback_player(player_id: int) -> void:
-	var player = player_list[player_id].body
-	player.set_enable_movement(false)
 	$MainCamera.add_trauma(0.8)
 	.knockback_player(player_id)
-	yield(get_tree().create_timer(1), "timeout")
-	player.set_enable_movement(true)
 
 
 func _on_Player_score_changed(player: CommonPlayer) -> void:

@@ -10,7 +10,7 @@ export(PackedScene) var FlapParticles
 
 var is_controlled
 var player_state
-var enable_death_animation: bool = true
+var enable_death: bool = true
 var player_name: String
 var body_colour: Color
 var flap_queue: Array
@@ -95,14 +95,14 @@ func set_player_name(value: String) -> void:
 
 
 func death() -> void:
+	if enable_death == false:
+		return
 	if coins > 0:
 		$CoinLost.play()
 	.death()
 
 
 func on_death() -> void:
-	if enable_death_animation == false:
-		return
 	$DeathSound.play()
 	$AnimationPlayer.play("death_cooldown")
 	spawn_impact_particles()

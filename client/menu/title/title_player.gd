@@ -7,7 +7,7 @@ var remove_when_off_screen := false
 
 func _ready() -> void:
 	# Stop death sounds and animations playing on the title screen
-	$Player.enable_death_animation = false
+	$Player.enable_death = false
 	randomize()
 	randomise_spawn_position()
 	randomise_colour()

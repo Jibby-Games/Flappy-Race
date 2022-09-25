@@ -72,6 +72,7 @@ func death() -> void:
 	if in_death_cooldown:
 		return
 	in_death_cooldown = true
+	enable_movement = false
 	emit_signal("death", self)
 	$DeathCooldownTimer.start(DEATH_COOLDOWN_TIME)
 	if coins > 0:
@@ -94,6 +95,7 @@ func despawn() -> void:
 
 func _on_DeathCooldownTimer_timeout() -> void:
 	in_death_cooldown = false
+	enable_movement = true
 
 
 func set_enable_movement(_new_value: bool) -> void:
@@ -123,4 +125,4 @@ func finish() -> void:
 
 func knockback() -> void:
 	Logger.print(self, "Knocking player %s back to %s" % [name, checkpoint_position])
-	set_position(checkpoint_position)
+	set_global_position(checkpoint_position)
