@@ -13,6 +13,7 @@ var player_state
 var enable_death_animation: bool = true
 var player_name: String
 var body_colour: Color
+var flap_queue: Array
 
 
 func _ready() -> void:
@@ -24,19 +25,27 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	# Make the sprite face the direction it's going
-	$Sprites.rotation = velocity.angle()
 	if is_controlled:
 		update_player_state()
+	elif not flap_queue.empty():
+		for flap_time in flap_queue:
+			# Ensure animation plays at correct time on client
+			if flap_time <= Network.Client.client_clock:
+				do_flap()
+				flap_queue.erase(flap_time)
+	# Make the sprite face the direction it's going
+	$Sprites.rotation = velocity.angle()
+
 
 
 func _input(event: InputEvent) -> void:
 	if is_controlled and event.is_action_pressed("flap"):
+		Network.Client.send_player_flap()
 		do_flap()
 
 
 func update_player_state() -> void:
-	player_state = {"T": Network.Client.client_clock, "P": get_global_position()}
+	player_state = {"T": Network.Client.client_clock, "P": get_global_position(), "V": velocity}
 	Network.Client.send_player_state(player_state)
 
 

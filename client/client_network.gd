@@ -296,6 +296,19 @@ func send_client_ready() -> void:
 	rpc_id(SERVER_ID, "receive_client_ready")
 
 
+func send_player_flap() -> void:
+	rpc_id(SERVER_ID, "receive_player_flap", client_clock)
+
+
+remote func receive_player_flap(player_id: int, flap_time: int) -> void:
+	if player_id == multiplayer.get_network_unique_id():
+		# This is the same player who sent it so don't flap again
+		return
+	Logger.print(self, "Received flap for player %d @ time = %d" % [player_id, flap_time])
+	var player = $World.get_node(str(player_id))
+	player.flap_queue.append(flap_time)
+
+
 remote func receive_player_lost_life(lives_left: int) -> void:
 	if is_rpc_from_server() == false:
 		return

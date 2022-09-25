@@ -322,6 +322,15 @@ func send_game_started(game_seed: int) -> void:
 	rpc("receive_game_started", game_seed, game_options, player_list)
 
 
+remote func receive_player_flap(client_clock: int) -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	if not $World.has_node(str(player_id)):
+		push_error("Flap received for player %s - but can't find player in world")
+		return
+	Logger.print(self, "Received flap for player %d" % player_id)
+	rpc_id(0, "receive_player_flap", player_id, client_clock)
+
+
 remote func receive_player_state(player_state: Dictionary) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	if player_state_collection.has(player_id):

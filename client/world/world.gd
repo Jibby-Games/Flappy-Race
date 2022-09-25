@@ -70,7 +70,12 @@ func interpolate_world_state(render_time: int) -> void:
 				world_state_buffer[2][player]["P"],
 				interpolation_factor
 			)
-			get_node(str(player)).move_player(new_position)
+			var new_velocity = lerp(
+				world_state_buffer[1][player]["V"],
+				world_state_buffer[2][player]["V"],
+				interpolation_factor
+			)
+			get_node(str(player)).move_player(new_position, new_velocity)
 		# TODO this should only spawn players if they are present in a future
 		# world state but sometimes they still seem to arrive after death
 		# else:
@@ -92,7 +97,9 @@ func extrapolate_world_state(render_time: int) -> void:
 		if has_node(str(player)):
 			var position_delta = (world_state_buffer[1][player]["P"] - world_state_buffer[0][player]["P"])
 			var new_position = world_state_buffer[1][player]["P"] + (position_delta * extrapolation_factor)
-			get_node(str(player)).move_player(new_position)
+			var velocity_delta = (world_state_buffer[1][player]["V"] - world_state_buffer[0][player]["V"])
+			var new_velocity = world_state_buffer[1][player]["V"] + (velocity_delta * extrapolation_factor)
+			get_node(str(player)).move_player(new_position, new_velocity)
 
 
 func update_world_state(world_state: Dictionary) -> void:
@@ -119,9 +126,10 @@ func _on_LevelGenerator_level_ready() -> void:
 
 func _on_UI_countdown_finished() -> void:
 	var client_id = multiplayer.get_network_unique_id()
+	for player in spawned_players:
+		player.set_enable_movement(true)
 	if player_list[client_id].spectate == false:
 		var player = player_list[client_id].body
-		player.enable_movement = true
 		# Give the player a jump at the start
 		player.velocity.y = -STARTING_JUMP
 		player.enable_control()

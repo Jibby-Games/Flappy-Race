@@ -100,8 +100,9 @@ func set_enable_movement(_new_value: bool) -> void:
 	enable_movement = _new_value
 
 
-func move_player(new_position: Vector2) -> void:
-	set_position(new_position)
+func move_player(new_position: Vector2, new_velocity: Vector2) -> void:
+	set_global_position(new_position)
+	velocity = new_velocity
 
 
 func add_score() -> void:
