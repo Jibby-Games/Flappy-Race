@@ -125,9 +125,9 @@ func _on_LevelGenerator_level_ready() -> void:
 
 
 func _on_UI_countdown_finished() -> void:
-	var client_id = multiplayer.get_network_unique_id()
 	for player in spawned_players:
-		player.set_enable_movement(true)
+		player.start()
+	var client_id = multiplayer.get_network_unique_id()
 	if player_list[client_id].spectate == false:
 		var player = player_list[client_id].body
 		# Give the player a jump at the start

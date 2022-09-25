@@ -68,6 +68,10 @@ func _on_Detect_body_entered(_body: Node) -> void:
 	death()
 
 
+func start() -> void:
+	enable_movement = true
+
+
 func death() -> void:
 	if in_death_cooldown:
 		return

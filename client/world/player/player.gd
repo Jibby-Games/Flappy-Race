@@ -94,6 +94,11 @@ func set_player_name(value: String) -> void:
 	$NameLabel.show()
 
 
+func start() -> void:
+	.start()
+	$AnimationPlayer.play("RESET")
+
+
 func death() -> void:
 	if enable_death == false:
 		return
