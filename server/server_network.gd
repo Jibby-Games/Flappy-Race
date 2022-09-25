@@ -7,7 +7,7 @@ class_name ServerNetwork
 const SERVER_ID := 0
 const UpnpHandler = preload("res://server/upnp_handler.gd")
 const DEFAULT_GAME_OPTIONS := {
-	"goal": 100,
+	"goal": 50,
 	"lives": 0,
 }
 
