@@ -523,7 +523,6 @@ shortcut = SubResource( 10 )
 [node name="UI" type="CanvasLayer"]
 follow_viewport_enable = true
 script = ExtResource( 5 )
-HighScorePath = NodePath("Ingame/Player/HighScore")
 ScorePath = NodePath("Ingame/Player/Score")
 LivesPath = NodePath("Ingame/Player/Lives")
 CoinsPath = NodePath("Ingame/Player/Coins/HBoxContainer/Coins")
@@ -794,23 +793,6 @@ custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 2 )
 text = "0"
 align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HighScore" type="Label" parent="Ingame/Player"]
-margin_left = 20.0
-margin_top = 10.0
-margin_right = 220.0
-margin_bottom = 58.0
-rect_min_size = Vector2( 200, 0 )
-custom_colors/font_color = Color( 0, 0, 1, 1 )
-custom_fonts/font = ExtResource( 2 )
-text = "0"
-uppercase = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Lives" type="MarginContainer" parent="Ingame/Player"]
 anchor_top = 1.0
@@ -957,7 +939,7 @@ rect_min_size = Vector2( 84, 84 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Ingame/Player/Coins/HBoxContainer/Control"]
 frames = ExtResource( 17 )
 animation = "spin"
-frame = 1
+frame = 4
 playing = true
 offset = Vector2( 42, 42 )
 
