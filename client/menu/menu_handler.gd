@@ -6,12 +6,16 @@ var scroll_speed = 200
 
 func _ready() -> void:
 	$MusicPlayer.play_track_name("Drozerix - Digital Rendezvous")
+	$ParallaxClouds/ParallaxBackground.offset = Vector2.ZERO
+	$ParallaxClouds/ParallaxForeground.offset = Vector2.ZERO
+	$ParallaxClouds/ParallaxForeground.layer = -1
 
 
 func _process(delta: float) -> void:
 	# This makes the parallax background move without a character
 	scroll_x -= delta * scroll_speed
-	$ParallaxBackground.scroll_offset.x = scroll_x
+	$ParallaxClouds/ParallaxBackground.scroll_offset.x = scroll_x
+	$ParallaxClouds/ParallaxForeground.scroll_offset.x = scroll_x
 
 
 func change_menu(next_scene: String) -> void:

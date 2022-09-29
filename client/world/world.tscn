@@ -22,6 +22,7 @@ Player = ExtResource( 8 )
 Confetti = ExtResource( 4 )
 
 [node name="UI" parent="." index="0" instance=ExtResource( 1 )]
+layer = 2
 follow_viewport_enable = false
 
 [node name="MainCamera" parent="." index="1" instance=ExtResource( 12 )]

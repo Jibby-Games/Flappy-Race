@@ -1,19 +1,22 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://client/world/background/cloudLayer1.png" type="Texture" id=1]
 [ext_resource path="res://client/world/background/background1080p.png" type="Texture" id=2]
 [ext_resource path="res://client/world/background/cloudLayer2.png" type="Texture" id=3]
 [ext_resource path="res://client/world/background/cloudLayerB2.png" type="Texture" id=4]
 [ext_resource path="res://client/world/background/cloudLayerB1.png" type="Texture" id=5]
+[ext_resource path="res://client/world/background/mountains.png" type="Texture" id=6]
 
-[node name="ParallaxBackground" type="ParallaxBackground"]
+[node name="ParallaxClouds" type="Node2D"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 offset = Vector2( -960, -540 )
 transform = Transform2D( 1, 0, 0, 1, -960, -540 )
 
-[node name="Sky" type="ParallaxLayer" parent="."]
-motion_mirroring = Vector2( 3840, 0 )
+[node name="Sky" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0, 0 )
 
-[node name="Sprite" type="Sprite" parent="Sky"]
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Sky"]
 modulate = Color( 0.493, 0.72505, 0.85, 1 )
 texture = ExtResource( 2 )
 centered = false
@@ -21,49 +24,89 @@ offset = Vector2( 0, -540 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 3840, 2160 )
 
-[node name="Clouds1" type="ParallaxLayer" parent="."]
+[node name="Clouds0" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.05, 0.05 )
+motion_mirroring = Vector2( 3072, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Clouds0"]
+position = Vector2( 0, 465 )
+texture = ExtResource( 1 )
+centered = false
+flip_h = true
+region_enabled = true
+region_rect = Rect2( 0, 0, 3072, 400 )
+
+[node name="Mountains1" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2( 0.1, 0.1 )
 motion_mirroring = Vector2( 3072, 0 )
 
-[node name="Sprite" type="Sprite" parent="Clouds1"]
-modulate = Color( 1, 1, 1, 0.913725 )
-position = Vector2( 0, 701 )
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Mountains1"]
+position = Vector2( 0, 479 )
+texture = ExtResource( 6 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 0, 0, 3072, 400 )
+
+[node name="Clouds1" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.2, 0.2 )
+motion_mirroring = Vector2( 3072, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Clouds1"]
+modulate = Color( 1, 1, 1, 0.67451 )
+position = Vector2( 0, 585 )
 texture = ExtResource( 1 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 0, 0, 3072, 400 )
 
-[node name="Clouds2" type="ParallaxLayer" parent="."]
-motion_scale = Vector2( 0.23, 0.23 )
+[node name="Clouds2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.25, 0.25 )
 motion_mirroring = Vector2( 3072, 0 )
 
-[node name="Sprite" type="Sprite" parent="Clouds2"]
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Clouds2"]
 modulate = Color( 0.956863, 0.956863, 0.956863, 0.901961 )
-position = Vector2( 0, 725 )
+position = Vector2( 0, 683 )
 texture = ExtResource( 3 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 0, 0, 3072, 400 )
 
-[node name="Clouds3" type="ParallaxLayer" parent="."]
-motion_scale = Vector2( 0.37, 0.37 )
+[node name="Mountains2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.35, 0.35 )
 motion_mirroring = Vector2( 3072, 0 )
 
-[node name="Sprite" type="Sprite" parent="Clouds3"]
-modulate = Color( 1, 1, 1, 0.784314 )
-position = Vector2( 0, 772 )
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Mountains2"]
+position = Vector2( -192, 650 )
+texture = ExtResource( 6 )
+centered = false
+flip_h = true
+region_enabled = true
+region_rect = Rect2( 0, 0, 3072, 400 )
+
+[node name="Clouds3" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.4, 0.4 )
+motion_mirroring = Vector2( 3072, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Clouds3"]
+modulate = Color( 0.93, 0.93, 0.93, 0.717647 )
+position = Vector2( 0, 768 )
 texture = ExtResource( 5 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 0, 0, 3072, 400 )
 
-[node name="Clouds4" type="ParallaxLayer" parent="."]
-motion_scale = Vector2( 0.44, 0.44 )
+[node name="ParallaxForeground" type="ParallaxBackground" parent="."]
+layer = 1
+offset = Vector2( -960, -540 )
+transform = Transform2D( 1, 0, 0, 1, -960, -540 )
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxForeground"]
+motion_scale = Vector2( 1.2, 1.2 )
 motion_mirroring = Vector2( 3072, 0 )
 
-[node name="Sprite" type="Sprite" parent="Clouds4"]
-modulate = Color( 1, 1, 1, 0.784314 )
-position = Vector2( 0, 821 )
+[node name="Sprite" type="Sprite" parent="ParallaxForeground/ParallaxLayer"]
+modulate = Color( 1, 1, 1, 0.862745 )
+position = Vector2( 0, 910 )
 texture = ExtResource( 4 )
 centered = false
 region_enabled = true
