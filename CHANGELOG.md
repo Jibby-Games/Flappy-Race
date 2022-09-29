@@ -22,9 +22,18 @@ Types of changes:
 - Wind particle effect
 - Players emit particles when flapping
 - Players have new and improved animations!
+- Camera animations for the start and end of the race
 
 ### Changed
 - Reduced title screen birds from 32 to 16
+- Always show game options by default
+- Decrease default race goal to 50
+- Made screen shake more subtle
+- Added more clouds and mountains to the background
+- Force the game aspect ratio to be consistent
+
+### Removed
+- Highscore is no longer shown in UI
 
 ## [0.4.0] - 2022-09-05
 

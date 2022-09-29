@@ -28,8 +28,7 @@ func process_world_state() -> void:
 		for player in world_state.keys():
 			world_state[player].erase("T")
 			if has_node("../World/" + str(player)):
-				get_node("../World/" + str(player)).move_player(world_state[player]["P"])
-			# TODO sync walls and flaps (+ motion) to make movement smoother
+				get_node("../World/" + str(player)).move_player(world_state[player]["P"], world_state[player]["V"])
 		# This will help client determine how old the received world_state is
 		world_state["T"] = OS.get_system_time_msecs()
 		# TODO: add anti-cheat here

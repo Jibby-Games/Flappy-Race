@@ -1,7 +1,6 @@
 extends CanvasLayer
 
 
-export(NodePath) var HighScorePath
 export(NodePath) var ScorePath
 export(NodePath) var LivesPath
 export(NodePath) var CoinsPath
@@ -9,7 +8,6 @@ export(NodePath) var SpectateLabelPath
 export(NodePath) var RaceProgressPath
 
 
-onready var HighScore := get_node(HighScorePath)
 onready var Score := get_node(ScorePath)
 onready var Lives := get_node(LivesPath)
 onready var Coins := get_node(CoinsPath)
@@ -30,7 +28,6 @@ func _ready() -> void:
 	for child in get_children():
 		if child is Control:
 			child.hide()
-	HighScore.text = str(Globals.high_score)
 
 
 func set_player_list(player_list: Dictionary) -> void:
@@ -66,10 +63,6 @@ func update_lives(new_lives: int) -> void:
 func update_score(new_score: int) -> void:
 	# Actual incrementing is handled on the player object
 	Score.text = str(new_score)
-	# See if we have a new PB
-	if new_score > Globals.high_score:
-		Globals.high_score = new_score
-		HighScore.text = str(new_score)
 
 
 func update_coins(value: int) -> void:

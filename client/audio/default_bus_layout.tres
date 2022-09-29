@@ -17,5 +17,5 @@ bus/3/name = "Player"
 bus/3/solo = false
 bus/3/mute = false
 bus/3/bypass_fx = false
-bus/3/volume_db = -8.00903
+bus/3/volume_db = -7.26851
 bus/3/send = "Sounds"

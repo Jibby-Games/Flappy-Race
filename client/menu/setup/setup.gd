@@ -10,7 +10,7 @@ func _ready() -> void:
 	player.set_physics_process(false)
 
 	# Create the colour selector
-	colour_selector.generate_swatches(player.colour_options)
+	colour_selector.generate_swatches(Globals.COLOUR_OPTIONS)
 
 	# Set the saved player colour
 	player.set_body_colour(Globals.player_colour)

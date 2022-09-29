@@ -24,7 +24,7 @@ var coins := 0
 var checkpoint_position := Vector2()
 
 # Movement vars
-var motion: Vector2 = Vector2()
+var velocity: Vector2 = Vector2()
 var enable_movement: bool = true
 var has_gravity: bool = true
 
@@ -36,18 +36,18 @@ func _physics_process(_delta: float) -> void:
 
 func update_movement() -> void:
 	if not enable_movement:
-		motion.x = 0
-		motion.y = 0
-		motion = move_and_slide(motion, Vector2.UP)
+		velocity.x = 0
+		velocity.y = 0
+		velocity = move_and_slide(velocity, Vector2.UP)
 		return
 
 	if has_gravity:
-		motion.y += GRAVITY
-		if motion.y > MAXFALLSPEED:
-			motion.y = MAXFALLSPEED
+		velocity.y += GRAVITY
+		if velocity.y > MAXFALLSPEED:
+			velocity.y = MAXFALLSPEED
 
-	motion.x = BASE_SPEED + (coins * COIN_BOOST)
-	motion = move_and_slide(motion, Vector2.UP)
+	velocity.x = BASE_SPEED + (coins * COIN_BOOST)
+	velocity = move_and_slide(velocity, Vector2.UP)
 
 
 func check_position() -> void:
@@ -68,10 +68,15 @@ func _on_Detect_body_entered(_body: Node) -> void:
 	death()
 
 
+func start() -> void:
+	enable_movement = true
+
+
 func death() -> void:
 	if in_death_cooldown:
 		return
 	in_death_cooldown = true
+	enable_movement = false
 	emit_signal("death", self)
 	$DeathCooldownTimer.start(DEATH_COOLDOWN_TIME)
 	if coins > 0:
@@ -94,14 +99,16 @@ func despawn() -> void:
 
 func _on_DeathCooldownTimer_timeout() -> void:
 	in_death_cooldown = false
+	enable_movement = true
 
 
 func set_enable_movement(_new_value: bool) -> void:
 	enable_movement = _new_value
 
 
-func move_player(new_position: Vector2) -> void:
-	set_position(new_position)
+func move_player(new_position: Vector2, new_velocity: Vector2) -> void:
+	set_global_position(new_position)
+	velocity = new_velocity
 
 
 func add_score() -> void:
@@ -122,4 +129,4 @@ func finish() -> void:
 
 func knockback() -> void:
 	Logger.print(self, "Knocking player %s back to %s" % [name, checkpoint_position])
-	set_position(checkpoint_position)
+	set_global_position(checkpoint_position)

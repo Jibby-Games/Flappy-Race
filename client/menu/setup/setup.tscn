@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://client/menu/menu_button.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/menu/setup/colour_selector.tscn" type="PackedScene" id=2]
@@ -8,34 +8,6 @@
 [ext_resource path="res://client/theme/flappy.theme" type="Theme" id=6]
 [ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=7]
 [ext_resource path="res://client/menu/setup/game_options_panel.gd" type="Script" id=8]
-
-[sub_resource type="Animation" id=1]
-resource_name = "OpenPanel"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath("Panel:rect_size")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( -2, -2 ),
-"update": 0,
-"values": [ Vector2( 300, 0 ), Vector2( 300, 400 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Panel:modulate")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( -2, -2 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
 
 [node name="Setup" type="Control"]
 anchor_right = 1.0
@@ -109,15 +81,10 @@ margin_right = 320.0
 margin_bottom = 200.0
 theme = ExtResource( 6 )
 script = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Panel" type="Panel" parent="GameOptions"]
-modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = -400.0
 rect_clip_content = true
 theme = ExtResource( 6 )
 __meta__ = {
@@ -143,6 +110,7 @@ margin_left = 47.0
 margin_top = 5.0
 margin_right = 163.0
 margin_bottom = 29.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
 text = "Score to win"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -171,6 +139,7 @@ margin_left = 84.0
 margin_top = 5.0
 margin_right = 137.0
 margin_bottom = 29.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
 text = "Lives"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -202,24 +171,16 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 rect_clip_content = true
 theme = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="GameOptionsToggle" type="Button" parent="GameOptions"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 290.0
-margin_bottom = 48.0
+[node name="Header" type="Label" parent="GameOptions"]
+anchor_right = 1.0
+margin_bottom = 49.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
 custom_fonts/font = ExtResource( 7 )
-toggle_mode = true
 text = "Game Options"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="GameOptions"]
-anims/OpenPanel = SubResource( 1 )
+align = 1
+valign = 1
 
 [connection signal="colour_changed" from="PlayerOptions/Control/ColourSelector" to="." method="_on_ColourSelector_colour_changed"]
 [connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
@@ -227,4 +188,3 @@ anims/OpenPanel = SubResource( 1 )
 [connection signal="value_changed" from="GameOptions/Panel/VBoxContainer/ScoreToWin/ScoreInput" to="GameOptions" method="_on_ScoreInput_value_changed"]
 [connection signal="toggled" from="GameOptions/Panel/VBoxContainer/PlayerLives/LivesToggle" to="GameOptions" method="_on_LivesToggle_toggled"]
 [connection signal="value_changed" from="GameOptions/Panel/VBoxContainer/PlayerLives/LivesInput" to="GameOptions" method="_on_LivesInput_value_changed"]
-[connection signal="toggled" from="GameOptions/GameOptionsToggle" to="GameOptions" method="_on_GameOptionsToggle_toggled"]

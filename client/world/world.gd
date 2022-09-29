@@ -16,10 +16,13 @@ var finish_line_x_pos : int
 # Spectate vars
 var spectate_target: Node
 var camera_target_id := -1
+var camera_starting_position := Vector2(-5000, 0)
 
 
 func _ready() -> void:
 	Network.Client.send_client_ready()
+	$MainCamera.position = camera_starting_position
+	$MainCamera.velocity = Vector2.ZERO
 
 
 func _process(_delta: float) -> void:
@@ -68,7 +71,12 @@ func interpolate_world_state(render_time: int) -> void:
 				world_state_buffer[2][player]["P"],
 				interpolation_factor
 			)
-			get_node(str(player)).move_player(new_position)
+			var new_velocity = lerp(
+				world_state_buffer[1][player]["V"],
+				world_state_buffer[2][player]["V"],
+				interpolation_factor
+			)
+			get_node(str(player)).move_player(new_position, new_velocity)
 		# TODO this should only spawn players if they are present in a future
 		# world state but sometimes they still seem to arrive after death
 		# else:
@@ -90,7 +98,9 @@ func extrapolate_world_state(render_time: int) -> void:
 		if has_node(str(player)):
 			var position_delta = (world_state_buffer[1][player]["P"] - world_state_buffer[0][player]["P"])
 			var new_position = world_state_buffer[1][player]["P"] + (position_delta * extrapolation_factor)
-			get_node(str(player)).move_player(new_position)
+			var velocity_delta = (world_state_buffer[1][player]["V"] - world_state_buffer[0][player]["V"])
+			var new_velocity = world_state_buffer[1][player]["V"] + (velocity_delta * extrapolation_factor)
+			get_node(str(player)).move_player(new_position, new_velocity)
 
 
 func update_world_state(world_state: Dictionary) -> void:
@@ -110,18 +120,22 @@ func _on_LevelGenerator_level_ready() -> void:
 	._on_LevelGenerator_level_ready()
 	finish_line_x_pos = level_generator.finish_line.position.x
 	$UI.start_countdown()
+	# Make the camera swoop into the starting position
+	var tween = get_tree().create_tween()
+	tween.tween_property($MainCamera, "position", Vector2.ZERO, 3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 
 
 func _on_UI_countdown_finished() -> void:
+	for player in spawned_players:
+		player.start()
 	var client_id = multiplayer.get_network_unique_id()
 	if player_list[client_id].spectate == false:
 		var player = player_list[client_id].body
-		player.enable_movement = true
 		# Give the player a jump at the start
-		player.motion.y = -STARTING_JUMP
+		player.velocity.y = -STARTING_JUMP
 		player.enable_control()
 	$MusicPlayer.play_random_track()
-	$MainCamera.add_trauma(0.8)
+	$MainCamera.add_trauma(1.0)
 	spawn_confetti(Vector2.ZERO)
 
 
@@ -175,7 +189,7 @@ func despawn_player(player_id: int) -> void:
 	$UI.RaceProgress.remove_player(player_id)
 	.despawn_player(player_id)
 	if player_id == camera_target_id:
-		$MainCamera.add_trauma(0.8)
+		$MainCamera.add_trauma(1.0)
 		if spawned_players.empty():
 			# Race should be finished so stop here
 			return
@@ -232,12 +246,8 @@ func _on_Player_death(player: CommonPlayer) -> void:
 
 
 func knockback_player(player_id: int) -> void:
-	var player = player_list[player_id].body
-	player.set_enable_movement(false)
-	$MainCamera.add_trauma(0.8)
+	$MainCamera.add_trauma(1.0)
 	.knockback_player(player_id)
-	yield(get_tree().create_timer(1), "timeout")
-	player.set_enable_movement(true)
 
 
 func _on_Player_score_changed(player: CommonPlayer) -> void:
@@ -251,7 +261,7 @@ func _on_Player_coins_changed(player: CommonPlayer) -> void:
 	# Only update for the camera target
 	if int(player.name) == camera_target_id:
 		$UI.update_coins(player.coins)
-		$MainCamera.add_trauma(0.4)
+		$MainCamera.add_trauma(0.3)
 
 
 func _on_UI_request_restart() -> void:
@@ -263,7 +273,7 @@ func player_finished(player_id: int, place: int, time: float) -> void:
 	spawn_confetti(Vector2(finish_line_x_pos, 0))
 
 	if player_id == camera_target_id:
-		$MainCamera.add_trauma(0.8)
+		$MainCamera.add_trauma(1.0)
 
 	# Only show the finished screen if this client was controlling the player
 	if player_id == multiplayer.get_network_unique_id():
@@ -281,3 +291,10 @@ func _on_UI_spectate_change(forward_not_back) -> void:
 	else:
 		new_target_index = (current_target_index - 1) % spawned_players.size()
 	set_spectate_target(spawned_players[new_target_index])
+
+
+func end_race() -> void:
+	.end_race()
+	# Make the camera swoop past the finish line
+	var tween = get_tree().create_tween()
+	tween.tween_property($MainCamera, "velocity", Vector2(50, 0), 3).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)

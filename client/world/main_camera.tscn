@@ -3,7 +3,6 @@
 [ext_resource path="res://client/world/main_camera.gd" type="Script" id=1]
 
 [node name="MainCamera" type="Camera2D"]
-rotating = true
 current = true
 process_mode = 0
 limit_top = -540
@@ -11,6 +10,5 @@ limit_bottom = 540
 editor_draw_limits = true
 editor_draw_drag_margin = true
 script = ExtResource( 1 )
-decay = 0.85
-max_offset = Vector2( 75, 75 )
-max_roll = 0.02
+decay = 0.9
+max_offset = Vector2( 75, 50 )

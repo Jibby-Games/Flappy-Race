@@ -4,35 +4,16 @@ extends CommonPlayer
 const FLAP = 350
 
 
-export(PackedScene) var PlayerController
-# Colour palette by PineappleOnPizza: https://lospec.com/palette-list/bubblegum-16
-export(PoolColorArray) var colour_options: PoolColorArray = [
-	"#d62411",
-	"#7f0622",
-	"#ff8426",
-	"#ffd100",
-	"#ff80a4",
-	"#ff2674",
-	"#94216a",
-	"#430067",
-	"#234975",
-	"#68aed4",
-	"#bfff3c",
-	"#10d275",
-	"#007899",
-	"#002859",
-	"#fafdff",
-	"#16171a",
-]
 export(PackedScene) var ImpactParticles
 export(PackedScene) var FlapParticles
 
 
 var is_controlled
 var player_state
-var enable_death_animation: bool = true
+var enable_death: bool = true
 var player_name: String
 var body_colour: Color
+var flap_queue: Array
 
 
 func _ready() -> void:
@@ -44,20 +25,33 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	# Make the sprite face the direction it's going
-	$Sprites.rotation = motion.angle()
 	if is_controlled:
 		update_player_state()
+	elif not flap_queue.empty():
+		for flap_time in flap_queue:
+			# Ensure animation plays at correct time on client
+			if flap_time <= Network.Client.client_clock:
+				do_flap()
+				flap_queue.erase(flap_time)
+	# Make the sprite face the direction it's going
+	$Sprites.rotation = velocity.angle()
+
+
+
+func _input(event: InputEvent) -> void:
+	if is_controlled and event.is_action_pressed("flap"):
+		Network.Client.send_player_flap()
+		do_flap()
 
 
 func update_player_state() -> void:
-	player_state = {"T": Network.Client.client_clock, "P": get_global_position()}
+	player_state = {"T": Network.Client.client_clock, "P": get_global_position(), "V": velocity}
 	Network.Client.send_player_state(player_state)
 
 
 func do_flap() -> void:
 	if enable_movement:
-		motion.y = -FLAP
+		velocity.y = -FLAP
 		play_flap_sound()
 		spawn_flap_particles()
 		$AnimationPlayer.play("flap")
@@ -81,21 +75,15 @@ func play_flap_sound() -> void:
 func enable_control() -> void:
 	if not is_controlled:
 		is_controlled = true
-		var controller = PlayerController.instance()
-		controller.connect("flap", self, "do_flap")
-		add_child(controller)
 
 
 func disable_control() -> void:
 	if is_controlled:
 		is_controlled = false
-		var controller = $PlayerController
-		if controller:
-			controller.queue_free()
 
 
 func set_body_colour(value: int) -> void:
-	body_colour = colour_options[value]
+	body_colour = Globals.COLOUR_OPTIONS[value]
 	$Sprites/Body.modulate = body_colour
 	$Trail.modulate = body_colour
 
@@ -106,15 +94,20 @@ func set_player_name(value: String) -> void:
 	$NameLabel.show()
 
 
+func start() -> void:
+	.start()
+	$AnimationPlayer.play("RESET")
+
+
 func death() -> void:
+	if enable_death == false:
+		return
 	if coins > 0:
 		$CoinLost.play()
 	.death()
 
 
 func on_death() -> void:
-	if enable_death_animation == false:
-		return
 	$DeathSound.play()
 	$AnimationPlayer.play("death_cooldown")
 	spawn_impact_particles()

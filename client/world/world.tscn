@@ -10,7 +10,7 @@
 [ext_resource path="res://client/world/player/player.tscn" type="PackedScene" id=8]
 [ext_resource path="res://client/world/obstacles/wall/wall.tscn" type="PackedScene" id=9]
 [ext_resource path="res://client/music/music_player.tscn" type="PackedScene" id=10]
-[ext_resource path="res://client/world/background/cloud_background.tscn" type="PackedScene" id=11]
+[ext_resource path="res://client/world/background/parallax_clouds.tscn" type="PackedScene" id=11]
 [ext_resource path="res://client/world/main_camera.tscn" type="PackedScene" id=12]
 [ext_resource path="res://client/world/obstacles/coin_circle/coin_circle.tscn" type="PackedScene" id=13]
 [ext_resource path="res://client/world/obstacles/tunnel/tunnel.tscn" type="PackedScene" id=14]
@@ -22,6 +22,7 @@ Player = ExtResource( 8 )
 Confetti = ExtResource( 4 )
 
 [node name="UI" parent="." index="0" instance=ExtResource( 1 )]
+layer = 2
 follow_viewport_enable = false
 
 [node name="MainCamera" parent="." index="1" instance=ExtResource( 12 )]
