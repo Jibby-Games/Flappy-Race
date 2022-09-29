@@ -101,7 +101,7 @@ offset = Vector2( -960, -540 )
 transform = Transform2D( 1, 0, 0, 1, -960, -540 )
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxForeground"]
-motion_scale = Vector2( 1.2, 1.2 )
+motion_scale = Vector2( 1.4, 1.4 )
 motion_mirroring = Vector2( 3072, 0 )
 
 [node name="Sprite" type="Sprite" parent="ParallaxForeground/ParallaxLayer"]

@@ -16,7 +16,7 @@ var finish_line_x_pos : int
 # Spectate vars
 var spectate_target: Node
 var camera_target_id := -1
-var camera_starting_position := Vector2(-10000, 0)
+var camera_starting_position := Vector2(-5000, 0)
 
 
 func _ready() -> void:
@@ -297,4 +297,4 @@ func end_race() -> void:
 	.end_race()
 	# Make the camera swoop past the finish line
 	var tween = get_tree().create_tween()
-	tween.tween_property($MainCamera, "velocity", Vector2(100, 0), 3).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property($MainCamera, "velocity", Vector2(50, 0), 3).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
