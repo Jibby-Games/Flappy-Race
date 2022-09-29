@@ -135,7 +135,7 @@ func _on_UI_countdown_finished() -> void:
 		player.velocity.y = -STARTING_JUMP
 		player.enable_control()
 	$MusicPlayer.play_random_track()
-	$MainCamera.add_trauma(0.8)
+	$MainCamera.add_trauma(1.0)
 	spawn_confetti(Vector2.ZERO)
 
 
@@ -189,7 +189,7 @@ func despawn_player(player_id: int) -> void:
 	$UI.RaceProgress.remove_player(player_id)
 	.despawn_player(player_id)
 	if player_id == camera_target_id:
-		$MainCamera.add_trauma(0.8)
+		$MainCamera.add_trauma(1.0)
 		if spawned_players.empty():
 			# Race should be finished so stop here
 			return
@@ -246,7 +246,7 @@ func _on_Player_death(player: CommonPlayer) -> void:
 
 
 func knockback_player(player_id: int) -> void:
-	$MainCamera.add_trauma(0.8)
+	$MainCamera.add_trauma(1.0)
 	.knockback_player(player_id)
 
 
@@ -261,7 +261,7 @@ func _on_Player_coins_changed(player: CommonPlayer) -> void:
 	# Only update for the camera target
 	if int(player.name) == camera_target_id:
 		$UI.update_coins(player.coins)
-		$MainCamera.add_trauma(0.4)
+		$MainCamera.add_trauma(0.3)
 
 
 func _on_UI_request_restart() -> void:
@@ -273,7 +273,7 @@ func player_finished(player_id: int, place: int, time: float) -> void:
 	spawn_confetti(Vector2(finish_line_x_pos, 0))
 
 	if player_id == camera_target_id:
-		$MainCamera.add_trauma(0.8)
+		$MainCamera.add_trauma(1.0)
 
 	# Only show the finished screen if this client was controlling the player
 	if player_id == multiplayer.get_network_unique_id():

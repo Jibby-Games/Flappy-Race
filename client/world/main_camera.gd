@@ -1,5 +1,6 @@
 extends Camera2D
 
+
 # Shake parameters
 export(float, 0, 1) var decay = 0.8  # How quickly the shaking stops [0, 1].
 export(Vector2) var max_offset = Vector2(100, 75)  # Maximum hor/ver shake in pixels.
