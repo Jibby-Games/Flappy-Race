@@ -28,6 +28,9 @@ Types of changes:
 - Reduced title screen birds from 32 to 16
 - Always show game options by default
 - Decrease default race goal to 50
+- Made screen shake more subtle
+- Added more clouds and mountains to the background
+- Force the game aspect ratio to be consistent
 
 ### Removed
 - Highscore is no longer shown in UI
