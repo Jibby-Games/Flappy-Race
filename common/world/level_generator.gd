@@ -6,6 +6,7 @@ class_name LevelGenerator
 
 
 export(Array) var Obstacles
+export(Array) var ObstacleRandomWeights
 export(PackedScene) var FinishLine
 
 
@@ -66,9 +67,8 @@ func clear_obstacles() -> void:
 func generate_obstacle() -> Obstacle:
 	assert(game_rng != null)
 	assert(Obstacles.size() > 0)
-	# Use the game RNG to keep the levels deterministic
-	var index = game_rng.randi_range(0, Obstacles.size() - 1)
-	var obstacle = Obstacles[index].instance()
+
+	var obstacle = pick_random_weighted_obstacle()
 	if obstacle.random_height:
 		# # Only add or subtract from previous to ensure obstacles are still possible
 		next_obstacle_pos.y += game_rng.randf_range(-max_obstacle_height_difference, max_obstacle_height_difference)
@@ -79,6 +79,25 @@ func generate_obstacle() -> Obstacle:
 	obstacle.height = next_obstacle_pos.y
 	obstacle.generate(game_rng)
 	return obstacle
+
+
+func pick_random_weighted_obstacle() -> Obstacle:
+	assert(Obstacles.size() == ObstacleRandomWeights.size())
+
+	var sum_of_weights := 0
+	for i in Obstacles.size():
+		sum_of_weights += ObstacleRandomWeights[i]
+
+	# Use the game RNG to keep the levels deterministic
+	var rand = game_rng.randi_range(0, sum_of_weights-1)
+
+	for i in Obstacles.size():
+		if rand < ObstacleRandomWeights[i]:
+			return Obstacles[i].instance()
+		rand -= ObstacleRandomWeights[i]
+
+	assert(false, "Failed to pick a random weighted choice")
+	return null
 
 
 func spawn_obstacle(obstacle_index: int) -> void:

@@ -1,14 +1,12 @@
 extends Node2D
 
-
 class_name Obstacle
 
+export(bool) var random_height := false
 
 var generated := false
 var length: int
 var height: int
-export var random_height := false
-
 
 onready var Checkpoint: Area2D = $"%Checkpoint"
 onready var PointArea: Area2D = $"%PointArea"
