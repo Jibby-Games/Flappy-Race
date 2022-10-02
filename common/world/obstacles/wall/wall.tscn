@@ -9,6 +9,7 @@ extents = Vector2( 32, 640 )
 
 [node name="Wall" instance=ExtResource( 4 )]
 script = ExtResource( 1 )
+random_height = true
 CoinSpawner = ExtResource( 2 )
 
 [node name="Checkpoint" parent="." index="1"]

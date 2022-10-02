@@ -6,6 +6,8 @@ class_name Obstacle
 
 var generated := false
 var length: int
+var height: int
+export var random_height := false
 
 
 onready var Checkpoint: Area2D = $"%Checkpoint"

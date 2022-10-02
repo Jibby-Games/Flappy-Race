@@ -11,9 +11,13 @@ export(PackedScene) var FinishLine
 
 var game_rng: RandomNumberGenerator
 var obstacle_spacing := 500
-var obstacle_start_pos := 1500
+var spacing_increase := 10
+var obstacle_start_pos := obstacle_spacing * 2
+var max_obstacle_height_difference := 150
+var max_height := 350
 var generated_obstacles := []
 var spawned_obstacles := {}
+var next_obstacle_pos := Vector2(obstacle_start_pos, 0)
 var finish_line: Node2D
 
 
@@ -32,18 +36,17 @@ func generate(rng: RandomNumberGenerator, obstacles_to_generate: int) -> void:
 	Logger.print(self, "Generating level with %d obstacles..." % obstacles_to_generate)
 	game_rng = rng
 	clear_obstacles()
-	var next_obstacle_pos := obstacle_start_pos
 	var start = OS.get_ticks_usec()
 	# -1 to account for the finish line
 	for i in obstacles_to_generate - 1:
 		var obstacle := generate_obstacle()
 		obstacle.set_name("%s_%d" % [obstacle.name, i])
-		obstacle.position.x = next_obstacle_pos
 		generated_obstacles.append(obstacle)
-		next_obstacle_pos += obstacle.calculate_length() + obstacle_spacing
+		next_obstacle_pos.x += obstacle.calculate_length() + obstacle_spacing
+		obstacle_spacing += spacing_increase
 	# Finish line is always the final obstacle
 	finish_line = FinishLine.instance()
-	finish_line.position.x = next_obstacle_pos
+	finish_line.position.x = next_obstacle_pos.x
 	generated_obstacles.append(finish_line)
 	var end = OS.get_ticks_usec()
 	var generation_time = (end-start) / 1000
@@ -66,6 +69,14 @@ func generate_obstacle() -> Obstacle:
 	# Use the game RNG to keep the levels deterministic
 	var index = game_rng.randi_range(0, Obstacles.size() - 1)
 	var obstacle = Obstacles[index].instance()
+	if obstacle.random_height:
+		# # Only add or subtract from previous to ensure obstacles are still possible
+		next_obstacle_pos.y += game_rng.randf_range(-max_obstacle_height_difference, max_obstacle_height_difference)
+		next_obstacle_pos.y = clamp(next_obstacle_pos.y, -max_height, max_height)
+	else:
+		next_obstacle_pos.y = 0
+	obstacle.position.x = next_obstacle_pos.x
+	obstacle.height = next_obstacle_pos.y
 	obstacle.generate(game_rng)
 	return obstacle
 
