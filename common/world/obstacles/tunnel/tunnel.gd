@@ -8,19 +8,18 @@ const BLOCK_SIZE := 64
 export(PackedScene) var CoinSpawner
 
 
-var height_range := 100
 var gap_range_min := 135
 var gap_range_max := 150
 var length_min = 4
 var length_max = 12
 var spawn_coin_chance := 0.5
 var max_coins := 3
+var extra_spacing := 150
 
 
 func do_generate(game_rng: RandomNumberGenerator) -> void:
 	var length: int = game_rng.randi_range(length_min, length_max)
 	set_length(length)
-	var height: float = game_rng.randf_range(-height_range, height_range)
 	$Tunnel.position.y = height
 	$"%Checkpoint".position.y = height
 	$PointArea.position.y = height
@@ -36,7 +35,7 @@ func do_generate(game_rng: RandomNumberGenerator) -> void:
 
 
 func calculate_length() -> int:
-	return $"%Checkpoint".position.x
+	return $"%Checkpoint".position.x + extra_spacing
 
 
 func set_length(blocks: int) -> void:

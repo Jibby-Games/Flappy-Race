@@ -4,7 +4,6 @@ extends Obstacle
 export(PackedScene) var CoinSpawner
 
 
-var height_range := 100
 var gap_range_min := 130
 var gap_range_max := 250
 var spawn_coin_chance := 0.5
@@ -13,7 +12,6 @@ var extra_spacing := 150
 
 
 func do_generate(game_rng) -> void:
-	var height: float = game_rng.randf_range(-height_range, height_range)
 	var gap: float = game_rng.randf_range(gap_range_min, gap_range_max)
 	var should_spawn_coin: bool = game_rng.randf() < spawn_coin_chance
 	# Logger.print(self, "Generating wall - pos: %s height: %s - gap: %s" % [global_position, height, gap])

@@ -6,17 +6,25 @@ class_name LevelGenerator
 
 
 export(Array) var Obstacles
+export(Array) var ObstacleRandomWeights
 export(PackedScene) var FinishLine
 
 
 var game_rng: RandomNumberGenerator
+# Controls how often frames are yielded, lower = smoother screen, but slower loading
+var obstacles_per_frame := 25
 var obstacle_spacing := 500
-var obstacle_start_pos := 1500
+var spacing_increase := 10
+var obstacle_start_pos := obstacle_spacing * 2
+var max_obstacle_height_difference := 150
+var max_height := 350
 var generated_obstacles := []
 var spawned_obstacles := {}
+var next_obstacle_pos := Vector2(obstacle_start_pos, 0)
 var finish_line: Node2D
 
 
+signal progress_changed(percent)
 signal level_ready
 
 
@@ -32,22 +40,26 @@ func generate(rng: RandomNumberGenerator, obstacles_to_generate: int) -> void:
 	Logger.print(self, "Generating level with %d obstacles..." % obstacles_to_generate)
 	game_rng = rng
 	clear_obstacles()
-	var next_obstacle_pos := obstacle_start_pos
 	var start = OS.get_ticks_usec()
 	# -1 to account for the finish line
 	for i in obstacles_to_generate - 1:
 		var obstacle := generate_obstacle()
 		obstacle.set_name("%s_%d" % [obstacle.name, i])
-		obstacle.position.x = next_obstacle_pos
 		generated_obstacles.append(obstacle)
-		next_obstacle_pos += obstacle.calculate_length() + obstacle_spacing
+		next_obstacle_pos.x += obstacle.calculate_length() + obstacle_spacing
+		obstacle_spacing += spacing_increase
+		# Spread out the generation to stop the game freezing
+		if (i % obstacles_per_frame) == 0:
+			emit_signal("progress_changed", (float(i + 1) / obstacles_to_generate))
+			yield(get_tree(), "idle_frame")
 	# Finish line is always the final obstacle
 	finish_line = FinishLine.instance()
-	finish_line.position.x = next_obstacle_pos
+	finish_line.position.x = next_obstacle_pos.x
 	generated_obstacles.append(finish_line)
 	var end = OS.get_ticks_usec()
 	var generation_time = (end-start) / 1000
 	Logger.print(self, "Obstacles generated in %dms!" % generation_time)
+	emit_signal("progress_changed", 1.0)
 	emit_signal("level_ready")
 
 
@@ -63,11 +75,37 @@ func clear_obstacles() -> void:
 func generate_obstacle() -> Obstacle:
 	assert(game_rng != null)
 	assert(Obstacles.size() > 0)
-	# Use the game RNG to keep the levels deterministic
-	var index = game_rng.randi_range(0, Obstacles.size() - 1)
-	var obstacle = Obstacles[index].instance()
+
+	var obstacle = pick_random_weighted_obstacle()
+	if obstacle.random_height:
+		# # Only add or subtract from previous to ensure obstacles are still possible
+		next_obstacle_pos.y += game_rng.randf_range(-max_obstacle_height_difference, max_obstacle_height_difference)
+		next_obstacle_pos.y = clamp(next_obstacle_pos.y, -max_height, max_height)
+	else:
+		next_obstacle_pos.y = 0
+	obstacle.position.x = next_obstacle_pos.x
+	obstacle.height = next_obstacle_pos.y
 	obstacle.generate(game_rng)
 	return obstacle
+
+
+func pick_random_weighted_obstacle() -> Obstacle:
+	assert(Obstacles.size() == ObstacleRandomWeights.size())
+
+	var sum_of_weights := 0
+	for i in Obstacles.size():
+		sum_of_weights += ObstacleRandomWeights[i]
+
+	# Use the game RNG to keep the levels deterministic
+	var rand = game_rng.randi_range(0, sum_of_weights-1)
+
+	for i in Obstacles.size():
+		if rand < ObstacleRandomWeights[i]:
+			return Obstacles[i].instance()
+		rand -= ObstacleRandomWeights[i]
+
+	assert(false, "Failed to pick a random weighted choice")
+	return null
 
 
 func spawn_obstacle(obstacle_index: int) -> void:

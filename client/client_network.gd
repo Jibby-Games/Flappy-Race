@@ -361,6 +361,14 @@ remote func receive_game_started(game_seed: int, start_game_options: Dictionary,
 		world.start_game(game_seed, start_game_options, start_player_list)
 
 
+remote func receive_start_countdown() -> void:
+	if is_rpc_from_server() == false:
+		return
+	var world = get_node_or_null("World")
+	if world:
+		world.start_countdown()
+
+
 func send_player_state(player_state: Dictionary) -> void:
 	rpc_unreliable_id(SERVER_ID, "receive_player_state", player_state)
 

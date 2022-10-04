@@ -10,4 +10,5 @@
 [node name="LevelGenerator" type="Node"]
 script = ExtResource( 1 )
 Obstacles = [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 6 ) ]
+ObstacleRandomWeights = [ 100, 50, 25, 50 ]
 FinishLine = ExtResource( 4 )

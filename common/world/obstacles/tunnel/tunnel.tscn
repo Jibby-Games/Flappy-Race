@@ -9,6 +9,7 @@ extents = Vector2( 640, 800 )
 
 [node name="Tunnel" instance=ExtResource( 3 )]
 script = ExtResource( 2 )
+random_height = true
 CoinSpawner = ExtResource( 1 )
 
 [node name="PointArea" parent="." index="0"]

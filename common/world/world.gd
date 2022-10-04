@@ -1,14 +1,10 @@
 extends Node2D
 
-
 class_name CommonWorld
-
-
-export(PackedScene) var Player
-
 
 const STARTING_JUMP := 500
 
+export(PackedScene) var Player
 
 var game_rng := RandomNumberGenerator.new()
 var game_options := {} setget set_game_options
@@ -56,6 +52,11 @@ func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: D
 
 
 func _on_LevelGenerator_level_ready() -> void:
+	# Used on the client and server
+	pass
+
+
+func start_countdown() -> void:
 	reset_players()
 
 
