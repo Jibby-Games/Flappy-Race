@@ -59,6 +59,7 @@ func generate(rng: RandomNumberGenerator, obstacles_to_generate: int) -> void:
 	var end = OS.get_ticks_usec()
 	var generation_time = (end-start) / 1000
 	Logger.print(self, "Obstacles generated in %dms!" % generation_time)
+	emit_signal("progress_changed", 1.0)
 	emit_signal("level_ready")
 
 

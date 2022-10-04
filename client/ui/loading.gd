@@ -23,6 +23,11 @@ func set_progress(percent: float) -> void:
 	progress.set_value(percent)
 
 
+func set_hint_text(value: String) -> void:
+	hint_text = value
+	loading_hint.text = "%s%s" % [hint_text, dots]
+
+
 func _on_timer_timeout() -> void:
 	if dots == "...":
 		dots = ""

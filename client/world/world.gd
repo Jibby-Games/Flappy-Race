@@ -115,15 +115,22 @@ func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: D
 	$UI.update_lives(game_options.lives)
 	var result := $LevelGenerator.connect("progress_changed", $UI/Loading, "set_progress")
 	assert(result == OK)
-	$UI/Loading.hint_text = "Generating level"
+	$UI/Loading.set_hint_text("Generating level")
 	$UI/Loading.start()
 
 
 func _on_LevelGenerator_level_ready() -> void:
 	._on_LevelGenerator_level_ready()
-	$UI/Loading.stop()
-	reset_camera()
+	Network.Client.send_client_ready()
+	$UI/Loading.set_hint_text("Waiting for players")
 	finish_line_x_pos = level_generator.finish_line.position.x
+
+
+# Called through the server once all players are ready
+func start_countdown() -> void:
+	.start_countdown()
+	reset_camera()
+	$UI/Loading.stop()
 	$UI.start_countdown()
 	# Make the camera swoop into the starting position
 	var tween = get_tree().create_tween()

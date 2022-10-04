@@ -322,6 +322,10 @@ func send_game_started(game_seed: int) -> void:
 	rpc("receive_game_started", game_seed, game_options, player_list)
 
 
+func send_start_countdown() -> void:
+	rpc("receive_start_countdown")
+
+
 remote func receive_player_flap(client_clock: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	if not $World.has_node(str(player_id)):

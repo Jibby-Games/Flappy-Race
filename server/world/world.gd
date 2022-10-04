@@ -1,12 +1,11 @@
 extends CommonWorld
 
-
-var player_ready: Dictionary
+var ready_callback: String
+var players_not_ready: Array
 var next_place := 1
 var player_lives := {}
 var players_died := []
 var players_finished := []
-
 
 # Timing
 var time_running := false
@@ -14,10 +13,7 @@ var time := 0.0
 
 
 func _ready() -> void:
-	for player_id in multiplayer.get_network_connected_peers():
-		# The server isn't a player
-		if player_id != 1:
-			player_ready[player_id] = false
+	wait_for_all_players_ready_then("setup_and_start_game")
 
 
 func _process(delta: float) -> void:
@@ -25,19 +21,22 @@ func _process(delta: float) -> void:
 		time += delta
 
 
+func wait_for_all_players_ready_then(callback: String, include_server: bool = false) -> void:
+	assert(not callback.empty())
+	ready_callback = callback
+	Logger.print(self, "Waiting for all players to be ready, then calling: %s" % ready_callback)
+	players_not_ready.clear()
+	if include_server:
+		players_not_ready.append(Network.Server.SERVER_ID)
+	for player_id in multiplayer.get_network_connected_peers():
+		players_not_ready.append(player_id)
+
+
 func set_player_ready(player_id: int) -> void:
-	player_ready[player_id] = true
-	if is_everyone_ready():
-		setup_and_start_game()
-
-
-func is_everyone_ready() -> bool:
-	for ready_state in player_ready.values():
-		if ready_state == false:
-			# At least one player was not ready
-			return false
-	Logger.print(self, "All players are ready!")
-	return true
+	players_not_ready.erase(player_id)
+	if players_not_ready.size() == 0:
+		Logger.print(self, "All players are ready!")
+		call(ready_callback)
 
 
 func setup_and_start_game() -> void:
@@ -48,12 +47,19 @@ func setup_and_start_game() -> void:
 
 
 func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary) -> void:
+	wait_for_all_players_ready_then("start_countdown", true)
 	.start_game(game_seed, new_game_options, new_player_list)
 
 
 func _on_LevelGenerator_level_ready() -> void:
 	._on_LevelGenerator_level_ready()
-	# Countdown
+	# Show that the server is ready
+	set_player_ready(Network.Server.SERVER_ID)
+
+
+func start_countdown() -> void:
+	.start_countdown()
+	Network.Server.send_start_countdown()
 	yield(get_tree().create_timer(3), "timeout")
 	time_running = true
 

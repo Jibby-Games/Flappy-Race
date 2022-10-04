@@ -52,6 +52,11 @@ func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: D
 
 
 func _on_LevelGenerator_level_ready() -> void:
+	# Used on the client and server
+	pass
+
+
+func start_countdown() -> void:
 	reset_players()
 
 
