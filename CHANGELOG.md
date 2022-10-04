@@ -23,6 +23,7 @@ Types of changes:
 - Players emit particles when flapping
 - Players have new and improved animations!
 - Camera animations for the start and end of the race
+- Added a loading bar for level generation
 
 ### Changed
 - Reduced title screen birds from 32 to 16
@@ -31,9 +32,15 @@ Types of changes:
 - Made screen shake more subtle
 - Added more clouds and mountains to the background
 - Force the game aspect ratio to be consistent
+- Reduced chance of some obstacles appearing too often
+- Update to Godot 3.5.1
 
 ### Removed
 - Highscore is no longer shown in UI
+
+### Fixed
+- The height difference between obstacles should now always be reachable
+- All players will wait for everyone to finish generating the level before starting
 
 ## [0.4.0] - 2022-09-05
 
