@@ -11,6 +11,8 @@ export(PackedScene) var FinishLine
 
 
 var game_rng: RandomNumberGenerator
+# Controls how often frames are yielded, lower = smoother screen, but slower loading
+var obstacles_per_frame := 25
 var obstacle_spacing := 500
 var spacing_increase := 10
 var obstacle_start_pos := obstacle_spacing * 2
@@ -22,6 +24,7 @@ var next_obstacle_pos := Vector2(obstacle_start_pos, 0)
 var finish_line: Node2D
 
 
+signal progress_changed(percent)
 signal level_ready
 
 
@@ -45,6 +48,10 @@ func generate(rng: RandomNumberGenerator, obstacles_to_generate: int) -> void:
 		generated_obstacles.append(obstacle)
 		next_obstacle_pos.x += obstacle.calculate_length() + obstacle_spacing
 		obstacle_spacing += spacing_increase
+		# Spread out the generation to stop the game freezing
+		if (i % obstacles_per_frame) == 0:
+			emit_signal("progress_changed", (float(i + 1) / obstacles_to_generate))
+			yield(get_tree(), "idle_frame")
 	# Finish line is always the final obstacle
 	finish_line = FinishLine.instance()
 	finish_line.position.x = next_obstacle_pos.x

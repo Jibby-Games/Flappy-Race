@@ -1,14 +1,10 @@
 extends Node2D
 
-
 class_name CommonWorld
-
-
-export(PackedScene) var Player
-
 
 const STARTING_JUMP := 500
 
+export(PackedScene) var Player
 
 var game_rng := RandomNumberGenerator.new()
 var game_options := {} setget set_game_options
