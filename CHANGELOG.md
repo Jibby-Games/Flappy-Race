@@ -34,6 +34,7 @@ Types of changes:
 - Force the game aspect ratio to be consistent
 - Reduced chance of some obstacles appearing too often
 - Update to Godot 3.5.1
+- Limit lives and obstacles to 1000
 
 ### Removed
 - Highscore is no longer shown in UI
@@ -41,6 +42,9 @@ Types of changes:
 ### Fixed
 - The height difference between obstacles should now always be reachable
 - All players will wait for everyone to finish generating the level before starting
+- Sounds are now heard from the player instead of the centre of the screen
+- Clear up leftover obstacles to stop memory leaks
+- Reset the server world correctly
 
 ## [0.4.0] - 2022-09-05
 
