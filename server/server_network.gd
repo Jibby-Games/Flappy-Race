@@ -231,7 +231,7 @@ remote func receive_goal_change(new_goal: int) -> void:
 		# Reset clients back to server value
 		rpc("receive_goal_change", game_options.goal)
 		return
-	if new_goal < 1 or new_goal > 9999:
+	if new_goal < 1 or new_goal > 1000:
 		Logger.print(self, "Player %s tried to set goal to invalid value: %d", [player_id, new_goal])
 		# Reset clients back to server value
 		rpc("receive_goal_change", game_options.goal)
@@ -249,7 +249,7 @@ remote func receive_lives_change(new_lives: int) -> void:
 		# Reset clients back to server value
 		rpc("receive_lives_change", game_options.lives)
 		return
-	if new_lives < 0 or new_lives > 9999:
+	if new_lives < 0 or new_lives > 1000:
 		Logger.print(self, "Player %s tried to set lives to invalid value: %d", [player_id, new_lives])
 		# Reset clients back to server value
 		rpc("receive_lives_change", game_options.lives)
