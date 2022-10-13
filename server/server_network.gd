@@ -96,13 +96,19 @@ func _notification(what) -> void:
 func stop_server() -> void:
 	if has_node("UpnpHandler"):
 		$UpnpHandler.remove_port_mapping()
+	change_scene_to_setup()
 	clear_host()
 	player_state_collection.clear()
 	player_list.clear()
 	game_options.clear()
+	max_players = 0
 	multiplayer.network_peer.close_connection()
 	multiplayer.call_deferred("set_network_peer", null)
 	Logger.print(self, "Server stopped")
+
+
+func change_scene_to_setup() -> void:
+	change_scene("res://server/setup.tscn")
 
 
 func _peer_connected(player_id: int) -> void:
@@ -132,6 +138,7 @@ remote func receive_change_to_setup_request() -> void:
 		Logger.print(self, "Player %s tried to go back to setup but they're not the host!" % [player_id])
 		return
 	Logger.print(self, "Player %s requested change to setup scene" % [player_id])
+	change_scene_to_setup()
 	rpc("receive_change_to_setup")
 
 
