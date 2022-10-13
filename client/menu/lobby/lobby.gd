@@ -67,6 +67,12 @@ func _on_connected() -> void:
 	change_menu(multiplayer_setup_scene)
 
 
+func _on_connection_failed() -> void:
+	Logger.print(self, "Connection failed!")
+	Network.Client.stop_client()
+	show_error("Failed to connect!")
+
+
 func _on_ConnectionTimer_timeout() -> void:
 	Logger.print(self, "Connection timed out!")
 	Network.Client.stop_client()
