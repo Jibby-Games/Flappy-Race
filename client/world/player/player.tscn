@@ -229,6 +229,7 @@ texture = ExtResource( 1 )
 
 [node name="AnimatedOutline" type="AnimatedSprite" parent="Sprites" index="3"]
 frames = SubResource( 1 )
+frame = 1
 
 [node name="DespawnSprite" type="AnimatedSprite" parent="." index="3"]
 visible = false
@@ -236,40 +237,40 @@ frames = SubResource( 5 )
 
 [node name="Flap1" type="AudioStreamPlayer2D" parent="." index="5"]
 stream = ExtResource( 6 )
-attenuation = 3.86374
+attenuation = 2.0
 bus = "Player"
 
 [node name="Flap2" type="AudioStreamPlayer2D" parent="." index="6"]
 stream = ExtResource( 7 )
-attenuation = 3.36359
+attenuation = 2.0
 bus = "Player"
 
 [node name="Flap3" type="AudioStreamPlayer2D" parent="." index="7"]
 stream = ExtResource( 3 )
-attenuation = 3.4822
+attenuation = 2.0
 bus = "Player"
 
 [node name="Flap4" type="AudioStreamPlayer2D" parent="." index="8"]
 stream = ExtResource( 4 )
-attenuation = 5.46415
+attenuation = 2.0
 bus = "Player"
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="." index="9"]
 stream = ExtResource( 5 )
 volume_db = 13.386
-attenuation = 3.36358
+attenuation = 2.0
 bus = "Player"
 
 [node name="Coin" type="AudioStreamPlayer2D" parent="." index="10"]
 stream = ExtResource( 15 )
 volume_db = 1.029
-attenuation = 3.86374
+attenuation = 2.0
 bus = "Player"
 
 [node name="CoinLost" type="AudioStreamPlayer2D" parent="." index="11"]
 stream = ExtResource( 16 )
 volume_db = 5.149
-attenuation = 3.86374
+attenuation = 2.0
 bus = "Player"
 
 [node name="NameLabel" type="Label" parent="." index="12"]
@@ -296,3 +297,5 @@ anims/death_cooldown = SubResource( 2 )
 anims/despawn = SubResource( 4 )
 anims/flap = SubResource( 9 )
 anims/idle = SubResource( 10 )
+
+[node name="Listener2D" type="Listener2D" parent="." index="15"]

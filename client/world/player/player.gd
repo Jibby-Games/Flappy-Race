@@ -75,11 +75,13 @@ func play_flap_sound() -> void:
 func enable_control() -> void:
 	if not is_controlled:
 		is_controlled = true
+		$Listener2D.make_current()
 
 
 func disable_control() -> void:
 	if is_controlled:
 		is_controlled = false
+		$Listener2D.clear_current()
 
 
 func set_body_colour(value: int) -> void:
