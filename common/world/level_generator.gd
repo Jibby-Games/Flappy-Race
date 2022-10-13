@@ -36,6 +36,12 @@ func _ready() -> void:
 		generate(game_rng, 10)
 
 
+func _notification(what):
+	if what == NOTIFICATION_EXIT_TREE:
+		# Stop memory leaks from generated objects
+		clear_obstacles()
+
+
 func generate(rng: RandomNumberGenerator, obstacles_to_generate: int) -> void:
 	Logger.print(self, "Generating level with %d obstacles..." % obstacles_to_generate)
 	game_rng = rng
@@ -67,7 +73,7 @@ func clear_obstacles() -> void:
 	for obst in generated_obstacles:
 		obst.queue_free()
 	generated_obstacles.clear()
-	for obst in spawned_obstacles:
+	for obst in spawned_obstacles.values():
 		obst.queue_free()
 	spawned_obstacles.clear()
 
