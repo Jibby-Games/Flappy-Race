@@ -87,6 +87,10 @@ func disable_control() -> void:
 func set_body_colour(value: int) -> void:
 	body_colour = Globals.COLOUR_OPTIONS[value]
 	$Sprites/Body.modulate = body_colour
+	$Sprites/BodyOutline.modulate = body_colour
+	$Sprites/Wing.modulate = body_colour
+	$Sprites/EyesOutline.modulate = body_colour
+	$Sprites/BeakOutline.modulate = body_colour
 	$Trail.modulate = body_colour
 
 

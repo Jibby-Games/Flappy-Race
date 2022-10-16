@@ -1,7 +1,6 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=27 format=2]
 
-[ext_resource path="res://client/world/player/bird_eyes.png" type="Texture" id=1]
-[ext_resource path="res://client/world/player/bird_outline_1.png" type="Texture" id=2]
+[ext_resource path="res://client/world/player/flappo.png" type="Texture" id=1]
 [ext_resource path="res://client/world/player/unf.ogg" type="AudioStream" id=3]
 [ext_resource path="res://client/world/player/uuh.ogg" type="AudioStream" id=4]
 [ext_resource path="res://client/audio/death.ogg" type="AudioStream" id=5]
@@ -9,9 +8,6 @@
 [ext_resource path="res://client/world/player/huah.ogg" type="AudioStream" id=7]
 [ext_resource path="res://client/world/player/player.gd" type="Script" id=8]
 [ext_resource path="res://common/world/player/player.tscn" type="PackedScene" id=9]
-[ext_resource path="res://client/world/player/bird_body.png" type="Texture" id=11]
-[ext_resource path="res://client/world/player/bird_outline_0.png" type="Texture" id=12]
-[ext_resource path="res://client/world/player/bird_beak.png" type="Texture" id=13]
 [ext_resource path="res://client/theme/flappy.theme" type="Theme" id=14]
 [ext_resource path="res://client/audio/coin.ogg" type="AudioStream" id=15]
 [ext_resource path="res://client/audio/coin_lost.ogg" type="AudioStream" id=16]
@@ -30,14 +26,6 @@ _data = [ Vector2( 0, 0.256757 ), 0.0, 0.743243, 0, 1, Vector2( 1, 1 ), 0.743243
 [sub_resource type="Gradient" id=7]
 interpolation_mode = 2
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 0.337255 )
-
-[sub_resource type="SpriteFrames" id=1]
-animations = [ {
-"frames": [ ExtResource( 12 ), ExtResource( 2 ) ],
-"loop": true,
-"name": "default",
-"speed": 3.0
-} ]
 
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
@@ -86,7 +74,7 @@ tracks/2/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Sprites/AnimatedOutline:frame")
+tracks/3/path = NodePath("Sprites/Wing:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -95,7 +83,31 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 1 ]
+"values": [ 5 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Sprites/Beak:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 10 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Sprites/BeakOutline:frame")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 12 ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -126,7 +138,7 @@ tracks/1/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.8, 1.2 ), Vector2( 1, 1 ), Vector2( 1.2, 0.8 ), Vector2( 1, 1 ), Vector2( 0.8, 1.2 ), Vector2( 1, 1 ), Vector2( 1.2, 0.8 ), Vector2( 1, 1 ), Vector2( 0.8, 1.2 ), Vector2( 1, 1 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Sprites/AnimatedOutline:frame")
+tracks/2/path = NodePath("Sprites/Wing:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -135,11 +147,32 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.33, 0.67, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 0, 1 ]
+"values": [ 4, 5, 4, 5 ]
 }
-
-[sub_resource type="Animation" id=4]
-resource_name = "despawn"
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprites/Beak:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 10, 11, 10 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Sprites/BeakOutline:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 12, 13, 12 ]
+}
 
 [sub_resource type="Animation" id=9]
 resource_name = "flap"
@@ -158,7 +191,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.15, 0.85 ), Vector2( 0.85, 1.15 ), Vector2( 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprites/AnimatedOutline:frame")
+tracks/1/path = NodePath("Sprites/Wing:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -167,7 +200,31 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.1, 0.2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ 1, 0, 1 ]
+"values": [ 4, 5, 4 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprites/Beak:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 10, 11, 10 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprites/BeakOutline:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 12, 13, 12 ]
 }
 
 [sub_resource type="Animation" id=10]
@@ -187,7 +244,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1.05, 0.95 ), Vector2( 0.95, 1.05 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprites/AnimatedOutline:frame")
+tracks/1/path = NodePath("Sprites/Wing:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -196,7 +253,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.3, 0.8 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ 1, 0, 1 ]
+"values": [ 4, 5, 4 ]
 }
 
 [node name="Player" instance=ExtResource( 9 )]
@@ -219,17 +276,56 @@ position = Vector2( 0, 1 )
 
 [node name="Body" type="Sprite" parent="Sprites" index="0"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
-texture = ExtResource( 11 )
-
-[node name="Beak" type="Sprite" parent="Sprites" index="1"]
-texture = ExtResource( 13 )
-
-[node name="Eyes" type="Sprite" parent="Sprites" index="2"]
 texture = ExtResource( 1 )
+hframes = 2
+vframes = 7
+region_rect = Rect2( 0, 0, 128, 448 )
 
-[node name="AnimatedOutline" type="AnimatedSprite" parent="Sprites" index="3"]
-frames = SubResource( 1 )
-frame = 1
+[node name="BodyOutline" type="Sprite" parent="Sprites" index="1"]
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
+texture = ExtResource( 1 )
+hframes = 2
+vframes = 7
+frame = 2
+region_rect = Rect2( 0, 0, 128, 448 )
+
+[node name="Wing" type="Sprite" parent="Sprites" index="2"]
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
+texture = ExtResource( 1 )
+hframes = 2
+vframes = 7
+frame = 5
+region_rect = Rect2( 0, 0, 128, 448 )
+
+[node name="Eyes" type="Sprite" parent="Sprites" index="3"]
+texture = ExtResource( 1 )
+hframes = 2
+vframes = 7
+frame = 6
+region_rect = Rect2( 0, 0, 128, 448 )
+
+[node name="EyesOutline" type="Sprite" parent="Sprites" index="4"]
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
+texture = ExtResource( 1 )
+hframes = 2
+vframes = 7
+frame = 8
+region_rect = Rect2( 0, 0, 128, 448 )
+
+[node name="Beak" type="Sprite" parent="Sprites" index="5"]
+texture = ExtResource( 1 )
+hframes = 2
+vframes = 7
+frame = 10
+region_rect = Rect2( 0, 0, 128, 448 )
+
+[node name="BeakOutline" type="Sprite" parent="Sprites" index="6"]
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
+texture = ExtResource( 1 )
+hframes = 2
+vframes = 7
+frame = 12
+region_rect = Rect2( 0, 0, 128, 448 )
 
 [node name="DespawnSprite" type="AnimatedSprite" parent="." index="3"]
 visible = false
@@ -294,7 +390,6 @@ __meta__ = {
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="14"]
 anims/RESET = SubResource( 3 )
 anims/death_cooldown = SubResource( 2 )
-anims/despawn = SubResource( 4 )
 anims/flap = SubResource( 9 )
 anims/idle = SubResource( 10 )
 
