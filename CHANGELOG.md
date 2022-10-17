@@ -24,6 +24,7 @@ Types of changes:
 - Players have new and improved animations!
 - Camera animations for the start and end of the race
 - Added a loading bar for level generation
+- New player sprite, animations and game icon!
 
 ### Changed
 - Reduced title screen birds from 32 to 16
