@@ -16,36 +16,43 @@ Types of changes:
 -->
 
 ## [Unreleased]
+
+## [0.5.0] - 2022-10-19
+
 ### Added
-- Give the birds a rotation effect
-- Player has a trail effect when going fast
-- Wind particle effect
-- Players emit particles when flapping
-- Players have new and improved animations!
-- Camera animations for the start and end of the race
-- Added a loading bar for level generation
-- New player sprite, animations and game icon!
+
+-   Give the birds a rotation effect
+-   Player has a trail effect when going fast
+-   Wind particle effect
+-   Players emit particles when flapping
+-   Players have new and improved animations!
+-   Camera animations for the start and end of the race
+-   Added a loading bar for level generation
+-   New player sprite, animations and game icon!
 
 ### Changed
-- Reduced title screen birds from 32 to 16
-- Always show game options by default
-- Decrease default race goal to 50
-- Made screen shake more subtle
-- Added more clouds and mountains to the background
-- Force the game aspect ratio to be consistent
-- Reduced chance of some obstacles appearing too often
-- Update to Godot 3.5.1
-- Limit lives and obstacles to 1000
+
+-   Reduced title screen birds from 32 to 16
+-   Always show game options by default
+-   Decrease default race goal to 50
+-   Made screen shake more subtle
+-   Added more clouds and mountains to the background
+-   Force the game aspect ratio to be consistent
+-   Reduced chance of some obstacles appearing too often
+-   Update to Godot 3.5.1
+-   Limit lives and obstacles to 1000
 
 ### Removed
-- Highscore is no longer shown in UI
+
+-   Highscore is no longer shown in UI
 
 ### Fixed
-- The height difference between obstacles should now always be reachable
-- All players will wait for everyone to finish generating the level before starting
-- Sounds are now heard from the player instead of the centre of the screen
-- Clear up leftover obstacles to stop memory leaks
-- Reset the server world correctly
+
+-   The height difference between obstacles should now always be reachable
+-   All players will wait for everyone to finish generating the level before starting
+-   Sounds are now heard from the player instead of the centre of the screen
+-   Clear up leftover obstacles to stop memory leaks
+-   Reset the server world correctly
 
 ## [0.4.0] - 2022-09-05
 
@@ -208,7 +215,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.4.0...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.5.0...HEAD
+
+[0.5.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.4.0...0.5.0
 
 [0.4.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.3.1...0.4.0
 
