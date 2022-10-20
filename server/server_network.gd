@@ -87,9 +87,9 @@ func start_server(
 		upnp_handler.set_name("UpnpHandler")
 		add_child(upnp_handler)
 		upnp_handler.try_add_port_mapping(port)
-	var peer := NetworkedMultiplayerENet.new()
+	var peer := WebSocketServer.new()
 	var result: int
-	result = peer.create_server(port, max_players)
+	result = peer.listen(port, PoolStringArray(), true)
 	assert(result == OK)
 	# Same goes for things like:
 	# get_tree().set_network_peer() -> multiplayer.set_network_peer()
@@ -128,7 +128,7 @@ func stop_server() -> void:
 	game_options.clear()
 	max_players = 0
 	port = 0
-	multiplayer.network_peer.close_connection()
+	multiplayer.network_peer.stop()
 	multiplayer.call_deferred("set_network_peer", null)
 	Logger.print(self, "Server stopped")
 
