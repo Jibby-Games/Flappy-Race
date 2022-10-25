@@ -148,6 +148,10 @@ flap={
 
 locale_filter=[ 0, [  ] ]
 
+[network]
+
+limits/debugger_stdout/max_chars_per_second=4096
+
 [rendering]
 
 environment/default_clear_color=Color( 0.137255, 0.192157, 0.219608, 1 )
