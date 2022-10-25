@@ -109,6 +109,13 @@ func show_leaderboard(player_list: Array) -> void:
 	$Leaderboard.show()
 
 
+func set_late_join_spectator(time: float) -> void:
+	$Ingame/Stopwatch.set_time(time)
+	$Ingame/Stopwatch.start()
+	set_spectating(true)
+	$Ingame.show()
+
+
 func int2ordinal(value: int) -> String:
 	var digit := value % 10
 	var suffix: String

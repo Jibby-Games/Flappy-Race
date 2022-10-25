@@ -27,14 +27,19 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	# Update the player's progress in the UI
+	if finish_line_x_pos != 0:
+		update_player_progress()
+	# Make wind particles spawn ahead of the camera
+	$WindParticles.position.x = $MainCamera.position.x + get_viewport_rect().size.x
+
+
+func update_player_progress() -> void:
 	for player_id in player_list:
 		var player_entry = player_list[player_id]
 		if not player_entry.spectate and player_entry.body != null and is_instance_valid(player_entry.body):
 			var player_progress: float = 0.0
 			player_progress = player_entry.body.position.x / finish_line_x_pos
 			$UI.RaceProgress.set_progress(player_id, player_progress)
-	# Make wind particles spawn ahead of the camera
-	$WindParticles.position.x = $MainCamera.position.x + get_viewport_rect().size.x
 
 
 func _physics_process(_delta: float) -> void:
@@ -117,12 +122,24 @@ func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: D
 	assert(result == OK)
 	$UI/Loading.set_hint_text("Generating level")
 	$UI/Loading.start()
-
-
-func _on_LevelGenerator_level_ready() -> void:
-	._on_LevelGenerator_level_ready()
+	yield(level_generator, "level_ready")
 	Network.Client.send_client_ready()
 	$UI/Loading.set_hint_text("Waiting for players")
+	finish_line_x_pos = level_generator.finish_line.position.x
+
+
+func late_join_start(
+		game_seed: int,
+		new_game_options: Dictionary,
+		new_player_list: Dictionary,
+		time: float
+	) -> void:
+	start_game(game_seed, new_game_options, new_player_list)
+	yield(level_generator, "level_ready")
+	$UI/Loading.stop()
+	reset_players()
+	reset_camera()
+	$UI.set_late_join_spectator(time)
 	finish_line_x_pos = level_generator.finish_line.position.x
 
 

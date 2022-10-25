@@ -13,6 +13,7 @@ var title_scene := "res://client/menu/title/title_screen.tscn"
 var lobby_scene := "res://client/menu/lobby/lobby.tscn"
 var singleplayer_setup_scene := "res://client/menu/setup/singleplayer/singleplayer_setup.tscn"
 var multiplayer_setup_scene := "res://client/menu/setup/multiplayer/multiplayer_setup.tscn"
+var world_scene := "res://client/world/world.tscn"
 
 
 # Clock sync and latency vars
@@ -89,6 +90,10 @@ func change_scene_to_lobby() -> void:
 	$MenuHandler.change_menu_with_fade(lobby_scene)
 
 
+func change_scene_to_world() -> void:
+	change_scene(world_scene)
+
+
 func start_client(host: String, port: int, singleplayer: bool = false) -> void:
 	is_singleplayer = singleplayer
 	var peer = NetworkedMultiplayerENet.new()
@@ -116,7 +121,7 @@ func _on_connected_to_server() -> void:
 	Logger.print(self, "Successfully connected to server!")
 	send_clock_sync_request()
 	$LatencyUpdater.start()
-	Network.Client.send_player_settings(Globals.player_name, Globals.player_colour)
+	send_player_settings(Globals.player_name, Globals.player_colour)
 
 
 func _on_server_disconnected() -> void:
@@ -193,12 +198,23 @@ remote func receive_game_info(
 		new_player_list: Dictionary,
 		new_game_options: Dictionary
 	) -> void:
+	if is_rpc_from_server() == false:
+		return
 	host_player_id = new_host_id
 	emit_signal("host_changed", new_host_id)
 	player_list = new_player_list
 	emit_signal("player_list_changed", new_player_list)
 	game_options = new_game_options
 	emit_signal("game_options_changed", new_game_options)
+
+
+remote func receive_late_join_info(game_seed: int, time: float) -> void:
+	if is_rpc_from_server() == false:
+		return
+	change_scene_to_world()
+	var world = get_node_or_null("World")
+	if world:
+		world.late_join_start(game_seed, game_options, player_list, time)
 
 
 remote func receive_game_options(new_game_options: Dictionary) -> void:
@@ -293,6 +309,7 @@ remote func receive_lives_change(lives: int) -> void:
 
 
 func send_client_ready() -> void:
+	Logger.print(self, "Sending client ready")
 	rpc_id(SERVER_ID, "receive_client_ready")
 
 
@@ -350,7 +367,7 @@ remote func receive_setup_info_message(message: String) -> void:
 remote func receive_load_world() -> void:
 	if is_rpc_from_server() == false:
 		return
-	change_scene("res://client/world/world.tscn")
+	change_scene_to_world()
 
 
 remote func receive_game_started(game_seed: int, start_game_options: Dictionary, start_player_list: Dictionary) -> void:
