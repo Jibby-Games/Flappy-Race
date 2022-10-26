@@ -84,6 +84,7 @@ func start_server(
 	# See the MultiplayerAPI docs for reference.
 	multiplayer.set_network_peer(peer)
 	Logger.print(self, "Server started on port %d - Max Players = %d, UPnP = %s - waiting for players" % [port, max_players, forward_port])
+	change_scene_to_setup()
 
 
 func _notification(what) -> void:
