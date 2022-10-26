@@ -6,6 +6,7 @@ const STARTING_JUMP := 500
 
 export(PackedScene) var Player
 
+var game_seed := 0
 var game_rng := RandomNumberGenerator.new()
 var game_options := {} setget set_game_options
 
@@ -32,6 +33,7 @@ func randomize_game_seed() -> int:
 
 # Sets the game RNG seed
 func set_game_seed(new_seed: int) -> void:
+	game_seed = new_seed
 	game_rng.seed = new_seed
 	Logger.print(self, "Set game seed to: %d" % [new_seed])
 
@@ -41,19 +43,14 @@ func set_game_options(new_game_options: Dictionary) -> void:
 	Logger.print(self, "Set game options to: %s" % [new_game_options])
 
 
-func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary) -> void:
+func start_game(new_game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary) -> void:
 	Logger.print(self, "Starting game with seed = %d, game options: %s and players: %s" %
-		[game_seed, new_game_options, new_player_list])
-	set_game_seed(game_seed)
+		[new_game_seed, new_game_options, new_player_list])
+	set_game_seed(new_game_seed)
 	set_game_options(new_game_options)
 	self.player_list = new_player_list
 	chunk_tracker.chunk_limit = game_options.goal
 	level_generator.generate(game_rng, game_options.goal)
-
-
-func _on_LevelGenerator_level_ready() -> void:
-	# Used on the client and server
-	pass
 
 
 func start_countdown() -> void:

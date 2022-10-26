@@ -9,13 +9,16 @@ onready var info_message = $Setup/InfoMessage
 
 
 func _ready() -> void:
-	var result = Network.Client.connect("player_list_changed", self, "populate_players")
+	var result := Network.Client.connect("player_list_changed", self, "populate_players")
+	assert(result == OK)
+	result = Network.Client.connect("host_changed", self, "_on_host_changed")
 	assert(result == OK)
 
 	info_message.hide()
 
 	if Network.Client.is_server_connected():
 		# Already connected to the server, so set all of the values
+		set_enable_host_options(Network.Client.is_host())
 		if not Network.Client.player_list.empty():
 			populate_players(Network.Client.player_list)
 			var player_id = multiplayer.get_network_unique_id()
@@ -23,6 +26,17 @@ func _ready() -> void:
 				$Setup/SpectateButton.set_pressed_no_signal(true)
 				$Setup/SpectatorText.show()
 				$Setup/PlayerOptions.hide()
+
+
+func _on_host_changed(_new_host: int) -> void:
+	var is_host := Network.Client.is_host()
+	set_enable_host_options(is_host)
+	if is_host:
+		show_message("You're the new host!")
+
+
+func set_enable_host_options(is_host: bool) -> void:
+	$Setup/IpFinder.visible = is_host
 
 
 func populate_players(new_player_list: Dictionary) -> void:

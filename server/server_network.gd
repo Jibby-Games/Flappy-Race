@@ -84,6 +84,7 @@ func start_server(
 	# See the MultiplayerAPI docs for reference.
 	multiplayer.set_network_peer(peer)
 	Logger.print(self, "Server started on port %d - Max Players = %d, UPnP = %s - waiting for players" % [port, max_players, forward_port])
+	change_scene_to_setup()
 
 
 func _notification(what) -> void:
@@ -96,7 +97,6 @@ func _notification(what) -> void:
 func stop_server() -> void:
 	if has_node("UpnpHandler"):
 		$UpnpHandler.remove_port_mapping()
-	change_scene_to_setup()
 	clear_host()
 	player_state_collection.clear()
 	player_list.clear()
@@ -119,17 +119,22 @@ func _peer_connected(player_id: int) -> void:
 
 func _peer_disconnected(player_id: int) -> void:
 	Logger.print(self, "Player %s disconnected" % [player_id])
+	var player_erased = player_list.erase(player_id)
+	assert(player_erased)
+	var peers = multiplayer.get_network_connected_peers()
+	if peers.empty():
+		# All players disconnected
+		clear_host()
+		change_scene_to_setup()
+		return
 	if is_host_id(player_id):
-		# Promote the next player to the host if any are still connected
-		var peers = multiplayer.get_network_connected_peers()
-		if peers.size() > 0:
-			var new_host = peers[0]
-			set_host(new_host)
-		else:
-			clear_host()
-	send_despawn_player(player_id)
-	if player_list.has(player_id):
-		assert(player_list.erase(player_id))
+		# Promote the next player to the host
+		var new_host = peers[0]
+		set_host(new_host)
+	send_player_list_update(player_list)
+	if has_node("World"):
+		$World.despawn_player(player_id)
+		send_despawn_player(player_id)
 
 
 remote func receive_change_to_setup_request() -> void:
@@ -139,7 +144,15 @@ remote func receive_change_to_setup_request() -> void:
 		return
 	Logger.print(self, "Player %s requested change to setup scene" % [player_id])
 	change_scene_to_setup()
+	send_change_to_setup()
+
+
+func send_change_to_setup() -> void:
 	rpc("receive_change_to_setup")
+
+
+func send_change_to_setup_to(player_id: int) -> void:
+	rpc_id(player_id, "receive_change_to_setup")
 
 
 remote func receive_player_settings(player_name: String, player_colour: int) -> void:
@@ -151,9 +164,14 @@ remote func receive_player_settings(player_name: String, player_colour: int) -> 
 	if not is_host_set():
 		# Set the initial host
 		set_host(player_id)
-	player_list[player_id] = create_player_list_entry(player_name, player_colour)
-	send_game_info(player_id)
+	var game_started := has_node("World")
+	player_list[player_id] = create_player_list_entry(player_name, player_colour, game_started)
+	send_game_info_to(player_id)
 	send_player_list_update(player_list)
+	if game_started:
+		send_late_join_info_to(player_id)
+	else:
+		send_change_to_setup_to(player_id)
 
 
 func does_name_already_exist(player_name: String) -> bool:
@@ -179,16 +197,16 @@ func rename_player(player_name: String) -> String:
 	return player_name
 
 
-func send_game_info(player_id: int) -> void:
+func send_game_info_to(player_id: int) -> void:
 	Logger.print(self, "Sending initial game info to player %s" % [player_id])
 	rpc_id(player_id, "receive_game_info", _host_player_id, player_list, game_options)
 
 
-func create_player_list_entry(player_name: String, player_colour: int) -> Dictionary:
+func create_player_list_entry(player_name: String, player_colour: int, spectating: bool) -> Dictionary:
 	return {
 		"name": player_name,
 		"colour": player_colour,
-		"spectate": false,
+		"spectate": spectating,
 		"body": null,
 		"score": 0
 	}
@@ -197,6 +215,10 @@ func create_player_list_entry(player_name: String, player_colour: int) -> Dictio
 func send_player_list_update(new_player_list: Dictionary) -> void:
 	Logger.print(self, "Sending player list update")
 	rpc("receive_player_list_update", new_player_list)
+
+
+func send_late_join_info_to(player_id: int) -> void:
+	rpc_id(player_id, "receive_late_join_info", $World.game_seed, $World.time)
 
 
 remote func receive_player_colour_change(colour_choice: int) -> void:
@@ -268,8 +290,8 @@ func send_player_knockback(player_id: int) -> void:
 
 
 func send_despawn_player(player_id: int) -> void:
-	if player_state_collection.has(player_id):
-		assert(player_state_collection.erase(player_id))
+	var erased = player_state_collection.erase(player_id)
+	assert(erased)
 	rpc("receive_despawn_player", player_id)
 
 
@@ -285,6 +307,7 @@ remote func receive_latency_request(client_time: int) -> void:
 
 remote func receive_client_ready() -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
+	Logger.print(self, "Received client ready for %s" % [player_id])
 	$World.set_player_ready(player_id)
 
 

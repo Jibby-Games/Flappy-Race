@@ -17,6 +17,17 @@ Types of changes:
 
 ## [Unreleased]
 
+### Added
+- Players can now join mid race as spectators!
+
+### Changed
+- Add a limit to the obstacle spacing increase and reduced the rate of increase
+
+### Fixed
+- Various dedicated server fixes
+- Hide IP finder for non-hosts
+- Increase max output messages to stop logs getting cut off
+
 ## [0.5.0] - 2022-10-19
 
 ### Added

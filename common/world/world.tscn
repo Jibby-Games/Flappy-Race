@@ -13,6 +13,5 @@ Player = ExtResource( 3 )
 
 [node name="ChunkTracker" parent="." instance=ExtResource( 4 )]
 
-[connection signal="level_ready" from="LevelGenerator" to="." method="_on_LevelGenerator_level_ready"]
 [connection signal="load_chunk" from="ChunkTracker" to="LevelGenerator" method="spawn_obstacle"]
 [connection signal="unload_chunk" from="ChunkTracker" to="LevelGenerator" method="despawn_obstacle"]

@@ -14,7 +14,8 @@ var game_rng: RandomNumberGenerator
 # Controls how often frames are yielded, lower = smoother screen, but slower loading
 var obstacles_per_frame := 25
 var obstacle_spacing := 500
-var spacing_increase := 10
+var max_obstacle_spacing := 800
+var spacing_increase := 5
 var obstacle_start_pos := obstacle_spacing * 2
 var max_obstacle_height_difference := 150
 var max_height := 350
@@ -53,7 +54,8 @@ func generate(rng: RandomNumberGenerator, obstacles_to_generate: int) -> void:
 		obstacle.set_name("%s_%d" % [obstacle.name, i])
 		generated_obstacles.append(obstacle)
 		next_obstacle_pos.x += obstacle.calculate_length() + obstacle_spacing
-		obstacle_spacing += spacing_increase
+		if obstacle_spacing < max_obstacle_spacing:
+			obstacle_spacing += spacing_increase
 		# Spread out the generation to stop the game freezing
 		if (i % obstacles_per_frame) == 0:
 			emit_signal("progress_changed", (float(i + 1) / obstacles_to_generate))

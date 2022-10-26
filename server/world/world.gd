@@ -33,10 +33,17 @@ func wait_for_all_players_ready_then(callback: String, include_server: bool = fa
 
 
 func set_player_ready(player_id: int) -> void:
+	if ready_callback.empty():
+		# Not waiting for anything, player could have late joined
+		return
 	players_not_ready.erase(player_id)
 	if players_not_ready.size() == 0:
-		Logger.print(self, "All players are ready!")
-		call(ready_callback)
+		Logger.print(self, "All players are ready! Calling: %s" % ready_callback)
+		# Callback must be cached and cleared before call or the callback could
+		# try to start another wait_for_all_players_ready_then which would get cleared
+		var callback := ready_callback
+		ready_callback = ""
+		call(callback)
 
 
 func setup_and_start_game() -> void:
@@ -49,10 +56,7 @@ func setup_and_start_game() -> void:
 func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary) -> void:
 	wait_for_all_players_ready_then("start_countdown", true)
 	.start_game(game_seed, new_game_options, new_player_list)
-
-
-func _on_LevelGenerator_level_ready() -> void:
-	._on_LevelGenerator_level_ready()
+	yield(level_generator, "level_ready")
 	# Show that the server is ready
 	set_player_ready(Network.Server.SERVER_ID)
 
@@ -146,6 +150,7 @@ func _on_Player_finish(player: CommonPlayer) -> void:
 
 
 func end_race() -> void:
+	.end_race()
 	time_running = false
 	var leaderboard := players_finished.duplicate()
 	leaderboard.append_array(players_died)
