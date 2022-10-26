@@ -146,6 +146,10 @@ func send_change_to_setup() -> void:
 	rpc("receive_change_to_setup")
 
 
+func send_change_to_setup_to(player_id: int) -> void:
+	rpc_id(player_id, "receive_change_to_setup")
+
+
 remote func receive_player_settings(player_name: String, player_colour: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	Logger.print(self, "Got settings for player %s. Name: %s, Colour: %s" % [player_id, player_name, player_colour])
@@ -162,7 +166,7 @@ remote func receive_player_settings(player_name: String, player_colour: int) -> 
 	if game_started:
 		send_late_join_info_to(player_id)
 	else:
-		send_change_to_setup()
+		send_change_to_setup_to(player_id)
 
 
 func does_name_already_exist(player_name: String) -> bool:
