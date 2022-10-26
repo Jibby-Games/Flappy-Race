@@ -118,17 +118,20 @@ func _peer_connected(player_id: int) -> void:
 
 func _peer_disconnected(player_id: int) -> void:
 	Logger.print(self, "Player %s disconnected" % [player_id])
+	var player_erased = player_list.erase(player_id)
+	assert(player_erased)
+	var peers = multiplayer.get_network_connected_peers()
+	if peers.empty():
+		# All players disconnected
+		clear_host()
+		change_scene_to_setup()
+		return
 	if is_host_id(player_id):
-		# Promote the next player to the host if any are still connected
-		var peers = multiplayer.get_network_connected_peers()
-		if peers.size() > 0:
-			var new_host = peers[0]
-			set_host(new_host)
-		else:
-			clear_host()
+		# Promote the next player to the host
+		var new_host = peers[0]
+		set_host(new_host)
 	send_despawn_player(player_id)
-	if player_list.has(player_id):
-		assert(player_list.erase(player_id))
+	send_player_list_update(player_list)
 
 
 remote func receive_change_to_setup_request() -> void:
@@ -284,8 +287,8 @@ func send_player_knockback(player_id: int) -> void:
 
 
 func send_despawn_player(player_id: int) -> void:
-	if player_state_collection.has(player_id):
-		assert(player_state_collection.erase(player_id))
+	var erased = player_state_collection.erase(player_id)
+	assert(erased)
 	rpc("receive_despawn_player", player_id)
 
 
