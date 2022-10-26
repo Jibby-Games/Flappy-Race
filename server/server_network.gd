@@ -131,8 +131,10 @@ func _peer_disconnected(player_id: int) -> void:
 		# Promote the next player to the host
 		var new_host = peers[0]
 		set_host(new_host)
-	send_despawn_player(player_id)
 	send_player_list_update(player_list)
+	if has_node("World"):
+		$World.despawn_player(player_id)
+		send_despawn_player(player_id)
 
 
 remote func receive_change_to_setup_request() -> void:
