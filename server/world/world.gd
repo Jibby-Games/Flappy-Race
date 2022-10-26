@@ -150,6 +150,7 @@ func _on_Player_finish(player: CommonPlayer) -> void:
 
 
 func end_race() -> void:
+	.end_race()
 	time_running = false
 	var leaderboard := players_finished.duplicate()
 	leaderboard.append_array(players_died)
