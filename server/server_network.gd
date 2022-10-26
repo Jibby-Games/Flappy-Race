@@ -96,7 +96,6 @@ func _notification(what) -> void:
 func stop_server() -> void:
 	if has_node("UpnpHandler"):
 		$UpnpHandler.remove_port_mapping()
-	change_scene_to_setup()
 	clear_host()
 	player_state_collection.clear()
 	player_list.clear()
