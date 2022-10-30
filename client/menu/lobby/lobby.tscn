@@ -16,9 +16,6 @@ margin_top = 10.0
 margin_right = -10.0
 margin_bottom = -10.0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
@@ -61,9 +58,9 @@ __meta__ = {
 
 [node name="ButtonContainer" type="VBoxContainer" parent="VBoxContainer/Menu/CenterContainer"]
 margin_left = 594.0
-margin_top = 260.0
+margin_top = 199.0
 margin_right = 1305.0
-margin_bottom = 684.0
+margin_bottom = 746.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -105,15 +102,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+[node name="JoinPublicButton" type="Button" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
 margin_top = 120.0
 margin_right = 711.0
-margin_bottom = 124.0
+margin_bottom = 193.0
+size_flags_horizontal = 3
+theme = ExtResource( 8 )
+custom_fonts/font = ExtResource( 7 )
+text = "Join Public Game"
 
-[node name="HostOptions" type="HBoxContainer" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
-margin_top = 174.0
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+margin_top = 243.0
 margin_right = 711.0
 margin_bottom = 247.0
+
+[node name="HostOptions" type="HBoxContainer" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+margin_top = 297.0
+margin_right = 711.0
+margin_bottom = 370.0
 size_flags_horizontal = 3
 size_flags_vertical = 5
 custom_constants/separation = 30
@@ -134,8 +140,8 @@ __meta__ = {
 }
 
 [node name="UpnpToggle" type="CheckButton" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer/HostOptions"]
-margin_left = 460.0
-margin_right = 621.0
+margin_left = 475.0
+margin_right = 606.0
 margin_bottom = 73.0
 hint_tooltip = "Use UPnP to try to automatically perform port forwarding."
 size_flags_horizontal = 6
@@ -146,14 +152,14 @@ __meta__ = {
 }
 
 [node name="HSeparator2" type="HSeparator" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
-margin_top = 297.0
-margin_right = 711.0
-margin_bottom = 301.0
-
-[node name="IpContainer" type="HBoxContainer" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
-margin_top = 351.0
+margin_top = 420.0
 margin_right = 711.0
 margin_bottom = 424.0
+
+[node name="IpContainer" type="HBoxContainer" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+margin_top = 474.0
+margin_right = 711.0
+margin_bottom = 547.0
 size_flags_horizontal = 3
 custom_constants/separation = 15
 __meta__ = {
@@ -218,6 +224,7 @@ alignment = 1
 
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
 [connection signal="timeout" from="ConnectionTimer" to="." method="_on_ConnectionTimer_timeout"]
+[connection signal="pressed" from="VBoxContainer/Menu/CenterContainer/ButtonContainer/JoinPublicButton" to="." method="_on_JoinPublicButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Menu/CenterContainer/ButtonContainer/HostOptions/HostButton" to="." method="_on_HostButton_pressed"]
 [connection signal="toggled" from="VBoxContainer/Menu/CenterContainer/ButtonContainer/HostOptions/UpnpToggle" to="." method="_on_UpnpToggle_toggled"]
 [connection signal="pressed" from="VBoxContainer/Menu/CenterContainer/ButtonContainer/IpContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
