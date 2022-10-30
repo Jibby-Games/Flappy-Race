@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  godot:
+    build: .
+    ports:
+      - "31400:31400"
+      - "31400:31400/udp"
+    tty: true
+    container_name: godot-server
