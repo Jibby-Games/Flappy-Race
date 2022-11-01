@@ -118,10 +118,11 @@ func _peer_connected(player_id: int) -> void:
 
 
 func _peer_disconnected(player_id: int) -> void:
-	Logger.print(self, "Player %s disconnected" % [player_id])
+	var peers = multiplayer.get_network_connected_peers()
+	Logger.print(self, "Player %s disconnected - %d/%d" %
+			[player_id, peers.size(), max_players])
 	var player_erased = player_list.erase(player_id)
 	assert(player_erased)
-	var peers = multiplayer.get_network_connected_peers()
 	if peers.empty():
 		# All players disconnected
 		clear_host()
