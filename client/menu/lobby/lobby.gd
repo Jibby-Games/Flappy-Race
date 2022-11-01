@@ -73,6 +73,7 @@ func try_connect_to_server(ip: String) -> void:
 
 func _on_connected() -> void:
 	$ConnectionTimer.stop()
+	change_menu(multiplayer_setup_scene)
 
 
 func _on_connection_failed() -> void:
