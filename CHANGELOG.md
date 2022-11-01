@@ -19,6 +19,7 @@ Types of changes:
 
 ### Added
 - Players can now join mid race as spectators!
+- Added a public server anyone can join
 
 ### Changed
 - Add a limit to the obstacle spacing increase and reduced the rate of increase
