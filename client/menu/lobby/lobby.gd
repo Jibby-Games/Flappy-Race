@@ -2,7 +2,7 @@ extends MenuControl
 
 
 const MAX_CONNECT_TIME := 10
-
+const MAIN_SERVER_URL := "jibby.games"
 
 var title_scene := "res://client/menu/title/title_screen.tscn"
 var multiplayer_setup_scene := "res://client/menu/setup/multiplayer/multiplayer_setup.tscn"
@@ -43,6 +43,15 @@ func _on_JoinButton_pressed() -> void:
 		try_connect_to_server(join_ip)
 	else:
 		show_error("Invalid IP!")
+
+
+func _on_JoinPublicButton_pressed() -> void:
+	if is_name_empty():
+		return
+	Globals.player_name = name_input.text
+	show_info("Connecting...")
+	error_message.hide()
+	try_connect_to_server(MAIN_SERVER_URL)
 
 
 func _on_BackButton_pressed() -> void:
