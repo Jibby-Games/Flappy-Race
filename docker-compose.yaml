@@ -1,4 +1,4 @@
-version: '3'
+version: "3.8"
 
 services:
   godot:
@@ -7,4 +7,4 @@ services:
       - "31400:31400"
       - "31400:31400/udp"
     tty: true
-    container_name: godot-server
+    container_name: flappy-server
