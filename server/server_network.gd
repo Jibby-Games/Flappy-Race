@@ -33,10 +33,11 @@ func _ready() -> void:
 	assert(result == OK)
 	result = multiplayer.connect("network_peer_connected", self, "_peer_connected")
 	assert(result == OK)
+	result = $ServerListHandler.connect("connection_established", self, "_update_server_list_status")
+	assert(result == OK)
 
 	# Register with the Network singleton so this node can be easily accessed
 	Network.Server = self
-
 
 
 func _exit_tree() -> void:
@@ -85,6 +86,7 @@ func start_server(
 	multiplayer.set_network_peer(peer)
 	Logger.print(self, "Server started on port %d - Max Players = %d, UPnP = %s - waiting for players" % [port, max_players, forward_port])
 	change_scene_to_setup()
+	$ServerListHandler.start_connection("Test server")
 
 
 func _notification(what) -> void:
@@ -97,6 +99,8 @@ func _notification(what) -> void:
 func stop_server() -> void:
 	if has_node("UpnpHandler"):
 		$UpnpHandler.remove_port_mapping()
+	if $ServerListHandler.is_connected_to_server_list():
+		$ServerListHandler.stop_connection()
 	clear_host()
 	player_state_collection.clear()
 	player_list.clear()
@@ -115,12 +119,14 @@ func _peer_connected(player_id: int) -> void:
 	var num_players = multiplayer.get_network_connected_peers().size()
 	Logger.print(self, "Player %s connected - %d/%d" %
 			[player_id, num_players, max_players])
+	_update_server_list_status()
 
 
 func _peer_disconnected(player_id: int) -> void:
 	var peers = multiplayer.get_network_connected_peers()
 	Logger.print(self, "Player %s disconnected - %d/%d" %
 			[player_id, peers.size(), max_players])
+	_update_server_list_status()
 	var player_erased = player_list.erase(player_id)
 	assert(player_erased)
 	if peers.empty():
@@ -136,6 +142,11 @@ func _peer_disconnected(player_id: int) -> void:
 	if has_node("World"):
 		$World.despawn_player(player_id)
 		send_despawn_player(player_id)
+
+
+func _update_server_list_status() -> void:
+	if $ServerListHandler.is_connected_to_server_list():
+		$ServerListHandler.send_players(multiplayer.get_network_connected_peers().size())
 
 
 remote func receive_change_to_setup_request() -> void:
