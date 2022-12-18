@@ -8,7 +8,7 @@
 
 <p align="center">
     <img alt="GitHub" src="https://img.shields.io/github/license/Jibby-Games/Flappy-Race">
-    <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/Jibby-Games/Flappy-Race/Build%20Game">
+    <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/Jibby-Games/Flappy-Race/build.yml?branch=main">
     <img alt="GitHub issues" src="https://img.shields.io/github/issues/Jibby-Games/Flappy-Race">
     <img alt="GitHub commits since latest release (by SemVer)" src="https://img.shields.io/github/commits-since/Jibby-Games/Flappy-Race/latest">
     <img alt="GitHub downloads all releases" src="https://img.shields.io/github/downloads/Jibby-Games/Flappy-Race/total">
