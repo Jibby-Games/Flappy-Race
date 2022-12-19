@@ -16,6 +16,7 @@ const DEFAULT_GAME_OPTIONS := {
 # the client and server physics, so objects from the client and the server can't
 # interact with eachother when self hosting.
 
+var port := 0
 var max_players := 0
 var _host_player_id := 0 setget set_host
 var player_state_collection := {}
@@ -65,9 +66,10 @@ func clear_host() -> void:
 
 
 func start_server(
-		port: int,
+		server_port: int,
 		server_max_players: int,
 		forward_port: bool = true) -> void:
+	port = server_port
 	max_players = server_max_players
 	game_options = DEFAULT_GAME_OPTIONS.duplicate()
 	if forward_port:
@@ -106,6 +108,7 @@ func stop_server() -> void:
 	player_list.clear()
 	game_options.clear()
 	max_players = 0
+	port = 0
 	multiplayer.network_peer.close_connection()
 	multiplayer.call_deferred("set_network_peer", null)
 	Logger.print(self, "Server stopped")

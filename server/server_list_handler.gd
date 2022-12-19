@@ -42,7 +42,7 @@ func _error() -> void:
 func _connected(protocol = ""):
 	print_debug("Server list connected with protocol: ", protocol)
 	# The server list expects the name to be sent first
-	_send_json({ "name": server_name })
+	_send_json({ "name": server_name, "port": Network.Server.port })
 	$ReconnectionTimer.stop()
 	emit_signal("connection_established")
 
