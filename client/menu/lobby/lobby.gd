@@ -5,16 +5,14 @@ const MAX_CONNECT_TIME := 10
 const MAIN_SERVER_URL := "jibby.games"
 
 var title_scene := "res://client/menu/title/title_screen.tscn"
-var multiplayer_setup_scene := "res://client/menu/setup/multiplayer/multiplayer_setup.tscn"
+var server_browser_scene := "res://client/menu/lobby/server_browser.tscn"
 
 onready var error_message = $VBoxContainer/Menu/ErrorMessage
 onready var info_message = $VBoxContainer/Menu/InfoMessage
 onready var ip_input = $VBoxContainer/Menu/CenterContainer/ButtonContainer/IpContainer/IpInput
 onready var name_input = $VBoxContainer/Menu/CenterContainer/ButtonContainer/NameContainer/NameInput
 
-
 var enable_upnp := true
-
 
 func _ready() -> void:
 	var result: int
@@ -73,12 +71,11 @@ func try_connect_to_server(ip: String) -> void:
 
 func _on_connected() -> void:
 	$ConnectionTimer.stop()
-	change_menu(multiplayer_setup_scene)
+	Network.Client.change_scene_to_setup()
 
 
 func _on_connection_failed() -> void:
 	Logger.print(self, "Connection failed!")
-	Network.Client.stop_client()
 	show_error("Failed to connect!")
 
 
@@ -102,3 +99,7 @@ func show_error(message: String) -> void:
 
 func _on_UpnpToggle_toggled(button_pressed: bool) -> void:
 	enable_upnp = button_pressed
+
+
+func _on_ServerBrowserButton_pressed() -> void:
+	change_menu(server_browser_scene)

@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=1]
+[ext_resource path="res://client/menu/lobby/server_entry.gd" type="Script" id=2]
+
+[node name="ServerEntry" type="Control"]
+anchor_right = 1.0
+rect_min_size = Vector2( 0, 50 )
+script = ExtResource( 2 )
+
+[node name="Hbox" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Name" type="Label" parent="Hbox"]
+margin_top = 7.0
+margin_right = 800.0
+margin_bottom = 42.0
+rect_min_size = Vector2( 800, 0 )
+custom_fonts/font = ExtResource( 1 )
+text = "server name"
+
+[node name="Players" type="Label" parent="Hbox"]
+margin_left = 804.0
+margin_top = 7.0
+margin_right = 1104.0
+margin_bottom = 42.0
+rect_min_size = Vector2( 300, 0 )
+custom_fonts/font = ExtResource( 1 )
+text = "x"
+
+[node name="JoinButton" type="Button" parent="."]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -200.0
+margin_top = -25.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 200, 0 )
+custom_fonts/font = ExtResource( 1 )
+text = "Join"
+
+[connection signal="pressed" from="JoinButton" to="." method="_on_JoinButton_pressed"]
