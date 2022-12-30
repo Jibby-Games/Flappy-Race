@@ -30,31 +30,27 @@ anchor_right = 0.95
 anchor_bottom = 0.9
 rect_min_size = Vector2( 1200, 750 )
 
-[node name="EmptyMessage" type="Label" parent="Panel"]
+[node name="CenterContainer" type="CenterContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="EmptyMessage" type="Label" parent="Panel/CenterContainer"]
 visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -165.5
-margin_top = -24.0
-margin_right = 165.5
-margin_bottom = 24.0
+margin_left = 689.0
+margin_top = 384.0
+margin_right = 1020.0
+margin_bottom = 432.0
 custom_fonts/font = ExtResource( 3 )
 text = "No servers found!"
 align = 1
 valign = 1
 
-[node name="ErrorMessage" type="Label" parent="Panel"]
+[node name="ErrorMessage" type="Label" parent="Panel/CenterContainer"]
 visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -165.5
-margin_top = -24.0
-margin_right = 165.5
-margin_bottom = 24.0
+margin_left = 706.0
+margin_top = 384.0
+margin_right = 1003.0
+margin_bottom = 432.0
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 3 )

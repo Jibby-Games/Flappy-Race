@@ -4,8 +4,7 @@ signal connection_established
 signal connection_closed
 signal connection_error
 
-# The URL we will connect to
-export var server_list_url := "ws://127.0.0.1:3000/api/servers/ws"
+export var server_list_route := "api/servers/ws"
 
 # Our WebSocketClient instance
 var _client := WebSocketClient.new()
@@ -79,7 +78,8 @@ func _try_connect() -> void:
 		push_error("Server name cannot be empty when connecting to the server list!")
 		return
 	print_debug("Attempting connection...")
-	var result = _client.connect_to_url(server_list_url, ["json"], false, ["User-Agent: Flappy-Race-Server"])
+	var url = "%s/%s" % [Network.SERVER_LIST_URL, server_list_route]
+	var result = _client.connect_to_url(url, ["json"], false, ["User-Agent: Flappy-Race-Server"])
 	if result != OK:
 		print_debug("Unable to connect to server list - will try again")
 		$ReconnectionTimer.start()

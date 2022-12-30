@@ -1,13 +1,13 @@
 extends MenuControl
 
-export(String) var server_list_url = "http://127.0.0.1:3000/api/servers"
+export(String) var server_list_route = "api/servers"
 export(PackedScene) var server_entry
 
 var lobby_scene := "res://client/menu/lobby/lobby.tscn"
 
 onready var server_list_entries = $Panel/ServerListContainer/ServerListEntries
-onready var error_message = $Panel/ErrorMessage
-onready var empty_message = $Panel/EmptyMessage
+onready var error_message = $Panel/CenterContainer/ErrorMessage
+onready var empty_message = $Panel/CenterContainer/EmptyMessage
 
 func _ready() -> void:
 	var result: int
@@ -34,7 +34,8 @@ func get_server_list() -> void:
 	empty_message.hide()
 	error_message.hide()
 	$ServerRequest.cancel_request()
-	var result: int = $ServerRequest.request(server_list_url)
+	var url = "%s/%s" % [Network.SERVER_LIST_URL, server_list_route]
+	var result: int = $ServerRequest.request(url)
 	assert(result == OK)
 
 
