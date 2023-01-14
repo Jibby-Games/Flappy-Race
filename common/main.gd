@@ -1,5 +1,22 @@
 extends Node
 
+var help_text = """Unknown argument: %s
+General args:
+  --help - Shows this message
+  --port [port] - Specify the port to use
+
+Server only args:
+  --server - Start a headless server
+
+Client only args:
+  --host - Hosts a multiplayer game
+  --join [ip:port] - Join a multiplayer game at a specified address
+
+Host/Server args:
+  --upnp - Enable automatic UPnP port forwarding
+  --name - Specify the server name
+"""
+
 # This node is only needs to detect the command line args so the right scene can be loaded
 func _ready() -> void:
 	parse_command_line_args()
@@ -16,6 +33,7 @@ func parse_command_line_args() -> void:
 	# Hosting options
 	var port := Network.RPC_PORT
 	var use_upnp := false
+	var server_name := "Flappy Server"
 
 	var args := OS.get_cmdline_args()
 	for arg_index in args.size():
@@ -34,10 +52,18 @@ func parse_command_line_args() -> void:
 			port = int(args[arg_index + 1])
 		elif arg == "--upnp":
 			use_upnp = true
+		elif arg == "--name":
+			server_name = args[arg_index + 1]
+		elif arg == "--version":
+			print("Flappy Race %s" % [ProjectSettings.get_setting("application/config/version")])
+		else:
+			print(help_text % arg)
+			get_tree().quit()
+			return
 
 	if is_server:
 		Logger.print(self, "Starting Server...")
-		Network.start_server(port, use_upnp)
+		Network.start_server(port, use_upnp, server_name)
 	else:
 		Logger.print(self, "Starting Client...")
 		Network.change_to_client()
