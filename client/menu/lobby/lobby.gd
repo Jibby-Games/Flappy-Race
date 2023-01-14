@@ -10,6 +10,7 @@ onready var error_message = $VBoxContainer/Menu/ErrorMessage
 onready var info_message = $VBoxContainer/Menu/InfoMessage
 onready var ip_input = $VBoxContainer/Menu/CenterContainer/ButtonContainer/IpContainer/IpInput
 onready var name_input = $VBoxContainer/Menu/CenterContainer/ButtonContainer/NameContainer/NameInput
+onready var server_name_input = $VBoxContainer/Menu/CenterContainer/ButtonContainer/HostOptions/ServerNameInput
 
 var enable_upnp := true
 
@@ -25,8 +26,10 @@ func _ready() -> void:
 func _on_HostButton_pressed() -> void:
 	if is_name_empty():
 		return
+	if is_server_name_empty():
+		return
 	Globals.player_name = name_input.text
-	Network.start_multiplayer_host(Network.RPC_PORT, enable_upnp)
+	Network.start_multiplayer_host(Network.RPC_PORT, enable_upnp, server_name_input.text)
 
 
 func _on_JoinButton_pressed() -> void:
@@ -49,6 +52,14 @@ func _on_BackButton_pressed() -> void:
 func is_name_empty() -> bool:
 	if name_input.text.empty():
 		show_error("Please enter a name")
+		return true
+	error_message.hide()
+	return false
+
+
+func is_server_name_empty() -> bool:
+	if server_name_input.text.empty():
+		show_error("Please enter a server name")
 		return true
 	error_message.hide()
 	return false

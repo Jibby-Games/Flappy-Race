@@ -99,7 +99,7 @@ func start_client(host: String, port: int, singleplayer: bool = false) -> void:
 	var peer = NetworkedMultiplayerENet.new()
 	peer.create_client(host, port)
 	multiplayer.set_network_peer(peer)
-	Logger.print(self, "Client started")
+	Logger.print(self, "Client started connecting to %s:%d", [host, port])
 
 
 func stop_client() -> void:

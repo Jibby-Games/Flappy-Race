@@ -68,7 +68,8 @@ func clear_host() -> void:
 func start_server(
 		server_port: int,
 		server_max_players: int,
-		forward_port: bool = true) -> void:
+		forward_port: bool = true,
+		server_name: String = "Flappy Server") -> void:
 	port = server_port
 	max_players = server_max_players
 	game_options = DEFAULT_GAME_OPTIONS.duplicate()
@@ -88,7 +89,7 @@ func start_server(
 	multiplayer.set_network_peer(peer)
 	Logger.print(self, "Server started on port %d - Max Players = %d, UPnP = %s - waiting for players" % [port, max_players, forward_port])
 	change_scene_to_setup()
-	$ServerListHandler.start_connection("Test server")
+	$ServerListHandler.start_connection(server_name)
 
 
 func _notification(what) -> void:
@@ -99,10 +100,9 @@ func _notification(what) -> void:
 
 
 func stop_server() -> void:
+	$ServerListHandler.stop_connection()
 	if has_node("UpnpHandler"):
 		$UpnpHandler.remove_port_mapping()
-	if $ServerListHandler.is_connected_to_server_list():
-		$ServerListHandler.stop_connection()
 	clear_host()
 	player_state_collection.clear()
 	player_list.clear()

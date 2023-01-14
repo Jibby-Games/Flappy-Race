@@ -121,7 +121,7 @@ __meta__ = {
 }
 
 [node name="HostButton" type="Button" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer/HostOptions"]
-margin_right = 340.0
+margin_right = 225.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 theme = ExtResource( 8 )
@@ -131,9 +131,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ServerNameInput" type="LineEdit" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer/HostOptions"]
+margin_left = 255.0
+margin_right = 455.0
+margin_bottom = 73.0
+rect_min_size = Vector2( 200, 0 )
+align = 1
+placeholder_text = "Server name"
+
 [node name="UpnpToggle" type="CheckButton" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer/HostOptions"]
-margin_left = 475.0
-margin_right = 606.0
+margin_left = 532.0
+margin_right = 663.0
 margin_bottom = 73.0
 hint_tooltip = "Use UPnP to try to automatically perform port forwarding."
 size_flags_horizontal = 6
