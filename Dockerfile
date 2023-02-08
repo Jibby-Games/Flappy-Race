@@ -10,7 +10,7 @@ RUN apk add --no-cache \
 
 # This is needed to run Godot on Alpine
 RUN wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.31-r0/glibc-2.31-r0.apk && \
-    apk add --allow-untrusted glibc-2.31-r0.apk && \
+    apk add --allow-untrusted --force-overwrite glibc-2.31-r0.apk && \
     rm -f glibc-2.31-r0.apk
 
 # Download Godot Headless and export templates, version is set from env variables
