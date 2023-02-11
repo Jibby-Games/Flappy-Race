@@ -79,3 +79,7 @@ func populate_servers(servers: Array) -> void:
 
 func _on_BackButton_pressed() -> void:
 	change_menu(lobby_scene)
+
+
+func _on_RefreshTimer_timeout() -> void:
+	get_server_list()

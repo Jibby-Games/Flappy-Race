@@ -19,6 +19,10 @@ server_entry = ExtResource( 4 )
 [node name="ServerRequest" type="HTTPRequest" parent="."]
 timeout = 10.0
 
+[node name="RefreshTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
 [node name="Title" parent="." instance=ExtResource( 7 )]
 margin_bottom = 111.0
 text = "Server Browser"
@@ -123,5 +127,6 @@ label = "Back"
 alignment = 1
 
 [connection signal="request_completed" from="ServerRequest" to="." method="_on_ServerRequest_request_completed"]
+[connection signal="timeout" from="RefreshTimer" to="." method="_on_RefreshTimer_timeout"]
 [connection signal="pressed" from="Panel/ServerListContainer/Control/RefreshButton" to="." method="_on_RefreshButton_pressed"]
 [connection signal="pressed" from="Footer/BackButton" to="." method="_on_BackButton_pressed"]
