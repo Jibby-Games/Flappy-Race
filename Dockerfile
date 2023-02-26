@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.17.2
 
 # Environment Variables
 ENV GODOT_VERSION "3.5.1"
@@ -14,8 +14,8 @@ RUN wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.31-r0/
     rm -f glibc-2.31-r0.apk
 
 # Download Godot Headless and export templates, version is set from env variables
-RUN wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-stable_linux_headless.64.zip \
-    && wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-stable_export_templates.tpz \
+RUN wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux_headless.64.zip \
+    && wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_export_templates.tpz \
     && mkdir ~/.cache \
     && mkdir -p ~/.config/godot \
     && mkdir -p ~/.local/share/godot/templates/${GODOT_VERSION}.stable \
@@ -26,7 +26,7 @@ RUN wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${G
     && rm -f Godot_v${GODOT_VERSION}-stable_export_templates.tpz Godot_v${GODOT_VERSION}-stable_linux_headless.64.zip
 
 # Download Godot Server to run the exported .pck
-RUN wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-stable_linux_server.64.zip \
+RUN wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux_server.64.zip \
     && unzip Godot_v${GODOT_VERSION}-stable_linux_server.64.zip \
     && mv Godot_v${GODOT_VERSION}-stable_linux_server.64 /usr/local/bin/godot-server \
     && rm -f Godot_v${GODOT_VERSION}-stable_linux_server.64.zip
