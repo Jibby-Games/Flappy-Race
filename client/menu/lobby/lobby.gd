@@ -13,6 +13,7 @@ onready var name_input = $VBoxContainer/Menu/CenterContainer/ButtonContainer/Nam
 onready var server_name_input = $VBoxContainer/Menu/CenterContainer/ButtonContainer/HostOptions/ServerNameInput
 
 var enable_upnp := true
+var game_manager_route = "api/request"
 
 func _ready() -> void:
 	var result: int
@@ -109,3 +110,29 @@ func _on_UpnpToggle_toggled(button_pressed: bool) -> void:
 
 func _on_ServerBrowserButton_pressed() -> void:
 	change_menu(server_browser_scene)
+
+
+func _on_CreateButton_pressed() -> void:
+	var http = HTTPRequest.new()
+	http.connect("request_completed", self, "_on_HTTPCreate_request_completed")
+	add_child(http)
+	var url = "%s/%s" % [Network.SERVER_LIST_URL, game_manager_route]
+	http.request(url)
+
+
+func _on_HTTPCreate_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray) -> void:
+	if result == HTTPRequest.RESULT_SUCCESS and response_code == 200:
+		# Successful response
+		var game_port := body.get_string_from_utf8()
+		if game_port.is_valid_integer():
+			try_connect_to_server(Network.SERVER_LIST_URL, int(game_port))
+		else:
+			push_error("Received invalid game port from server: %s" % game_port)
+	else:
+		Logger.print(self,
+"""Unable to create new game! HTTP request returned:
+result = %d
+response_code = %d
+headers = %s
+body = %s
+""" % [result, response_code, headers, body])
