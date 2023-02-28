@@ -37,10 +37,15 @@ func _on_JoinButton_pressed() -> void:
 		return
 	Globals.player_name = name_input.text
 	show_info("Connecting...")
-	var join_ip = ip_input.text
+	var join_ip: String = ip_input.text
+	var port := Network.RPC_PORT
+	if ":" in join_ip:
+		var parts = join_ip.split(":")
+		join_ip = parts[0]
+		port = int(parts[1])
 	if join_ip.is_valid_ip_address():
 		error_message.hide()
-		try_connect_to_server(join_ip)
+		try_connect_to_server(join_ip, port)
 	else:
 		show_error("Invalid IP!")
 
@@ -65,9 +70,9 @@ func is_server_name_empty() -> bool:
 	return false
 
 
-func try_connect_to_server(ip: String) -> void:
+func try_connect_to_server(ip: String, port: int) -> void:
 	$ConnectionTimer.start(MAX_CONNECT_TIME)
-	Network.Client.start_client(ip, Network.RPC_PORT)
+	Network.Client.start_client(ip, port)
 
 
 func _on_connected() -> void:
