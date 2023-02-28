@@ -17,6 +17,8 @@ const DEFAULT_GAME_OPTIONS := {
 # interact with eachother when self hosting.
 
 var port := 0
+# When true, the server stays active after all players leave, otherwise it shutsdown
+var persistent_server := false
 var max_players := 0
 var _host_player_id := 0 setget set_host
 var player_state_collection := {}
@@ -129,18 +131,22 @@ func _peer_disconnected(player_id: int) -> void:
 	var peers = multiplayer.get_network_connected_peers()
 	Logger.print(self, "Player %s disconnected - %d/%d" %
 			[player_id, peers.size(), max_players])
-	_update_server_list_status()
 	var player_erased = player_list.erase(player_id)
 	assert(player_erased)
 	if peers.empty():
 		# All players disconnected
-		clear_host()
-		change_scene_to_setup()
+		if persistent_server:
+			# Reset everything ready for future players
+			clear_host()
+			change_scene_to_setup()
+		else:
+			get_tree().quit()
 		return
 	if is_host_id(player_id):
 		# Promote the next player to the host
 		var new_host = peers[0]
 		set_host(new_host)
+	_update_server_list_status()
 	send_player_list_update(player_list)
 	if has_node("World"):
 		$World.despawn_player(player_id)
