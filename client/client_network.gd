@@ -96,10 +96,13 @@ func change_scene_to_world() -> void:
 
 func start_client(host: String, port: int, singleplayer: bool = false) -> void:
 	is_singleplayer = singleplayer
+	var ip := host
+	if "://" in host:
+		ip = host.split("://")[1]
 	var peer = NetworkedMultiplayerENet.new()
-	peer.create_client(host, port)
+	peer.create_client(ip, port)
 	multiplayer.set_network_peer(peer)
-	Logger.print(self, "Client started connecting to %s:%d", [host, port])
+	Logger.print(self, "Client started connecting to %s:%d", [ip, port])
 
 
 func stop_client() -> void:
