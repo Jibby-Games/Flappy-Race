@@ -140,6 +140,7 @@ func _peer_disconnected(player_id: int) -> void:
 			clear_host()
 			change_scene_to_setup()
 		else:
+			stop_server()
 			get_tree().quit()
 		return
 	if is_host_id(player_id):
