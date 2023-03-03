@@ -24,6 +24,7 @@ func _ready():
 	result = _client.connect("data_received", self, "_on_data")
 	assert(result == OK)
 	result = $ReconnectionTimer.connect("timeout", self, "_try_connect")
+	assert(result == OK)
 
 func _closed(was_clean = false):
 	# was_clean will tell you if the disconnection was correctly notified
