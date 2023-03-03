@@ -44,11 +44,8 @@ func _on_JoinButton_pressed() -> void:
 		var parts = join_ip.split(":")
 		join_ip = parts[0]
 		port = int(parts[1])
-	if join_ip.is_valid_ip_address():
-		error_message.hide()
-		try_connect_to_server(join_ip, port)
-	else:
-		show_error("Invalid IP!")
+	error_message.hide()
+	try_connect_to_server(join_ip, port)
 
 
 func _on_BackButton_pressed() -> void:
