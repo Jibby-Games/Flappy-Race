@@ -38,6 +38,7 @@ func _ready() -> void:
 	assert(result == OK)
 	result = $ServerListHandler.connect("connection_established", self, "_update_server_list_status")
 	assert(result == OK)
+	$ServerListHandler.server_list_url = Network.SERVER_LIST_URL
 
 	# Register with the Network singleton so this node can be easily accessed
 	Network.Server = self

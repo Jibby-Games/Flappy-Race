@@ -4,6 +4,7 @@ signal connection_established
 signal connection_closed
 signal connection_error
 
+export var server_list_url := "http://jibby.games"
 export var server_list_route := "api/servers/ws"
 
 # Our WebSocketClient instance
@@ -27,19 +28,19 @@ func _ready():
 func _closed(was_clean = false):
 	# was_clean will tell you if the disconnection was correctly notified
 	# by the remote peer before closing the socket.
-	print_debug("Server list connection closed - attempting to reconnect, clean: ", was_clean)
+	Logger.print(self, "Server list connection closed - attempting to reconnect, clean: %s" % was_clean)
 	$ReconnectionTimer.start()
 	emit_signal("connection_closed")
 
 
 func _error() -> void:
-	print_debug("Server list connection error - attempting to reconnect")
+	Logger.print(self, "Server list connection error - attempting to reconnect")
 	$ReconnectionTimer.start()
 	emit_signal("connection_error")
 
 
 func _connected(protocol = ""):
-	print_debug("Server list connected with protocol: ", protocol)
+	Logger.print(self, "Server list connected with protocol: %s" % protocol)
 	# The server list expects the name to be sent first
 	_send_json({ "name": server_name, "port": Network.Server.port })
 	$ReconnectionTimer.stop()
@@ -49,7 +50,7 @@ func _connected(protocol = ""):
 func _on_data():
 	# Print the received packet, you MUST always use get_peer(1).get_packet
 	# to receive data from server
-	print_debug("Received data from server list: ", _client.get_peer(1).get_packet().get_string_from_utf8())
+	Logger.print(self, "Received data from server list: %s" % [_client.get_peer(1).get_packet().get_string_from_utf8()])
 
 
 func _process(_delta):
@@ -64,7 +65,7 @@ func start_connection(_server_name: String) -> void:
 	if connection_started:
 		push_error("Server list connection already started!")
 		return
-	print_debug("Started connection to server list")
+	Logger.print(self, "Started connection to server list (url: %s, server_name: %s)" % [server_list_url, _server_name])
 	self.server_name = _server_name
 	connection_started = true
 	_try_connect()
@@ -77,11 +78,11 @@ func _try_connect() -> void:
 	if self.server_name.empty():
 		push_error("Server name cannot be empty when connecting to the server list!")
 		return
-	print_debug("Attempting connection...")
-	var url = "%s/%s" % [Network.SERVER_LIST_URL, server_list_route]
+	var url = "%s/%s" % [server_list_url, server_list_route]
+	Logger.print(self, "Attempting connection to %s..." % url)
 	var result = _client.connect_to_url(url, ["json"], false, ["User-Agent: Flappy-Race-Server"])
 	if result != OK:
-		print_debug("Unable to connect to server list - will try again")
+		Logger.print(self, "Unable to connect to server list - will try again")
 		$ReconnectionTimer.start()
 		return
 	_client.get_peer(1).set_write_mode(WebSocketPeer.WRITE_MODE_TEXT)
@@ -96,7 +97,7 @@ func stop_connection() -> void:
 	if is_connected_to_server_list():
 		_client.get_peer(1).close()
 	connection_started = false
-	print_debug("Stopped connection to server list")
+	Logger.print(self, "Stopped connection to server list")
 
 
 func is_connected_to_server_list() -> bool:
