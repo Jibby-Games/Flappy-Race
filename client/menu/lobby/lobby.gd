@@ -118,13 +118,19 @@ func _on_CreateButton_pressed() -> void:
 
 
 func _on_HTTPCreate_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray) -> void:
-	if result == HTTPRequest.RESULT_SUCCESS and response_code == 200:
+	if result == HTTPRequest.RESULT_SUCCESS and response_code == 201:
 		# Successful response
-		var game_port := body.get_string_from_utf8()
-		if game_port.is_valid_integer():
-			try_connect_to_server(Network.SERVER_LIST_URL, int(game_port))
-		else:
-			push_error("Received invalid game port from server: %s" % game_port)
+		var resp = parse_json(body.get_string_from_utf8())
+		if typeof(resp) != TYPE_DICTIONARY:
+			push_error("Received invalid object type, expected Dictionary, got: %s" % typeof(resp))
+			return
+		if not resp.has("port"):
+			push_error("Couldn't find a port in the response: %s" % resp)
+			return
+		if not typeof(resp.port) == TYPE_REAL:
+			push_error("Port must be a numerical type (float), got: %s" % typeof(resp.port))
+			return
+		try_connect_to_server(Network.SERVER_LIST_URL, int(resp.port))
 	else:
 		Logger.print(self,
 """Unable to create new game! HTTP request returned:
