@@ -26,7 +26,7 @@ result = %d
 response_code = %d
 headers = %s
 body = %s
-""" % [result, response_code, headers, body])
+""" % [result, response_code, headers, body.get_string_from_utf8()])
 		public_ip = "error"
 	ip_label.text = public_ip
 
