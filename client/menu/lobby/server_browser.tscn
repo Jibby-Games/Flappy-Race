@@ -17,10 +17,10 @@ script = ExtResource( 1 )
 server_entry = ExtResource( 4 )
 
 [node name="ServerRequest" type="HTTPRequest" parent="."]
-timeout = 10.0
+timeout = 5.0
 
 [node name="RefreshTimer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 10.0
 autostart = true
 
 [node name="Title" parent="." instance=ExtResource( 7 )]
@@ -38,7 +38,7 @@ rect_min_size = Vector2( 1200, 750 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="EmptyMessage" type="Label" parent="Panel/CenterContainer"]
+[node name="InfoMessage" type="Label" parent="Panel/CenterContainer"]
 visible = false
 margin_left = 689.0
 margin_top = 384.0

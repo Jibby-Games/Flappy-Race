@@ -7,7 +7,7 @@ var lobby_scene := "res://client/menu/lobby/lobby.tscn"
 
 onready var server_list_entries = $Panel/ServerListContainer/ServerListEntries
 onready var error_message = $Panel/CenterContainer/ErrorMessage
-onready var empty_message = $Panel/CenterContainer/EmptyMessage
+onready var info_message = $Panel/CenterContainer/InfoMessage
 
 func _ready() -> void:
 	var result: int
@@ -31,32 +31,46 @@ func _on_RefreshButton_pressed() -> void:
 
 
 func get_server_list() -> void:
-	empty_message.hide()
+	info_message.hide()
 	error_message.hide()
+	clear_servers()
 	$ServerRequest.cancel_request()
 	var url = "%s/%s" % [Network.SERVER_LIST_URL, server_list_route]
+	Logger.print(self, "Trying to get server list from %s...", [url])
 	var result: int = $ServerRequest.request(url)
 	assert(result == OK)
+	show_info("Connecting...")
 
 
 func _on_ServerRequest_request_completed(result:int, response_code:int, _headers:PoolStringArray, body:PoolByteArray) -> void:
+	info_message.hide()
 	match result:
 		HTTPRequest.RESULT_SUCCESS:
 			pass
 		HTTPRequest.RESULT_CANT_CONNECT:
 			show_error("Server list offline!")
 			return
+		HTTPRequest.RESULT_TIMEOUT:
+			show_error("Server list offline!")
+			return
 		_:
 			show_error("Connection error! (result: %d, response code: %d)" % [result, response_code])
 			return
-	clear_servers()
 	var servers: Array = parse_json(body.get_string_from_utf8())
 	if not servers is Array:
 		push_error("Unexpected type received: %s")
 	populate_servers(servers)
 
 
+func show_info(msg: String) -> void:
+	error_message.hide()
+	Logger.print(self, msg)
+	info_message.text = msg
+	info_message.show()
+
+
 func show_error(msg: String) -> void:
+	info_message.hide()
 	Logger.print(self, msg)
 	error_message.text = msg
 	error_message.show()
@@ -70,7 +84,7 @@ func clear_servers() -> void:
 
 func populate_servers(servers: Array) -> void:
 	if servers.empty():
-		empty_message.show()
+		show_info("No servers found!")
 	for server in servers:
 		var entry = server_entry.instance()
 		entry.setup(server)
