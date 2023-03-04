@@ -27,17 +27,23 @@ func _ready():
 	assert(result == OK)
 
 func _closed(was_clean = false):
+	emit_signal("connection_closed")
+	if not connection_started:
+		# Connection stopped - don't try to reconnect
+		return
 	# was_clean will tell you if the disconnection was correctly notified
 	# by the remote peer before closing the socket.
-	Logger.print(self, "Server list connection closed - attempting to reconnect, clean: %s" % was_clean)
+	Logger.print(self, "Server list connection closed unexpectedly - attempting to reconnect, clean: %s" % was_clean)
 	$ReconnectionTimer.start()
-	emit_signal("connection_closed")
 
 
 func _error() -> void:
+	emit_signal("connection_error")
+	if not connection_started:
+		# Connection stopped - don't try to reconnect
+		return
 	Logger.print(self, "Server list connection error - attempting to reconnect")
 	$ReconnectionTimer.start()
-	emit_signal("connection_error")
 
 
 func _connected(protocol = ""):
