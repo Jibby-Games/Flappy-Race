@@ -33,7 +33,7 @@ size_flags_vertical = 3
 anchor_right = 0.0
 margin_right = 1900.0
 margin_bottom = 111.0
-text = "Self Host Setup"
+text = "Host Setup"
 
 [node name="Menu" type="Control" parent="VBoxContainer"]
 margin_top = 115.0
