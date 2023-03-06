@@ -27,11 +27,11 @@ func start_singleplayer() -> void:
 	if not Server:
 		Server = _load_network_scene(SERVER_NETWORK)
 		yield(Server, "ready")
-	Server.start_server(RPC_PORT, 1, false)
+	Server.start_server(RPC_PORT, 1, false, "singleplayer")
 	Client.start_client("127.0.0.1", RPC_PORT, true)
 
 
-func start_multiplayer_host(port: int = RPC_PORT, use_upnp: bool = false, server_name: String = "Flappy Server") -> void:
+func start_multiplayer_host(port: int, use_upnp: bool, server_name: String) -> void:
 	if not Server:
 		Server = _load_network_scene(SERVER_NETWORK)
 		yield(Server, "ready")
@@ -39,7 +39,7 @@ func start_multiplayer_host(port: int = RPC_PORT, use_upnp: bool = false, server
 	Client.start_client("127.0.0.1", port)
 
 
-func start_server(port: int = RPC_PORT, use_upnp: bool = false, server_name: String = "Flappy Server") -> void:
+func start_server(port: int, use_upnp: bool, server_name: String) -> void:
 	if not Server:
 		Server = _load_network_scene(SERVER_NETWORK)
 		yield(Server, "ready")

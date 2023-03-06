@@ -81,7 +81,7 @@ func parse_command_line_args() -> void:
 		Network.change_to_client()
 		if host_game:
 			Network.Client.change_scene_to_lobby()
-			Network.start_multiplayer_host(port, use_upnp)
+			Network.start_multiplayer_host(port, use_upnp, server_name)
 		elif join_ip.empty() == false:
 			Network.Client.change_scene_to_lobby()
 			Network.Client.start_client(join_ip, port)

@@ -59,7 +59,11 @@ func _on_CreateButton_pressed() -> void:
 	http.connect("request_completed", self, "_on_HTTPCreate_request_completed")
 	add_child(http)
 	var url = "%s/%s" % [Network.SERVER_LIST_URL, game_manager_route]
-	http.request(url)
+	# Convert data to json string:
+	var data = {"name": server_name_input.text}
+	# Add 'Content-Type' header:
+	var headers = ["Content-Type: application/json"]
+	http.request(url, headers, true, HTTPClient.METHOD_POST, to_json(data))
 
 
 func _on_HTTPCreate_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray) -> void:

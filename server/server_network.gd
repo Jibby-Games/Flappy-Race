@@ -71,8 +71,8 @@ func clear_host() -> void:
 func start_server(
 		server_port: int,
 		server_max_players: int,
-		forward_port: bool = true,
-		server_name: String = "Flappy Server") -> void:
+		forward_port: bool,
+		server_name: String) -> void:
 	port = server_port
 	max_players = server_max_players
 	game_options = DEFAULT_GAME_OPTIONS.duplicate()
@@ -90,7 +90,7 @@ func start_server(
 	# Basically, anything networking related needs to be updated this way.
 	# See the MultiplayerAPI docs for reference.
 	multiplayer.set_network_peer(peer)
-	Logger.print(self, "Server started on port %d - Max Players = %d, UPnP = %s - waiting for players" % [port, max_players, forward_port])
+	Logger.print(self, "Server started on port %d - Name = %s, Max Players = %d, UPnP = %s - waiting for players" % [port, server_name, max_players, forward_port])
 	change_scene_to_setup()
 	$ServerListHandler.start_connection(server_name)
 
