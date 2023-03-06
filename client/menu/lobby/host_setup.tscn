@@ -147,5 +147,6 @@ margin_bottom = 5.0
 label = "Back"
 alignment = 1
 
+[connection signal="timeout" from="ConnectionTimer" to="." method="_on_ConnectionTimer_timeout"]
 [connection signal="pressed" from="VBoxContainer/Menu/CenterContainer/ButtonContainer/CreateButton" to="." method="_on_CreateButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Menu/BackButton" to="." method="_on_BackButton_pressed"]

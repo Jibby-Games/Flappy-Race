@@ -53,7 +53,7 @@ func _on_CreateButton_pressed() -> void:
 	if server_name_input.text.empty():
 		show_error("Please enter a server name")
 		return
-	error_message.hide()
+	$ConnectionTimer.start(MAX_CONNECT_TIME)
 	show_info("Creating server...")
 	var http = HTTPRequest.new()
 	http.connect("request_completed", self, "_on_HTTPCreate_request_completed")
