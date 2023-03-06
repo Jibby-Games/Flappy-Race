@@ -110,5 +110,4 @@ func _on_SelfHostButton_pressed() -> void:
 
 
 func _on_IpJoinButton_pressed() -> void:
-	# TODO
-	pass # Replace with function body.
+	$JoinPanel.popup_centered()
