@@ -2,12 +2,13 @@ extends MenuControl
 
 var server_browser_scene := "res://client/menu/lobby/server_browser.tscn"
 
+var use_upnp := true
+var use_server_list := true
+
 onready var error_message = $VBoxContainer/Menu/ErrorMessage
 onready var info_message = $VBoxContainer/Menu/InfoMessage
 onready var server_name_input = $VBoxContainer/Menu/CenterContainer/ButtonContainer/ServerNameContainer/ServerNameInput
 onready var port_input = $VBoxContainer/Menu/CenterContainer/ButtonContainer/HostOptionsContainer/PortInput
-
-var enable_upnp := true
 
 func _ready() -> void:
 	var result: int
@@ -32,7 +33,7 @@ func _on_HostButton_pressed() -> void:
 		show_error("Port must be between 1 and 65535")
 		return
 	error_message.hide()
-	Network.start_multiplayer_host(int(port_input.text), enable_upnp, server_name_input.text)
+	Network.start_multiplayer_host(int(port_input.text), use_upnp, server_name_input.text, use_server_list)
 
 
 func _on_BackButton_pressed() -> void:
@@ -60,4 +61,8 @@ func show_error(message: String) -> void:
 
 
 func _on_UpnpToggle_toggled(button_pressed: bool) -> void:
-	enable_upnp = button_pressed
+	use_upnp = button_pressed
+
+
+func _on_ServerListToggle_toggled(button_pressed: bool) -> void:
+	use_server_list = button_pressed

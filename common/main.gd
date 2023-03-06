@@ -15,6 +15,7 @@ Client only args:
 Host/Server args:
   --upnp - Enable automatic UPnP port forwarding
   --name - Specify the server name
+  --list - Show the game on the server browser
 """
 
 # This node is only needs to detect the command line args so the right scene can be loaded
@@ -34,6 +35,7 @@ func parse_command_line_args() -> void:
 	var port = Network.RPC_PORT
 	var use_upnp := false
 	var server_name := "Flappy Server"
+	var use_server_list := false
 
 	var skip_arg := false
 	var args := OS.get_cmdline_args()
@@ -61,6 +63,8 @@ func parse_command_line_args() -> void:
 		elif arg == "--name":
 			server_name = args[arg_index + 1]
 			skip_arg = true
+		elif arg == "--list":
+			use_server_list = true
 		elif arg == "--version":
 			print("Flappy Race %s" % [ProjectSettings.get_setting("application/config/version")])
 			get_tree().quit()
@@ -72,13 +76,13 @@ func parse_command_line_args() -> void:
 
 	if is_server:
 		Logger.print(self, "Starting Server...")
-		Network.start_server(port, use_upnp, server_name)
+		Network.start_server(port, use_upnp, server_name, use_server_list)
 	else:
 		Logger.print(self, "Starting Client...")
 		Network.change_to_client()
 		if host_game:
 			Network.Client.change_scene_to_lobby()
-			Network.start_multiplayer_host(port, use_upnp, server_name)
+			Network.start_multiplayer_host(port, use_upnp, server_name, use_server_list)
 		elif join_ip.empty() == false:
 			Network.Client.change_scene_to_lobby()
 			Network.Client.start_client(join_ip, port)
