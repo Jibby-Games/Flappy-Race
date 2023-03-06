@@ -32,9 +32,6 @@ func parse_command_line_args() -> void:
 
 	# Hosting options
 	var port = Network.RPC_PORT
-	var env_port := OS.get_environment("FLAPPY_PORT")
-	if not env_port.empty() and env_port.is_valid_integer():
-		port = int(env_port)
 	var use_upnp := false
 	var server_name := "Flappy Server"
 
