@@ -3,7 +3,9 @@ extends MenuControl
 export(String) var server_list_route = "api/servers"
 export(PackedScene) var server_entry
 
-var lobby_scene := "res://client/menu/lobby/lobby.tscn"
+var name_entry := "res://client/menu/lobby/name_entry.tscn"
+var host_setup := "res://client/menu/lobby/host_setup.tscn"
+var self_host_setup := "res://client/menu/lobby/self_host_setup.tscn"
 
 onready var server_list_entries = $Panel/ServerListContainer/ServerListEntries
 onready var error_message = $Panel/CenterContainer/ErrorMessage
@@ -92,8 +94,21 @@ func populate_servers(servers: Array) -> void:
 
 
 func _on_BackButton_pressed() -> void:
-	change_menu(lobby_scene)
+	change_menu(name_entry)
 
 
 func _on_RefreshTimer_timeout() -> void:
 	get_server_list()
+
+
+func _on_CreateButton_pressed() -> void:
+	change_menu(host_setup)
+
+
+func _on_SelfHostButton_pressed() -> void:
+	change_menu(self_host_setup)
+
+
+func _on_IpJoinButton_pressed() -> void:
+	# TODO
+	pass # Replace with function body.

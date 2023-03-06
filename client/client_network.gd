@@ -10,7 +10,7 @@ const LATENCY_THRESHOLD := 20
 
 
 var title_scene := "res://client/menu/title/title_screen.tscn"
-var lobby_scene := "res://client/menu/lobby/lobby.tscn"
+var server_browser_scene := "res://client/menu/lobby/server_browser.tscn"
 var singleplayer_setup_scene := "res://client/menu/setup/singleplayer/singleplayer_setup.tscn"
 var multiplayer_setup_scene := "res://client/menu/setup/multiplayer/multiplayer_setup.tscn"
 var world_scene := "res://client/world/world.tscn"
@@ -87,7 +87,7 @@ func change_scene_to_setup() -> void:
 
 
 func change_scene_to_lobby() -> void:
-	$MenuHandler.change_menu_with_fade(lobby_scene)
+	$MenuHandler.change_menu_with_fade(server_browser_scene)
 
 
 func change_scene_to_world() -> void:
