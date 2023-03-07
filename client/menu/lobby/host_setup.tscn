@@ -63,9 +63,9 @@ anchor_bottom = 1.0
 
 [node name="ButtonContainer" type="VBoxContainer" parent="VBoxContainer/Menu/CenterContainer"]
 margin_left = 487.0
-margin_top = 376.0
+margin_top = 326.0
 margin_right = 1412.0
-margin_bottom = 569.0
+margin_bottom = 619.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -107,10 +107,27 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CreateButton" type="Button" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+margin_left = 369.0
 margin_top = 120.0
+margin_right = 555.0
+margin_bottom = 170.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_horizontal = 4
+custom_constants/separation = 25
+
+[node name="ServerListToggle" type="CheckButton" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer/HBoxContainer"]
+margin_right = 186.0
+margin_bottom = 50.0
+hint_tooltip = "Shows the game on the server browser if enabled."
+size_flags_horizontal = 6
+pressed = true
+text = "Server List"
+
+[node name="CreateButton" type="Button" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+margin_top = 220.0
 margin_right = 925.0
-margin_bottom = 193.0
+margin_bottom = 293.0
 size_flags_horizontal = 3
 theme = ExtResource( 8 )
 custom_fonts/font = ExtResource( 7 )
@@ -148,5 +165,6 @@ label = "Back"
 alignment = 1
 
 [connection signal="timeout" from="ConnectionTimer" to="." method="_on_ConnectionTimer_timeout"]
+[connection signal="toggled" from="VBoxContainer/Menu/CenterContainer/ButtonContainer/HBoxContainer/ServerListToggle" to="." method="_on_ServerListToggle_toggled"]
 [connection signal="pressed" from="VBoxContainer/Menu/CenterContainer/ButtonContainer/CreateButton" to="." method="_on_CreateButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Menu/BackButton" to="." method="_on_BackButton_pressed"]

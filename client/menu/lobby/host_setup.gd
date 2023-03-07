@@ -5,6 +5,7 @@ const MAX_CONNECT_TIME := 10
 var server_browser_scene := "res://client/menu/lobby/server_browser.tscn"
 
 var game_manager_route = "api/request"
+var use_server_list := true
 
 onready var error_message = $VBoxContainer/Menu/ErrorMessage
 onready var info_message = $VBoxContainer/Menu/InfoMessage
@@ -60,7 +61,7 @@ func _on_CreateButton_pressed() -> void:
 	add_child(http)
 	var url = "%s/%s" % [Network.SERVER_LIST_URL, game_manager_route]
 	# Convert data to json string:
-	var data = {"name": server_name_input.text}
+	var data = {"name": server_name_input.text, "list": use_server_list}
 	# Add 'Content-Type' header:
 	var headers = ["Content-Type: application/json"]
 	http.request(url, headers, true, HTTPClient.METHOD_POST, to_json(data))
@@ -93,3 +94,7 @@ func try_connect_to_server(ip: String, port: int) -> void:
 	show_info("Server created, connecting...")
 	$ConnectionTimer.start(MAX_CONNECT_TIME)
 	Network.Client.start_client(ip, port)
+
+
+func _on_ServerListToggle_toggled(button_pressed: bool) -> void:
+	use_server_list = button_pressed
