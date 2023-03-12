@@ -2,7 +2,7 @@ extends MenuControl
 
 
 var singleplayer_scene := "res://client/menu/setup/singleplayer/singleplayer_setup.tscn"
-var multiplayer_scene := "res://client/menu/lobby/lobby.tscn"
+var multiplayer_scene := "res://client/menu/lobby/name_entry.tscn"
 var options_scene := "res://client/menu/options/options.tscn"
 var title_player := preload("res://client/menu/title/title_player.tscn")
 # Aim for about 16 players

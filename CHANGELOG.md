@@ -19,15 +19,21 @@ Types of changes:
 
 ### Added
 - Players can now join mid race as spectators!
-- Added a public server anyone can join
+- Overhauled the multiplayer lobby which now has:
+  - Server browser to show public servers
+  - Button to host an official server (no need for port forwarding!)
+  - More self hosting options (server name, public/private server)
 
 ### Changed
 - Add a limit to the obstacle spacing increase and reduced the rate of increase
+- Updated Godot to v3.5.2
+- Can now specify URLs and ports when connecting to servers with an IP
 
 ### Fixed
 - Various dedicated server fixes
 - Hide IP finder for non-hosts
 - Increase max output messages to stop logs getting cut off
+- Optimized docker build caching and image sizes
 
 ## [0.5.0] - 2022-10-19
 

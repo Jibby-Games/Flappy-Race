@@ -1,0 +1,213 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://client/menu/lobby/self_host_setup.gd" type="Script" id=1]
+[ext_resource path="res://client/ui/custom_label.tscn" type="PackedScene" id=2]
+[ext_resource path="res://client/menu/menu_button.tscn" type="PackedScene" id=3]
+[ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=4]
+[ext_resource path="res://client/ui/title_label.tscn" type="PackedScene" id=5]
+[ext_resource path="res://client/fonts/DelaGothicOne-32.tres" type="DynamicFont" id=6]
+[ext_resource path="res://client/fonts/DelaGothicOne-48.tres" type="DynamicFont" id=7]
+[ext_resource path="res://client/theme/flappy.theme" type="Theme" id=8]
+
+[node name="SelfHostSetup" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+script = ExtResource( 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Title" parent="VBoxContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+margin_right = 1900.0
+margin_bottom = 111.0
+text = "Self Host Setup"
+
+[node name="Menu" type="Control" parent="VBoxContainer"]
+margin_top = 115.0
+margin_right = 1900.0
+margin_bottom = 1060.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HostingInfoLabel" type="Label" parent="VBoxContainer/Menu"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -500.0
+margin_right = 500.0
+margin_bottom = 237.0
+custom_fonts/font = ExtResource( 6 )
+text = "Host a server on your own computer.
+
+Requires port forwarding if your router doesn't support UPnP!"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/Menu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ButtonContainer" type="VBoxContainer" parent="VBoxContainer/Menu/CenterContainer"]
+margin_left = 487.0
+margin_top = 303.0
+margin_right = 1412.0
+margin_bottom = 641.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 25
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ServerNameContainer" type="HBoxContainer" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+margin_right = 925.0
+margin_bottom = 70.0
+size_flags_horizontal = 2
+size_flags_vertical = 5
+custom_constants/separation = 30
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer/ServerNameContainer"]
+margin_right = 395.0
+margin_bottom = 70.0
+theme = ExtResource( 8 )
+custom_fonts/font = ExtResource( 7 )
+text = "Server Name:"
+
+[node name="ServerNameInput" type="LineEdit" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer/ServerNameContainer"]
+margin_left = 425.0
+margin_right = 925.0
+margin_bottom = 70.0
+rect_min_size = Vector2( 500, 70 )
+size_flags_horizontal = 8
+size_flags_vertical = 6
+custom_fonts/font = ExtResource( 4 )
+align = 1
+max_length = 24
+placeholder_text = "Enter server name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HostOptionsContainer" type="HBoxContainer" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+margin_top = 95.0
+margin_right = 925.0
+margin_bottom = 165.0
+size_flags_horizontal = 3
+size_flags_vertical = 5
+custom_constants/separation = 30
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer/HostOptionsContainer"]
+margin_right = 144.0
+margin_bottom = 70.0
+theme = ExtResource( 8 )
+custom_fonts/font = ExtResource( 7 )
+text = "Port:"
+
+[node name="PortInput" type="LineEdit" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer/HostOptionsContainer"]
+margin_left = 174.0
+margin_right = 674.0
+margin_bottom = 70.0
+rect_min_size = Vector2( 500, 70 )
+size_flags_horizontal = 8
+size_flags_vertical = 6
+custom_fonts/font = ExtResource( 4 )
+align = 1
+max_length = 24
+placeholder_text = "Enter port"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+margin_left = 291.0
+margin_top = 190.0
+margin_right = 633.0
+margin_bottom = 240.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_horizontal = 4
+custom_constants/separation = 25
+
+[node name="UpnpToggle" type="CheckButton" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer/HBoxContainer"]
+margin_right = 131.0
+margin_bottom = 50.0
+hint_tooltip = "Use UPnP to try to automatically perform port forwarding."
+size_flags_horizontal = 6
+pressed = true
+text = "UPnP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ServerListToggle" type="CheckButton" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer/HBoxContainer"]
+margin_left = 156.0
+margin_right = 342.0
+margin_bottom = 50.0
+hint_tooltip = "Shows the game on the server browser if enabled."
+size_flags_horizontal = 6
+pressed = true
+text = "Server List"
+
+[node name="HostButton" type="Button" parent="VBoxContainer/Menu/CenterContainer/ButtonContainer"]
+margin_top = 265.0
+margin_right = 925.0
+margin_bottom = 338.0
+size_flags_horizontal = 3
+theme = ExtResource( 8 )
+custom_fonts/font = ExtResource( 7 )
+text = "Host"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ErrorMessage" parent="VBoxContainer/Menu" instance=ExtResource( 2 )]
+visible = false
+anchor_top = 1.0
+margin_top = -70.0
+custom_colors/font_color = Color( 0.839216, 0.141176, 0.0666667, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Error text!"
+align = 1
+valign = 1
+
+[node name="InfoMessage" parent="VBoxContainer/Menu" instance=ExtResource( 2 )]
+visible = false
+anchor_top = 1.0
+margin_top = -70.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Info text!"
+align = 1
+valign = 1
+
+[node name="BackButton" parent="VBoxContainer/Menu" instance=ExtResource( 3 )]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -75.0
+margin_right = 177.0
+margin_bottom = 5.0
+label = "Back"
+alignment = 1
+
+[connection signal="toggled" from="VBoxContainer/Menu/CenterContainer/ButtonContainer/HBoxContainer/UpnpToggle" to="." method="_on_UpnpToggle_toggled"]
+[connection signal="toggled" from="VBoxContainer/Menu/CenterContainer/ButtonContainer/HBoxContainer/ServerListToggle" to="." method="_on_ServerListToggle_toggled"]
+[connection signal="pressed" from="VBoxContainer/Menu/CenterContainer/ButtonContainer/HostButton" to="." method="_on_HostButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/Menu/BackButton" to="." method="_on_BackButton_pressed"]

@@ -10,7 +10,7 @@ const LATENCY_THRESHOLD := 20
 
 
 var title_scene := "res://client/menu/title/title_screen.tscn"
-var lobby_scene := "res://client/menu/lobby/lobby.tscn"
+var server_browser_scene := "res://client/menu/lobby/server_browser.tscn"
 var singleplayer_setup_scene := "res://client/menu/setup/singleplayer/singleplayer_setup.tscn"
 var multiplayer_setup_scene := "res://client/menu/setup/multiplayer/multiplayer_setup.tscn"
 var world_scene := "res://client/world/world.tscn"
@@ -87,7 +87,7 @@ func change_scene_to_setup() -> void:
 
 
 func change_scene_to_lobby() -> void:
-	$MenuHandler.change_menu_with_fade(lobby_scene)
+	$MenuHandler.change_menu_with_fade(server_browser_scene)
 
 
 func change_scene_to_world() -> void:
@@ -96,15 +96,19 @@ func change_scene_to_world() -> void:
 
 func start_client(host: String, port: int, singleplayer: bool = false) -> void:
 	is_singleplayer = singleplayer
+	var ip := host
+	if "://" in host:
+		ip = host.split("://")[1]
 	var peer = NetworkedMultiplayerENet.new()
-	peer.create_client(host, port)
+	peer.create_client(ip, port)
 	multiplayer.set_network_peer(peer)
-	Logger.print(self, "Client started")
+	Logger.print(self, "Client started connecting to %s:%d", [ip, port])
 
 
 func stop_client() -> void:
 	$LatencyUpdater.stop()
-	multiplayer.network_peer.close_connection()
+	if multiplayer.network_peer:
+		multiplayer.network_peer.close_connection()
 	multiplayer.call_deferred("set_network_peer", null)
 	host_player_id = 0
 	player_list.clear()

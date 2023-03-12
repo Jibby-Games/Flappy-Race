@@ -1,7 +1,7 @@
 extends MenuControl
 
 
-var lobby_scene := "res://client/menu/lobby/lobby.tscn"
+var server_browser_scene := "res://client/menu/lobby/server_browser.tscn"
 
 
 onready var player_list = $Setup/PlayerList
@@ -58,7 +58,7 @@ func update_player_spectating(player_id: int, is_spectating: bool) -> void:
 
 
 func _on_BackButton_pressed() -> void:
-	change_menu(lobby_scene)
+	change_menu(server_browser_scene)
 
 
 func _on_SpectateButton_toggled(button_pressed: bool) -> void:

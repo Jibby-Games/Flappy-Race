@@ -16,6 +16,9 @@ const DEFAULT_GAME_OPTIONS := {
 # the client and server physics, so objects from the client and the server can't
 # interact with eachother when self hosting.
 
+var port := 0
+# When true, the server stays active after all players leave, otherwise it shutsdown
+var persistent_server := false
 var max_players := 0
 var _host_player_id := 0 setget set_host
 var player_state_collection := {}
@@ -33,10 +36,12 @@ func _ready() -> void:
 	assert(result == OK)
 	result = multiplayer.connect("network_peer_connected", self, "_peer_connected")
 	assert(result == OK)
+	result = $ServerListHandler.connect("connection_established", self, "_update_server_list_status")
+	assert(result == OK)
+	$ServerListHandler.server_list_url = Network.SERVER_LIST_URL
 
 	# Register with the Network singleton so this node can be easily accessed
 	Network.Server = self
-
 
 
 func _exit_tree() -> void:
@@ -64,9 +69,12 @@ func clear_host() -> void:
 
 
 func start_server(
-		port: int,
+		server_port: int,
 		server_max_players: int,
-		forward_port: bool = true) -> void:
+		forward_port: bool,
+		server_name: String,
+		use_server_list: bool) -> void:
+	port = server_port
 	max_players = server_max_players
 	game_options = DEFAULT_GAME_OPTIONS.duplicate()
 	if forward_port:
@@ -83,8 +91,10 @@ func start_server(
 	# Basically, anything networking related needs to be updated this way.
 	# See the MultiplayerAPI docs for reference.
 	multiplayer.set_network_peer(peer)
-	Logger.print(self, "Server started on port %d - Max Players = %d, UPnP = %s - waiting for players" % [port, max_players, forward_port])
+	Logger.print(self, "Server started on port %d - Name = %s, Max Players = %d, UPnP = %s, Server List = %s - waiting for players" % [port, server_name, max_players, forward_port, use_server_list])
 	change_scene_to_setup()
+	if use_server_list:
+		$ServerListHandler.start_connection(server_name)
 
 
 func _notification(what) -> void:
@@ -95,6 +105,7 @@ func _notification(what) -> void:
 
 
 func stop_server() -> void:
+	$ServerListHandler.stop_connection()
 	if has_node("UpnpHandler"):
 		$UpnpHandler.remove_port_mapping()
 	clear_host()
@@ -102,6 +113,7 @@ func stop_server() -> void:
 	player_list.clear()
 	game_options.clear()
 	max_players = 0
+	port = 0
 	multiplayer.network_peer.close_connection()
 	multiplayer.call_deferred("set_network_peer", null)
 	Logger.print(self, "Server stopped")
@@ -115,6 +127,7 @@ func _peer_connected(player_id: int) -> void:
 	var num_players = multiplayer.get_network_connected_peers().size()
 	Logger.print(self, "Player %s connected - %d/%d" %
 			[player_id, num_players, max_players])
+	_update_server_list_status()
 
 
 func _peer_disconnected(player_id: int) -> void:
@@ -125,17 +138,28 @@ func _peer_disconnected(player_id: int) -> void:
 	assert(player_erased)
 	if peers.empty():
 		# All players disconnected
-		clear_host()
-		change_scene_to_setup()
+		if persistent_server:
+			# Reset everything ready for future players
+			clear_host()
+			change_scene_to_setup()
+		else:
+			stop_server()
+			get_tree().quit()
 		return
 	if is_host_id(player_id):
 		# Promote the next player to the host
 		var new_host = peers[0]
 		set_host(new_host)
+	_update_server_list_status()
 	send_player_list_update(player_list)
 	if has_node("World"):
 		$World.despawn_player(player_id)
 		send_despawn_player(player_id)
+
+
+func _update_server_list_status() -> void:
+	if $ServerListHandler.is_connected_to_server_list():
+		$ServerListHandler.send_players(multiplayer.get_network_connected_peers().size())
 
 
 remote func receive_change_to_setup_request() -> void:

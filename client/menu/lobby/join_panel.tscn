@@ -1,0 +1,107 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://client/ui/custom_label.tscn" type="PackedScene" id=1]
+[ext_resource path="res://client/fonts/DelaGothicOne-48.tres" type="DynamicFont" id=2]
+[ext_resource path="res://client/menu/lobby/join_panel.gd" type="Script" id=3]
+[ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=4]
+[ext_resource path="res://client/theme/flappy.theme" type="Theme" id=5]
+[ext_resource path="res://client/fonts/DelaGothicOne-32.tres" type="DynamicFont" id=6]
+
+[node name="JoinPanel" type="PopupPanel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -291.5
+margin_top = -150.0
+margin_right = 291.5
+margin_bottom = 121.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 620, 270 )
+script = ExtResource( 3 )
+
+[node name="ConnectionTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 616.0
+margin_bottom = 267.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 50.0
+margin_top = 50.0
+margin_right = 562.0
+margin_bottom = 213.0
+custom_constants/separation = 20
+
+[node name="IpContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_right = 512.0
+margin_bottom = 73.0
+size_flags_horizontal = 3
+custom_constants/separation = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IpInput" type="LineEdit" parent="MarginContainer/VBoxContainer/IpContainer"]
+margin_top = 1.0
+margin_right = 300.0
+margin_bottom = 71.0
+rect_min_size = Vector2( 300, 70 )
+hint_tooltip = "The IP address to connect to."
+size_flags_horizontal = 7
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 4 )
+text = "127.0.0.1"
+align = 1
+placeholder_text = "Enter IP:Port"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="JoinButton" type="Button" parent="MarginContainer/VBoxContainer/IpContainer"]
+margin_left = 315.0
+margin_right = 512.0
+margin_bottom = 73.0
+rect_min_size = Vector2( 160, 0 )
+size_flags_horizontal = 3
+theme = ExtResource( 5 )
+custom_fonts/font = ExtResource( 2 )
+text = "Join"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ErrorMessage" parent="MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 93.0
+margin_right = 512.0
+margin_bottom = 141.0
+custom_colors/font_color = Color( 0.839216, 0.141176, 0.0666667, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 6 )
+text = "Error text!"
+align = 1
+valign = 1
+
+[node name="InfoMessage" parent="MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 93.0
+margin_right = 512.0
+margin_bottom = 141.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 6 )
+text = "Info text!"
+align = 1
+valign = 1
+
+[connection signal="timeout" from="ConnectionTimer" to="." method="_on_ConnectionTimer_timeout"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/IpContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
