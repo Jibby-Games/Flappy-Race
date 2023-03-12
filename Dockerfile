@@ -1,7 +1,7 @@
 FROM alpine:3.17.2 as base
 
 # Godot shared environment Variables
-ENV GODOT_VERSION "3.5.1"
+ENV GODOT_VERSION "3.5.2"
 ENV GODOT_EXPORT_PRESET "linux"
 
 # Install tools for downloading
