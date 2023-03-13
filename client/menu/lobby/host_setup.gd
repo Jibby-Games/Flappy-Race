@@ -59,36 +59,55 @@ func _on_CreateButton_pressed() -> void:
 	var http = HTTPRequest.new()
 	http.connect("request_completed", self, "_on_HTTPCreate_request_completed")
 	add_child(http)
-	var url = "%s/%s" % [Network.SERVER_LIST_URL, game_manager_route]
+	var url = "%s/%s" % [Network.SERVER_MANAGER_URL, game_manager_route]
 	# Convert data to json string:
-	var data = {"name": server_name_input.text, "list": use_server_list}
+	var data = {
+		"name": server_name_input.text,
+		"list": use_server_list,
+		"version": ProjectSettings.get_setting("application/config/version").trim_prefix("v")
+	}
 	# Add 'Content-Type' header:
 	var headers = ["Content-Type: application/json"]
 	http.request(url, headers, true, HTTPClient.METHOD_POST, to_json(data))
 
 
-func _on_HTTPCreate_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray) -> void:
-	if result == HTTPRequest.RESULT_SUCCESS and response_code == 201:
-		# Successful response
-		var resp = parse_json(body.get_string_from_utf8())
-		if typeof(resp) != TYPE_DICTIONARY:
-			push_error("Received invalid object type, expected Dictionary, got: %s" % typeof(resp))
+func _on_HTTPCreate_request_completed(result: int, response_code: int, _headers: PoolStringArray, body: PoolByteArray) -> void:
+	info_message.hide()
+	match result:
+		HTTPRequest.RESULT_SUCCESS:
+			pass
+		HTTPRequest.RESULT_CANT_CONNECT:
+			show_error("Official servers are offline!")
 			return
-		if not resp.has("port"):
-			push_error("Couldn't find a port in the response: %s" % resp)
+		HTTPRequest.RESULT_TIMEOUT:
+			show_error("Official servers are offline!")
 			return
-		if not typeof(resp.port) == TYPE_REAL:
-			push_error("Port must be a numerical type (float), got: %s" % typeof(resp.port))
+		_:
+			show_error("Connection error! (result: %d, response code: %d)" % [result, response_code])
 			return
-		try_connect_to_server(Network.SERVER_LIST_URL, int(resp.port))
-	else:
-		Logger.print(self,
-"""Unable to create new game! HTTP request returned:
-result = %d
-response_code = %d
-headers = %s
-body = %s
-""" % [result, response_code, headers, body.get_string_from_utf8()])
+	match response_code:
+		HTTPClient.RESPONSE_CREATED:
+			pass
+		_:
+			var error = parse_json(body.get_string_from_utf8())
+			if "detail" in error:
+				show_error(error.detail)
+			else:
+				show_error("Connection error! (result: %d, response code: %d)" % [result, response_code])
+			return
+
+	# Successful response
+	var resp = parse_json(body.get_string_from_utf8())
+	if typeof(resp) != TYPE_DICTIONARY:
+		push_error("Received invalid object type, expected Dictionary, got: %s" % typeof(resp))
+		return
+	if not resp.has("port"):
+		push_error("Couldn't find a port in the response: %s" % resp)
+		return
+	if not typeof(resp.port) == TYPE_REAL:
+		push_error("Port must be a numerical type (float), got: %s" % typeof(resp.port))
+		return
+	try_connect_to_server(Network.SERVER_MANAGER_URL, int(resp.port))
 
 func try_connect_to_server(ip: String, port: int) -> void:
 	show_info("Server created, connecting...")

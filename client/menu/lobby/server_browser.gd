@@ -58,6 +58,12 @@ func _on_ServerRequest_request_completed(result:int, response_code:int, _headers
 		_:
 			show_error("Connection error! (result: %d, response code: %d)" % [result, response_code])
 			return
+	match response_code:
+		HTTPClient.RESPONSE_OK:
+			pass
+		_:
+			show_error("Connection error! (result: %d, response code: %d)" % [result, response_code])
+			return
 	var servers: Array = parse_json(body.get_string_from_utf8())
 	if not servers is Array:
 		push_error("Unexpected type received: %s")
