@@ -5,7 +5,7 @@ signal connection_closed
 signal connection_error
 
 export var server_list_url := "http://jibby.games"
-export var server_list_route := "api/servers/ws"
+export var server_list_route := "api/list/ws"
 
 # Our WebSocketClient instance
 var _client := WebSocketClient.new()

@@ -1,6 +1,6 @@
 extends MenuControl
 
-export(String) var server_list_route = "api/servers"
+export(String) var server_list_route = "api/list/servers"
 export(PackedScene) var server_entry
 
 var name_entry := "res://client/menu/lobby/name_entry.tscn"

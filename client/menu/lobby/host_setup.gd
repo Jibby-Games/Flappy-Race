@@ -4,7 +4,7 @@ const MAX_CONNECT_TIME := 10
 
 var server_browser_scene := "res://client/menu/lobby/server_browser.tscn"
 
-var game_manager_route = "api/request"
+var game_manager_route = "api/manager/request"
 var use_server_list := true
 
 onready var error_message = $VBoxContainer/Menu/ErrorMessage
