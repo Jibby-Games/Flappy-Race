@@ -105,7 +105,8 @@ func _notification(what) -> void:
 
 
 func stop_server() -> void:
-	$ServerListHandler.stop_connection()
+	if $ServerListHandler.connection_started:
+		$ServerListHandler.stop_connection()
 	if has_node("UpnpHandler"):
 		$UpnpHandler.remove_port_mapping()
 	clear_host()
