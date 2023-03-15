@@ -56,7 +56,9 @@ func setup_and_start_game() -> void:
 func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary) -> void:
 	wait_for_all_players_ready_then("start_countdown", true)
 	.start_game(game_seed, new_game_options, new_player_list)
-	yield(level_generator, "level_ready")
+	if not level_generator.level_ready:
+		# Level generator could be finished before returning to this function
+		yield(level_generator, "level_ready")
 	# Show that the server is ready
 	set_player_ready(Network.Server.SERVER_ID)
 

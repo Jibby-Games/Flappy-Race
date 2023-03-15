@@ -115,14 +115,16 @@ func update_world_state(world_state: Dictionary) -> void:
 
 
 func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary) -> void:
-	.start_game(game_seed, new_game_options, new_player_list)
-	$UI.set_player_list(new_player_list)
-	$UI.update_lives(game_options.lives)
 	var result := $LevelGenerator.connect("progress_changed", $UI/Loading, "set_progress")
 	assert(result == OK)
 	$UI/Loading.set_hint_text("Generating level")
 	$UI/Loading.start()
-	yield(level_generator, "level_ready")
+	.start_game(game_seed, new_game_options, new_player_list)
+	if not level_generator.level_ready:
+		# Level generator could be finished before returning to this function
+		yield(level_generator, "level_ready")
+	$UI.set_player_list(new_player_list)
+	$UI.update_lives(game_options.lives)
 	Network.Client.send_client_ready()
 	$UI/Loading.set_hint_text("Waiting for players")
 	finish_line_x_pos = level_generator.finish_line.position.x
@@ -135,7 +137,9 @@ func late_join_start(
 		time: float
 	) -> void:
 	start_game(game_seed, new_game_options, new_player_list)
-	yield(level_generator, "level_ready")
+	if not level_generator.level_ready:
+		# Level generator could be finished before returning to this function
+		yield(level_generator, "level_ready")
 	$UI/Loading.stop()
 	reset_players()
 	reset_camera()

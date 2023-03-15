@@ -23,6 +23,7 @@ var generated_obstacles := []
 var spawned_obstacles := {}
 var next_obstacle_pos := Vector2(obstacle_start_pos, 0)
 var finish_line: Node2D
+var level_ready := false
 
 
 signal progress_changed(percent)
@@ -45,6 +46,7 @@ func _notification(what):
 
 func generate(rng: RandomNumberGenerator, obstacles_to_generate: int) -> void:
 	Logger.print(self, "Generating level with %d obstacles..." % obstacles_to_generate)
+	level_ready = false
 	game_rng = rng
 	clear_obstacles()
 	var start = OS.get_ticks_usec()
@@ -69,6 +71,7 @@ func generate(rng: RandomNumberGenerator, obstacles_to_generate: int) -> void:
 	Logger.print(self, "Obstacles generated in %dms!" % generation_time)
 	emit_signal("progress_changed", 1.0)
 	emit_signal("level_ready")
+	level_ready = true
 
 
 func clear_obstacles() -> void:
