@@ -17,11 +17,14 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.6.1] - 2023-03-19
+
 ### Fixed
-- Stopped level generation getting stuck if it runs too fast
-- Only disconnect from server list if connected
-- Auto shutdown official servers if no one joins
-- Fixed command line joining
+
+-   Stopped level generation getting stuck if it runs too fast
+-   Only disconnect from server list if connected
+-   Auto shutdown official servers if no one joins
+-   Fixed command line joining
 
 ## [0.6.0] - 2023-03-13
 
@@ -244,7 +247,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.6.0...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.6.1...HEAD
+
+[0.6.1]: https://github.com/Jibby-Games/Flappy-Race/compare/0.6.0...0.6.1
 
 [0.6.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.5.0...0.6.0
 
