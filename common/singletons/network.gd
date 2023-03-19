@@ -1,6 +1,5 @@
 extends Node
 
-
 const CLIENT_NETWORK = "res://client/client_network.tscn"
 const SERVER_NETWORK = "res://server/server_network.tscn"
 const RPC_PORT = 31400
@@ -10,6 +9,7 @@ const SERVER_MANAGER_URL := "http://jibby.games"
 
 var Client: ClientNetwork
 var Server: ServerNetwork
+
 
 func _load_network_scene(scene_path: String) -> SceneHandler:
 	var scene: Node = load(scene_path).instance()
@@ -24,6 +24,14 @@ func change_to_client() -> void:
 	assert(result == OK)
 
 
+func start_client(host: String, port: int) -> void:
+	if not Client:
+		change_to_client()
+		yield(get_tree(), "idle_frame")
+	Network.Client.change_scene_to_lobby()
+	Network.Client.start_client(host, port)
+
+
 func start_singleplayer() -> void:
 	if not Server:
 		Server = _load_network_scene(SERVER_NETWORK)
@@ -32,7 +40,13 @@ func start_singleplayer() -> void:
 	Client.start_client("127.0.0.1", RPC_PORT, true)
 
 
-func start_multiplayer_host(port: int, use_upnp: bool, server_name: String, use_server_list: bool) -> void:
+func start_multiplayer_host(
+	port: int, use_upnp: bool, server_name: String, use_server_list: bool
+) -> void:
+	if not Client:
+		change_to_client()
+		yield(get_tree(), "idle_frame")
+		Network.Client.change_scene_to_lobby()
 	if not Server:
 		Server = _load_network_scene(SERVER_NETWORK)
 		yield(Server, "ready")
@@ -41,23 +55,12 @@ func start_multiplayer_host(port: int, use_upnp: bool, server_name: String, use_
 
 
 func start_server(
-		port: int,
-		use_upnp: bool,
-		server_name: String,
-		use_server_list: bool,
-		use_timeout: bool
-	) -> void:
+	port: int, use_upnp: bool, server_name: String, use_server_list: bool, use_timeout: bool
+) -> void:
 	if not Server:
 		Server = _load_network_scene(SERVER_NETWORK)
 		yield(Server, "ready")
-	Server.start_server(
-		port,
-		MAX_PLAYERS,
-		use_upnp,
-		server_name,
-		use_server_list,
-		use_timeout
-	)
+	Server.start_server(port, MAX_PLAYERS, use_upnp, server_name, use_server_list, use_timeout)
 
 
 func stop_networking() -> void:
