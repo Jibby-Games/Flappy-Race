@@ -18,6 +18,7 @@ Host/Server args:
   --list - Show the game on the server browser
 """
 
+
 # This node is only needs to detect the command line args so the right scene can be loaded
 func _ready() -> void:
 	parse_command_line_args()
@@ -26,6 +27,8 @@ func _ready() -> void:
 func parse_command_line_args() -> void:
 	# Server options
 	var is_server := OS.has_feature("Server")
+	# Shut down the server if no one joins in time when hosting on a server platform
+	var use_timeout := is_server
 
 	# Client options
 	var host_game := false
@@ -76,13 +79,12 @@ func parse_command_line_args() -> void:
 
 	if is_server:
 		Logger.print(self, "Starting Server...")
-		Network.start_server(port, use_upnp, server_name, use_server_list)
+		Network.start_server(port, use_upnp, server_name, use_server_list, use_timeout)
 	else:
 		Logger.print(self, "Starting Client...")
-		Network.change_to_client()
 		if host_game:
-			Network.Client.change_scene_to_lobby()
 			Network.start_multiplayer_host(port, use_upnp, server_name, use_server_list)
-		elif join_ip.empty() == false:
-			Network.Client.change_scene_to_lobby()
-			Network.Client.start_client(join_ip, port)
+		elif not join_ip.empty():
+			Network.start_client(join_ip, port)
+		else:
+			Network.change_to_client()

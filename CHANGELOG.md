@@ -17,6 +17,12 @@ Types of changes:
 
 ## [Unreleased]
 
+### Fixed
+- Stopped level generation getting stuck if it runs too fast
+- Only disconnect from server list if connected
+- Auto shutdown official servers if no one joins
+- Fixed command line joining
+
 ## [0.6.0] - 2023-03-13
 
 ### Added
