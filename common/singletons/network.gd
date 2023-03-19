@@ -40,11 +40,24 @@ func start_multiplayer_host(port: int, use_upnp: bool, server_name: String, use_
 	Client.start_client("127.0.0.1", port)
 
 
-func start_server(port: int, use_upnp: bool, server_name: String, use_server_list: bool) -> void:
+func start_server(
+		port: int,
+		use_upnp: bool,
+		server_name: String,
+		use_server_list: bool,
+		use_timeout: bool
+	) -> void:
 	if not Server:
 		Server = _load_network_scene(SERVER_NETWORK)
 		yield(Server, "ready")
-	Server.start_server(port, MAX_PLAYERS, use_upnp, server_name, use_server_list)
+	Server.start_server(
+		port,
+		MAX_PLAYERS,
+		use_upnp,
+		server_name,
+		use_server_list,
+		use_timeout
+	)
 
 
 func stop_networking() -> void:

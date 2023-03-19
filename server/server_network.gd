@@ -10,6 +10,7 @@ const DEFAULT_GAME_OPTIONS := {
 	"goal": 50,
 	"lives": 0,
 }
+const PLAYER_TIMEOUT_TIME := 20
 
 # IMPORTANT:
 # This node is a Viewport with zero size intentionally in order to separate
@@ -19,6 +20,8 @@ const DEFAULT_GAME_OPTIONS := {
 var port := 0
 # When true, the server stays active after all players leave, otherwise it shutsdown
 var persistent_server := false
+# When true will start a timer and shut down the server if no one joins in time
+var player_timeout := false
 var max_players := 0
 var _host_player_id := 0 setget set_host
 var player_state_collection := {}
@@ -73,7 +76,8 @@ func start_server(
 		server_max_players: int,
 		forward_port: bool,
 		server_name: String,
-		use_server_list: bool) -> void:
+		use_server_list: bool,
+		use_timeout: bool = false) -> void:
 	port = server_port
 	max_players = server_max_players
 	game_options = DEFAULT_GAME_OPTIONS.duplicate()
@@ -91,10 +95,14 @@ func start_server(
 	# Basically, anything networking related needs to be updated this way.
 	# See the MultiplayerAPI docs for reference.
 	multiplayer.set_network_peer(peer)
-	Logger.print(self, "Server started on port %d - Name = %s, Max Players = %d, UPnP = %s, Server List = %s - waiting for players" % [port, server_name, max_players, forward_port, use_server_list])
+	Logger.print(self,
+		"Server started on port %d - Name = %s, Max Players = %d, UPnP = %s, Server List = %s, Timeout = %s - waiting for players" %
+			[port, server_name, max_players, forward_port, use_server_list, use_timeout])
 	change_scene_to_setup()
 	if use_server_list:
 		$ServerListHandler.start_connection(server_name)
+	if use_timeout:
+		_start_player_timeout()
 
 
 func _notification(what) -> void:
@@ -161,6 +169,15 @@ func _peer_disconnected(player_id: int) -> void:
 func _update_server_list_status() -> void:
 	if $ServerListHandler.is_connected_to_server_list():
 		$ServerListHandler.send_players(multiplayer.get_network_connected_peers().size())
+
+
+func _start_player_timeout() -> void:
+	Logger.print(self, "Timeout started - server will shutdown if no one joins within %s seconds..." % PLAYER_TIMEOUT_TIME)
+	yield (get_tree().create_timer(PLAYER_TIMEOUT_TIME), "timeout")
+	if multiplayer.get_network_connected_peers().size() == 0:
+		Logger.print(self, "No players joined! Shutting down the server...")
+		stop_server()
+		get_tree().quit()
 
 
 remote func receive_change_to_setup_request() -> void:
