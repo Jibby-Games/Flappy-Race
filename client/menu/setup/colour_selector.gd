@@ -1,7 +1,6 @@
 tool
 extends GridContainer
 
-
 signal colour_changed(new_value)
 
 export(PackedScene) var swatch_template

@@ -26,6 +26,7 @@ func _ready():
 	result = $ReconnectionTimer.connect("timeout", self, "_try_connect")
 	assert(result == OK)
 
+
 func _closed(was_clean = false):
 	emit_signal("connection_closed")
 	if not connection_started:
@@ -33,7 +34,13 @@ func _closed(was_clean = false):
 		return
 	# was_clean will tell you if the disconnection was correctly notified
 	# by the remote peer before closing the socket.
-	Logger.print(self, "Server list connection closed unexpectedly - attempting to reconnect, clean: %s" % was_clean)
+	Logger.print(
+		self,
+		(
+			"Server list connection closed unexpectedly - attempting to reconnect, clean: %s"
+			% was_clean
+		)
+	)
 	$ReconnectionTimer.start()
 
 
@@ -49,7 +56,7 @@ func _error() -> void:
 func _connected(protocol = ""):
 	Logger.print(self, "Server list connected with protocol: %s" % protocol)
 	# The server list expects the name to be sent first
-	_send_json({ "name": server_name, "port": Network.Server.port })
+	_send_json({"name": server_name, "port": Network.Server.port})
 	$ReconnectionTimer.stop()
 	emit_signal("connection_established")
 
@@ -57,7 +64,13 @@ func _connected(protocol = ""):
 func _on_data():
 	# Print the received packet, you MUST always use get_peer(1).get_packet
 	# to receive data from server
-	Logger.print(self, "Received data from server list: %s" % [_client.get_peer(1).get_packet().get_string_from_utf8()])
+	Logger.print(
+		self,
+		(
+			"Received data from server list: %s"
+			% [_client.get_peer(1).get_packet().get_string_from_utf8()]
+		)
+	)
 
 
 func _process(_delta):
@@ -72,7 +85,13 @@ func start_connection(_server_name: String) -> void:
 	if connection_started:
 		push_error("Server list connection already started!")
 		return
-	Logger.print(self, "Started connection to server list (url: %s, server_name: %s)" % [server_list_url, _server_name])
+	Logger.print(
+		self,
+		(
+			"Started connection to server list (url: %s, server_name: %s)"
+			% [server_list_url, _server_name]
+		)
+	)
 	self.server_name = _server_name
 	connection_started = true
 	_try_connect()
@@ -112,7 +131,7 @@ func is_connected_to_server_list() -> bool:
 
 
 func send_players(value: int) -> void:
-	_send_json({ "players": value })
+	_send_json({"players": value})
 
 
 func _send_json(dict: Dictionary) -> void:

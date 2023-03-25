@@ -14,7 +14,6 @@ export(int) var max_coins := 3 setget set_max_coins
 # This is just to regenerate the editor preview
 export(bool) var generate_blocks := false setget _do_generate_blocks
 
-
 var blocks := []
 var points := []
 
@@ -29,7 +28,9 @@ func do_generate(game_rng: RandomNumberGenerator) -> void:
 		block.queue_free()
 	blocks.clear()
 	points.clear()
-	var blocks_to_spawn: int = int(field_length * field_height * block_density / (BLOCK_SIZE*BLOCK_SIZE))
+	var blocks_to_spawn: int = int(
+		field_length * field_height * block_density / (BLOCK_SIZE * BLOCK_SIZE)
+	)
 	var coins_to_spawn: int = game_rng.randi_range(0, max_coins)
 	var coins := 0
 	for i in blocks_to_spawn:
@@ -39,7 +40,7 @@ func do_generate(game_rng: RandomNumberGenerator) -> void:
 		var failed_blocks := 0
 		# Add an iteration limit so we don't get stuck in an infinite loop
 		while overlap == true and iters < 100:
-			pos = Vector2(game_rng.randf() * field_length, (game_rng.randf()-0.5) * field_height)
+			pos = Vector2(game_rng.randf() * field_length, (game_rng.randf() - 0.5) * field_height)
 			overlap = false
 			for point in points:
 				if point.distance_to(pos) < 128:

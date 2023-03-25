@@ -1,8 +1,6 @@
 extends Control
 
-
 class_name MenuControl
-
 
 signal change_menu(next_scene)
 

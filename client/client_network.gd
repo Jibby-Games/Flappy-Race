@@ -1,20 +1,16 @@
 extends SceneHandler
 
-
 class_name ClientNetwork
-
 
 const SERVER_ID := 1
 const LATENCY_BUFFER_SIZE := 9
 const LATENCY_THRESHOLD := 20
-
 
 var title_scene := "res://client/menu/title/title_screen.tscn"
 var server_browser_scene := "res://client/menu/lobby/server_browser.tscn"
 var singleplayer_setup_scene := "res://client/menu/setup/singleplayer/singleplayer_setup.tscn"
 var multiplayer_setup_scene := "res://client/menu/setup/multiplayer/multiplayer_setup.tscn"
 var world_scene := "res://client/world/world.tscn"
-
 
 # Clock sync and latency vars
 var client_clock: int = 0
@@ -23,12 +19,10 @@ var delta_latency = 0
 var decimal_collector: float = 0
 var latency_array = []
 
-
 var is_singleplayer := false
 var host_player_id := 0
 var player_list := {}
 var game_options := {}
-
 
 signal host_changed(new_host_id)
 signal player_list_changed(new_player_list)
@@ -107,6 +101,7 @@ func start_client(host: String, port: int, singleplayer: bool = false) -> void:
 
 func stop_client() -> void:
 	$LatencyUpdater.stop()
+	$ClockSyncTimer.stop()
 	if multiplayer.network_peer:
 		multiplayer.network_peer.close_connection()
 	multiplayer.call_deferred("set_network_peer", null)
@@ -124,7 +119,10 @@ func _on_connection_failed() -> void:
 func _on_connected_to_server() -> void:
 	Logger.print(self, "Successfully connected to server!")
 	send_clock_sync_request()
+	# Start calculating latency regularly
 	$LatencyUpdater.start()
+	# Periodically re-sync the clocks just in case they drift too much
+	$ClockSyncTimer.start()
 	send_player_settings(Globals.player_name, Globals.player_colour)
 
 
@@ -136,7 +134,13 @@ func _on_server_disconnected() -> void:
 
 
 func is_server_connected() -> bool:
-	return multiplayer.has_network_peer() and (multiplayer.network_peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED)
+	return (
+		multiplayer.has_network_peer()
+		and (
+			multiplayer.network_peer.get_connection_status()
+			== NetworkedMultiplayerPeer.CONNECTION_CONNECTED
+		)
+	)
 
 
 func is_rpc_from_server() -> bool:
@@ -198,10 +202,8 @@ remote func receive_change_to_setup() -> void:
 
 
 remote func receive_game_info(
-		new_host_id: int,
-		new_player_list: Dictionary,
-		new_game_options: Dictionary
-	) -> void:
+	new_host_id: int, new_player_list: Dictionary, new_game_options: Dictionary
+) -> void:
 	if is_rpc_from_server() == false:
 		return
 	host_player_id = new_host_id
@@ -374,7 +376,9 @@ remote func receive_load_world() -> void:
 	change_scene_to_world()
 
 
-remote func receive_game_started(game_seed: int, start_game_options: Dictionary, start_player_list: Dictionary) -> void:
+remote func receive_game_started(
+	game_seed: int, start_game_options: Dictionary, start_player_list: Dictionary
+) -> void:
 	if is_rpc_from_server() == false:
 		return
 	var world = get_node_or_null("World")

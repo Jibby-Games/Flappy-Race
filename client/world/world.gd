@@ -1,17 +1,14 @@
 extends CommonWorld
 
-
 const INTERPOLATION_OFFSET = 100
 
-
 export(PackedScene) var Confetti
-
 
 # World state vars
 var last_world_state := 0
 var world_state_buffer := []
 # Used for the race progress bar
-var finish_line_x_pos : int
+var finish_line_x_pos: int
 
 # Spectate vars
 var spectate_target: Node
@@ -36,7 +33,11 @@ func _process(_delta: float) -> void:
 func update_player_progress() -> void:
 	for player_id in player_list:
 		var player_entry = player_list[player_id]
-		if not player_entry.spectate and player_entry.body != null and is_instance_valid(player_entry.body):
+		if (
+			not player_entry.spectate
+			and player_entry.body != null
+			and is_instance_valid(player_entry.body)
+		):
 			var player_progress: float = 0.0
 			player_progress = player_entry.body.position.x / finish_line_x_pos
 			$UI.RaceProgress.set_progress(player_id, player_progress)
@@ -57,7 +58,10 @@ func _physics_process(_delta: float) -> void:
 
 
 func interpolate_world_state(render_time: int) -> void:
-	var interpolation_factor = float(render_time - world_state_buffer[1]["T"]) / float(world_state_buffer[2]["T"] - world_state_buffer[1]["T"])
+	var interpolation_factor = (
+		float(render_time - world_state_buffer[1]["T"])
+		/ float(world_state_buffer[2]["T"] - world_state_buffer[1]["T"])
+	)
 	for player in world_state_buffer[2].keys():
 		if str(player) == "T":
 			# Ignore the included timestamp
@@ -89,7 +93,13 @@ func interpolate_world_state(render_time: int) -> void:
 
 
 func extrapolate_world_state(render_time: int) -> void:
-	var extrapolation_factor = float(render_time - world_state_buffer[0]["T"]) / float(world_state_buffer[1]["T"] - world_state_buffer[0]["T"]) - 1.00
+	var extrapolation_factor = (
+		(
+			float(render_time - world_state_buffer[0]["T"])
+			/ float(world_state_buffer[1]["T"] - world_state_buffer[0]["T"])
+		)
+		- 1.00
+	)
 	for player in world_state_buffer[1].keys():
 		if str(player) == "T":
 			# Ignore the included timestamp
@@ -101,10 +111,22 @@ func extrapolate_world_state(render_time: int) -> void:
 			# A connecting player won't be available in past world_state yet
 			continue
 		if has_node(str(player)):
-			var position_delta = (world_state_buffer[1][player]["P"] - world_state_buffer[0][player]["P"])
-			var new_position = world_state_buffer[1][player]["P"] + (position_delta * extrapolation_factor)
-			var velocity_delta = (world_state_buffer[1][player]["V"] - world_state_buffer[0][player]["V"])
-			var new_velocity = world_state_buffer[1][player]["V"] + (velocity_delta * extrapolation_factor)
+			var position_delta = (
+				world_state_buffer[1][player]["P"]
+				- world_state_buffer[0][player]["P"]
+			)
+			var new_position = (
+				world_state_buffer[1][player]["P"]
+				+ (position_delta * extrapolation_factor)
+			)
+			var velocity_delta = (
+				world_state_buffer[1][player]["V"]
+				- world_state_buffer[0][player]["V"]
+			)
+			var new_velocity = (
+				world_state_buffer[1][player]["V"]
+				+ (velocity_delta * extrapolation_factor)
+			)
 			get_node(str(player)).move_player(new_position, new_velocity)
 
 
@@ -131,17 +153,14 @@ func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: D
 
 
 func late_join_start(
-		game_seed: int,
-		new_game_options: Dictionary,
-		new_player_list: Dictionary,
-		time: float
-	) -> void:
+	game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary, time: float
+) -> void:
 	start_game(game_seed, new_game_options, new_player_list)
 	if not level_generator.level_ready:
 		# Level generator could be finished before returning to this function
 		yield(level_generator, "level_ready")
 	$UI/Loading.stop()
-	reset_players()
+	spawn_player_list(new_player_list)
 	reset_camera()
 	$UI.set_late_join_spectator(time)
 	finish_line_x_pos = level_generator.finish_line.position.x
@@ -155,7 +174,9 @@ func start_countdown() -> void:
 	$UI.start_countdown()
 	# Make the camera swoop into the starting position
 	var tween = get_tree().create_tween()
-	tween.tween_property($MainCamera, "position", Vector2.ZERO, 3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property($MainCamera, "position", Vector2.ZERO, 3).set_ease(Tween.EASE_OUT).set_trans(
+		Tween.TRANS_CUBIC
+	)
 
 
 func _on_UI_countdown_finished() -> void:
@@ -243,7 +264,10 @@ func set_spectate_target(target: Node2D) -> void:
 		# Already spectating this player
 		return
 	# Disconnect camera switching from old target if they exist
-	if spectate_target != null and spectate_target.is_connected("tree_exited", self, "spectate_leader"):
+	if (
+		spectate_target != null
+		and spectate_target.is_connected("tree_exited", self, "spectate_leader")
+	):
 		spectate_target.disconnect("tree_exited", self, "spectate_leader")
 	# Ensure the camera switches when the target despawns
 	var result := target.connect("tree_exited", self, "spectate_leader")
@@ -330,4 +354,6 @@ func end_race() -> void:
 	.end_race()
 	# Make the camera swoop past the finish line
 	var tween = get_tree().create_tween()
-	tween.tween_property($MainCamera, "velocity", Vector2(50, 0), 3).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property($MainCamera, "velocity", Vector2(50, 0), 3).set_ease(Tween.EASE_IN).set_trans(
+		Tween.TRANS_CUBIC
+	)

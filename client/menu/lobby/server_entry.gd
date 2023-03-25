@@ -3,6 +3,7 @@ extends Control
 var ip: String
 var port: int
 
+
 func setup(server_info: Dictionary) -> void:
 	$Hbox/Name.text = server_info.get("name", "unknown")
 	$Hbox/Players.text = "%d / %d" % [server_info.get("players", "0"), Network.MAX_PLAYERS]

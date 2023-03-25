@@ -1,7 +1,6 @@
 tool
 extends Button
 
-
 export(bool) var selected = false setget set_selected
 export(Color) var colour = Color.white setget set_colour
 

@@ -83,8 +83,10 @@ func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 
 
 func despawn_player(player_id: int) -> void:
+	var player = get_node_or_null(str(player_id))
+	if player:
+		chunk_tracker.remove_player(player_id)
 	.despawn_player(player_id)
-	chunk_tracker.remove_player(player_id)
 
 
 func _on_Player_death(player: CommonPlayer) -> void:
@@ -100,7 +102,10 @@ func player_lose_life(player_id: int) -> void:
 	player_lives[player_id] -= 1
 	Network.Server.send_player_lost_life(player_id, player_lives[player_id])
 	if player_lives[player_id] > 0:
-		Logger.print(self, "Player %s lost a life - Remaining lives = %d" % [player_id, player_lives[player_id]])
+		Logger.print(
+			self,
+			"Player %s lost a life - Remaining lives = %d" % [player_id, player_lives[player_id]]
+		)
 		knockback_player(player_id)
 	else:
 		var death_time = time
@@ -135,7 +140,9 @@ func _on_Player_finish(player: CommonPlayer) -> void:
 	var place := next_place
 	next_place += 1
 	var finish_time = time
-	Logger.print(self, "Player %s finished: Place = %d Time = %f" % [player.name, place, finish_time])
+	Logger.print(
+		self, "Player %s finished: Place = %d Time = %f" % [player.name, place, finish_time]
+	)
 	var player_id := int(player.name)
 	var player_info = player_list[player_id]
 	var finish_entry = {

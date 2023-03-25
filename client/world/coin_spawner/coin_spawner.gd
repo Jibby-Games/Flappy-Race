@@ -1,6 +1,5 @@
 extends "res://common/world/coin_spawner/coin_spawner.gd"
 
-
 export(PackedScene) var ImpactParticles := preload("res://client/effects/impact_particles.tscn")
 
 

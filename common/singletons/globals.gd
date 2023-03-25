@@ -1,6 +1,5 @@
 extends Node
 
-
 const CLIENT_SCRIPT = "res://client/singletons/globals.gd"
 
 

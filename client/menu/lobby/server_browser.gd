@@ -11,6 +11,7 @@ onready var server_list_entries = $Panel/ServerListContainer/ServerListEntries
 onready var error_message = $Panel/CenterContainer/ErrorMessage
 onready var info_message = $Panel/CenterContainer/InfoMessage
 
+
 func _ready() -> void:
 	var result: int
 	result = multiplayer.connect("connected_to_server", self, "_on_connected")
@@ -44,7 +45,9 @@ func get_server_list() -> void:
 	show_info("Connecting...")
 
 
-func _on_ServerRequest_request_completed(result:int, response_code:int, _headers:PoolStringArray, body:PoolByteArray) -> void:
+func _on_ServerRequest_request_completed(
+	result: int, response_code: int, _headers: PoolStringArray, body: PoolByteArray
+) -> void:
 	info_message.hide()
 	match result:
 		HTTPRequest.RESULT_SUCCESS:
@@ -56,13 +59,17 @@ func _on_ServerRequest_request_completed(result:int, response_code:int, _headers
 			show_error("Server list offline!")
 			return
 		_:
-			show_error("Connection error! (result: %d, response code: %d)" % [result, response_code])
+			show_error(
+				"Connection error! (result: %d, response code: %d)" % [result, response_code]
+			)
 			return
 	match response_code:
 		HTTPClient.RESPONSE_OK:
 			pass
 		_:
-			show_error("Connection error! (result: %d, response code: %d)" % [result, response_code])
+			show_error(
+				"Connection error! (result: %d, response code: %d)" % [result, response_code]
+			)
 			return
 	var servers: Array = parse_json(body.get_string_from_utf8())
 	if not servers is Array:

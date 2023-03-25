@@ -1,8 +1,6 @@
 extends SceneHandler
 
-
 class_name ServerNetwork
-
 
 const SERVER_ID := 0
 const UpnpHandler = preload("res://server/upnp_handler.gd")
@@ -39,7 +37,9 @@ func _ready() -> void:
 	assert(result == OK)
 	result = multiplayer.connect("network_peer_connected", self, "_peer_connected")
 	assert(result == OK)
-	result = $ServerListHandler.connect("connection_established", self, "_update_server_list_status")
+	result = $ServerListHandler.connect(
+		"connection_established", self, "_update_server_list_status"
+	)
 	assert(result == OK)
 	$ServerListHandler.server_list_url = Network.SERVER_LIST_URL
 
@@ -72,12 +72,13 @@ func clear_host() -> void:
 
 
 func start_server(
-		server_port: int,
-		server_max_players: int,
-		forward_port: bool,
-		server_name: String,
-		use_server_list: bool,
-		use_timeout: bool = false) -> void:
+	server_port: int,
+	server_max_players: int,
+	forward_port: bool,
+	server_name: String,
+	use_server_list: bool,
+	use_timeout: bool = false
+) -> void:
 	port = server_port
 	max_players = server_max_players
 	game_options = DEFAULT_GAME_OPTIONS.duplicate()
@@ -95,9 +96,13 @@ func start_server(
 	# Basically, anything networking related needs to be updated this way.
 	# See the MultiplayerAPI docs for reference.
 	multiplayer.set_network_peer(peer)
-	Logger.print(self,
-		"Server started on port %d - Name = %s, Max Players = %d, UPnP = %s, Server List = %s, Timeout = %s - waiting for players" %
-			[port, server_name, max_players, forward_port, use_server_list, use_timeout])
+	Logger.print(
+		self,
+		(
+			"Server started on port %d - Name = %s, Max Players = %d, UPnP = %s, Server List = %s, Timeout = %s - waiting for players"
+			% [port, server_name, max_players, forward_port, use_server_list, use_timeout]
+		)
+	)
 	change_scene_to_setup()
 	if use_server_list:
 		$ServerListHandler.start_connection(server_name)
@@ -134,15 +139,13 @@ func change_scene_to_setup() -> void:
 
 func _peer_connected(player_id: int) -> void:
 	var num_players = multiplayer.get_network_connected_peers().size()
-	Logger.print(self, "Player %s connected - %d/%d" %
-			[player_id, num_players, max_players])
+	Logger.print(self, "Player %s connected - %d/%d" % [player_id, num_players, max_players])
 	_update_server_list_status()
 
 
 func _peer_disconnected(player_id: int) -> void:
 	var peers = multiplayer.get_network_connected_peers()
-	Logger.print(self, "Player %s disconnected - %d/%d" %
-			[player_id, peers.size(), max_players])
+	Logger.print(self, "Player %s disconnected - %d/%d" % [player_id, peers.size(), max_players])
 	var player_erased = player_list.erase(player_id)
 	assert(player_erased)
 	if peers.empty():
@@ -172,8 +175,14 @@ func _update_server_list_status() -> void:
 
 
 func _start_player_timeout() -> void:
-	Logger.print(self, "Timeout started - server will shutdown if no one joins within %s seconds..." % PLAYER_TIMEOUT_TIME)
-	yield (get_tree().create_timer(PLAYER_TIMEOUT_TIME), "timeout")
+	Logger.print(
+		self,
+		(
+			"Timeout started - server will shutdown if no one joins within %s seconds..."
+			% PLAYER_TIMEOUT_TIME
+		)
+	)
+	yield(get_tree().create_timer(PLAYER_TIMEOUT_TIME), "timeout")
 	if multiplayer.get_network_connected_peers().size() == 0:
 		Logger.print(self, "No players joined! Shutting down the server...")
 		stop_server()
@@ -183,7 +192,9 @@ func _start_player_timeout() -> void:
 remote func receive_change_to_setup_request() -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	if not is_host_id(player_id):
-		Logger.print(self, "Player %s tried to go back to setup but they're not the host!" % [player_id])
+		Logger.print(
+			self, "Player %s tried to go back to setup but they're not the host!" % [player_id]
+		)
 		return
 	Logger.print(self, "Player %s requested change to setup scene" % [player_id])
 	change_scene_to_setup()
@@ -196,7 +207,10 @@ func send_change_to_setup() -> void:
 
 remote func receive_player_settings(player_name: String, player_colour: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
-	Logger.print(self, "Got settings for player %s. Name: %s, Colour: %s" % [player_id, player_name, player_colour])
+	Logger.print(
+		self,
+		"Got settings for player %s. Name: %s, Colour: %s" % [player_id, player_name, player_colour]
+	)
 	if does_name_already_exist(player_name):
 		player_name = rename_player(player_name)
 		Logger.print(self, "Player %s renamed to %s" % [player_id, player_name])
@@ -240,7 +254,9 @@ func send_game_info_to(player_id: int) -> void:
 	rpc_id(player_id, "receive_game_info", _host_player_id, player_list, game_options)
 
 
-func create_player_list_entry(player_name: String, player_colour: int, spectating: bool) -> Dictionary:
+func create_player_list_entry(
+	player_name: String, player_colour: int, spectating: bool
+) -> Dictionary:
 	return {
 		"name": player_name,
 		"colour": player_colour,
@@ -286,13 +302,16 @@ func send_player_spectate_update(player_id: int, is_spectating: bool) -> void:
 remote func receive_goal_change(new_goal: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	if not is_host_id(player_id):
-		Logger.print(self, "Player %s tried to change the goal but they're not the host!"
-			% [player_id])
+		Logger.print(
+			self, "Player %s tried to change the goal but they're not the host!" % [player_id]
+		)
 		# Reset clients back to server value
 		rpc("receive_goal_change", game_options.goal)
 		return
 	if new_goal < 1 or new_goal > 1000:
-		Logger.print(self, "Player %s tried to set goal to invalid value: %d", [player_id, new_goal])
+		Logger.print(
+			self, "Player %s tried to set goal to invalid value: %d", [player_id, new_goal]
+		)
 		# Reset clients back to server value
 		rpc("receive_goal_change", game_options.goal)
 		return
@@ -304,13 +323,16 @@ remote func receive_goal_change(new_goal: int) -> void:
 remote func receive_lives_change(new_lives: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	if not is_host_id(player_id):
-		Logger.print(self, "Player %s tried to change the lives but they're not the host!"
-			% [player_id])
+		Logger.print(
+			self, "Player %s tried to change the lives but they're not the host!" % [player_id]
+		)
 		# Reset clients back to server value
 		rpc("receive_lives_change", game_options.lives)
 		return
 	if new_lives < 0 or new_lives > 1000:
-		Logger.print(self, "Player %s tried to set lives to invalid value: %d", [player_id, new_lives])
+		Logger.print(
+			self, "Player %s tried to set lives to invalid value: %d", [player_id, new_lives]
+		)
 		# Reset clients back to server value
 		rpc("receive_lives_change", game_options.lives)
 		return
@@ -367,8 +389,9 @@ remote func receive_start_game_request() -> void:
 		send_load_world()
 		change_scene("res://server/world/world.tscn")
 	else:
-		Logger.print(self, "Player %s tried to start the game but they're not the host!" %
-				[player_id])
+		Logger.print(
+			self, "Player %s tried to start the game but they're not the host!" % [player_id]
+		)
 
 
 func send_setup_info_message(message: String) -> void:

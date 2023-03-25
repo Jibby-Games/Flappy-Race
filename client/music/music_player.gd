@@ -1,9 +1,8 @@
 extends Node
 
-
 var tracks := []
 var current_track_index := 0
-var current_track : AudioStreamPlayer
+var current_track: AudioStreamPlayer
 var is_playing := false
 
 

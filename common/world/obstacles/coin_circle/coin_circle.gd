@@ -1,12 +1,10 @@
 extends Obstacle
 
-
 tool
 
 export(PackedScene) var CoinSpawner := preload("res://client/world/coin_spawner/coin_spawner.tscn")
 export(float) var radius := 400.0 setget set_radius
 export(int) var coins := 12 setget set_coins
-
 
 var spawned_coins := []
 

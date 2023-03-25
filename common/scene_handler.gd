@@ -1,8 +1,6 @@
 extends Node
 
-
 class_name SceneHandler
-
 
 var _active_scene: Node
 

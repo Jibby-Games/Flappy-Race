@@ -1,8 +1,6 @@
 extends Obstacle
 
-
 export(PackedScene) var CoinSpawner
-
 
 var gap_range_min := 130
 var gap_range_max := 250

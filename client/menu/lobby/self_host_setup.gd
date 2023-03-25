@@ -10,6 +10,7 @@ onready var info_message = $VBoxContainer/Menu/InfoMessage
 onready var server_name_input = $VBoxContainer/Menu/CenterContainer/ButtonContainer/ServerNameContainer/ServerNameInput
 onready var port_input = $VBoxContainer/Menu/CenterContainer/ButtonContainer/HostOptionsContainer/PortInput
 
+
 func _ready() -> void:
 	var result: int
 	result = multiplayer.connect("connected_to_server", self, "_on_connected")
@@ -33,7 +34,9 @@ func _on_HostButton_pressed() -> void:
 		show_error("Port must be between 1 and 65535")
 		return
 	error_message.hide()
-	Network.start_multiplayer_host(int(port_input.text), use_upnp, server_name_input.text, use_server_list)
+	Network.start_multiplayer_host(
+		int(port_input.text), use_upnp, server_name_input.text, use_server_list
+	)
 
 
 func _on_BackButton_pressed() -> void:

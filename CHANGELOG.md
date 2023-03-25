@@ -17,6 +17,11 @@ Types of changes:
 
 ## [Unreleased]
 
+### Fixed
+- Spectators not being able to see obstacles
+- Clients getting out of sync with the server
+- Reduced checkpoint log messages
+
 ## [0.6.1] - 2023-03-19
 
 ### Fixed

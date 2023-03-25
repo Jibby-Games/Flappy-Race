@@ -1,14 +1,12 @@
 extends Node
 
-
 class_name UpnpHandler
 
-
-var upnp : UPNP = null
-var add_thread : Thread = null
-var remove_thread : Thread = null
+var upnp: UPNP = null
+var add_thread: Thread = null
+var remove_thread: Thread = null
 var port := 0
-var port_description : String = ProjectSettings.get_setting("application/config/name")
+var port_description: String = ProjectSettings.get_setting("application/config/name")
 
 
 func _init() -> void:

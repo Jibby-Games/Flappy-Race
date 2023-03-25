@@ -1,8 +1,6 @@
 extends MenuControl
 
-
 var server_browser_scene := "res://client/menu/lobby/server_browser.tscn"
-
 
 onready var player_list = $Setup/PlayerList
 onready var info_message = $Setup/InfoMessage

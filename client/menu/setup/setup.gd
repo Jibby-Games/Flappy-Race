@@ -1,6 +1,5 @@
 extends Control
 
-
 onready var colour_selector := $PlayerOptions/Control/ColourSelector
 onready var player := $PlayerOptions/Control/Player
 
@@ -28,7 +27,6 @@ func _ready() -> void:
 		set_enable_host_options(Network.Client.is_host())
 		if not Network.Client.game_options.empty():
 			$GameOptions.set_game_options(Network.Client.game_options)
-
 
 	# Need to defer this or the menu animation hides it
 	$StartButton.call_deferred("grab_focus")

@@ -1,6 +1,5 @@
 extends VBoxContainer
 
-
 export(PackedScene) var entry_template
 
 
@@ -42,5 +41,5 @@ func update_player_spectating(player_id: int, is_spectating: bool) -> void:
 
 func _on_host_changed(new_host_id: int) -> void:
 	for player_entry in get_children():
-		var entry_is_host: bool = (player_entry.name == str(new_host_id))
+		var entry_is_host: bool = player_entry.name == str(new_host_id)
 		player_entry.set_host(entry_is_host)
