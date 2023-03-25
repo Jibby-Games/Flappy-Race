@@ -17,10 +17,13 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.6.2] - 2023-03-25
+
 ### Fixed
-- Spectators not being able to see obstacles
-- Clients getting out of sync with the server
-- Reduced checkpoint log messages
+
+-   Spectators not being able to see obstacles
+-   Clients getting out of sync with the server
+-   Reduced checkpoint log messages
 
 ## [0.6.1] - 2023-03-19
 
@@ -252,7 +255,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.6.1...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.6.2...HEAD
+
+[0.6.2]: https://github.com/Jibby-Games/Flappy-Race/compare/0.6.1...0.6.2
 
 [0.6.1]: https://github.com/Jibby-Games/Flappy-Race/compare/0.6.0...0.6.1
 
