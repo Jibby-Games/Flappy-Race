@@ -31,6 +31,7 @@ func show_error(message: String) -> void:
 	error_message.text = message
 	error_message.show()
 
+
 func _on_ConnectionTimer_timeout() -> void:
 	show_error("Connection failed!")
 	Network.Client.stop_client()

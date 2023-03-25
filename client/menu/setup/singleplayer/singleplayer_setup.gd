@@ -1,6 +1,5 @@
 extends MenuControl
 
-
 var title_scene := "res://client/menu/title/title_screen.tscn"
 
 

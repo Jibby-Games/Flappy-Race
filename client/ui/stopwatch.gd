@@ -1,6 +1,5 @@
 extends Label
 
-
 var running := false
 var time := 0.0
 

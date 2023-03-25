@@ -1,6 +1,5 @@
 extends Node2D
 
-
 var players_already_finished := []
 
 

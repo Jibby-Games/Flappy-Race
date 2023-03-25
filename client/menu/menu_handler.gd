@@ -1,8 +1,8 @@
 extends SceneHandler
 
-
 var scroll_x = 0
 var scroll_speed = 200
+
 
 func _ready() -> void:
 	$MusicPlayer.play_track_name("Drozerix - Digital Rendezvous")

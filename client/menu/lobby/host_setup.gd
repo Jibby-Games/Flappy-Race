@@ -11,6 +11,7 @@ onready var error_message = $VBoxContainer/Menu/ErrorMessage
 onready var info_message = $VBoxContainer/Menu/InfoMessage
 onready var server_name_input = $VBoxContainer/Menu/CenterContainer/ButtonContainer/ServerNameContainer/ServerNameInput
 
+
 func _ready() -> void:
 	var result: int
 	result = multiplayer.connect("connected_to_server", self, "_on_connected")
@@ -71,7 +72,9 @@ func _on_CreateButton_pressed() -> void:
 	http.request(url, headers, true, HTTPClient.METHOD_POST, to_json(data))
 
 
-func _on_HTTPCreate_request_completed(result: int, response_code: int, _headers: PoolStringArray, body: PoolByteArray) -> void:
+func _on_HTTPCreate_request_completed(
+	result: int, response_code: int, _headers: PoolStringArray, body: PoolByteArray
+) -> void:
 	info_message.hide()
 	match result:
 		HTTPRequest.RESULT_SUCCESS:
@@ -83,7 +86,9 @@ func _on_HTTPCreate_request_completed(result: int, response_code: int, _headers:
 			show_error("Official servers are offline!")
 			return
 		_:
-			show_error("Connection error! (result: %d, response code: %d)" % [result, response_code])
+			show_error(
+				"Connection error! (result: %d, response code: %d)" % [result, response_code]
+			)
 			return
 	match response_code:
 		HTTPClient.RESPONSE_CREATED:
@@ -93,7 +98,9 @@ func _on_HTTPCreate_request_completed(result: int, response_code: int, _headers:
 			if "detail" in error:
 				show_error(error.detail)
 			else:
-				show_error("Connection error! (result: %d, response code: %d)" % [result, response_code])
+				show_error(
+					"Connection error! (result: %d, response code: %d)" % [result, response_code]
+				)
 			return
 
 	# Successful response
@@ -108,6 +115,7 @@ func _on_HTTPCreate_request_completed(result: int, response_code: int, _headers:
 		push_error("Port must be a numerical type (float), got: %s" % typeof(resp.port))
 		return
 	try_connect_to_server(Network.SERVER_MANAGER_URL, int(resp.port))
+
 
 func try_connect_to_server(ip: String, port: int) -> void:
 	show_info("Server created, connecting...")

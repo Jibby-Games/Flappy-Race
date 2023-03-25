@@ -13,7 +13,6 @@ export(NodePath) var fullscreen_button_path
 export(NodePath) var vsync_button_path
 export(NodePath) var high_score_label_path
 
-
 onready var master_slider = get_node(master_slider_path)
 onready var master_percent = get_node(master_percent_path)
 onready var music_slider = get_node(music_slider_path)
@@ -27,7 +26,7 @@ onready var high_score_label = get_node(high_score_label_path)
 
 
 func float2percent(value: float) -> String:
-	return "%s%%" % str(value*100)
+	return "%s%%" % str(value * 100)
 
 
 func _ready() -> void:

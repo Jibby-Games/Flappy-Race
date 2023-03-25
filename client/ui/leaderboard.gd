@@ -1,10 +1,11 @@
 extends Control
 
-
 export var LeaderboardEntry: PackedScene
 
 
-func add_player(player_name: String, colour: int, place_text: String, score: int, time: float) -> void:
+func add_player(
+	player_name: String, colour: int, place_text: String, score: int, time: float
+) -> void:
 	var entry = LeaderboardEntry.instance()
 	var player_body = entry.get_node("PlayerHolder/Player")
 	# Stop player from falling

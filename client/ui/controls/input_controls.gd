@@ -1,15 +1,12 @@
 extends Control
 
-
 const INITIAL_DELAY_TIME := 1
 const PULSE_TIME := 8
 const INGAME_DELAY_TIME := 5
 
-
 export(StreamTexture) var mouse_icon := preload("res://client/ui/controls/Mouse_Left_Key_Light.png")
 export(StreamTexture) var keyboard_icon := preload("res://client/ui/controls/Space_Key_Light.png")
 export(StreamTexture) var joypad_icon := preload("res://client/ui/controls/XboxSeriesX_A.png")
-
 
 var checking_for_input := false
 

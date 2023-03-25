@@ -43,9 +43,16 @@ func set_game_options(new_game_options: Dictionary) -> void:
 	Logger.print(self, "Set game options to: %s" % [new_game_options])
 
 
-func start_game(new_game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary) -> void:
-	Logger.print(self, "Starting game with seed = %d, game options: %s and players: %s" %
-		[new_game_seed, new_game_options, new_player_list])
+func start_game(
+	new_game_seed: int, new_game_options: Dictionary, new_player_list: Dictionary
+) -> void:
+	Logger.print(
+		self,
+		(
+			"Starting game with seed = %d, game options: %s and players: %s"
+			% [new_game_seed, new_game_options, new_player_list]
+		)
+	)
 	set_game_seed(new_game_seed)
 	set_game_options(new_game_options)
 	self.player_list = new_player_list

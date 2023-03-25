@@ -1,13 +1,10 @@
 extends Control
 
-
 var PlayerMarker := preload("res://client/ui/player_marker.tscn")
 var players := {}
 var active_player_id := 0
 
-
 export(NodePath) var MarkerAreaPath
-
 
 onready var MarkerArea := get_node(MarkerAreaPath)
 

@@ -1,12 +1,9 @@
 extends CommonPlayer
 
-
 const FLAP = 350
-
 
 export(PackedScene) var ImpactParticles
 export(PackedScene) var FlapParticles
-
 
 var is_controlled
 var player_state
@@ -35,7 +32,6 @@ func _physics_process(_delta: float) -> void:
 				flap_queue.erase(flap_time)
 	# Make the sprite face the direction it's going
 	$Sprites.rotation = velocity.angle()
-
 
 
 func _input(event: InputEvent) -> void:

@@ -1,12 +1,9 @@
 extends Node
 
-
 class_name ChunkTracker
-
 
 signal load_chunk(chunk)
 signal unload_chunk(chunk)
-
 
 var chunk_limit := 0
 var chunk_radius := 3
@@ -95,4 +92,6 @@ func is_chunk_in_range_of_any_players(chunk: int) -> bool:
 
 
 func _print_chunks():
-	Logger.print(self, "Player chunks: %s  Loaded chunks: %s" % [player_chunks, loaded_chunks.keys()])
+	Logger.print(
+		self, "Player chunks: %s  Loaded chunks: %s" % [player_chunks, loaded_chunks.keys()]
+	)

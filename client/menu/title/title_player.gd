@@ -1,6 +1,5 @@
 extends Node2D
 
-
 var threshold := 100
 var remove_when_off_screen := false
 

@@ -1,8 +1,6 @@
 extends KinematicBody2D
 
-
 class_name CommonPlayer
-
 
 const MAXFALLSPEED = 800
 const GRAVITY = 17
@@ -11,12 +9,10 @@ const DEATH_COOLDOWN_TIME = 1
 const COIN_BOOST := 20
 const COINS_LOST_ON_DEATH := 3
 
-
 signal death(player)
 signal score_changed(player)
 signal coins_changed(player)
 signal finish(player)
-
 
 var in_death_cooldown: bool = false
 var score := 0
@@ -51,7 +47,7 @@ func update_movement() -> void:
 
 
 func check_position() -> void:
-	var upper_bound = (ProjectSettings.get_setting("display/window/size/height") / 2)
+	var upper_bound = ProjectSettings.get_setting("display/window/size/height") / 2
 
 	# Give the player a chance to recover from death
 	var threshold = 200

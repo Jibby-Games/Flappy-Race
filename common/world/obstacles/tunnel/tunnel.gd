@@ -1,12 +1,8 @@
 extends Obstacle
 
-
 const BLOCK_SIZE := 64
 
-
-
 export(PackedScene) var CoinSpawner
-
 
 var gap_range_min := 135
 var gap_range_max := 150

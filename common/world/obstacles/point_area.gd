@@ -1,6 +1,5 @@
 extends Area2D
 
-
 var players_already_scored := []
 
 
