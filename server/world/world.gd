@@ -83,8 +83,10 @@ func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 
 
 func despawn_player(player_id: int) -> void:
+	var player = get_node_or_null(str(player_id))
+	if player:
+		chunk_tracker.remove_player(player_id)
 	.despawn_player(player_id)
-	chunk_tracker.remove_player(player_id)
 
 
 func _on_Player_death(player: CommonPlayer) -> void:
