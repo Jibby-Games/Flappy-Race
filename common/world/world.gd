@@ -69,21 +69,26 @@ func reset_players() -> void:
 	for player in spawned_players:
 		spawned_players.erase(player)
 		player.queue_free()
-	Logger.print(self, "Spawning players in list: %s" % [player_list])
 	for player_id in player_list:
-		var player_entry = player_list[player_id]
-		player_entry.score = 0
+		player_list[player_id].score = 0
+	spawn_player_list(player_list)
+
+
+func spawn_player_list(_player_list: Dictionary) -> void:
+	Logger.print(self, "Spawning players in list: %s" % [_player_list])
+	for player_id in _player_list:
+		var player_entry = _player_list[player_id]
 		# Don't spawn any spectators
 		if player_entry.spectate == true:
 			continue
 		var player_body := spawn_player(player_id, Vector2.ZERO)
 		player_entry["body"] = player_body
 		spawned_players.append(player_body)
+		chunk_tracker.add_player(player_id, player_entry.score)
 
 
 func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 	if not has_node(str(player_id)):
-		chunk_tracker.add_player(player_id)
 		Logger.print(self, "Spawning player %d" % [player_id])
 		var player = Player.instance()
 		player.connect("death", self, "_on_Player_death")

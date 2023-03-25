@@ -160,7 +160,7 @@ func late_join_start(
 		# Level generator could be finished before returning to this function
 		yield(level_generator, "level_ready")
 	$UI/Loading.stop()
-	reset_players()
+	spawn_player_list(new_player_list)
 	reset_camera()
 	$UI.set_late_join_spectator(time)
 	finish_line_x_pos = level_generator.finish_line.position.x
