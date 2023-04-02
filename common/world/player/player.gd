@@ -13,7 +13,7 @@ const MAX_ITEMS := 3
 signal death(player)
 signal score_changed(player)
 signal coins_changed(player)
-signal item_added(player, item)
+signal items_changed(player)
 signal finish(player)
 
 var in_death_cooldown: bool = false
@@ -115,8 +115,8 @@ func add_score() -> void:
 	emit_signal("score_changed", self)
 
 
-func add_coin() -> void:
-	coins += 1
+func add_coin(amount: int = 1) -> void:
+	coins += amount
 	emit_signal("coins_changed", self)
 	Logger.print(self, "Player %s got a coin! Coins = %d" % [self.name, coins])
 
@@ -127,7 +127,7 @@ func add_item(item: Item) -> void:
 		return
 	items.append(item)
 	Logger.print(self, "Player %s got item %s", [self.name, item.name])
-	emit_signal("item_added", self, item)
+	emit_signal("items_changed", self)
 
 
 func finish() -> void:

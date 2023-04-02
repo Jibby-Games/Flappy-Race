@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://client/ui/pause_menu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/fonts/Score.tres" type="DynamicFont" id=2]
@@ -24,6 +24,7 @@
 [ext_resource path="res://client/ui/progress-bar-64px.png" type="Texture" id=22]
 [ext_resource path="res://client/ui/race_progress.gd" type="Script" id=23]
 [ext_resource path="res://client/ui/loading.gd" type="Script" id=24]
+[ext_resource path="res://common/singletons/items/picoberry/picoberry.png" type="Texture" id=25]
 
 [sub_resource type="Animation" id=7]
 length = 0.001
@@ -527,7 +528,7 @@ script = ExtResource( 5 )
 ScorePath = NodePath("Ingame/Player/Score")
 LivesPath = NodePath("Ingame/Player/Lives")
 CoinsPath = NodePath("Ingame/Player/Coins/HBoxContainer/Coins")
-ItemSlotsPath = NodePath("Ingame/Player/Items/HBoxContainer")
+ItemSlotPaths = [ NodePath("Ingame/Player/Items/VBoxContainer/CenterContainer1/Slot0"), NodePath("Ingame/Player/Items/VBoxContainer/CenterContainer2/Slot1"), NodePath("Ingame/Player/Items/VBoxContainer/CenterContainer3/Slot2") ]
 SpectateLabelPath = NodePath("Ingame/Spectator/CenterContainer/HBoxContainer/SpectatingLabel")
 RaceProgressPath = NodePath("Ingame/RaceProgress")
 
@@ -968,23 +969,66 @@ rect_min_size = Vector2( 84, 84 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Ingame/Player/Coins/HBoxContainer/Control"]
 frames = ExtResource( 17 )
 animation = "spin"
-frame = 1
+frame = 4
 playing = true
 offset = Vector2( 42, 42 )
 
 [node name="Items" type="MarginContainer" parent="Ingame/Player"]
-margin_right = 322.0
-margin_bottom = 164.0
+margin_right = 164.0
+margin_bottom = 250.0
 grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource( 6 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Ingame/Player/Items"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Ingame/Player/Items"]
 margin_left = 50.0
 margin_top = 50.0
-margin_right = 272.0
-margin_bottom = 114.0
-custom_constants/separation = 15
+margin_right = 114.0
+margin_bottom = 200.0
+custom_constants/separation = 10
+
+[node name="CenterContainer1" type="Panel" parent="Ingame/Player/Items/VBoxContainer"]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_right = 64.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
+
+[node name="Slot0" type="TextureRect" parent="Ingame/Player/Items/VBoxContainer/CenterContainer1"]
+margin_left = 20.0
+margin_right = 84.0
+margin_bottom = 64.0
+texture = ExtResource( 25 )
+
+[node name="CenterContainer2" type="Panel" parent="Ingame/Player/Items/VBoxContainer"]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_top = 74.0
+margin_right = 64.0
+margin_bottom = 112.0
+rect_min_size = Vector2( 38, 38 )
+
+[node name="Slot1" type="TextureRect" parent="Ingame/Player/Items/VBoxContainer/CenterContainer2"]
+margin_left = 10.0
+margin_right = 74.0
+margin_bottom = 64.0
+rect_scale = Vector2( 0.6, 0.6 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource( 25 )
+
+[node name="CenterContainer3" type="Panel" parent="Ingame/Player/Items/VBoxContainer"]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_top = 122.0
+margin_right = 64.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 28, 28 )
+
+[node name="Slot2" type="TextureRect" parent="Ingame/Player/Items/VBoxContainer/CenterContainer3"]
+margin_right = 64.0
+margin_bottom = 64.0
+rect_scale = Vector2( 0.4, 0.4 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource( 25 )
 
 [node name="Stopwatch" type="Label" parent="Ingame"]
 anchor_left = 1.0

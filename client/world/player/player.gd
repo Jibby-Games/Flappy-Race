@@ -35,9 +35,15 @@ func _physics_process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if is_controlled and event.is_action_pressed("flap"):
+	if not is_controlled:
+		return
+	if event.is_action_pressed("flap"):
 		Network.Client.send_player_flap()
 		do_flap()
+	if event.is_action_pressed("use_item") and not items.empty():
+		var item: Item = items.pop_front()
+		item.use(self)
+		emit_signal("items_changed", self)
 
 
 func update_player_state() -> void:
@@ -140,8 +146,8 @@ func spawn_flap_particles() -> void:
 	add_child(particles)
 
 
-func add_coin() -> void:
-	.add_coin()
+func add_coin(amount: int = 1) -> void:
+	.add_coin(amount)
 	$Coin.play()
 
 
