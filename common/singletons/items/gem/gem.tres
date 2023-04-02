@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://common/singletons/items/gem/gem.png" type="Texture" id=1]
+[ext_resource path="res://common/singletons/items/item.gd" type="Script" id=2]
+
+[resource]
+script = ExtResource( 2 )
+name = "Gem"
+icon = ExtResource( 1 )

@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://common/world/world.gd"
 }, {
+"base": "Resource",
+"class": "Item",
+"language": "GDScript",
+"path": "res://common/singletons/items/item.gd"
+}, {
 "base": "Node",
 "class": "LevelGenerator",
 "language": "GDScript",
@@ -69,6 +74,7 @@ _global_script_class_icons={
 "ClientNetwork": "",
 "CommonPlayer": "",
 "CommonWorld": "",
+"Item": "",
 "LevelGenerator": "",
 "Logger": "",
 "MenuControl": "",
@@ -95,6 +101,7 @@ default_bus_layout="res://client/audio/default_bus_layout.tres"
 
 Network="*res://common/singletons/network.gd"
 Globals="*res://common/singletons/globals.gd"
+Items="*res://common/singletons/items.gd"
 
 [display]
 
@@ -142,7 +149,7 @@ flap={
 2d_physics/layer_1="player"
 2d_physics/layer_2="walls"
 2d_physics/layer_3="score"
-2d_physics/layer_4="coins"
+2d_physics/layer_4="items"
 
 [locale]
 

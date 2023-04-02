@@ -3,12 +3,14 @@ extends CanvasLayer
 export(NodePath) var ScorePath
 export(NodePath) var LivesPath
 export(NodePath) var CoinsPath
+export(NodePath) var ItemSlotsPath
 export(NodePath) var SpectateLabelPath
 export(NodePath) var RaceProgressPath
 
 onready var Score := get_node(ScorePath)
 onready var Lives := get_node(LivesPath)
 onready var Coins := get_node(CoinsPath)
+onready var ItemSlots := get_node(ItemSlotsPath)
 onready var SpectateLabel := get_node(SpectateLabelPath)
 onready var RaceProgress := get_node(RaceProgressPath)
 
@@ -17,6 +19,7 @@ signal request_restart
 signal spectate_change(forward_not_back)
 
 var is_spectating := false
+var item_slots := []
 
 
 func _ready() -> void:
@@ -63,6 +66,13 @@ func update_score(new_score: int) -> void:
 
 func update_coins(value: int) -> void:
 	Coins.text = "%d" % value
+
+
+func add_item(item: Item) -> void:
+	var icon = TextureRect.new()
+	icon.texture = item.icon
+	item_slots.append(icon)
+	ItemSlots.add_child(icon)
 
 
 func _on_RestartButton_pressed() -> void:

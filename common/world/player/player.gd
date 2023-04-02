@@ -8,15 +8,18 @@ const BASE_SPEED = 500
 const DEATH_COOLDOWN_TIME = 1
 const COIN_BOOST := 20
 const COINS_LOST_ON_DEATH := 3
+const MAX_ITEMS := 3
 
 signal death(player)
 signal score_changed(player)
 signal coins_changed(player)
+signal item_added(player, item)
 signal finish(player)
 
 var in_death_cooldown: bool = false
 var score := 0
 var coins := 0
+var items := []
 var checkpoint_position := Vector2()
 
 # Movement vars
@@ -116,6 +119,15 @@ func add_coin() -> void:
 	coins += 1
 	emit_signal("coins_changed", self)
 	Logger.print(self, "Player %s got a coin! Coins = %d" % [self.name, coins])
+
+
+func add_item(item: Item) -> void:
+	if items.size() >= MAX_ITEMS:
+		# Cannot add any more items
+		return
+	items.append(item)
+	Logger.print(self, "Player %s got item %s", [self.name, item.name])
+	emit_signal("item_added", self, item)
 
 
 func finish() -> void:

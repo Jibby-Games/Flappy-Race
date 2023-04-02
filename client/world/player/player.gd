@@ -143,3 +143,8 @@ func spawn_flap_particles() -> void:
 func add_coin() -> void:
 	.add_coin()
 	$Coin.play()
+
+
+func add_item(item: Item) -> void:
+	.add_item(item)
+	$Item.play()

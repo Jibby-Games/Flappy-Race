@@ -459,13 +459,20 @@ volume_db = 1.029
 attenuation = 2.0
 bus = "Player"
 
-[node name="CoinLost" type="AudioStreamPlayer2D" parent="." index="11"]
+[node name="Item" type="AudioStreamPlayer2D" parent="." index="11"]
+stream = ExtResource( 15 )
+volume_db = 1.029
+pitch_scale = 0.5
+attenuation = 2.0
+bus = "Player"
+
+[node name="CoinLost" type="AudioStreamPlayer2D" parent="." index="12"]
 stream = ExtResource( 16 )
 volume_db = 5.149
 attenuation = 2.0
 bus = "Player"
 
-[node name="NameLabel" type="Label" parent="." index="12"]
+[node name="NameLabel" type="Label" parent="." index="13"]
 visible = false
 anchor_top = 1.0
 anchor_right = 1.0
@@ -483,10 +490,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="14"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="15"]
 anims/RESET = SubResource( 3 )
 anims/death_cooldown = SubResource( 2 )
 anims/flap = SubResource( 9 )
 anims/idle = SubResource( 10 )
 
-[node name="Listener2D" type="Listener2D" parent="." index="15"]
+[node name="Listener2D" type="Listener2D" parent="." index="16"]

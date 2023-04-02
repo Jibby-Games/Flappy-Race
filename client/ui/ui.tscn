@@ -527,6 +527,7 @@ script = ExtResource( 5 )
 ScorePath = NodePath("Ingame/Player/Score")
 LivesPath = NodePath("Ingame/Player/Lives")
 CoinsPath = NodePath("Ingame/Player/Coins/HBoxContainer/Coins")
+ItemSlotsPath = NodePath("Ingame/Player/Items/HBoxContainer")
 SpectateLabelPath = NodePath("Ingame/Spectator/CenterContainer/HBoxContainer/SpectatingLabel")
 RaceProgressPath = NodePath("Ingame/RaceProgress")
 
@@ -934,9 +935,6 @@ margin_top = -148.0
 grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Ingame/Player/Coins"]
 margin_left = 50.0
@@ -970,8 +968,23 @@ rect_min_size = Vector2( 84, 84 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Ingame/Player/Coins/HBoxContainer/Control"]
 frames = ExtResource( 17 )
 animation = "spin"
+frame = 1
 playing = true
 offset = Vector2( 42, 42 )
+
+[node name="Items" type="MarginContainer" parent="Ingame/Player"]
+margin_right = 322.0
+margin_bottom = 164.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource( 6 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Ingame/Player/Items"]
+margin_left = 50.0
+margin_top = 50.0
+margin_right = 272.0
+margin_bottom = 114.0
+custom_constants/separation = 15
 
 [node name="Stopwatch" type="Label" parent="Ingame"]
 anchor_left = 1.0
