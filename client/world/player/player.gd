@@ -154,3 +154,21 @@ func add_coin(amount: int = 1) -> void:
 func add_item(item: Item) -> void:
 	.add_item(item)
 	$Item.play()
+
+
+func set_invisible(value: bool) -> void:
+	.set_invisible(value)
+	if value:
+		$Sprites.modulate.a = 0.333
+		$Trail.modulate.a = 0.333
+	else:
+		$Sprites.modulate.a = 1.0
+		$Trail.modulate.a = 1.0
+
+
+func set_shrunk(value: bool) -> void:
+	.set_shrunk(value)
+	if value:
+		$Trail.scale = Vector2(0.5, 0.5)
+	else:
+		$Trail.scale = Vector2.ONE
