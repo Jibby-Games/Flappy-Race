@@ -7,6 +7,13 @@ export(Array) var items = [
 ]
 
 
-func pick_item() -> Item:
+func pick_item_id() -> int:
 	var index = randi() % items.size()
-	return items[index]
+	return index
+
+
+func get_item(id: int) -> Item:
+	if id >= items.size():
+		push_error("Item ID %d doesn't exist! Max ID = %d" % [id, items.size()])
+		return null
+	return items[id]

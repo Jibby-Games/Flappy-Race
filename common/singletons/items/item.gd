@@ -8,7 +8,6 @@ export(Texture) var icon
 
 # Public function to use item
 func use(player) -> void:
-	Logger.print(player, "Player %s used item: %s!", [player.name, self.name])
 	_do_use(player)
 
 

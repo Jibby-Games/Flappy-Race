@@ -131,6 +131,14 @@ func add_item(item: Item) -> void:
 	emit_signal("items_changed", self)
 
 
+# Uses the next item in the player's inventory
+func use_item() -> void:
+	var item = items.pop_front()
+	item.use(self)
+	Logger.print(self, "Player %s used item %s", [self.name, item.name])
+	emit_signal("items_changed", self)
+
+
 func finish() -> void:
 	add_score()
 	emit_signal("finish", self)

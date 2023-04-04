@@ -7,3 +7,4 @@
 script = ExtResource( 2 )
 name = "Gem"
 icon = ExtResource( 1 )
+coin_value = 10

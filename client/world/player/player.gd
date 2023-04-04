@@ -11,6 +11,7 @@ var enable_death: bool = true
 var player_name: String
 var body_colour: Color
 var flap_queue: Array
+var use_item_queue: Array
 
 
 func _ready() -> void:
@@ -24,12 +25,19 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	if is_controlled:
 		update_player_state()
-	elif not flap_queue.empty():
-		for flap_time in flap_queue:
-			# Ensure animation plays at correct time on client
-			if flap_time <= Network.Client.client_clock:
-				do_flap()
-				flap_queue.erase(flap_time)
+	else:
+		if not flap_queue.empty():
+			for flap_time in flap_queue:
+				# Ensure animation plays at correct time on client
+				if flap_time <= Network.Client.client_clock:
+					do_flap()
+					flap_queue.erase(flap_time)
+		if not use_item_queue.empty():
+			for use_item_time in use_item_queue:
+				# Ensure animation plays at correct time on client
+				if use_item_time <= Network.Client.client_clock:
+					use_item()
+					use_item_queue.erase(use_item_time)
 	# Make the sprite face the direction it's going
 	$Sprites.rotation = velocity.angle()
 
@@ -41,9 +49,8 @@ func _input(event: InputEvent) -> void:
 		Network.Client.send_player_flap()
 		do_flap()
 	if event.is_action_pressed("use_item") and not items.empty():
-		var item: Item = items.pop_front()
-		item.use(self)
-		emit_signal("items_changed", self)
+		Network.Client.send_player_use_item()
+		use_item()
 
 
 func update_player_state() -> void:

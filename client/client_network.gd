@@ -332,6 +332,27 @@ remote func receive_player_flap(player_id: int, flap_time: int) -> void:
 	player.flap_queue.append(flap_time)
 
 
+remote func receive_player_add_item(player_id: int, item_id: int) -> void:
+	var item: Item = Items.get_item(item_id)
+	Logger.print(self, "Received add item %d (%s) for player %d" % [item_id, item.name, player_id])
+	var player = $World.get_node(str(player_id))
+	player.add_item(item)
+
+
+func send_player_use_item() -> void:
+	rpc_id(SERVER_ID, "receive_player_use_item", client_clock)
+
+
+# TODO can this be made generic for any player inputs?
+remote func receive_player_use_item(player_id: int, use_time: int) -> void:
+	if player_id == multiplayer.get_network_unique_id():
+		# This is the same player who sent it so don't use it again
+		return
+	Logger.print(self, "Received use item for player %d @ time = %d" % [player_id, use_time])
+	var player = $World.get_node(str(player_id))
+	player.use_item_queue.append(use_time)
+
+
 remote func receive_player_lost_life(lives_left: int) -> void:
 	if is_rpc_from_server() == false:
 		return

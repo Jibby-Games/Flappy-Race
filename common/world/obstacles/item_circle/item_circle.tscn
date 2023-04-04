@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://common/world/item_spawner/item_spawner.tscn" type="PackedScene" id=1]
+[ext_resource path="res://server/world/item_spawner/item_spawner.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/world/obstacles/obstacle.tscn" type="PackedScene" id=2]
 [ext_resource path="res://common/world/obstacles/coin_circle/coin_circle.gd" type="Script" id=3]
 
