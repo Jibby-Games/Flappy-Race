@@ -85,6 +85,9 @@ func death() -> void:
 			coins = 0
 		Logger.print(self, "Player %s lost some coins! Coins = %d" % [self.name, coins])
 		emit_signal("coins_changed", self)
+	# Reset any item powerups
+	set_invisible(false)
+	set_shrunk(false)
 	on_death()
 
 
