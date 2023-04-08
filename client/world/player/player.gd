@@ -24,18 +24,21 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	if is_controlled:
 		update_player_state()
-	elif not flap_queue.empty():
-		for flap_time in flap_queue:
-			# Ensure animation plays at correct time on client
-			if flap_time <= Network.Client.client_clock:
-				do_flap()
-				flap_queue.erase(flap_time)
+	else:
+		if not flap_queue.empty():
+			for flap_time in flap_queue:
+				# Ensure animation plays at correct time on client
+				if flap_time <= Network.Client.client_clock:
+					do_flap()
+					flap_queue.erase(flap_time)
 	# Make the sprite face the direction it's going
 	$Sprites.rotation = velocity.angle()
 
 
 func _input(event: InputEvent) -> void:
-	if is_controlled and event.is_action_pressed("flap"):
+	if not is_controlled:
+		return
+	if event.is_action_pressed("flap"):
 		Network.Client.send_player_flap()
 		do_flap()
 
@@ -140,6 +143,29 @@ func spawn_flap_particles() -> void:
 	add_child(particles)
 
 
-func add_coin() -> void:
-	.add_coin()
+func add_coin(amount: int = 1) -> void:
+	.add_coin(amount)
 	$Coin.play()
+
+
+func add_item(item: Item) -> void:
+	.add_item(item)
+	$Item.play()
+
+
+func set_invisible(value: bool) -> void:
+	.set_invisible(value)
+	if value:
+		$Sprites.modulate.a = 0.333
+		$Trail.modulate.a = 0.333
+	else:
+		$Sprites.modulate.a = 1.0
+		$Trail.modulate.a = 1.0
+
+
+func set_shrunk(value: bool) -> void:
+	.set_shrunk(value)
+	if value:
+		$Trail.scale = Vector2(0.5, 0.5)
+	else:
+		$Trail.scale = Vector2.ONE

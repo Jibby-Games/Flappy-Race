@@ -5,6 +5,7 @@ extents = Vector2( 32, 32 )
 
 [node name="Block" type="StaticBody2D"]
 collision_layer = 2
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )

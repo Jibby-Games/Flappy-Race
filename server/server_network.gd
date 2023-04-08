@@ -446,3 +446,7 @@ func send_player_finished_race(player_id: int, place: int, time: float) -> void:
 
 func send_leaderboard(leaderboard: Array) -> void:
 	rpc("receive_leaderboard", leaderboard)
+
+
+func send_player_add_item(player_id: int, item_id: int) -> void:
+	rpc("receive_player_add_item", player_id, item_id)

@@ -332,6 +332,13 @@ remote func receive_player_flap(player_id: int, flap_time: int) -> void:
 	player.flap_queue.append(flap_time)
 
 
+remote func receive_player_add_item(player_id: int, item_id: int) -> void:
+	var item: Item = Items.get_item(item_id)
+	Logger.print(self, "Received add item %d (%s) for player %d" % [item_id, item.name, player_id])
+	var player = $World.get_node(str(player_id))
+	player.add_item(item)
+
+
 remote func receive_player_lost_life(lives_left: int) -> void:
 	if is_rpc_from_server() == false:
 		return

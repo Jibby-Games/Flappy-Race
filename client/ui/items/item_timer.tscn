@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://client/ui/progress-circle.png" type="Texture" id=1]
+[ext_resource path="res://common/singletons/items/picoberry/picoberry.png" type="Texture" id=2]
+[ext_resource path="res://client/ui/items/item_timer.gd" type="Script" id=3]
+
+[node name="ItemTimer" type="CenterContainer"]
+margin_right = 128.0
+margin_bottom = 128.0
+script = ExtResource( 3 )
+
+[node name="Icon" type="TextureRect" parent="."]
+margin_left = 32.0
+margin_top = 32.0
+margin_right = 96.0
+margin_bottom = 96.0
+texture = ExtResource( 2 )
+
+[node name="Progress" type="TextureProgress" parent="."]
+margin_right = 128.0
+margin_bottom = 128.0
+max_value = 1.0
+step = 0.001
+value = 1.0
+texture_progress = ExtResource( 1 )
+fill_mode = 4
+tint_progress = Color( 0.0627451, 0.823529, 0.458824, 1 )

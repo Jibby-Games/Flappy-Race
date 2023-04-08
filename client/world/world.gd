@@ -227,6 +227,7 @@ func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
 	var player = .spawn_player(player_id, spawn_position)
 	# Only needed on the client
 	player.connect("coins_changed", self, "_on_Player_coins_changed")
+	player.connect("got_item", self, "_on_Player_got_item")
 	if Network.Client.is_singleplayer:
 		# Player list isn't populated in singleplayer
 		player.set_body_colour(Globals.player_colour)
@@ -318,6 +319,13 @@ func _on_Player_coins_changed(player: CommonPlayer) -> void:
 	# Only update for the camera target
 	if int(player.name) == camera_target_id:
 		$UI.update_coins(player.coins)
+		$MainCamera.add_trauma(0.3)
+
+
+func _on_Player_got_item(player: CommonPlayer, item: Item) -> void:
+	# Only update for the camera target
+	if int(player.name) == camera_target_id:
+		$UI.get_item(item)
 		$MainCamera.add_trauma(0.3)
 
 

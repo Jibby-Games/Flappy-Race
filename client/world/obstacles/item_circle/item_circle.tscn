@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://client/world/item_spawner/item_spawner.tscn" type="PackedScene" id=1]
+[ext_resource path="res://common/world/obstacles/item_circle/item_circle.tscn" type="PackedScene" id=2]
+
+[node name="ItemCircle" instance=ExtResource( 2 )]
+CoinSpawner = ExtResource( 1 )
