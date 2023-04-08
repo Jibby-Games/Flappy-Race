@@ -450,14 +450,3 @@ func send_leaderboard(leaderboard: Array) -> void:
 
 func send_player_add_item(player_id: int, item_id: int) -> void:
 	rpc("receive_player_add_item", player_id, item_id)
-
-
-remote func receive_player_use_item(client_clock: int) -> void:
-	var player_id = multiplayer.get_rpc_sender_id()
-	if not $World.has_node(str(player_id)):
-		push_error("use_item received for player %s - but can't find player in world")
-		return
-	var player = $World.get_node(str(player_id))
-	player.use_item()
-	Logger.print(self, "Received use_item for player %d" % player_id)
-	rpc_id(0, "receive_player_use_item", player_id, client_clock)

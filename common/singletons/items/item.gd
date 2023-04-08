@@ -2,8 +2,9 @@ extends Resource
 
 class_name Item
 
-export(String) var name
+export(String) var name := "Item"
 export(Texture) var icon
+export(int) var duration := 0
 
 
 # Public function to use item

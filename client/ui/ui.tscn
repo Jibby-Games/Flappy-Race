@@ -1029,6 +1029,17 @@ texture = ExtResource( 25 )
 anims/RESET = SubResource( 13 )
 anims/get_item = SubResource( 12 )
 
+[node name="ActiveItems" type="HBoxContainer" parent="Ingame/Player/Items"]
+anchor_left = 0.5
+anchor_top = 0.15
+anchor_right = 0.5
+anchor_bottom = 0.15
+margin_left = -262.0
+margin_right = 262.0
+margin_bottom = 128.0
+grow_horizontal = 2
+alignment = 1
+
 [node name="Stopwatch" type="Label" parent="Ingame"]
 anchor_left = 1.0
 anchor_right = 1.0
