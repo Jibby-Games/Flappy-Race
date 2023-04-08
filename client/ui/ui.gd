@@ -65,7 +65,7 @@ func update_score(new_score: int) -> void:
 
 
 func update_coins(value: int) -> void:
-	Coins.text = "%d" % value
+	Coins.update_coins(value)
 
 
 func get_item(item: Item) -> void:
