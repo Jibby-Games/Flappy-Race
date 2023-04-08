@@ -3,13 +3,14 @@ extends CanvasLayer
 export(NodePath) var ScorePath
 export(NodePath) var LivesPath
 export(NodePath) var CoinsPath
-export(Array) var ItemSlotPaths
+export(NodePath) var ItemsPath
 export(NodePath) var SpectateLabelPath
 export(NodePath) var RaceProgressPath
 
 onready var Score := get_node(ScorePath)
 onready var Lives := get_node(LivesPath)
 onready var Coins := get_node(CoinsPath)
+onready var Items := get_node(ItemsPath)
 onready var SpectateLabel := get_node(SpectateLabelPath)
 onready var RaceProgress := get_node(RaceProgressPath)
 
@@ -26,9 +27,6 @@ func _ready() -> void:
 	for child in get_children():
 		if child is Control:
 			child.hide()
-	for path in ItemSlotPaths:
-		item_slots.append(get_node(path))
-	update_items([])
 
 
 func set_player_list(player_list: Dictionary) -> void:
@@ -70,12 +68,8 @@ func update_coins(value: int) -> void:
 	Coins.text = "%d" % value
 
 
-func update_items(items: Array) -> void:
-	for i in item_slots.size():
-		if items.size() > i:
-			item_slots[i].texture = items[i].icon
-		else:
-			item_slots[i].texture = null
+func get_item(item: Item) -> void:
+	Items.get_item(item)
 
 
 func _on_RestartButton_pressed() -> void:

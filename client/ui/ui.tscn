@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://client/ui/pause_menu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/fonts/Score.tres" type="DynamicFont" id=2]
@@ -25,6 +25,7 @@
 [ext_resource path="res://client/ui/race_progress.gd" type="Script" id=23]
 [ext_resource path="res://client/ui/loading.gd" type="Script" id=24]
 [ext_resource path="res://common/singletons/items/picoberry/picoberry.png" type="Texture" id=25]
+[ext_resource path="res://client/ui/items.gd" type="Script" id=26]
 
 [sub_resource type="Animation" id=7]
 length = 0.001
@@ -510,6 +511,37 @@ tracks/3/keys = {
 
 [sub_resource type="Theme" id=2]
 
+[sub_resource type="Animation" id=13]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("ItemSelector:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "get_item"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("ItemSelector:rect_scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.5, 2 ),
+"transitions": PoolRealArray( -2, -2, -2, -2, -2 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 1.3, 1.3 ), Vector2( 1.3, 1.3 ), Vector2( 1.8, 1.8 ), Vector2( 0, 0 ) ]
+}
+
 [sub_resource type="InputEventAction" id=8]
 action = "ui_left"
 
@@ -528,7 +560,7 @@ script = ExtResource( 5 )
 ScorePath = NodePath("Ingame/Player/Score")
 LivesPath = NodePath("Ingame/Player/Lives")
 CoinsPath = NodePath("Ingame/Player/Coins/HBoxContainer/Coins")
-ItemSlotPaths = [ NodePath("Ingame/Player/Items/VBoxContainer/CenterContainer1/Slot0"), NodePath("Ingame/Player/Items/VBoxContainer/CenterContainer2/Slot1"), NodePath("Ingame/Player/Items/VBoxContainer/CenterContainer3/Slot2") ]
+ItemsPath = NodePath("Ingame/Player/Items")
 SpectateLabelPath = NodePath("Ingame/Spectator/CenterContainer/HBoxContainer/SpectatingLabel")
 RaceProgressPath = NodePath("Ingame/RaceProgress")
 
@@ -973,40 +1005,46 @@ frame = 4
 playing = true
 offset = Vector2( 42, 42 )
 
-[node name="Items" type="MarginContainer" parent="Ingame/Player"]
+[node name="Items" type="Control" parent="Ingame/Player"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 26 )
+
+[node name="ItemSlots" type="MarginContainer" parent="Ingame/Player/Items"]
+visible = false
 margin_right = 164.0
 margin_bottom = 250.0
 grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource( 6 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Ingame/Player/Items"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Ingame/Player/Items/ItemSlots"]
 margin_left = 50.0
 margin_top = 50.0
 margin_right = 114.0
 margin_bottom = 200.0
 custom_constants/separation = 10
 
-[node name="CenterContainer1" type="Panel" parent="Ingame/Player/Items/VBoxContainer"]
+[node name="CenterContainer1" type="Panel" parent="Ingame/Player/Items/ItemSlots/VBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_right = 64.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 
-[node name="Slot0" type="TextureRect" parent="Ingame/Player/Items/VBoxContainer/CenterContainer1"]
+[node name="Slot0" type="TextureRect" parent="Ingame/Player/Items/ItemSlots/VBoxContainer/CenterContainer1"]
 margin_left = 20.0
 margin_right = 84.0
 margin_bottom = 64.0
 texture = ExtResource( 25 )
 
-[node name="CenterContainer2" type="Panel" parent="Ingame/Player/Items/VBoxContainer"]
+[node name="CenterContainer2" type="Panel" parent="Ingame/Player/Items/ItemSlots/VBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 74.0
 margin_right = 64.0
 margin_bottom = 112.0
 rect_min_size = Vector2( 38, 38 )
 
-[node name="Slot1" type="TextureRect" parent="Ingame/Player/Items/VBoxContainer/CenterContainer2"]
+[node name="Slot1" type="TextureRect" parent="Ingame/Player/Items/ItemSlots/VBoxContainer/CenterContainer2"]
 margin_left = 10.0
 margin_right = 74.0
 margin_bottom = 64.0
@@ -1015,20 +1053,39 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource( 25 )
 
-[node name="CenterContainer3" type="Panel" parent="Ingame/Player/Items/VBoxContainer"]
+[node name="CenterContainer3" type="Panel" parent="Ingame/Player/Items/ItemSlots/VBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 122.0
 margin_right = 64.0
 margin_bottom = 150.0
 rect_min_size = Vector2( 28, 28 )
 
-[node name="Slot2" type="TextureRect" parent="Ingame/Player/Items/VBoxContainer/CenterContainer3"]
+[node name="Slot2" type="TextureRect" parent="Ingame/Player/Items/ItemSlots/VBoxContainer/CenterContainer3"]
 margin_right = 64.0
 margin_bottom = 64.0
 rect_scale = Vector2( 0.4, 0.4 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource( 25 )
+
+[node name="ItemSelector" type="TextureRect" parent="Ingame/Player/Items"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -32.0
+margin_top = -32.0
+margin_right = 32.0
+margin_bottom = 32.0013
+grow_horizontal = 2
+grow_vertical = 2
+rect_scale = Vector2( 1e-05, 1e-05 )
+rect_pivot_offset = Vector2( 32, 32 )
+texture = ExtResource( 25 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Ingame/Player/Items"]
+anims/RESET = SubResource( 13 )
+anims/get_item = SubResource( 12 )
 
 [node name="Stopwatch" type="Label" parent="Ingame"]
 anchor_left = 1.0

@@ -8,13 +8,14 @@ const BASE_SPEED = 500
 const DEATH_COOLDOWN_TIME = 1
 const COIN_BOOST := 20
 const COINS_LOST_ON_DEATH := 3
-const MAX_ITEMS := 3
+const MAX_ITEMS := 1
+const ITEM_USE_DELAY := 1.8
 const WALL_COLLISION_LAYER := 1
 
 signal death(player)
 signal score_changed(player)
 signal coins_changed(player)
-signal items_changed(player)
+signal got_item(player, item)
 signal finish(player)
 
 var in_death_cooldown: bool = false
@@ -85,9 +86,6 @@ func death() -> void:
 			coins = 0
 		Logger.print(self, "Player %s lost some coins! Coins = %d" % [self.name, coins])
 		emit_signal("coins_changed", self)
-	# Reset any item powerups
-	set_invisible(false)
-	set_shrunk(false)
 	on_death()
 
 
@@ -131,7 +129,9 @@ func add_item(item: Item) -> void:
 		return
 	items.append(item)
 	Logger.print(self, "Player %s got item %s", [self.name, item.name])
-	emit_signal("items_changed", self)
+	emit_signal("got_item", self, item)
+	yield(get_tree().create_timer(ITEM_USE_DELAY), "timeout")
+	use_item()
 
 
 # Uses the next item in the player's inventory
@@ -139,7 +139,6 @@ func use_item() -> void:
 	var item = items.pop_front()
 	item.use(self)
 	Logger.print(self, "Player %s used item %s", [self.name, item.name])
-	emit_signal("items_changed", self)
 
 
 func finish() -> void:
