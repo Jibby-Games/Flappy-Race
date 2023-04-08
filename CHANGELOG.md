@@ -17,6 +17,16 @@ Types of changes:
 
 ## [Unreleased]
 
+### Added
+- Item boxes can now spawn in the world which contain items such as:
+  - Gems - Gives the player 10 coins instantly
+  - Picoberries - Shrinks the player for 10 seconds
+  - Invisiberries - Makes the player invisible for 10 seconds
+- New animations for the coin counter
+
+### Fixed
+- Stopped player going through walls when going too fast
+
 ## [0.6.2] - 2023-03-25
 
 ### Fixed
