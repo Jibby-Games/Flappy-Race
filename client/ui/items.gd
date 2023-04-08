@@ -30,7 +30,12 @@ func shuffle_items(item: Item) -> void:
 
 func use_item(anim_name: String) -> void:
 	if anim_name == "get_item" and next_item.duration > 0:
+		for item in $ActiveItems.get_children():
+			if item.name == next_item.name:
+				# This item is already active, so just reset it's duration
+				item.set_duration(next_item.duration)
+				return
 		# This is an active item which needs a timer
 		var new_item := item_timer.instance()
-		new_item.setup(next_item.icon, next_item.duration)
+		new_item.setup(next_item.name, next_item.icon, next_item.duration)
 		$ActiveItems.add_child(new_item)
