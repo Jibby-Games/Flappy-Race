@@ -1001,7 +1001,7 @@ rect_min_size = Vector2( 84, 84 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Ingame/Player/Coins/HBoxContainer/Control"]
 frames = ExtResource( 17 )
 animation = "spin"
-frame = 4
+frame = 5
 playing = true
 offset = Vector2( 42, 42 )
 
@@ -1009,64 +1009,6 @@ offset = Vector2( 42, 42 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 26 )
-
-[node name="ItemSlots" type="MarginContainer" parent="Ingame/Player/Items"]
-visible = false
-margin_right = 164.0
-margin_bottom = 250.0
-grow_horizontal = 0
-grow_vertical = 0
-theme = ExtResource( 6 )
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Ingame/Player/Items/ItemSlots"]
-margin_left = 50.0
-margin_top = 50.0
-margin_right = 114.0
-margin_bottom = 200.0
-custom_constants/separation = 10
-
-[node name="CenterContainer1" type="Panel" parent="Ingame/Player/Items/ItemSlots/VBoxContainer"]
-self_modulate = Color( 1, 1, 1, 0 )
-margin_right = 64.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 64, 64 )
-
-[node name="Slot0" type="TextureRect" parent="Ingame/Player/Items/ItemSlots/VBoxContainer/CenterContainer1"]
-margin_left = 20.0
-margin_right = 84.0
-margin_bottom = 64.0
-texture = ExtResource( 25 )
-
-[node name="CenterContainer2" type="Panel" parent="Ingame/Player/Items/ItemSlots/VBoxContainer"]
-self_modulate = Color( 1, 1, 1, 0 )
-margin_top = 74.0
-margin_right = 64.0
-margin_bottom = 112.0
-rect_min_size = Vector2( 38, 38 )
-
-[node name="Slot1" type="TextureRect" parent="Ingame/Player/Items/ItemSlots/VBoxContainer/CenterContainer2"]
-margin_left = 10.0
-margin_right = 74.0
-margin_bottom = 64.0
-rect_scale = Vector2( 0.6, 0.6 )
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource( 25 )
-
-[node name="CenterContainer3" type="Panel" parent="Ingame/Player/Items/ItemSlots/VBoxContainer"]
-self_modulate = Color( 1, 1, 1, 0 )
-margin_top = 122.0
-margin_right = 64.0
-margin_bottom = 150.0
-rect_min_size = Vector2( 28, 28 )
-
-[node name="Slot2" type="TextureRect" parent="Ingame/Player/Items/ItemSlots/VBoxContainer/CenterContainer3"]
-margin_right = 64.0
-margin_bottom = 64.0
-rect_scale = Vector2( 0.4, 0.4 )
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource( 25 )
 
 [node name="ItemSelector" type="TextureRect" parent="Ingame/Player/Items"]
 anchor_left = 0.5
