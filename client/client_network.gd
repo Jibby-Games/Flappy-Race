@@ -93,8 +93,10 @@ func start_client(host: String, port: int, singleplayer: bool = false) -> void:
 	var ip := host
 	if "://" in host:
 		ip = host.split("://")[1]
-	var peer = NetworkedMultiplayerENet.new()
-	peer.create_client(ip, port)
+	var peer = WebSocketClient.new()
+	var url = "ws://%s:%d" % [ip, port]
+	var result = peer.connect_to_url(url, PoolStringArray(), true)
+	assert(result == OK)
 	multiplayer.set_network_peer(peer)
 	Logger.print(self, "Client started connecting to %s:%d", [ip, port])
 
@@ -103,7 +105,7 @@ func stop_client() -> void:
 	$LatencyUpdater.stop()
 	$ClockSyncTimer.stop()
 	if multiplayer.network_peer:
-		multiplayer.network_peer.close_connection()
+		multiplayer.network_peer.disconnect_from_host()
 	multiplayer.call_deferred("set_network_peer", null)
 	host_player_id = 0
 	player_list.clear()

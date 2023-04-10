@@ -15,6 +15,8 @@ func _ready() -> void:
 	var result := get_viewport().connect("size_changed", self, "spawn_title_players")
 	assert(result == OK)
 	spawn_title_players()
+	if OS.has_feature("web"):
+		$Menu/Buttons/SingleplayerButton.hide()
 
 
 func spawn_title_players() -> void:

@@ -79,6 +79,9 @@ func start_server(
 	use_server_list: bool,
 	use_timeout: bool = false
 ) -> void:
+	if OS.has_feature('web'):
+		push_error("Server hosting is not supported on browsers!")
+		return
 	port = server_port
 	max_players = server_max_players
 	game_options = DEFAULT_GAME_OPTIONS.duplicate()
@@ -87,9 +90,9 @@ func start_server(
 		upnp_handler.set_name("UpnpHandler")
 		add_child(upnp_handler)
 		upnp_handler.try_add_port_mapping(port)
-	var peer := NetworkedMultiplayerENet.new()
+	var peer := WebSocketServer.new()
 	var result: int
-	result = peer.create_server(port, max_players)
+	result = peer.listen(port, PoolStringArray(), true)
 	assert(result == OK)
 	# Same goes for things like:
 	# get_tree().set_network_peer() -> multiplayer.set_network_peer()
@@ -128,7 +131,7 @@ func stop_server() -> void:
 	game_options.clear()
 	max_players = 0
 	port = 0
-	multiplayer.network_peer.close_connection()
+	multiplayer.network_peer.stop()
 	multiplayer.call_deferred("set_network_peer", null)
 	Logger.print(self, "Server stopped")
 

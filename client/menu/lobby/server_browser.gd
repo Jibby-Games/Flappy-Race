@@ -19,6 +19,8 @@ func _ready() -> void:
 	result = multiplayer.connect("connection_failed", self, "_on_connection_failed")
 	assert(result == OK)
 	get_server_list()
+	if OS.has_feature('web'):
+		$Panel/CenterContainer2/ButtonContainer/SelfHostButton.hide()
 
 
 func _on_connected() -> void:
