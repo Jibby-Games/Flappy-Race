@@ -23,6 +23,9 @@ Types of changes:
   - Picoberries - Shrinks the player for 10 seconds
   - Invisiberries - Makes the player invisible for 10 seconds
 - New animations for the coin counter
+- HTML support to allow playing from your browser!
+  - All network connections now use WebSocket
+  - Note: Server hosting is not supported through the browser, but official servers can be used to play instead
 
 ### Fixed
 - Stopped player going through walls when going too fast
