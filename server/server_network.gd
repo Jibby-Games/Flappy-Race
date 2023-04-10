@@ -79,6 +79,9 @@ func start_server(
 	use_server_list: bool,
 	use_timeout: bool = false
 ) -> void:
+	if OS.has_feature('web'):
+		push_error("Server hosting is not supported on browsers!")
+		return
 	port = server_port
 	max_players = server_max_players
 	game_options = DEFAULT_GAME_OPTIONS.duplicate()
