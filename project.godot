@@ -91,7 +91,7 @@ config/description="Multiplayer flappy bird"
 run/main_scene="res://common/main.tscn"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
-config/version="v0.6.2"
+config/version="v0.7.0"
 
 [audio]
 

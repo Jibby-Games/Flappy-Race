@@ -17,18 +17,22 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.7.0] - 2023-04-10
+
 ### Added
-- Item boxes can now spawn in the world which contain items such as:
-  - Gems - Gives the player 10 coins instantly
-  - Picoberries - Shrinks the player for 10 seconds
-  - Invisiberries - Makes the player invisible for 10 seconds
-- New animations for the coin counter
-- HTML support to allow playing from your browser!
-  - All network connections now use WebSocket
-  - Note: Server hosting is not supported through the browser, but official servers can be used to play instead
+
+-   Item boxes can now spawn in the world which contain items such as:
+    -   Gems - Gives the player 10 coins instantly
+    -   Picoberries - Shrinks the player for 10 seconds
+    -   Invisiberries - Makes the player invisible for 10 seconds
+-   New animations for the coin counter
+-   HTML support to allow playing from your browser!
+    -   All network connections now use WebSocket
+    -   Note: Server hosting is not supported through the browser, but official servers can be used to play instead
 
 ### Fixed
-- Stopped player going through walls when going too fast
+
+-   Stopped player going through walls when going too fast
 
 ## [0.6.2] - 2023-03-25
 
@@ -268,7 +272,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.6.2...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.7.0...HEAD
+
+[0.7.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.6.2...0.7.0
 
 [0.6.2]: https://github.com/Jibby-Games/Flappy-Race/compare/0.6.1...0.6.2
 
