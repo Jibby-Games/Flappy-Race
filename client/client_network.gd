@@ -116,6 +116,9 @@ func stop_client() -> void:
 func _on_connection_failed() -> void:
 	Logger.print(self, "Failed to connect to server!")
 	stop_client()
+	if is_singleplayer:
+		change_scene_to_title_screen()
+		Globals.show_message("Failed to connect to the server!", "Server Connection Failed")
 
 
 func _on_connected_to_server() -> void:
