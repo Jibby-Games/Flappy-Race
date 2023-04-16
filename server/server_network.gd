@@ -41,7 +41,6 @@ func _ready() -> void:
 		"connection_established", self, "_update_server_list_status"
 	)
 	assert(result == OK)
-	$ServerListHandler.server_list_url = Network.SERVER_LIST_URL
 
 	# Register with the Network singleton so this node can be easily accessed
 	Network.Server = self
@@ -108,7 +107,7 @@ func start_server(
 	)
 	change_scene_to_setup()
 	if use_server_list:
-		$ServerListHandler.start_connection(server_name)
+		$ServerListHandler.start_connection(server_name, Network.SERVER_LIST_URL)
 	if use_timeout:
 		_start_player_timeout()
 

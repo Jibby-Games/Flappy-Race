@@ -4,8 +4,8 @@ const CLIENT_NETWORK = "res://client/client_network.tscn"
 const SERVER_NETWORK = "res://server/server_network.tscn"
 const RPC_PORT = 31400
 const MAX_PLAYERS = 16
-const SERVER_LIST_URL := "http://jibby.games"
-const SERVER_MANAGER_URL := "http://jibby.games"
+const SERVER_LIST_URL := "https://jibby.games"
+const SERVER_MANAGER_URL := "https://jibby.games"
 
 var Client: ClientNetwork
 var Server: ServerNetwork
