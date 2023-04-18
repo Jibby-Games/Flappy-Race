@@ -90,6 +90,9 @@ func start_server(
 		add_child(upnp_handler)
 		upnp_handler.try_add_port_mapping(port)
 	var peer := WebSocketServer.new()
+	if Network.X509_CERT and Network.X509_KEY:
+		peer.private_key = Network.X509_KEY
+		peer.ssl_certificate = Network.X509_CERT
 	var result: int
 	result = peer.listen(port, PoolStringArray(), true)
 	assert(result == OK)

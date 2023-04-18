@@ -12,12 +12,20 @@ func _on_JoinButton_pressed() -> void:
 	show_info("Connecting...")
 	var join_ip: String = ip_input.text
 	var port := Network.RPC_PORT
+	var protocol := "ws"
+	# Parse the protocol
+	if "://" in join_ip:
+		var parts = join_ip.split("://")
+		protocol = parts[0]
+		join_ip = parts[1]
+	# Parse the port
 	if ":" in join_ip:
 		var parts = join_ip.split(":")
 		join_ip = parts[0]
 		port = int(parts[1])
 	$ConnectionTimer.start()
-	Network.Client.start_client(join_ip, port)
+	var url := "%s://%s" % [protocol, join_ip]
+	Network.Client.start_client(url, port)
 
 
 func show_info(message: String) -> void:

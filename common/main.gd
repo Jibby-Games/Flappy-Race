@@ -79,6 +79,7 @@ func parse_command_line_args() -> void:
 
 	if is_server:
 		Logger.print(self, "Starting Server...")
+		Network.load_certs()
 		Network.start_server(port, use_upnp, server_name, use_server_list, use_timeout)
 	else:
 		Logger.print(self, "Starting Client...")
