@@ -4,7 +4,7 @@ signal connection_established
 signal connection_closed
 signal connection_error
 
-export var server_list_url := "http://jibby.games"
+export var server_list_url := ""
 export var server_list_route := "api/list/ws"
 
 # Our WebSocketClient instance
@@ -78,21 +78,26 @@ func _process(_delta):
 	_client.poll()
 
 
-func start_connection(_server_name: String) -> void:
+func start_connection(_server_name: String, _server_list_url: String) -> void:
 	if _server_name.empty():
 		push_error("Server name cannot be empty when connecting to the server list!")
+		return
+	if _server_list_url.empty():
+		push_error("Server list URL cannot be empty when connecting to the server list!")
 		return
 	if connection_started:
 		push_error("Server list connection already started!")
 		return
+	self.server_name = _server_name
+	# Must use the websocket protocol
+	self.server_list_url = _server_list_url.replace("http://", "ws://").replace("https://", "wss://")
 	Logger.print(
 		self,
 		(
 			"Started connection to server list (url: %s, server_name: %s)"
-			% [server_list_url, _server_name]
+			% [server_list_url, server_name]
 		)
 	)
-	self.server_name = _server_name
 	connection_started = true
 	_try_connect()
 

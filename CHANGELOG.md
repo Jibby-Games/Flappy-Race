@@ -17,6 +17,9 @@ Types of changes:
 
 ## [Unreleased]
 
+### Security
+- Add HTTPS support for official servers
+
 ## [0.7.0] - 2023-04-10
 
 ### Added

@@ -90,15 +90,14 @@ func change_scene_to_world() -> void:
 
 func start_client(host: String, port: int, singleplayer: bool = false) -> void:
 	is_singleplayer = singleplayer
-	var ip := host
-	if "://" in host:
-		ip = host.split("://")[1]
+	# Must use the corresponding WebSocket protocol (non-secure or secure)
+	host = host.replace("http://", "ws://").replace("https://", "wss://")
 	var peer = WebSocketClient.new()
-	var url = "ws://%s:%d" % [ip, port]
+	var url := "%s:%d" % [host, port]
+	Logger.print(self, "Client started connecting to %s", [url])
 	var result = peer.connect_to_url(url, PoolStringArray(), true)
 	assert(result == OK)
 	multiplayer.set_network_peer(peer)
-	Logger.print(self, "Client started connecting to %s:%d", [ip, port])
 
 
 func stop_client() -> void:
@@ -116,6 +115,9 @@ func stop_client() -> void:
 func _on_connection_failed() -> void:
 	Logger.print(self, "Failed to connect to server!")
 	stop_client()
+	if is_singleplayer:
+		change_scene_to_title_screen()
+		Globals.show_message("Failed to connect to the server!", "Server Connection Failed")
 
 
 func _on_connected_to_server() -> void:
