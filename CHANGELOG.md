@@ -17,8 +17,11 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.7.1] - 2023-04-25
+
 ### Security
-- Add HTTPS support for official servers
+
+-   Add HTTPS support for official servers
 
 ## [0.7.0] - 2023-04-10
 
@@ -275,7 +278,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.7.0...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.7.1...HEAD
+
+[0.7.1]: https://github.com/Jibby-Games/Flappy-Race/compare/0.7.0...0.7.1
 
 [0.7.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.6.2...0.7.0
 
