@@ -107,3 +107,30 @@ func _do_generate_blocks(_value: bool = false) -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.randomize()
 	generate(rng)
+
+
+func generate_navigation_polygon() -> NavigationPolygon:
+	# Don't generate in editor
+	if Engine.is_editor_hint():
+		return null
+	var nav_poly := NavigationPolygon.new()
+	nav_poly.add_outline([
+		Vector2(-400, -boundary_height),
+		Vector2(-400, boundary_height),
+		Vector2(length + 200, boundary_height),
+		Vector2(length + 200, -boundary_height),
+	])
+	for block in blocks:
+		var collider: CollisionShape2D = block.get_node_or_null("CollisionShape2D")
+		if collider:
+			var poly := [
+				Vector2(block.position.x - 48, block.position.y - 48),
+				Vector2(block.position.x + 48, block.position.y - 48),
+				Vector2(block.position.x + 48, block.position.y + 48),
+				Vector2(block.position.x - 48, block.position.y + 48),
+			]
+			nav_poly.add_outline(poly)
+	for i in nav_poly.get_outline_count():
+		print_debug(nav_poly.get_outline(i))
+	nav_poly.make_polygons_from_outlines()
+	return nav_poly

@@ -113,6 +113,7 @@ func death() -> void:
 
 
 func on_death() -> void:
+	.on_death()
 	$DeathSound.play()
 	$AnimationPlayer.play("death_cooldown")
 	spawn_impact_particles()

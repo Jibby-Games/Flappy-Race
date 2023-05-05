@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 tool
 

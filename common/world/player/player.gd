@@ -32,7 +32,8 @@ var has_gravity: bool = true
 
 func _physics_process(_delta: float) -> void:
 	update_movement()
-	check_position()
+	if is_position_out_of_bounds(self.position):
+		death()
 
 
 func update_movement() -> void:
@@ -51,13 +52,12 @@ func update_movement() -> void:
 	velocity = move_and_slide(velocity, Vector2.UP)
 
 
-func check_position() -> void:
+func is_position_out_of_bounds(pos: Vector2) -> bool:
 	var upper_bound = ProjectSettings.get_setting("display/window/size/height") / 2
 
 	# Give the player a chance to recover from death
 	var threshold = 200
-	if abs(self.position.y) > (upper_bound + threshold):
-		death()
+	return abs(pos.y) > (upper_bound + threshold)
 
 
 func _on_Detect_area_entered(_area: Area2D) -> void:
@@ -90,8 +90,7 @@ func death() -> void:
 
 
 func on_death() -> void:
-	# Used on the client
-	pass
+	knockback()
 
 
 func despawn() -> void:
