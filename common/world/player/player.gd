@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 class_name CommonPlayer
 
+const FLAP = 350
 const MAXFALLSPEED = 800
 const GRAVITY = 17
 const BASE_SPEED = 500
@@ -37,19 +38,21 @@ func _physics_process(_delta: float) -> void:
 
 
 func update_movement() -> void:
-	if not enable_movement:
-		velocity.x = 0
-		velocity.y = 0
-		velocity = move_and_slide(velocity, Vector2.UP)
-		return
-
-	if has_gravity:
-		velocity.y += GRAVITY
-		if velocity.y > MAXFALLSPEED:
-			velocity.y = MAXFALLSPEED
-
-	velocity.x = BASE_SPEED + (coins * COIN_BOOST)
+	velocity = calculate_next_velocity(velocity)
 	velocity = move_and_slide(velocity, Vector2.UP)
+
+
+func calculate_next_velocity(current_velocity: Vector2) -> Vector2:
+	if not enable_movement:
+		return Vector2.ZERO
+	var next_velocity := current_velocity
+	if has_gravity:
+		next_velocity.y += GRAVITY
+		if next_velocity.y > MAXFALLSPEED:
+			next_velocity.y = MAXFALLSPEED
+
+	next_velocity.x = BASE_SPEED + (coins * COIN_BOOST)
+	return next_velocity
 
 
 func is_position_out_of_bounds(pos: Vector2) -> bool:

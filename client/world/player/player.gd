@@ -1,7 +1,5 @@
 extends CommonPlayer
 
-const FLAP = 350
-
 export(PackedScene) var ImpactParticles
 export(PackedScene) var FlapParticles
 
