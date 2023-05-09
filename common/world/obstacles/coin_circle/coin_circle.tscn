@@ -1,8 +1,18 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://common/world/coin_spawner/coin_spawner.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/world/obstacles/obstacle.tscn" type="PackedScene" id=2]
 [ext_resource path="res://common/world/obstacles/coin_circle/coin_circle.gd" type="Script" id=3]
+
+[sub_resource type="NavigationPolygon" id=2]
+vertices = PoolVector2Array( -448, -128, 0, -192, 0, 192, -448, 128 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+outlines = [ PoolVector2Array( -448, -128, 0, -192, 0, 192, -448, 128 ) ]
+
+[sub_resource type="NavigationPolygon" id=3]
+vertices = PoolVector2Array( -352, -192, 64, -128, 64, 128, -352, 192 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+outlines = [ PoolVector2Array( -352, -192, 64, -128, 64, 128, -352, 192 ) ]
 
 [node name="CoinCircle" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
@@ -15,3 +25,10 @@ position = Vector2( 950, 0 )
 
 [node name="Checkpoint" parent="." index="1"]
 position = Vector2( 950, 0 )
+
+[node name="ExtraNavPolygonIn" type="NavigationPolygonInstance" parent="." index="3"]
+navpoly = SubResource( 2 )
+
+[node name="ExtraNavPolygonOut" type="NavigationPolygonInstance" parent="." index="4"]
+position = Vector2( 1152, 0 )
+navpoly = SubResource( 3 )
