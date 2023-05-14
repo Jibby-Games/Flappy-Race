@@ -14,6 +14,5 @@ edge_connection_margin = 100.0
 
 [node name="Camera2D" type="Camera2D" parent="Navigation2D/BotPlayer"]
 current = true
-zoom = Vector2( 2, 2 )
 
 [node name="LevelGenerator" parent="Navigation2D" instance=ExtResource( 2 )]

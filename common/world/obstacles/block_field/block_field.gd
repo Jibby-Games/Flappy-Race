@@ -3,6 +3,8 @@ extends Obstacle
 tool
 
 const BLOCK_SIZE := 64
+const MIN_BLOCK_DISTANCE := 180
+const NAV_POLY_MARGIN := 64
 
 export(PackedScene) var Block
 export(PackedScene) var CoinSpawner
@@ -43,7 +45,7 @@ func do_generate(game_rng: RandomNumberGenerator) -> void:
 			pos = Vector2(game_rng.randf() * field_length, (game_rng.randf() - 0.5) * field_height)
 			overlap = false
 			for point in points:
-				if point.distance_to(pos) < 128:
+				if point.distance_to(pos) < MIN_BLOCK_DISTANCE:
 					overlap = true
 					iters += 1
 					break
@@ -124,13 +126,11 @@ func generate_navigation_polygon() -> NavigationPolygon:
 		var collider: CollisionShape2D = block.get_node_or_null("CollisionShape2D")
 		if collider:
 			var poly := [
-				Vector2(block.position.x - 48, block.position.y - 48),
-				Vector2(block.position.x + 48, block.position.y - 48),
-				Vector2(block.position.x + 48, block.position.y + 48),
-				Vector2(block.position.x - 48, block.position.y + 48),
+				Vector2(block.position.x - NAV_POLY_MARGIN, block.position.y - NAV_POLY_MARGIN),
+				Vector2(block.position.x + NAV_POLY_MARGIN, block.position.y - NAV_POLY_MARGIN),
+				Vector2(block.position.x + NAV_POLY_MARGIN, block.position.y + NAV_POLY_MARGIN),
+				Vector2(block.position.x - NAV_POLY_MARGIN, block.position.y + NAV_POLY_MARGIN),
 			]
 			nav_poly.add_outline(poly)
-	for i in nav_poly.get_outline_count():
-		print_debug(nav_poly.get_outline(i))
 	nav_poly.make_polygons_from_outlines()
 	return nav_poly
