@@ -5,14 +5,14 @@
 [ext_resource path="res://common/world/obstacles/coin_circle/coin_circle.gd" type="Script" id=3]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( -320, -128, 0, -192, 0, 192, -320, 128 )
+vertices = PoolVector2Array( -320, -448, 0, -448, 0, 448, -320, 448 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
-outlines = [ PoolVector2Array( -320, -128, 0, -192, 0, 192, -320, 128 ) ]
+outlines = [ PoolVector2Array( -320, -448, 0, -448, 0, 448, -320, 448 ) ]
 
 [sub_resource type="NavigationPolygon" id=2]
-vertices = PoolVector2Array( -352, -192, -32, -128, -32, 128, -352, 192 )
+vertices = PoolVector2Array( -352, -448, -32, -448, -32, 448, -352, 448 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
-outlines = [ PoolVector2Array( -352, -192, -32, -128, -32, 128, -352, 192 ) ]
+outlines = [ PoolVector2Array( -352, -448, -32, -448, -32, 448, -352, 448 ) ]
 
 [node name="ItemCircle" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
