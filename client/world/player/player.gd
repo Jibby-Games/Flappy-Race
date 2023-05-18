@@ -47,8 +47,8 @@ func update_player_state() -> void:
 
 
 func do_flap() -> void:
+	.do_flap()
 	if enable_movement:
-		velocity.y = -FLAP
 		play_flap_sound()
 		spawn_flap_particles()
 		$AnimationPlayer.play("flap")

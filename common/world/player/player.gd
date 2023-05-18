@@ -76,6 +76,11 @@ func start() -> void:
 	enable_movement = true
 
 
+func do_flap() -> void:
+	if enable_movement:
+		velocity.y = -FLAP
+
+
 func death() -> void:
 	if in_death_cooldown:
 		return
