@@ -30,13 +30,13 @@ shape = SubResource( 1 )
 [node name="UpRaycast" type="RayCast2D" parent="BotController" index="3"]
 position = Vector2( 0, -32 )
 enabled = true
-cast_to = Vector2( 0, -8 )
+cast_to = Vector2( 64, -64 )
 collision_mask = 2
 
 [node name="DownRaycast" type="RayCast2D" parent="BotController" index="4"]
 position = Vector2( 0, 32 )
 enabled = true
-cast_to = Vector2( 0, 8 )
+cast_to = Vector2( 0, 4 )
 collision_mask = 2
 
 [connection signal="body_entered" from="BotController/FlapDetector" to="BotController" method="_on_FlapDetector_body_entered"]

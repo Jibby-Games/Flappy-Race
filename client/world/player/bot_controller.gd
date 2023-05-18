@@ -6,10 +6,13 @@ var player: CommonPlayer
 onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 var target_pos := Vector2(100000, 0)
 var target_marker
+var below_target_threshold := 16
+var ahead_of_target_threshold := 128
 var flap_detector_bodies := []
 var forward_detector_bodies := []
-var flap_delta_lookahead := 12
-var forward_delta_lookahead := 6
+var flap_lookahead := 96
+var forward_lookahead := 64
+var verbose_bot := false
 
 
 func _ready():
@@ -20,29 +23,36 @@ func _ready():
 
 
 func _physics_process(delta: float) -> void:
-	$FlapDetector.position = Vector2(player.velocity.x, -player.FLAP) * delta * flap_delta_lookahead
-	$ForwardDetector.position = player.velocity * delta * forward_delta_lookahead
+	$FlapDetector.position = Vector2(player.velocity.x, -player.FLAP).normalized() * flap_lookahead
+	$ForwardDetector.position = player.velocity.normalized() * forward_lookahead
 	if should_flap():
 		player.do_flap()
 
 
 func should_flap() -> bool:
 	if is_near_bottom():
+		if verbose_bot: print("flap due to near bottom")
 		return true
 	if $DownRaycast.is_colliding():
+		if verbose_bot: print("flap due to down ray")
 		return true
 	if $UpRaycast.is_colliding():
+		if verbose_bot: print("NO flap due to up ray")
 		return false
 	if not flap_detector_bodies.empty():
+		if verbose_bot: print("NO flap due to flap detector")
 		return false
 	if not forward_detector_bodies.empty():
+		if verbose_bot: print("flap due to forward detector")
 		return true
 	var nav_pos := nav_agent.get_next_location()
-	if player.global_position.x >= nav_pos.x:
-		nav_agent.set_target_location(target_pos)
-		nav_pos = nav_agent.get_next_location()
 	draw_debug_point(nav_pos, Color.red)
-	return nav_pos.y + 32 < player.global_position.y
+	if player.global_position.x + ahead_of_target_threshold >= nav_pos.x:
+		nav_agent.set_target_location(target_pos)
+	if nav_pos.y + below_target_threshold < player.global_position.y:
+		if verbose_bot: print("flap due to below nav target")
+		return true
+	return false
 
 func draw_debug_point(pos: Vector2, col: Color = Color.white) -> void:
 	if target_marker:
