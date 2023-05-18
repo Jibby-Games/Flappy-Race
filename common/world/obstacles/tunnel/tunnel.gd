@@ -4,8 +4,8 @@ const BLOCK_SIZE := 64
 
 export(PackedScene) var CoinSpawner
 
-var gap_range_min := 135
-var gap_range_max := 150
+var gap_range_min := 150
+var gap_range_max := 180
 var length_min = 4
 var length_max = 12
 var spawn_coin_chance := 0.5
