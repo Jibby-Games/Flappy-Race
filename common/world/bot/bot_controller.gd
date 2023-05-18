@@ -17,7 +17,7 @@ var verbose_bot := false
 
 func _ready():
 	nav_agent.set_target_location(target_pos)
-	player = owner
+	player = get_parent()
 	var result := player.connect("death", self, "_on_player_death")
 	assert(result == OK)
 
