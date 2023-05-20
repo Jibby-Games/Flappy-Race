@@ -4,7 +4,6 @@ export(PackedScene) var ImpactParticles
 export(PackedScene) var FlapParticles
 
 var is_controlled
-var player_state
 var enable_death: bool = true
 var player_name: String
 var body_colour: Color
@@ -42,7 +41,7 @@ func _input(event: InputEvent) -> void:
 
 
 func update_player_state() -> void:
-	player_state = {"T": Network.Client.client_clock, "P": get_global_position(), "V": velocity}
+	var player_state := {"T": Network.Client.client_clock, "P": get_global_position(), "V": velocity}
 	Network.Client.send_player_state(player_state)
 
 

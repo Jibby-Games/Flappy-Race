@@ -81,13 +81,13 @@ func spawn_player_list(_player_list: Dictionary) -> void:
 		# Don't spawn any spectators
 		if player_entry.spectate == true:
 			continue
-		var player_body := spawn_player(player_id, Vector2.ZERO)
+		var player_body := spawn_player(player_id, Vector2.ZERO, player_entry.bot)
 		player_entry["body"] = player_body
 		spawned_players.append(player_body)
 		chunk_tracker.add_player(player_id, player_entry.score)
 
 
-func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
+func spawn_player(player_id: int, spawn_position: Vector2, _is_bot: bool) -> Node2D:
 	if not has_node(str(player_id)):
 		Logger.print(self, "Spawning player %d" % [player_id])
 		var player = Player.instance()

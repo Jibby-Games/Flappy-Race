@@ -1,5 +1,7 @@
 extends Node2D
 
+class_name BotController
+
 var bottom_edge: int = ProjectSettings.get_setting("display/window/size/height") / 2
 var player: CommonPlayer
 var target_pos := Vector2(100000, 0)
@@ -39,6 +41,15 @@ func _physics_process(delta: float) -> void:
 	elif should_flap():
 		in_flap_cooldown = true
 		player.do_flap()
+		if Network.Server:
+			Network.Server.send_player_flap(int(player.name), OS.get_system_time_msecs())
+	if Network.Server:
+		update_player_state()
+
+
+func update_player_state() -> void:
+	var player_state := {"T": OS.get_system_time_msecs(), "P": player.get_global_position(), "V": player.velocity}
+	Network.Server.add_player_state(int(player.name), player_state)
 
 
 func should_flap() -> bool:

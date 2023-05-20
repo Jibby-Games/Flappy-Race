@@ -475,11 +475,19 @@ remote func receive_player_flap(client_clock: int) -> void:
 		push_error("Flap received for player %s - but can't find player in world")
 		return
 	Logger.print(self, "Received flap for player %d" % player_id)
-	rpc_id(0, "receive_player_flap", player_id, client_clock)
+	send_player_flap(player_id, client_clock)
+
+
+func send_player_flap(player_id: int, clock_time: int) -> void:
+	rpc_id(0, "receive_player_flap", player_id, clock_time)
 
 
 remote func receive_player_state(player_state: Dictionary) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
+	add_player_state(player_id, player_state)
+
+
+func add_player_state(player_id: int, player_state: Dictionary) -> void:
 	if player_state_collection.has(player_id):
 		# Check if the player_state is the latest and replace it if it's newer
 		if player_state_collection[player_id]["T"] < player_state["T"]:

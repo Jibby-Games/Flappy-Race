@@ -223,8 +223,8 @@ func reset_game() -> void:
 	Network.Client.send_start_game_request()
 
 
-func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
-	var player = .spawn_player(player_id, spawn_position)
+func spawn_player(player_id: int, spawn_position: Vector2, _is_bot: bool) -> Node2D:
+	var player = .spawn_player(player_id, spawn_position, _is_bot)
 	# Only needed on the client
 	player.connect("coins_changed", self, "_on_Player_coins_changed")
 	player.connect("got_item", self, "_on_Player_got_item")
