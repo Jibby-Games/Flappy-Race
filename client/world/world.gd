@@ -228,12 +228,8 @@ func spawn_player(player_id: int, spawn_position: Vector2, _is_bot: bool) -> Nod
 	# Only needed on the client
 	player.connect("coins_changed", self, "_on_Player_coins_changed")
 	player.connect("got_item", self, "_on_Player_got_item")
-	if Network.Client.is_singleplayer:
-		# Player list isn't populated in singleplayer
-		player.set_body_colour(Globals.player_colour)
-	else:
-		player.set_body_colour(player_list[player_id]["colour"])
-		player.set_player_name(player_list[player_id]["name"])
+	player.set_body_colour(player_list[player_id]["colour"])
+	player.set_player_name(player_list[player_id]["name"])
 	return player
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://client/menu/menu_button.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/menu/setup/colour_selector.tscn" type="PackedScene" id=2]
@@ -8,6 +8,65 @@
 [ext_resource path="res://client/theme/flappy.theme" type="Theme" id=6]
 [ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=7]
 [ext_resource path="res://client/menu/setup/game_options_panel.gd" type="Script" id=8]
+[ext_resource path="res://client/fonts/DelaGothicOne-32.tres" type="DynamicFont" id=9]
+[ext_resource path="res://client/menu/setup/multiplayer/player_list.gd" type="Script" id=10]
+[ext_resource path="res://client/menu/setup/multiplayer/ip_finder.tscn" type="PackedScene" id=11]
+[ext_resource path="res://client/menu/setup/multiplayer/player_entry.tscn" type="PackedScene" id=12]
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "show"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.001, 2, 2.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5, 2.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false ]
+}
 
 [node name="Setup" type="Control"]
 anchor_right = 1.0
@@ -219,6 +278,75 @@ text = "Game Options"
 align = 1
 valign = 1
 
+[node name="PlayerList" type="VBoxContainer" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -374.0
+grow_horizontal = 0
+rect_min_size = Vector2( 300, 0 )
+script = ExtResource( 10 )
+entry_template = ExtResource( 12 )
+
+[node name="PlayerEntry" parent="PlayerList" instance=ExtResource( 12 )]
+visible = false
+margin_right = 448.0
+
+[node name="IpFinder" parent="." instance=ExtResource( 11 )]
+
+[node name="SpectateButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -125.0
+margin_top = -150.0
+margin_right = 125.0
+margin_bottom = -100.0
+theme = ExtResource( 6 )
+custom_fonts/font = ExtResource( 7 )
+toggle_mode = true
+text = "Spectate"
+
+[node name="SpectatorText" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -290.0
+margin_top = -35.0
+margin_right = 290.0
+margin_bottom = 35.0
+theme = ExtResource( 6 )
+custom_fonts/font = ExtResource( 9 )
+text = "You're a spectator!"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InfoMessage" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -131.5
+margin_top = 120.0
+margin_right = 131.5
+margin_bottom = 168.0
+grow_horizontal = 2
+theme = ExtResource( 6 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_y = 5
+custom_fonts/font = ExtResource( 9 )
+text = "Info message"
+align = 1
+valign = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="InfoMessage"]
+anims/RESET = SubResource( 1 )
+anims/show = SubResource( 2 )
+
 [connection signal="colour_changed" from="PlayerOptions/Control/ColourSelector" to="." method="_on_ColourSelector_colour_changed"]
 [connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
@@ -227,3 +355,4 @@ valign = 1
 [connection signal="value_changed" from="GameOptions/Panel/VBoxContainer/PlayerLives/LivesInput" to="GameOptions" method="_on_LivesInput_value_changed"]
 [connection signal="toggled" from="GameOptions/Panel/VBoxContainer/Bots/BotsToggle" to="GameOptions" method="_on_BotsToggle_toggled"]
 [connection signal="value_changed" from="GameOptions/Panel/VBoxContainer/Bots/BotsInput" to="GameOptions" method="_on_BotsInput_value_changed"]
+[connection signal="toggled" from="SpectateButton" to="." method="_on_SpectateButton_toggled"]

@@ -8,8 +8,7 @@ const LATENCY_THRESHOLD := 20
 
 var title_scene := "res://client/menu/title/title_screen.tscn"
 var server_browser_scene := "res://client/menu/lobby/server_browser.tscn"
-var singleplayer_setup_scene := "res://client/menu/setup/singleplayer/singleplayer_setup.tscn"
-var multiplayer_setup_scene := "res://client/menu/setup/multiplayer/multiplayer_setup.tscn"
+var setup_scene := "res://client/menu/setup/setup.tscn"
 var world_scene := "res://client/world/world.tscn"
 
 # Clock sync and latency vars
@@ -74,10 +73,7 @@ func change_scene_to_title_screen(fade: bool = true) -> void:
 
 func change_scene_to_setup() -> void:
 	change_scene("res://client/menu/menu_handler.tscn")
-	if is_singleplayer:
-		$MenuHandler.change_menu_with_fade(singleplayer_setup_scene)
-	else:
-		$MenuHandler.change_menu_with_fade(multiplayer_setup_scene)
+	$MenuHandler.change_menu_with_fade(setup_scene)
 
 
 func change_scene_to_lobby() -> void:
@@ -270,7 +266,7 @@ remote func receive_player_colour_update(player_id: int, colour_choice: int) -> 
 	if is_rpc_from_server() == false:
 		return
 	player_list[player_id].colour = colour_choice
-	var setup = get_node_or_null("MenuHandler/MultiplayerSetup")
+	var setup = get_node_or_null("MenuHandler/Setup")
 	if setup:
 		setup.update_player_colour(player_id, colour_choice)
 
@@ -283,7 +279,7 @@ remote func receive_player_spectate_update(player_id: int, is_spectating: bool) 
 	if is_rpc_from_server() == false:
 		return
 	player_list[player_id].spectate = is_spectating
-	var setup = get_node_or_null("MenuHandler/MultiplayerSetup")
+	var setup = get_node_or_null("MenuHandler/Setup")
 	if setup:
 		setup.update_player_spectating(player_id, is_spectating)
 
@@ -297,7 +293,7 @@ remote func receive_goal_change(goal: int) -> void:
 	if is_rpc_from_server() == false:
 		return
 	game_options.goal = goal
-	var options = get_node_or_null("MenuHandler/MultiplayerSetup/Setup/GameOptions")
+	var options = get_node_or_null("MenuHandler/Setup/GameOptions")
 	Logger.print(self, "Received new goal: %d" % [goal])
 	if options:
 		options.set_goal(goal)
@@ -312,7 +308,7 @@ remote func receive_lives_change(lives: int) -> void:
 	if is_rpc_from_server() == false:
 		return
 	game_options.lives = lives
-	var options = get_node_or_null("MenuHandler/MultiplayerSetup/Setup/GameOptions")
+	var options = get_node_or_null("MenuHandler/Setup/GameOptions")
 	Logger.print(self, "Received new lives: %d" % [lives])
 	if options:
 		options.set_lives(lives)
@@ -327,7 +323,7 @@ remote func receive_bots_change(bots: int) -> void:
 	if is_rpc_from_server() == false:
 		return
 	game_options.bots = bots
-	var options = get_node_or_null("MenuHandler/MultiplayerSetup/Setup/GameOptions")
+	var options = get_node_or_null("MenuHandler/Setup/GameOptions")
 	Logger.print(self, "Received new bots: %d" % [bots])
 	if options:
 		options.set_bots(bots)
@@ -391,7 +387,7 @@ func send_start_game_request() -> void:
 remote func receive_setup_info_message(message: String) -> void:
 	if is_rpc_from_server() == false:
 		return
-	var setup = get_node_or_null("MenuHandler/MultiplayerSetup")
+	var setup = get_node_or_null("MenuHandler/Setup")
 	if setup:
 		setup.show_message(message)
 
