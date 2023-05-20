@@ -318,6 +318,21 @@ remote func receive_lives_change(lives: int) -> void:
 		options.set_lives(lives)
 
 
+func send_bots_change(bots: int) -> void:
+	if is_host():
+		rpc_id(SERVER_ID, "receive_bots_change", bots)
+
+
+remote func receive_bots_change(bots: int) -> void:
+	if is_rpc_from_server() == false:
+		return
+	game_options.bots = bots
+	var options = get_node_or_null("MenuHandler/MultiplayerSetup/Setup/GameOptions")
+	Logger.print(self, "Received new bots: %d" % [bots])
+	if options:
+		options.set_bots(bots)
+
+
 func send_client_ready() -> void:
 	Logger.print(self, "Sending client ready")
 	rpc_id(SERVER_ID, "receive_client_ready")

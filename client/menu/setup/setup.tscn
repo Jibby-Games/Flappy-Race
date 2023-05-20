@@ -165,6 +165,43 @@ rounded = true
 align = 1
 editable = false
 
+[node name="Bots" type="HBoxContainer" parent="GameOptions/Panel/VBoxContainer"]
+margin_top = 89.0
+margin_right = 300.0
+margin_bottom = 124.0
+alignment = 1
+
+[node name="Label" type="Label" parent="GameOptions/Panel/VBoxContainer/Bots"]
+margin_left = 88.0
+margin_top = 5.0
+margin_right = 133.0
+margin_bottom = 29.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
+text = "Bots"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BotsToggle" type="CheckButton" parent="GameOptions/Panel/VBoxContainer/Bots"]
+margin_left = 137.0
+margin_right = 211.0
+margin_bottom = 35.0
+disabled = true
+flat = true
+
+[node name="BotsInput" type="SpinBox" parent="GameOptions/Panel/VBoxContainer/Bots"]
+visible = false
+margin_left = 175.0
+margin_right = 260.0
+margin_bottom = 35.0
+rect_min_size = Vector2( 85, 0 )
+min_value = 1.0
+max_value = 16.0
+value = 7.0
+rounded = true
+align = 1
+editable = false
+
 [node name="DisableGameOptions" type="Panel" parent="GameOptions/Panel"]
 modulate = Color( 1, 1, 1, 0.580392 )
 anchor_right = 1.0
@@ -188,3 +225,5 @@ valign = 1
 [connection signal="value_changed" from="GameOptions/Panel/VBoxContainer/ScoreToWin/ScoreInput" to="GameOptions" method="_on_ScoreInput_value_changed"]
 [connection signal="toggled" from="GameOptions/Panel/VBoxContainer/PlayerLives/LivesToggle" to="GameOptions" method="_on_LivesToggle_toggled"]
 [connection signal="value_changed" from="GameOptions/Panel/VBoxContainer/PlayerLives/LivesInput" to="GameOptions" method="_on_LivesInput_value_changed"]
+[connection signal="toggled" from="GameOptions/Panel/VBoxContainer/Bots/BotsToggle" to="GameOptions" method="_on_BotsToggle_toggled"]
+[connection signal="value_changed" from="GameOptions/Panel/VBoxContainer/Bots/BotsInput" to="GameOptions" method="_on_BotsInput_value_changed"]
