@@ -2,8 +2,6 @@ extends Node2D
 
 var bottom_edge: int = ProjectSettings.get_setting("display/window/size/height") / 2
 var player: CommonPlayer
-
-onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 var target_pos := Vector2(100000, 0)
 var target_marker
 var below_target_threshold := 16
@@ -13,7 +11,11 @@ var forward_detector_bodies := []
 var flap_lookahead := 96
 var forward_lookahead := 64
 var verbose_bot := false
+var flap_timer := 0.0
+var in_flap_cooldown := false
+var flap_cooldown_seconds := 0.1
 
+onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
 func _ready():
 	nav_agent.set_target_location(target_pos)
@@ -23,9 +25,19 @@ func _ready():
 
 
 func _physics_process(delta: float) -> void:
+	if not player.enable_movement:
+		# Player can't move yet so take no action
+		return
 	$FlapDetector.position = Vector2(player.velocity.x, -player.FLAP).normalized() * flap_lookahead
 	$ForwardDetector.position = player.velocity.normalized() * forward_lookahead
-	if should_flap():
+	# Add a cooldown so flaps don't get spammed
+	if in_flap_cooldown:
+		flap_timer += delta
+		if flap_timer >= flap_cooldown_seconds:
+			in_flap_cooldown = false
+			flap_timer = 0.0
+	elif should_flap():
+		in_flap_cooldown = true
 		player.do_flap()
 
 
