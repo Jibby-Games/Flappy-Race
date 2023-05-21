@@ -17,9 +17,12 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.8.0] - 2023-05-21
+
 ### Added
-- Bots!
-  - New AI bot players to spice up singleplayer and multiplayer games
+
+-   Bots!
+    -   New AI bot players to spice up singleplayer and multiplayer games
 
 ## [0.7.1] - 2023-04-25
 
@@ -282,7 +285,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.7.1...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.8.0...HEAD
+
+[0.8.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.7.1...0.8.0
 
 [0.7.1]: https://github.com/Jibby-Games/Flappy-Race/compare/0.7.0...0.7.1
 
