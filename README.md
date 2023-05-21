@@ -14,6 +14,10 @@
     <img alt="GitHub downloads all releases" src="https://img.shields.io/github/downloads/Jibby-Games/Flappy-Race/total">
 </p>
 
+<p align="center">
+    <img alt="Discord invite" src="https://dcbadge.vercel.app/api/server/CGh7tSbUkH">
+</p>
+
 # About
 Flappy Race is an open source multiplayer game based on Flappy Bird, created with Godot.
 
