@@ -17,6 +17,10 @@ Types of changes:
 
 ## [Unreleased]
 
+### Added
+- Bots!
+  - New AI bot players to spice up singleplayer and multiplayer games
+
 ## [0.7.1] - 2023-04-25
 
 ### Security
