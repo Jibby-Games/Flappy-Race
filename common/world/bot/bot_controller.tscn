@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://common/world/bot/bot_controller.gd" type="Script" id=1]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 32.0
+
+[node name="BotController" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="FlapDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FlapDetector"]
+shape = SubResource( 1 )
+
+[node name="ForwardDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ForwardDetector"]
+shape = SubResource( 1 )
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="UpRaycast" type="RayCast2D" parent="."]
+position = Vector2( 0, -32 )
+enabled = true
+cast_to = Vector2( 64, -64 )
+collision_mask = 2
+
+[node name="DownRaycast" type="RayCast2D" parent="."]
+position = Vector2( 0, 32 )
+enabled = true
+cast_to = Vector2( 0, 4 )
+collision_mask = 2
+
+[connection signal="body_entered" from="FlapDetector" to="." method="_on_FlapDetector_body_entered"]
+[connection signal="body_exited" from="FlapDetector" to="." method="_on_FlapDetector_body_exited"]
+[connection signal="body_entered" from="ForwardDetector" to="." method="_on_ForwardDetector_body_entered"]
+[connection signal="body_exited" from="ForwardDetector" to="." method="_on_ForwardDetector_body_exited"]
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_NavigationAgent2D_velocity_computed"]

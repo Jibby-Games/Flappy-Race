@@ -12,3 +12,6 @@ unique_name_in_owner = true
 
 [node name="Checkpoint" parent="." instance=ExtResource( 4 )]
 unique_name_in_owner = true
+
+[node name="NavPolygon" type="NavigationPolygonInstance" parent="."]
+unique_name_in_owner = true

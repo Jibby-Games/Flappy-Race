@@ -7,6 +7,7 @@ export(bool) var random_height := false
 var generated := false
 var length: int
 var height: int
+var boundary_height := 1000
 
 onready var Checkpoint: Area2D = $"%Checkpoint"
 onready var PointArea: Area2D = $"%PointArea"
@@ -22,6 +23,8 @@ func _ready() -> void:
 func generate(game_rng: RandomNumberGenerator) -> void:
 	do_generate(game_rng)
 	length = calculate_length()
+	$"%NavPolygon".position.y = height
+	$"%NavPolygon".set_navigation_polygon(generate_navigation_polygon())
 	generated = true
 
 
@@ -32,3 +35,26 @@ func do_generate(_game_rng: RandomNumberGenerator) -> void:
 func calculate_length() -> int:
 	push_error("Obstacle (%s) must override calculate_length when extending the class!" % name)
 	return 0
+
+
+func generate_navigation_polygon() -> NavigationPolygon:
+	push_error("Obstacle (%s) must override generate_navigation_polygon when extending the class!" % name)
+	return null
+
+
+func get_poly(collider: CollisionShape2D) -> PoolVector2Array:
+	var poly := PoolVector2Array()
+	var extents: Vector2 = collider.shape.extents
+	var collider_transform: Transform2D = collider.get_transform()
+	poly = [
+		# Must use the xform to translate the shape to the correct place, and
+		# add an offset so there's a gap between the wall and the nav polygon
+		collider_transform.xform(Vector2(-extents.x, -extents.y)) + Vector2(-50, -50),
+		collider_transform.xform(Vector2(-extents.x, extents.y)) + Vector2(-50, 50),
+		collider_transform.xform(Vector2(extents.x, extents.y)) + Vector2(50, 50),
+		collider_transform.xform(Vector2(extents.x, -extents.y)) + Vector2(50, -50),
+	]
+	# Outlines can't overlap the boundary edges so clamp the y positions of the polygon
+	for i in poly.size():
+		poly[i].y = clamp(poly[i].y, -boundary_height+1, boundary_height-1)
+	return poly

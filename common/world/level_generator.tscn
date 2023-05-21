@@ -8,7 +8,7 @@
 [ext_resource path="res://common/world/obstacles/tunnel/tunnel.tscn" type="PackedScene" id=6]
 [ext_resource path="res://common/world/obstacles/item_circle/item_circle.tscn" type="PackedScene" id=7]
 
-[node name="LevelGenerator" type="Node"]
+[node name="LevelGenerator" type="Node2D"]
 script = ExtResource( 1 )
 Obstacles = [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ]
 ObstacleRandomWeights = [ 100, 50, 25, 50, 25 ]

@@ -2,6 +2,8 @@ extends Obstacle
 
 tool
 
+const NAV_POLY_MARGIN := 32
+
 export(PackedScene) var CoinSpawner := preload("res://client/world/coin_spawner/coin_spawner.tscn")
 export(float) var radius := 400.0 setget set_radius
 export(int) var coins := 12 setget set_coins
@@ -30,6 +32,24 @@ func generate_circle(new_radius: float, new_points: int) -> void:
 func do_generate(_game_rng: RandomNumberGenerator) -> void:
 	# Nothing to generate
 	pass
+
+
+func generate_navigation_polygon() -> NavigationPolygon:
+	var nav_poly := NavigationPolygon.new()
+	# Outer and inner ring
+	var increment = (2 * PI) / coins
+	var outer_poly := []
+	var inner_poly := []
+	for i in coins:
+		var pos = polar2cartesian(radius + NAV_POLY_MARGIN, increment * i)
+		# Offset by radius so length calculations are correct
+		outer_poly.append(Vector2(radius, 0) + pos)
+		pos = polar2cartesian(radius - NAV_POLY_MARGIN, increment * i)
+		inner_poly.append(Vector2(radius, 0) + pos)
+	nav_poly.add_outline(outer_poly)
+	nav_poly.add_outline(inner_poly)
+	nav_poly.make_polygons_from_outlines()
+	return nav_poly
 
 
 func calculate_length() -> int:

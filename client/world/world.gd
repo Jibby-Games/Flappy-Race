@@ -223,17 +223,13 @@ func reset_game() -> void:
 	Network.Client.send_start_game_request()
 
 
-func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
-	var player = .spawn_player(player_id, spawn_position)
+func spawn_player(player_id: int, spawn_position: Vector2, _is_bot: bool) -> Node2D:
+	var player = .spawn_player(player_id, spawn_position, _is_bot)
 	# Only needed on the client
 	player.connect("coins_changed", self, "_on_Player_coins_changed")
 	player.connect("got_item", self, "_on_Player_got_item")
-	if Network.Client.is_singleplayer:
-		# Player list isn't populated in singleplayer
-		player.set_body_colour(Globals.player_colour)
-	else:
-		player.set_body_colour(player_list[player_id]["colour"])
-		player.set_player_name(player_list[player_id]["name"])
+	player.set_body_colour(player_list[player_id]["colour"])
+	player.set_player_name(player_list[player_id]["name"])
 	return player
 
 
@@ -301,11 +297,7 @@ func _on_Player_death(player: CommonPlayer) -> void:
 	# Only update for the camera target
 	if int(player.name) == camera_target_id:
 		._on_Player_death(player)
-
-
-func knockback_player(player_id: int) -> void:
-	$MainCamera.add_trauma(1.0)
-	.knockback_player(player_id)
+		$MainCamera.add_trauma(1.0)
 
 
 func _on_Player_score_changed(player: CommonPlayer) -> void:

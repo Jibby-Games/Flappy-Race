@@ -1,11 +1,14 @@
 extends CommonWorld
 
+export(PackedScene) var BotController = preload("res://common/world/bot/bot_controller.tscn")
+
 var ready_callback: String
 var players_not_ready: Array
 var next_place := 1
 var player_lives := {}
 var players_died := []
 var players_finished := []
+var bot_players := []
 
 # Timing
 var time_running := false
@@ -68,18 +71,29 @@ func start_countdown() -> void:
 	Network.Server.send_start_countdown()
 	yield(get_tree().create_timer(3), "timeout")
 	time_running = true
+	# Normally players don't move on the serverside so bots need to be started
+	for bot in bot_players:
+		bot.start()
 
 
 func reset_players() -> void:
 	if game_options.lives > 0:
 		player_lives.clear()
+	bot_players.clear()
 	.reset_players()
 
 
-func spawn_player(player_id: int, spawn_position: Vector2) -> Node2D:
+func spawn_player(player_id: int, spawn_position: Vector2, is_bot: bool) -> Node2D:
 	if game_options.lives > 0:
 		player_lives[player_id] = game_options.lives
-	return .spawn_player(player_id, spawn_position)
+	var player_body := .spawn_player(player_id, spawn_position, is_bot)
+	if is_bot:
+		var bot_controller: BotController = BotController.instance()
+		bot_controller.player = player_body
+		bot_controller.target_pos = level_generator.finish_line.position
+		player_body.add_child(bot_controller)
+		bot_players.append(player_body)
+	return player_body
 
 
 func despawn_player(player_id: int) -> void:
@@ -91,22 +105,20 @@ func despawn_player(player_id: int) -> void:
 
 func _on_Player_death(player: CommonPlayer) -> void:
 	._on_Player_death(player)
-	player_lose_life(int(player.name))
+	if game_options.lives > 0:
+		var player_id := int(player.name)
+		player_lose_life(player_id)
+		if not player.is_bot:
+			Network.Server.send_player_lost_life(player_id, player_lives[player_id])
 
 
 func player_lose_life(player_id: int) -> void:
-	if game_options.lives <= 0:
-		# Lives are disabled so only knockback
-		knockback_player(player_id)
-		return
 	player_lives[player_id] -= 1
-	Network.Server.send_player_lost_life(player_id, player_lives[player_id])
 	if player_lives[player_id] > 0:
 		Logger.print(
 			self,
 			"Player %s lost a life - Remaining lives = %d" % [player_id, player_lives[player_id]]
 		)
-		knockback_player(player_id)
 	else:
 		var death_time = time
 		var player_info = player_list[player_id]
@@ -122,11 +134,6 @@ func player_lose_life(player_id: int) -> void:
 		players_died.push_front(death_entry)
 		Network.Server.send_despawn_player(player_id)
 		despawn_player(player_id)
-
-
-func knockback_player(player_id: int) -> void:
-	Network.Server.send_player_knockback(player_id)
-	.knockback_player(player_id)
 
 
 func _on_Player_score_changed(player: CommonPlayer) -> void:

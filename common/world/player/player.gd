@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 class_name CommonPlayer
 
+const FLAP = 350
 const MAXFALLSPEED = 800
 const GRAVITY = 17
 const BASE_SPEED = 500
@@ -23,6 +24,7 @@ var score := 0
 var coins := 0
 var items := []
 var checkpoint_position := Vector2()
+var is_bot := false
 
 # Movement vars
 var velocity: Vector2 = Vector2()
@@ -32,32 +34,34 @@ var has_gravity: bool = true
 
 func _physics_process(_delta: float) -> void:
 	update_movement()
-	check_position()
+	if is_position_out_of_bounds(self.position):
+		death()
 
 
 func update_movement() -> void:
-	if not enable_movement:
-		velocity.x = 0
-		velocity.y = 0
-		velocity = move_and_slide(velocity, Vector2.UP)
-		return
-
-	if has_gravity:
-		velocity.y += GRAVITY
-		if velocity.y > MAXFALLSPEED:
-			velocity.y = MAXFALLSPEED
-
-	velocity.x = BASE_SPEED + (coins * COIN_BOOST)
+	velocity = calculate_next_velocity(velocity)
 	velocity = move_and_slide(velocity, Vector2.UP)
 
 
-func check_position() -> void:
+func calculate_next_velocity(current_velocity: Vector2) -> Vector2:
+	if not enable_movement:
+		return Vector2.ZERO
+	var next_velocity := current_velocity
+	if has_gravity:
+		next_velocity.y += GRAVITY
+		if next_velocity.y > MAXFALLSPEED:
+			next_velocity.y = MAXFALLSPEED
+
+	next_velocity.x = BASE_SPEED + (coins * COIN_BOOST)
+	return next_velocity
+
+
+func is_position_out_of_bounds(pos: Vector2) -> bool:
 	var upper_bound = ProjectSettings.get_setting("display/window/size/height") / 2
 
 	# Give the player a chance to recover from death
 	var threshold = 200
-	if abs(self.position.y) > (upper_bound + threshold):
-		death()
+	return abs(pos.y) > (upper_bound + threshold)
 
 
 func _on_Detect_area_entered(_area: Area2D) -> void:
@@ -71,6 +75,11 @@ func _on_Detect_body_entered(_body: Node) -> void:
 
 func start() -> void:
 	enable_movement = true
+
+
+func do_flap() -> void:
+	if enable_movement:
+		velocity.y = -FLAP
 
 
 func death() -> void:
@@ -90,8 +99,7 @@ func death() -> void:
 
 
 func on_death() -> void:
-	# Used on the client
-	pass
+	knockback()
 
 
 func despawn() -> void:

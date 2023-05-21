@@ -8,8 +8,7 @@ const LATENCY_THRESHOLD := 20
 
 var title_scene := "res://client/menu/title/title_screen.tscn"
 var server_browser_scene := "res://client/menu/lobby/server_browser.tscn"
-var singleplayer_setup_scene := "res://client/menu/setup/singleplayer/singleplayer_setup.tscn"
-var multiplayer_setup_scene := "res://client/menu/setup/multiplayer/multiplayer_setup.tscn"
+var setup_scene := "res://client/menu/setup/setup.tscn"
 var world_scene := "res://client/world/world.tscn"
 
 # Clock sync and latency vars
@@ -74,10 +73,7 @@ func change_scene_to_title_screen(fade: bool = true) -> void:
 
 func change_scene_to_setup() -> void:
 	change_scene("res://client/menu/menu_handler.tscn")
-	if is_singleplayer:
-		$MenuHandler.change_menu_with_fade(singleplayer_setup_scene)
-	else:
-		$MenuHandler.change_menu_with_fade(multiplayer_setup_scene)
+	$MenuHandler.change_menu_with_fade(setup_scene)
 
 
 func change_scene_to_lobby() -> void:
@@ -270,7 +266,7 @@ remote func receive_player_colour_update(player_id: int, colour_choice: int) -> 
 	if is_rpc_from_server() == false:
 		return
 	player_list[player_id].colour = colour_choice
-	var setup = get_node_or_null("MenuHandler/MultiplayerSetup")
+	var setup = get_node_or_null("MenuHandler/Setup")
 	if setup:
 		setup.update_player_colour(player_id, colour_choice)
 
@@ -283,7 +279,7 @@ remote func receive_player_spectate_update(player_id: int, is_spectating: bool) 
 	if is_rpc_from_server() == false:
 		return
 	player_list[player_id].spectate = is_spectating
-	var setup = get_node_or_null("MenuHandler/MultiplayerSetup")
+	var setup = get_node_or_null("MenuHandler/Setup")
 	if setup:
 		setup.update_player_spectating(player_id, is_spectating)
 
@@ -297,7 +293,7 @@ remote func receive_goal_change(goal: int) -> void:
 	if is_rpc_from_server() == false:
 		return
 	game_options.goal = goal
-	var options = get_node_or_null("MenuHandler/MultiplayerSetup/Setup/GameOptions")
+	var options = get_node_or_null("MenuHandler/Setup/GameOptions")
 	Logger.print(self, "Received new goal: %d" % [goal])
 	if options:
 		options.set_goal(goal)
@@ -312,10 +308,25 @@ remote func receive_lives_change(lives: int) -> void:
 	if is_rpc_from_server() == false:
 		return
 	game_options.lives = lives
-	var options = get_node_or_null("MenuHandler/MultiplayerSetup/Setup/GameOptions")
+	var options = get_node_or_null("MenuHandler/Setup/GameOptions")
 	Logger.print(self, "Received new lives: %d" % [lives])
 	if options:
 		options.set_lives(lives)
+
+
+func send_bots_change(bots: int) -> void:
+	if is_host():
+		rpc_id(SERVER_ID, "receive_bots_change", bots)
+
+
+remote func receive_bots_change(bots: int) -> void:
+	if is_rpc_from_server() == false:
+		return
+	game_options.bots = bots
+	var options = get_node_or_null("MenuHandler/Setup/GameOptions")
+	Logger.print(self, "Received new bots: %d" % [bots])
+	if options:
+		options.set_bots(bots)
 
 
 func send_client_ready() -> void:
@@ -336,6 +347,19 @@ remote func receive_player_flap(player_id: int, flap_time: int) -> void:
 	player.flap_queue.append(flap_time)
 
 
+func send_player_death() -> void:
+	rpc_id(SERVER_ID, "receive_player_death", client_clock)
+
+
+remote func receive_player_death(player_id: int, death_time: int) -> void:
+	if player_id == multiplayer.get_network_unique_id():
+		# This is the same player who sent it so don't call death
+		return
+	Logger.print(self, "Received death for player %d @ time = %d" % [player_id, death_time])
+	var player = $World.get_node(str(player_id))
+	player.death()
+
+
 remote func receive_player_add_item(player_id: int, item_id: int) -> void:
 	var item: Item = Items.get_item(item_id)
 	Logger.print(self, "Received add item %d (%s) for player %d" % [item_id, item.name, player_id])
@@ -350,14 +374,6 @@ remote func receive_player_lost_life(lives_left: int) -> void:
 	var ui = get_node_or_null("World/UI")
 	if ui:
 		ui.update_lives(lives_left)
-
-
-remote func receive_player_knockback() -> void:
-	if is_rpc_from_server() == false:
-		return
-	var world = get_node_or_null("World")
-	if world:
-		world.knockback_player(multiplayer.get_network_unique_id())
 
 
 remote func receive_despawn_player(player_id: int) -> void:
@@ -376,7 +392,7 @@ func send_start_game_request() -> void:
 remote func receive_setup_info_message(message: String) -> void:
 	if is_rpc_from_server() == false:
 		return
-	var setup = get_node_or_null("MenuHandler/MultiplayerSetup")
+	var setup = get_node_or_null("MenuHandler/Setup")
 	if setup:
 		setup.show_message(message)
 

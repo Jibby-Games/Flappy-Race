@@ -1,12 +1,9 @@
 extends CommonPlayer
 
-const FLAP = 350
-
 export(PackedScene) var ImpactParticles
 export(PackedScene) var FlapParticles
 
 var is_controlled
-var player_state
 var enable_death: bool = true
 var player_name: String
 var body_colour: Color
@@ -44,13 +41,13 @@ func _input(event: InputEvent) -> void:
 
 
 func update_player_state() -> void:
-	player_state = {"T": Network.Client.client_clock, "P": get_global_position(), "V": velocity}
+	var player_state := {"T": Network.Client.client_clock, "P": get_global_position(), "V": velocity}
 	Network.Client.send_player_state(player_state)
 
 
 func do_flap() -> void:
+	.do_flap()
 	if enable_movement:
-		velocity.y = -FLAP
 		play_flap_sound()
 		spawn_flap_particles()
 		$AnimationPlayer.play("flap")
@@ -109,10 +106,13 @@ func death() -> void:
 		return
 	if coins > 0:
 		$CoinLost.play()
+	if is_controlled:
+		Network.Client.send_player_death()
 	.death()
 
 
 func on_death() -> void:
+	.on_death()
 	$DeathSound.play()
 	$AnimationPlayer.play("death_cooldown")
 	spawn_impact_particles()

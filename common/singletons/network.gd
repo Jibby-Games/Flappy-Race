@@ -37,7 +37,6 @@ func _load_network_scene(scene_path: String) -> SceneHandler:
 
 
 func change_to_client() -> void:
-	Globals.change_to_client()
 	var result: int
 	result = get_tree().change_scene(CLIENT_NETWORK)
 	assert(result == OK)

@@ -4,8 +4,8 @@ const BLOCK_SIZE := 64
 
 export(PackedScene) var CoinSpawner
 
-var gap_range_min := 135
-var gap_range_max := 150
+var gap_range_min := 150
+var gap_range_max := 180
 var length_min = 4
 var length_max = 12
 var spawn_coin_chance := 0.5
@@ -51,3 +51,17 @@ func set_gap(size: float) -> void:
 	var rect_collider_pos = $Tunnel/Top.shape.extents.y + (size / 2)
 	$Tunnel/Bottom.position.y = rect_collider_pos
 	$Tunnel/Top.position.y = -rect_collider_pos
+
+
+func generate_navigation_polygon() -> NavigationPolygon:
+	var nav_poly := NavigationPolygon.new()
+	nav_poly.add_outline([
+		Vector2(-400, -boundary_height),
+		Vector2(-400, boundary_height),
+		Vector2(length + 200, boundary_height),
+		Vector2(length + 200, -boundary_height),
+	])
+	nav_poly.add_outline(get_poly($Tunnel/Top))
+	nav_poly.add_outline(get_poly($Tunnel/Bottom))
+	nav_poly.make_polygons_from_outlines()
+	return nav_poly

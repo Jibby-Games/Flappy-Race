@@ -7,8 +7,10 @@ const UpnpHandler = preload("res://server/upnp_handler.gd")
 const DEFAULT_GAME_OPTIONS := {
 	"goal": 50,
 	"lives": 0,
+	"bots": 0,
 }
 const PLAYER_TIMEOUT_TIME := 20
+const BOT_ID_OFFSET := 1000
 
 # IMPORTANT:
 # This node is a Viewport with zero size intentionally in order to separate
@@ -260,14 +262,15 @@ func send_game_info_to(player_id: int) -> void:
 
 
 func create_player_list_entry(
-	player_name: String, player_colour: int, spectating: bool
+	player_name: String, player_colour: int, spectating: bool, bot: bool = false
 ) -> Dictionary:
 	return {
 		"name": player_name,
 		"colour": player_colour,
 		"spectate": spectating,
+		"bot": bot,
 		"body": null,
-		"score": 0
+		"score": 0,
 	}
 
 
@@ -346,12 +349,53 @@ remote func receive_lives_change(new_lives: int) -> void:
 	rpc("receive_lives_change", new_lives)
 
 
+remote func receive_bots_change(new_bots: int) -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	if not is_host_id(player_id):
+		Logger.print(
+			self, "Player %s tried to change the bots but they're not the host!" % [player_id]
+		)
+		# Reset clients back to server value
+		rpc("receive_bots_change", game_options.bots)
+		return
+	if new_bots < 0 or new_bots > Network.MAX_PLAYERS:
+		Logger.print(
+			self, "Player %s tried to set bots to invalid value: %d", [player_id, new_bots]
+		)
+		# Reset clients back to server value
+		rpc("receive_bots_change", game_options.bots)
+		return
+	populate_bots(game_options.bots, new_bots)
+	game_options.bots = new_bots
+	Logger.print(self, "Player %s set the bots to %s " % [player_id, new_bots])
+	rpc("receive_bots_change", new_bots)
+
+
+func populate_bots(old_bots: int, new_bots: int) -> void:
+	if old_bots == new_bots:
+		# No change
+		return
+	if new_bots > old_bots:
+		var bots_to_add := new_bots - old_bots
+		Logger.print(self, "Adding %d bots" % bots_to_add)
+		for i in bots_to_add:
+			var bot_id: int = old_bots + i + BOT_ID_OFFSET
+			# TODO add bot name generator
+			var bot_name := "Bot%d" % [bot_id]
+			var bot_colour: int = Globals.get_random_colour_id()
+			player_list[bot_id] = create_player_list_entry(bot_name, bot_colour, false, true)
+	else:
+		var bots_to_remove := old_bots - new_bots
+		Logger.print(self, "Removing %d bots" % bots_to_remove)
+		for i in bots_to_remove:
+			var bot_id: int = new_bots + i + BOT_ID_OFFSET
+			var bot_erased := player_list.erase(bot_id)
+			assert(bot_erased)
+	send_player_list_update(player_list)
+
+
 func send_player_lost_life(player_id: int, lives_left: int) -> void:
 	rpc_id(player_id, "receive_player_lost_life", lives_left)
-
-
-func send_player_knockback(player_id: int) -> void:
-	rpc_id(player_id, "receive_player_knockback")
 
 
 func send_despawn_player(player_id: int) -> void:
@@ -428,11 +472,34 @@ remote func receive_player_flap(client_clock: int) -> void:
 		push_error("Flap received for player %s - but can't find player in world")
 		return
 	Logger.print(self, "Received flap for player %d" % player_id)
-	rpc_id(0, "receive_player_flap", player_id, client_clock)
+	send_player_flap(player_id, client_clock)
+
+
+func send_player_flap(player_id: int, clock_time: int) -> void:
+	rpc_id(0, "receive_player_flap", player_id, clock_time)
+
+
+remote func receive_player_death(client_clock: int) -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	if not $World.has_node(str(player_id)):
+		push_error("Death received for player %s - but can't find player in world")
+		return
+	Logger.print(self, "Received death for player %d" % player_id)
+	var player := $World.get_node(str(player_id))
+	player.death()
+	send_player_death(player_id, client_clock)
+
+
+func send_player_death(player_id: int, clock_time: int) -> void:
+	rpc_id(0, "receive_player_death", player_id, clock_time)
 
 
 remote func receive_player_state(player_state: Dictionary) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
+	add_player_state(player_id, player_state)
+
+
+func add_player_state(player_id: int, player_state: Dictionary) -> void:
 	if player_state_collection.has(player_id):
 		# Check if the player_state is the latest and replace it if it's newer
 		if player_state_collection[player_id]["T"] < player_state["T"]:
