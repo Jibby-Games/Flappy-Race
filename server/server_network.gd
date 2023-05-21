@@ -382,9 +382,7 @@ func populate_bots(old_bots: int, new_bots: int) -> void:
 			var bot_id: int = old_bots + i + BOT_ID_OFFSET
 			# TODO add bot name generator
 			var bot_name := "Bot%d" % [bot_id]
-			# TODO random colours
-			# var bot_colour: int = randi() % Globals.COLOUR_OPTIONS.size()
-			var bot_colour: int = 0
+			var bot_colour: int = Globals.get_random_colour_id()
 			player_list[bot_id] = create_player_list_entry(bot_name, bot_colour, false, true)
 	else:
 		var bots_to_remove := old_bots - new_bots
