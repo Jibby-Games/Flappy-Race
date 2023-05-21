@@ -347,6 +347,19 @@ remote func receive_player_flap(player_id: int, flap_time: int) -> void:
 	player.flap_queue.append(flap_time)
 
 
+func send_player_death() -> void:
+	rpc_id(SERVER_ID, "receive_player_death", client_clock)
+
+
+remote func receive_player_death(player_id: int, death_time: int) -> void:
+	if player_id == multiplayer.get_network_unique_id():
+		# This is the same player who sent it so don't call death
+		return
+	Logger.print(self, "Received death for player %d @ time = %d" % [player_id, death_time])
+	var player = $World.get_node(str(player_id))
+	player.death()
+
+
 remote func receive_player_add_item(player_id: int, item_id: int) -> void:
 	var item: Item = Items.get_item(item_id)
 	Logger.print(self, "Received add item %d (%s) for player %d" % [item_id, item.name, player_id])
@@ -361,14 +374,6 @@ remote func receive_player_lost_life(lives_left: int) -> void:
 	var ui = get_node_or_null("World/UI")
 	if ui:
 		ui.update_lives(lives_left)
-
-
-remote func receive_player_knockback() -> void:
-	if is_rpc_from_server() == false:
-		return
-	var world = get_node_or_null("World")
-	if world:
-		world.knockback_player(multiplayer.get_network_unique_id())
 
 
 remote func receive_despawn_player(player_id: int) -> void:

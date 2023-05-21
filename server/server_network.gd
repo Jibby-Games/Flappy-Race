@@ -10,6 +10,7 @@ const DEFAULT_GAME_OPTIONS := {
 	"bots": 0,
 }
 const PLAYER_TIMEOUT_TIME := 20
+const BOT_ID_OFFSET := 1000
 
 # IMPORTANT:
 # This node is a Viewport with zero size intentionally in order to separate
@@ -378,16 +379,18 @@ func populate_bots(old_bots: int, new_bots: int) -> void:
 		var bots_to_add := new_bots - old_bots
 		Logger.print(self, "Adding %d bots" % bots_to_add)
 		for i in bots_to_add:
-			var bot_id: int = old_bots + i
+			var bot_id: int = old_bots + i + BOT_ID_OFFSET
 			# TODO add bot name generator
 			var bot_name := "Bot%d" % [bot_id]
-			var bot_colour: int = randi() % Globals.COLOUR_OPTIONS.size()
+			# TODO random colours
+			# var bot_colour: int = randi() % Globals.COLOUR_OPTIONS.size()
+			var bot_colour: int = 0
 			player_list[bot_id] = create_player_list_entry(bot_name, bot_colour, false, true)
 	else:
 		var bots_to_remove := old_bots - new_bots
 		Logger.print(self, "Removing %d bots" % bots_to_remove)
 		for i in bots_to_remove:
-			var bot_id: int = new_bots + i
+			var bot_id: int = new_bots + i + BOT_ID_OFFSET
 			var bot_erased := player_list.erase(bot_id)
 			assert(bot_erased)
 	send_player_list_update(player_list)
@@ -395,10 +398,6 @@ func populate_bots(old_bots: int, new_bots: int) -> void:
 
 func send_player_lost_life(player_id: int, lives_left: int) -> void:
 	rpc_id(player_id, "receive_player_lost_life", lives_left)
-
-
-func send_player_knockback(player_id: int) -> void:
-	rpc_id(player_id, "receive_player_knockback")
 
 
 func send_despawn_player(player_id: int) -> void:
@@ -480,6 +479,21 @@ remote func receive_player_flap(client_clock: int) -> void:
 
 func send_player_flap(player_id: int, clock_time: int) -> void:
 	rpc_id(0, "receive_player_flap", player_id, clock_time)
+
+
+remote func receive_player_death(client_clock: int) -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	if not $World.has_node(str(player_id)):
+		push_error("Death received for player %s - but can't find player in world")
+		return
+	Logger.print(self, "Received death for player %d" % player_id)
+	var player := $World.get_node(str(player_id))
+	player.death()
+	send_player_death(player_id, client_clock)
+
+
+func send_player_death(player_id: int, clock_time: int) -> void:
+	rpc_id(0, "receive_player_death", player_id, clock_time)
 
 
 remote func receive_player_state(player_state: Dictionary) -> void:

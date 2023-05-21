@@ -24,6 +24,7 @@ var score := 0
 var coins := 0
 var items := []
 var checkpoint_position := Vector2()
+var is_bot := false
 
 # Movement vars
 var velocity: Vector2 = Vector2()

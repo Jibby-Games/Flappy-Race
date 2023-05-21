@@ -297,11 +297,7 @@ func _on_Player_death(player: CommonPlayer) -> void:
 	# Only update for the camera target
 	if int(player.name) == camera_target_id:
 		._on_Player_death(player)
-
-
-func knockback_player(player_id: int) -> void:
-	$MainCamera.add_trauma(1.0)
-	.knockback_player(player_id)
+		$MainCamera.add_trauma(1.0)
 
 
 func _on_Player_score_changed(player: CommonPlayer) -> void:

@@ -87,7 +87,7 @@ func spawn_player_list(_player_list: Dictionary) -> void:
 		chunk_tracker.add_player(player_id, player_entry.score)
 
 
-func spawn_player(player_id: int, spawn_position: Vector2, _is_bot: bool) -> Node2D:
+func spawn_player(player_id: int, spawn_position: Vector2, is_bot: bool) -> Node2D:
 	if not has_node(str(player_id)):
 		Logger.print(self, "Spawning player %d" % [player_id])
 		var player = Player.instance()
@@ -97,6 +97,7 @@ func spawn_player(player_id: int, spawn_position: Vector2, _is_bot: bool) -> Nod
 		player.name = str(player_id)
 		player.position = spawn_position
 		player.enable_movement = false
+		player.is_bot = is_bot
 		add_child(player)
 		return player
 	return null
@@ -111,12 +112,6 @@ func despawn_player(player_id: int) -> void:
 		if spawned_players.empty():
 			# Everyone is dead/finished
 			end_race()
-
-
-func knockback_player(player_id: int) -> void:
-	if player_list[player_id].spectate == false:
-		var player = player_list[player_id].body as CommonPlayer
-		player.knockback()
 
 
 #### Player helper functions

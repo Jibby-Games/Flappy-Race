@@ -106,6 +106,8 @@ func death() -> void:
 		return
 	if coins > 0:
 		$CoinLost.play()
+	if is_controlled:
+		Network.Client.send_player_death()
 	.death()
 
 
