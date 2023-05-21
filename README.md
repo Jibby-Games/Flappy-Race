@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-    <img alt="Discord invite" src="https://dcbadge.vercel.app/api/server/CGh7tSbUkH">
+    <a href="https://discord.gg/CGh7tSbUkH"><img alt="Discord invite link" src="https://dcbadge.vercel.app/api/server/CGh7tSbUkH"></a>
 </p>
 
 # About
