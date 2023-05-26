@@ -86,7 +86,7 @@ func unload_chunk(chunk: int) -> void:
 
 func is_chunk_in_range_of_any_players(chunk: int) -> bool:
 	for player_chunk in player_chunks.values():
-		if (player_chunk - chunk_radius) < chunk and chunk <= (player_chunk + chunk_radius):
+		if (player_chunk - chunk_radius) <= chunk and chunk <= (player_chunk + chunk_radius):
 			return true
 	return false
 
