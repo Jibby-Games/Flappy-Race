@@ -6,6 +6,7 @@ class_name LevelGenerator
 
 export(Array) var Obstacles
 export(Array) var ObstacleRandomWeights
+export(PackedScene) var StartLine
 export(PackedScene) var FinishLine
 
 var game_rng: RandomNumberGenerator
@@ -20,6 +21,7 @@ var max_height := 350
 var generated_obstacles := []
 var spawned_obstacles := {}
 var next_obstacle_pos := Vector2(obstacle_start_pos, 0)
+var start_line: Node2D
 var finish_line: Node2D
 var level_ready := false
 
@@ -59,6 +61,11 @@ func generate(rng: RandomNumberGenerator, obstacles_to_generate: int) -> void:
 		if (i % obstacles_per_frame) == 0:
 			emit_signal("progress_changed", float(i + 1) / obstacles_to_generate)
 			yield(get_tree(), "idle_frame")
+	# Create a starting line
+	start_line = StartLine.instance()
+	start_line.obstacle_start_pos = obstacle_start_pos
+	# Add it to the first obstacle so it despawns with it automatically
+	generated_obstacles[0].add_child(start_line)
 	# Finish line is always the final obstacle
 	finish_line = FinishLine.instance()
 	finish_line.position.x = next_obstacle_pos.x
@@ -95,6 +102,7 @@ func generate_obstacle() -> Obstacle:
 		next_obstacle_pos.y = 0
 	obstacle.position.x = next_obstacle_pos.x
 	obstacle.height = next_obstacle_pos.y
+	obstacle.spacing = obstacle_spacing
 	obstacle.generate(game_rng)
 	return obstacle
 

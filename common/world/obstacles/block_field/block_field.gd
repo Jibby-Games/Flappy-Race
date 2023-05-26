@@ -131,13 +131,7 @@ func generate_navigation_polygon() -> NavigationPolygon:
 	if Engine.is_editor_hint():
 		return null
 	var nav_poly := NavigationPolygon.new()
-	nav_poly.add_outline([
-		Vector2(-400, -boundary_height),
-		Vector2(-400, boundary_height),
-		Vector2(length + 200, boundary_height),
-		Vector2(length + 200, -boundary_height),
-	])
-
+	nav_poly.add_outline(get_boundary_poly())
 
 	# Advanced nav poly:
 

@@ -34,12 +34,7 @@ func set_gap(size: float) -> void:
 
 func generate_navigation_polygon() -> NavigationPolygon:
 	var nav_poly := NavigationPolygon.new()
-	nav_poly.add_outline([
-		Vector2(-400, -boundary_height),
-		Vector2(-400, boundary_height),
-		Vector2(length + 200, boundary_height),
-		Vector2(length + 200, -boundary_height),
-	])
+	nav_poly.add_outline(get_boundary_poly())
 	nav_poly.add_outline(get_poly($Wall/UpperCollider))
 	nav_poly.add_outline(get_poly($Wall/LowerCollider))
 	nav_poly.make_polygons_from_outlines()
