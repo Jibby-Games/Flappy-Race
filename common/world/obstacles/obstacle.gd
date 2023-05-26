@@ -56,8 +56,8 @@ func get_square_navigation_polygon(nav_length: int, nav_height: int) -> Navigati
 	nav_poly.add_outline([
 		Vector2(0, -nav_height),
 		Vector2(0, nav_height),
-		Vector2(nav_length-100, nav_height),
-		Vector2(nav_length-100, -nav_height),
+		Vector2(nav_length-200, nav_height),
+		Vector2(nav_length-200, -nav_height),
 	])
 	nav_poly.make_polygons_from_outlines()
 	return nav_poly
@@ -65,8 +65,8 @@ func get_square_navigation_polygon(nav_length: int, nav_height: int) -> Navigati
 
 func get_boundary_poly() -> PoolVector2Array:
 	var poly: PoolVector2Array = [
-		Vector2(-100, -boundary_height),
-		Vector2(-100, boundary_height),
+		Vector2(-200, -boundary_height),
+		Vector2(-200, boundary_height),
 		Vector2(length, boundary_height),
 		Vector2(length, -boundary_height),
 	]

@@ -15,8 +15,8 @@ func get_square_navigation_polygon(nav_length: int, nav_height: int) -> Navigati
 		[
 			Vector2(0, -nav_height),
 			Vector2(0, nav_height),
-			Vector2(nav_length - 100, nav_height),
-			Vector2(nav_length - 100, -nav_height),
+			Vector2(nav_length - 200, nav_height),
+			Vector2(nav_length - 200, -nav_height),
 		]
 	)
 	nav_poly.make_polygons_from_outlines()

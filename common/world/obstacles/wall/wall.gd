@@ -17,6 +17,7 @@ func do_generate(game_rng) -> void:
 	set_gap(gap)
 	if should_spawn_coin:
 		var spawner = CoinSpawner.instance()
+		spawner.position.x = $Wall/UpperCollider.shape.extents.x
 		$Wall.add_child(spawner)
 	# So spawn point lines up with wall gap
 	$"%Checkpoint".position.y = height
