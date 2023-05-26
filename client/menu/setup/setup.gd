@@ -76,6 +76,7 @@ func set_enable_host_options(is_host: bool) -> void:
 func populate_players(new_player_list: Dictionary) -> void:
 	Logger.print(self, "Got player list: %s" % [new_player_list])
 	player_list.clear_players()
+	$GameOptions.set_max_bots(Network.MAX_PLAYERS - multiplayer.get_network_connected_peers().size())
 	for player_id in new_player_list:
 		var colour_choice = new_player_list[player_id]["colour"]
 		var player_name = new_player_list[player_id]["name"]

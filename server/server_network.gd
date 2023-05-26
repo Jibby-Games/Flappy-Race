@@ -358,7 +358,7 @@ remote func receive_bots_change(new_bots: int) -> void:
 		# Reset clients back to server value
 		rpc("receive_bots_change", game_options.bots)
 		return
-	if new_bots < 0 or new_bots > Network.MAX_PLAYERS:
+	if new_bots < 0 or (new_bots + multiplayer.get_network_connected_peers().size()) > Network.MAX_PLAYERS:
 		Logger.print(
 			self, "Player %s tried to set bots to invalid value: %d", [player_id, new_bots]
 		)
