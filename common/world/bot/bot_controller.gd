@@ -14,9 +14,19 @@ var forward_detector_bodies := []
 var flap_lookahead := 96
 var forward_lookahead := 64
 var verbose_bot := false
+var difficulty := 1.0 setget set_difficulty
+
+# Flap cooldown
 var flap_timer := 0.0
 var in_flap_cooldown := false
 var flap_cooldown_seconds := 0.1
+
+# Mistake cooldown
+var enable_mistakes := false
+var mistake_timer := 0.0
+var in_mistake_cooldown := false
+var mistake_cooldown_seconds := 1.0
+var mistake_chance := 0.0
 
 onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
@@ -30,7 +40,12 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	$FlapDetector.position = Vector2(player.velocity.x, -player.FLAP).normalized() * flap_lookahead
 	$ForwardDetector.position = player.velocity.normalized() * forward_lookahead
-	# Add a cooldown so flaps don't get spammed
+	# Add a cooldown so flaps and mistakes don't get spammed
+	if in_mistake_cooldown:
+		mistake_timer += delta
+		if mistake_timer >= mistake_cooldown_seconds:
+			in_mistake_cooldown = false
+			mistake_timer = 0.0
 	if in_flap_cooldown:
 		flap_timer += delta
 		if flap_timer >= flap_cooldown_seconds:
@@ -51,6 +66,11 @@ func update_player_state() -> void:
 
 
 func should_flap() -> bool:
+	if enable_mistakes and not in_mistake_cooldown and randf() < mistake_chance:
+		if verbose_bot: print("made a mistake!")
+		in_mistake_cooldown = true
+		# Randomly flap or don't flap
+		return bool(randi() % 2)
 	if is_near_bottom():
 		if verbose_bot: print("flap due to near bottom")
 		return true
@@ -99,6 +119,22 @@ func draw_debug_point(pos: Vector2, col: Color = Color.white) -> void:
 
 func is_near_bottom() -> bool:
 	return player.position.y >= bottom_edge
+
+
+func set_difficulty(value: float) -> void:
+	if value < 0.0 or value > 1.0:
+		push_error("Difficulty must be between 0.0 and 1.0! Value: %f" % value)
+		return
+	difficulty = value
+	if difficulty == 1.0:
+		# The hardest bots shouldn't make any mistakes!
+		enable_mistakes = false
+		Logger.print(self, "Difficulty set to %f, mistakes disabled", [difficulty])
+		return
+	enable_mistakes = true
+	mistake_chance = 1.0 - difficulty
+	mistake_cooldown_seconds = (10 * difficulty)
+	Logger.print(self, "Difficulty set to %f, mistakes mistake_chance = %f mistake_cooldown = %f", [difficulty, mistake_chance, mistake_cooldown_seconds])
 
 
 func _on_player_death(_player: CommonPlayer) -> void:

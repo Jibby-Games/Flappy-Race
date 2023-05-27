@@ -23,6 +23,8 @@ collision_mask = 2
 shape = SubResource( 1 )
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 16.0
+target_desired_distance = 16.0
 
 [node name="UpRaycast" type="RayCast2D" parent="."]
 position = Vector2( 0, -32 )

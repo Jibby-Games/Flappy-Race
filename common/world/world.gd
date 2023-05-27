@@ -4,6 +4,14 @@ class_name CommonWorld
 
 const STARTING_JUMP := 500
 
+enum Difficulty {
+	VERY_EASY,
+	EASY,
+	MEDIUM,
+	HARD,
+	VERY_HARD,
+}
+
 export(PackedScene) var Player
 
 var game_seed := 0

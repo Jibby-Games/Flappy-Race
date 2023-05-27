@@ -1,5 +1,9 @@
 extends CommonWorld
 
+# The standard deviation for bot difficulty generation
+# Low values seem to give a good spread from testing
+const BOT_DIFFICULTY_DEVIATION := 0.08
+
 export(PackedScene) var BotController = preload("res://common/world/bot/bot_controller.tscn")
 
 var ready_callback: String
@@ -8,7 +12,7 @@ var next_place := 1
 var player_lives := {}
 var players_died := []
 var players_finished := []
-var bot_players := []
+var bot_controllers := []
 
 # Timing
 var time_running := false
@@ -72,15 +76,37 @@ func start_countdown() -> void:
 	yield(get_tree().create_timer(3), "timeout")
 	time_running = true
 	# Normally players don't move on the serverside so bots need to be started
-	for bot in bot_players:
-		bot.start()
+	for bot in bot_controllers:
+		bot.player.start()
 
 
 func reset_players() -> void:
 	if game_options.lives > 0:
 		player_lives.clear()
-	bot_players.clear()
+	bot_controllers.clear()
 	.reset_players()
+	# TODO replace with game_options.difficulty
+	generate_bot_difficulties(Difficulty.VERY_HARD, bot_controllers)
+
+
+# Randomise the difficulty of all bots around a set difficulty value
+# Should use the Difficulty enum
+func generate_bot_difficulties(difficulty: int, bots: Array) -> void:
+	if not difficulty in Difficulty.values():
+		push_error("Difficulty value not in Difficulty enum! Value: %d" % difficulty)
+		return
+	if bots.empty():
+		push_error("Can't generate difficulties for empty bot list!")
+		return
+	Logger.print(self, "Generating bot difficulties...")
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	# Should increase in increments so 0-4 turns into 0.0, 0.25, 0.5, 0.75, 1.0
+	var difficulty_coeff: float = difficulty * 0.25
+	for bot in bots:
+		# Use a normal distribution with a low deviation to get a good spread of bot difficulties
+		var value := rng.randfn(difficulty_coeff, BOT_DIFFICULTY_DEVIATION)
+		bot.set_difficulty(clamp(value, 0.0, 1.0))
 
 
 func spawn_player(player_id: int, spawn_position: Vector2, is_bot: bool) -> Node2D:
@@ -92,7 +118,7 @@ func spawn_player(player_id: int, spawn_position: Vector2, is_bot: bool) -> Node
 		bot_controller.player = player_body
 		bot_controller.target_pos = level_generator.finish_line.position
 		player_body.add_child(bot_controller)
-		bot_players.append(player_body)
+		bot_controllers.append(bot_controller)
 	return player_body
 
 
