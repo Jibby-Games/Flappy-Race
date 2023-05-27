@@ -28,9 +28,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 60.0
 custom_constants/separation = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ScoreToWin" type="HBoxContainer" parent="Panel/VBoxContainer"]
 margin_right = 300.0
@@ -123,8 +120,8 @@ flat = true
 
 [node name="BotsInput" type="SpinBox" parent="Panel/VBoxContainer/Bots"]
 visible = false
-margin_left = 175.0
-margin_right = 260.0
+margin_left = 171.0
+margin_right = 256.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 85, 0 )
 min_value = 1.0
@@ -133,6 +130,30 @@ value = 7.0
 rounded = true
 align = 1
 editable = false
+
+[node name="BotDifficulty" type="HBoxContainer" parent="Panel/VBoxContainer"]
+visible = false
+margin_top = 134.0
+margin_right = 300.0
+margin_bottom = 161.0
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/BotDifficulty"]
+margin_left = 32.0
+margin_top = 1.0
+margin_right = 120.0
+margin_bottom = 25.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
+text = "Difficulty"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Difficulty" type="OptionButton" parent="Panel/VBoxContainer/BotDifficulty"]
+margin_left = 124.0
+margin_right = 268.0
+margin_bottom = 27.0
+rect_min_size = Vector2( 144, 0 )
 
 [node name="DisableGameOptions" type="Panel" parent="Panel"]
 modulate = Color( 1, 1, 1, 0.580392 )
@@ -156,3 +177,4 @@ valign = 1
 [connection signal="value_changed" from="Panel/VBoxContainer/PlayerLives/LivesInput" to="." method="_on_LivesInput_value_changed"]
 [connection signal="toggled" from="Panel/VBoxContainer/Bots/BotsToggle" to="." method="_on_BotsToggle_toggled"]
 [connection signal="value_changed" from="Panel/VBoxContainer/Bots/BotsInput" to="." method="_on_BotsInput_value_changed"]
+[connection signal="item_selected" from="Panel/VBoxContainer/BotDifficulty/Difficulty" to="." method="_on_Difficulty_item_selected"]
