@@ -10,7 +10,7 @@ var emit_changes := false
 
 
 func _ready() -> void:
-	BotsInput.max_value = Network.MAX_PLAYERS
+	BotsInput.max_value = Network.MAX_PLAYERS - 1
 
 
 func set_enable_host_options(is_host: bool) -> void:
@@ -52,6 +52,10 @@ func set_bots(new_bots: int) -> void:
 		BotsToggle.pressed = true
 		BotsInput.value = new_bots
 		BotsInput.show()
+
+
+func set_max_bots(new_max: int) -> void:
+	BotsInput.max_value = new_max
 
 
 func _on_ScoreInput_value_changed(new_goal: float) -> void:

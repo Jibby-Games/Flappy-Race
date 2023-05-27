@@ -15,3 +15,6 @@ unique_name_in_owner = true
 
 [node name="NavPolygon" type="NavigationPolygonInstance" parent="."]
 unique_name_in_owner = true
+
+[node name="SpacingNavPoly" type="NavigationPolygonInstance" parent="."]
+unique_name_in_owner = true
