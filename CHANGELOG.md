@@ -17,10 +17,13 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.8.1] - 2023-05-27
+
 ### Fixed
-- Limit bots to the total amount of player slots
-- Improve nav polygons to improve bot navigation
-- Stop obstacles sometimes unloading when players were nearby
+
+-   Limit bots to the total amount of player slots
+-   Improve nav polygons to improve bot navigation
+-   Stop obstacles sometimes unloading when players were nearby
 
 ## [0.8.0] - 2023-05-21
 
@@ -290,7 +293,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.8.0...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.8.1...HEAD
+
+[0.8.1]: https://github.com/Jibby-Games/Flappy-Race/compare/0.8.0...0.8.1
 
 [0.8.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.7.1...0.8.0
 
