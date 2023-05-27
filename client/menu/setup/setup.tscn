@@ -7,11 +7,11 @@
 [ext_resource path="res://client/ui/title_label.tscn" type="PackedScene" id=5]
 [ext_resource path="res://client/theme/flappy.theme" type="Theme" id=6]
 [ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=7]
-[ext_resource path="res://client/menu/setup/game_options_panel.gd" type="Script" id=8]
 [ext_resource path="res://client/fonts/DelaGothicOne-32.tres" type="DynamicFont" id=9]
 [ext_resource path="res://client/menu/setup/multiplayer/player_list.gd" type="Script" id=10]
 [ext_resource path="res://client/menu/setup/multiplayer/ip_finder.tscn" type="PackedScene" id=11]
 [ext_resource path="res://client/menu/setup/multiplayer/player_entry.tscn" type="PackedScene" id=12]
+[ext_resource path="res://client/menu/setup/game_options.tscn" type="PackedScene" id=13]
 
 [sub_resource type="Animation" id=1]
 length = 0.001
@@ -131,152 +131,7 @@ rect_min_size = Vector2( 177, 80 )
 label = "Back"
 alignment = 1
 
-[node name="GameOptions" type="Control" parent="."]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 20.0
-margin_top = -200.0
-margin_right = 320.0
-margin_bottom = 200.0
-theme = ExtResource( 6 )
-script = ExtResource( 8 )
-
-[node name="Panel" type="Panel" parent="GameOptions"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_clip_content = true
-theme = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="GameOptions/Panel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = 60.0
-custom_constants/separation = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ScoreToWin" type="HBoxContainer" parent="GameOptions/Panel/VBoxContainer"]
-margin_right = 300.0
-margin_bottom = 34.0
-alignment = 1
-
-[node name="Label" type="Label" parent="GameOptions/Panel/VBoxContainer/ScoreToWin"]
-margin_left = 47.0
-margin_top = 5.0
-margin_right = 163.0
-margin_bottom = 29.0
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
-text = "Score to win"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ScoreInput" type="SpinBox" parent="GameOptions/Panel/VBoxContainer/ScoreToWin"]
-margin_left = 167.0
-margin_right = 252.0
-margin_bottom = 34.0
-rect_min_size = Vector2( 85, 0 )
-min_value = 1.0
-max_value = 1000.0
-value = 100.0
-rounded = true
-align = 1
-editable = false
-
-[node name="PlayerLives" type="HBoxContainer" parent="GameOptions/Panel/VBoxContainer"]
-margin_top = 44.0
-margin_right = 300.0
-margin_bottom = 79.0
-alignment = 1
-
-[node name="Label" type="Label" parent="GameOptions/Panel/VBoxContainer/PlayerLives"]
-margin_left = 84.0
-margin_top = 5.0
-margin_right = 137.0
-margin_bottom = 29.0
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
-text = "Lives"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LivesToggle" type="CheckButton" parent="GameOptions/Panel/VBoxContainer/PlayerLives"]
-margin_left = 141.0
-margin_right = 215.0
-margin_bottom = 35.0
-disabled = true
-flat = true
-
-[node name="LivesInput" type="SpinBox" parent="GameOptions/Panel/VBoxContainer/PlayerLives"]
-visible = false
-margin_left = 175.0
-margin_right = 260.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 85, 0 )
-min_value = 1.0
-max_value = 1000.0
-value = 3.0
-rounded = true
-align = 1
-editable = false
-
-[node name="Bots" type="HBoxContainer" parent="GameOptions/Panel/VBoxContainer"]
-margin_top = 89.0
-margin_right = 300.0
-margin_bottom = 124.0
-alignment = 1
-
-[node name="Label" type="Label" parent="GameOptions/Panel/VBoxContainer/Bots"]
-margin_left = 88.0
-margin_top = 5.0
-margin_right = 133.0
-margin_bottom = 29.0
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
-text = "Bots"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="BotsToggle" type="CheckButton" parent="GameOptions/Panel/VBoxContainer/Bots"]
-margin_left = 137.0
-margin_right = 211.0
-margin_bottom = 35.0
-disabled = true
-flat = true
-
-[node name="BotsInput" type="SpinBox" parent="GameOptions/Panel/VBoxContainer/Bots"]
-visible = false
-margin_left = 175.0
-margin_right = 260.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 85, 0 )
-min_value = 1.0
-max_value = 16.0
-value = 7.0
-rounded = true
-align = 1
-editable = false
-
-[node name="DisableGameOptions" type="Panel" parent="GameOptions/Panel"]
-modulate = Color( 1, 1, 1, 0.580392 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_clip_content = true
-theme = ExtResource( 6 )
-
-[node name="Header" type="Label" parent="GameOptions"]
-anchor_right = 1.0
-margin_bottom = 49.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
-custom_fonts/font = ExtResource( 7 )
-text = "Game Options"
-align = 1
-valign = 1
+[node name="GameOptions" parent="." instance=ExtResource( 13 )]
 
 [node name="PlayerList" type="VBoxContainer" parent="."]
 anchor_left = 1.0
@@ -350,9 +205,4 @@ anims/show = SubResource( 2 )
 [connection signal="colour_changed" from="PlayerOptions/Control/ColourSelector" to="." method="_on_ColourSelector_colour_changed"]
 [connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
-[connection signal="value_changed" from="GameOptions/Panel/VBoxContainer/ScoreToWin/ScoreInput" to="GameOptions" method="_on_ScoreInput_value_changed"]
-[connection signal="toggled" from="GameOptions/Panel/VBoxContainer/PlayerLives/LivesToggle" to="GameOptions" method="_on_LivesToggle_toggled"]
-[connection signal="value_changed" from="GameOptions/Panel/VBoxContainer/PlayerLives/LivesInput" to="GameOptions" method="_on_LivesInput_value_changed"]
-[connection signal="toggled" from="GameOptions/Panel/VBoxContainer/Bots/BotsToggle" to="GameOptions" method="_on_BotsToggle_toggled"]
-[connection signal="value_changed" from="GameOptions/Panel/VBoxContainer/Bots/BotsInput" to="GameOptions" method="_on_BotsInput_value_changed"]
 [connection signal="toggled" from="SpectateButton" to="." method="_on_SpectateButton_toggled"]

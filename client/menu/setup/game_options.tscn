@@ -1,0 +1,180 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=1]
+[ext_resource path="res://client/theme/flappy.theme" type="Theme" id=2]
+[ext_resource path="res://client/menu/setup/game_options.gd" type="Script" id=3]
+
+[node name="GameOptions" type="Control"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 20.0
+margin_top = -200.0
+margin_right = 320.0
+margin_bottom = 200.0
+theme = ExtResource( 2 )
+script = ExtResource( 3 )
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_clip_content = true
+theme = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 60.0
+custom_constants/separation = 10
+
+[node name="ScoreToWin" type="HBoxContainer" parent="Panel/VBoxContainer"]
+margin_right = 300.0
+margin_bottom = 34.0
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/ScoreToWin"]
+margin_left = 47.0
+margin_top = 5.0
+margin_right = 163.0
+margin_bottom = 29.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
+text = "Score to win"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreInput" type="SpinBox" parent="Panel/VBoxContainer/ScoreToWin"]
+margin_left = 167.0
+margin_right = 252.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 85, 0 )
+min_value = 1.0
+max_value = 1000.0
+value = 100.0
+rounded = true
+align = 1
+editable = false
+
+[node name="PlayerLives" type="HBoxContainer" parent="Panel/VBoxContainer"]
+margin_top = 44.0
+margin_right = 300.0
+margin_bottom = 79.0
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/PlayerLives"]
+margin_left = 84.0
+margin_top = 5.0
+margin_right = 137.0
+margin_bottom = 29.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
+text = "Lives"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LivesToggle" type="CheckButton" parent="Panel/VBoxContainer/PlayerLives"]
+margin_left = 141.0
+margin_right = 215.0
+margin_bottom = 35.0
+disabled = true
+flat = true
+
+[node name="LivesInput" type="SpinBox" parent="Panel/VBoxContainer/PlayerLives"]
+visible = false
+margin_left = 175.0
+margin_right = 260.0
+margin_bottom = 35.0
+rect_min_size = Vector2( 85, 0 )
+min_value = 1.0
+max_value = 1000.0
+value = 3.0
+rounded = true
+align = 1
+editable = false
+
+[node name="Bots" type="HBoxContainer" parent="Panel/VBoxContainer"]
+margin_top = 89.0
+margin_right = 300.0
+margin_bottom = 124.0
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Bots"]
+margin_left = 88.0
+margin_top = 5.0
+margin_right = 133.0
+margin_bottom = 29.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
+text = "Bots"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BotsToggle" type="CheckButton" parent="Panel/VBoxContainer/Bots"]
+margin_left = 137.0
+margin_right = 211.0
+margin_bottom = 35.0
+disabled = true
+flat = true
+
+[node name="BotsInput" type="SpinBox" parent="Panel/VBoxContainer/Bots"]
+visible = false
+margin_left = 171.0
+margin_right = 256.0
+margin_bottom = 35.0
+rect_min_size = Vector2( 85, 0 )
+min_value = 1.0
+max_value = 16.0
+value = 7.0
+rounded = true
+align = 1
+editable = false
+
+[node name="BotDifficulty" type="HBoxContainer" parent="Panel/VBoxContainer"]
+visible = false
+margin_top = 134.0
+margin_right = 300.0
+margin_bottom = 161.0
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/BotDifficulty"]
+margin_left = 32.0
+margin_top = 1.0
+margin_right = 120.0
+margin_bottom = 25.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
+text = "Difficulty"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Difficulty" type="OptionButton" parent="Panel/VBoxContainer/BotDifficulty"]
+margin_left = 124.0
+margin_right = 268.0
+margin_bottom = 27.0
+rect_min_size = Vector2( 144, 0 )
+
+[node name="DisableGameOptions" type="Panel" parent="Panel"]
+modulate = Color( 1, 1, 1, 0.580392 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_clip_content = true
+theme = ExtResource( 2 )
+
+[node name="Header" type="Label" parent="."]
+anchor_right = 1.0
+margin_bottom = 49.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
+custom_fonts/font = ExtResource( 1 )
+text = "Game Options"
+align = 1
+valign = 1
+
+[connection signal="value_changed" from="Panel/VBoxContainer/ScoreToWin/ScoreInput" to="." method="_on_ScoreInput_value_changed"]
+[connection signal="toggled" from="Panel/VBoxContainer/PlayerLives/LivesToggle" to="." method="_on_LivesToggle_toggled"]
+[connection signal="value_changed" from="Panel/VBoxContainer/PlayerLives/LivesInput" to="." method="_on_LivesInput_value_changed"]
+[connection signal="toggled" from="Panel/VBoxContainer/Bots/BotsToggle" to="." method="_on_BotsToggle_toggled"]
+[connection signal="value_changed" from="Panel/VBoxContainer/Bots/BotsInput" to="." method="_on_BotsInput_value_changed"]
+[connection signal="item_selected" from="Panel/VBoxContainer/BotDifficulty/Difficulty" to="." method="_on_Difficulty_item_selected"]

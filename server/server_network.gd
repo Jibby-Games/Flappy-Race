@@ -8,6 +8,7 @@ const DEFAULT_GAME_OPTIONS := {
 	"goal": 50,
 	"lives": 0,
 	"bots": 0,
+	"difficulty": 2,
 }
 const PLAYER_TIMEOUT_TIME := 20
 const BOT_ID_OFFSET := 1000
@@ -307,68 +308,39 @@ func send_player_spectate_update(player_id: int, is_spectating: bool) -> void:
 	rpc("receive_player_spectate_update", player_id, is_spectating)
 
 
-remote func receive_goal_change(new_goal: int) -> void:
+remote func receive_game_option_change(option: String, value: int) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	if not is_host_id(player_id):
 		Logger.print(
-			self, "Player %s tried to change the goal but they're not the host!" % [player_id]
+			self, "Player %s tried to change %s to %d but they're not the host!" % [player_id, option, value]
 		)
 		# Reset clients back to server value
-		rpc("receive_goal_change", game_options.goal)
+		rpc("receive_game_options", game_options)
 		return
-	if new_goal < 1 or new_goal > 1000:
-		Logger.print(
-			self, "Player %s tried to set goal to invalid value: %d", [player_id, new_goal]
-		)
+	if not is_option_valid(option, value):
+		push_error("Player %s tried to set %s to invalid value: %d" % [player_id, option, value])
 		# Reset clients back to server value
-		rpc("receive_goal_change", game_options.goal)
+		rpc("receive_game_options", game_options)
 		return
-	game_options.goal = new_goal
-	Logger.print(self, "Player %s set the goal to %s " % [player_id, new_goal])
-	rpc("receive_goal_change", new_goal)
+	game_options[option] = value
+	Logger.print(self, "Player %s set %s to %s" % [player_id, option, value])
+	rpc("receive_game_option_change", option, value)
 
 
-remote func receive_lives_change(new_lives: int) -> void:
-	var player_id = multiplayer.get_rpc_sender_id()
-	if not is_host_id(player_id):
-		Logger.print(
-			self, "Player %s tried to change the lives but they're not the host!" % [player_id]
-		)
-		# Reset clients back to server value
-		rpc("receive_lives_change", game_options.lives)
-		return
-	if new_lives < 0 or new_lives > 1000:
-		Logger.print(
-			self, "Player %s tried to set lives to invalid value: %d", [player_id, new_lives]
-		)
-		# Reset clients back to server value
-		rpc("receive_lives_change", game_options.lives)
-		return
-	game_options.lives = new_lives
-	Logger.print(self, "Player %s set the lives to %s " % [player_id, new_lives])
-	rpc("receive_lives_change", new_lives)
-
-
-remote func receive_bots_change(new_bots: int) -> void:
-	var player_id = multiplayer.get_rpc_sender_id()
-	if not is_host_id(player_id):
-		Logger.print(
-			self, "Player %s tried to change the bots but they're not the host!" % [player_id]
-		)
-		# Reset clients back to server value
-		rpc("receive_bots_change", game_options.bots)
-		return
-	if new_bots < 0 or (new_bots + multiplayer.get_network_connected_peers().size()) > Network.MAX_PLAYERS:
-		Logger.print(
-			self, "Player %s tried to set bots to invalid value: %d", [player_id, new_bots]
-		)
-		# Reset clients back to server value
-		rpc("receive_bots_change", game_options.bots)
-		return
-	populate_bots(game_options.bots, new_bots)
-	game_options.bots = new_bots
-	Logger.print(self, "Player %s set the bots to %s " % [player_id, new_bots])
-	rpc("receive_bots_change", new_bots)
+func is_option_valid(option: String, value: int) -> bool:
+	match option:
+		"goal":
+			return value >= 1 or value <= 1000
+		"lives":
+			return value >= 0 or value <= 1000
+		"bots":
+			populate_bots(game_options.bots, value)
+			return value >= 0 or (value + multiplayer.get_network_connected_peers().size()) <= Network.MAX_PLAYERS
+		"difficulty":
+			return value in CommonWorld.Difficulty.values()
+		_:
+			push_error("Unrecognised game option: %s" % option)
+			return false
 
 
 func populate_bots(old_bots: int, new_bots: int) -> void:

@@ -284,49 +284,29 @@ remote func receive_player_spectate_update(player_id: int, is_spectating: bool) 
 		setup.update_player_spectating(player_id, is_spectating)
 
 
-func send_goal_change(goal: int) -> void:
+func send_game_option_change(option: String, value: int) -> void:
 	if is_host():
-		rpc_id(SERVER_ID, "receive_goal_change", goal)
+		rpc_id(SERVER_ID, "receive_game_option_change", option, value)
 
 
-remote func receive_goal_change(goal: int) -> void:
+remote func receive_game_option_change(option: String, value: int) -> void:
 	if is_rpc_from_server() == false:
 		return
-	game_options.goal = goal
+	game_options[option] = value
+	Logger.print(self, "Received game option %s changed to: %d" % [option, value])
 	var options = get_node_or_null("MenuHandler/Setup/GameOptions")
-	Logger.print(self, "Received new goal: %d" % [goal])
 	if options:
-		options.set_goal(goal)
-
-
-func send_lives_change(lives: int) -> void:
-	if is_host():
-		rpc_id(SERVER_ID, "receive_lives_change", lives)
-
-
-remote func receive_lives_change(lives: int) -> void:
-	if is_rpc_from_server() == false:
-		return
-	game_options.lives = lives
-	var options = get_node_or_null("MenuHandler/Setup/GameOptions")
-	Logger.print(self, "Received new lives: %d" % [lives])
-	if options:
-		options.set_lives(lives)
-
-
-func send_bots_change(bots: int) -> void:
-	if is_host():
-		rpc_id(SERVER_ID, "receive_bots_change", bots)
-
-
-remote func receive_bots_change(bots: int) -> void:
-	if is_rpc_from_server() == false:
-		return
-	game_options.bots = bots
-	var options = get_node_or_null("MenuHandler/Setup/GameOptions")
-	Logger.print(self, "Received new bots: %d" % [bots])
-	if options:
-		options.set_bots(bots)
+		match option:
+			"goal":
+				options.set_goal(value)
+			"lives":
+				options.set_lives(value)
+			"bots":
+				options.set_bots(value)
+			"difficulty":
+				options.set_difficulty(value)
+			_:
+				push_error("Unrecognised game option: %s" % option)
 
 
 func send_client_ready() -> void:
