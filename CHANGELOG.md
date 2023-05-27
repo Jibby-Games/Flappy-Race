@@ -17,6 +17,10 @@ Types of changes:
 
 ## [Unreleased]
 
+### Added
+- Bot difficulty!
+  - The bot difficult can now be changed to one of five options: very easy, easy, medium, hard or very hard
+
 ## [0.8.1] - 2023-05-27
 
 ### Fixed
