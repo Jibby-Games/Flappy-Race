@@ -17,9 +17,12 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.9.0] - 2023-05-27
+
 ### Added
-- Bot difficulty!
-  - The bot difficult can now be changed to one of five options: very easy, easy, medium, hard or very hard
+
+-   Bot difficulty!
+    -   The bot difficult can now be changed to one of five options: very easy, easy, medium, hard or very hard
 
 ## [0.8.1] - 2023-05-27
 
@@ -297,7 +300,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.8.1...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.9.0...HEAD
+
+[0.9.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.8.1...0.9.0
 
 [0.8.1]: https://github.com/Jibby-Games/Flappy-Race/compare/0.8.0...0.8.1
 
