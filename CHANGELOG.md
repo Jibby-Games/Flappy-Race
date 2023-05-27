@@ -17,6 +17,11 @@ Types of changes:
 
 ## [Unreleased]
 
+### Fixed
+- Limit bots to the total amount of player slots
+- Improve nav polygons to improve bot navigation
+- Stop obstacles sometimes unloading when players were nearby
+
 ## [0.8.0] - 2023-05-21
 
 ### Added
