@@ -42,7 +42,7 @@ RUN wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}
 
 # Create links to the HTTPS certs which will be mounted when hosting
 RUN mkdir -p ~/.local/share/godot/app_userdata/Flappy\ Race/certs \
-    && ln -s /secrets/live/jibby.localhost/cert.pem ~/.local/share/godot/app_userdata/Flappy\ Race/certs/X509_certificate.crt \
+    && ln -s /secrets/live/jibby.localhost/fullchain.pem ~/.local/share/godot/app_userdata/Flappy\ Race/certs/X509_certificate.crt \
     && ln -s /secrets/live/jibby.localhost/privkey.pem ~/.local/share/godot/app_userdata/Flappy\ Race/certs/X509_key.key
 
 # Copy the exported .pck and run it
