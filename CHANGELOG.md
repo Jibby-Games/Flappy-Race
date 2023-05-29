@@ -17,6 +17,9 @@ Types of changes:
 
 ## [Unreleased]
 
+### Fixed
+- Use the correct SSL certificate for official dedicated servers so non-HTML builds can join again
+
 ## [0.9.0] - 2023-05-27
 
 ### Added
