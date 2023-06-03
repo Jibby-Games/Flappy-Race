@@ -17,6 +17,9 @@ Types of changes:
 
 ## [Unreleased]
 
+### Fixed
+- Actually apply bot difficulty setting to bots and tweak difficulty
+
 ## [0.9.1] - 2023-05-29
 
 ### Fixed
