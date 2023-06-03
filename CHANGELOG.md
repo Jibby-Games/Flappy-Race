@@ -19,6 +19,7 @@ Types of changes:
 
 ### Fixed
 - Actually apply bot difficulty setting to bots and tweak difficulty
+- Stop level generation breaking with 1 obstacle
 
 ## [0.9.1] - 2023-05-29
 

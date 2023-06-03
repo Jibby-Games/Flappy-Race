@@ -61,15 +61,15 @@ func generate(rng: RandomNumberGenerator, obstacles_to_generate: int) -> void:
 		if (i % obstacles_per_frame) == 0:
 			emit_signal("progress_changed", float(i + 1) / obstacles_to_generate)
 			yield(get_tree(), "idle_frame")
+	# Finish line is always the final obstacle
+	finish_line = FinishLine.instance()
+	finish_line.position.x = next_obstacle_pos.x
+	generated_obstacles.append(finish_line)
 	# Create a starting line
 	start_line = StartLine.instance()
 	start_line.obstacle_start_pos = obstacle_start_pos
 	# Add it to the first obstacle so it despawns with it automatically
 	generated_obstacles[0].add_child(start_line)
-	# Finish line is always the final obstacle
-	finish_line = FinishLine.instance()
-	finish_line.position.x = next_obstacle_pos.x
-	generated_obstacles.append(finish_line)
 	var end = OS.get_ticks_usec()
 	var generation_time = (end - start) / 1000
 	Logger.print(self, "Obstacles generated in %dms!" % generation_time)
