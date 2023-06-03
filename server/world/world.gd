@@ -85,8 +85,8 @@ func reset_players() -> void:
 		player_lives.clear()
 	bot_controllers.clear()
 	.reset_players()
-	# TODO replace with game_options.difficulty
-	generate_bot_difficulties(Difficulty.VERY_HARD, bot_controllers)
+	if not bot_controllers.empty():
+		generate_bot_difficulties(game_options.difficulty, bot_controllers)
 
 
 # Randomise the difficulty of all bots around a set difficulty value

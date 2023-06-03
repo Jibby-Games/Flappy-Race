@@ -132,8 +132,8 @@ func set_difficulty(value: float) -> void:
 		Logger.print(self, "Difficulty set to %f, mistakes disabled", [difficulty])
 		return
 	enable_mistakes = true
-	mistake_chance = 1.0 - difficulty
-	mistake_cooldown_seconds = (10 * difficulty)
+	mistake_chance = clamp((1.0 - difficulty), 0.1, 0.9)
+	mistake_cooldown_seconds = 1.0 + (10 * difficulty)
 	Logger.print(self, "Difficulty set to %f, mistakes mistake_chance = %f mistake_cooldown = %f", [difficulty, mistake_chance, mistake_cooldown_seconds])
 
 
