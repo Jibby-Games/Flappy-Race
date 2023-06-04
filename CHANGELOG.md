@@ -17,6 +17,9 @@ Types of changes:
 
 ## [Unreleased]
 
+### Added
+- Coin item
+
 ### Fixed
 - Actually apply bot difficulty setting to bots and tweak difficulty
 - Stop level generation breaking with 1 obstacle

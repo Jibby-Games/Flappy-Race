@@ -1,6 +1,7 @@
 extends Node
 
 export(Array) var items = [
+	preload("res://common/singletons/items/coin/coin.tres"),
 	preload("res://common/singletons/items/gem/gem.tres"),
 	preload("res://common/singletons/items/picoberry/picoberry.tres"),
 	preload("res://common/singletons/items/invisiberry/invisiberry.tres"),

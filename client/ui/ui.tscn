@@ -679,6 +679,19 @@ custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Loading hint..."
 align = 1
 
+[node name="DebugTools" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 28 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DebugTools"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 145.0
+margin_top = 964.0
+margin_right = 660.0
+margin_bottom = 1030.0
+
 [node name="Death" type="Control" parent="."]
 visible = false
 anchor_right = 1.0
@@ -1244,19 +1257,6 @@ margin_top = -32.0
 margin_bottom = -32.0
 
 [node name="InputControls" parent="Ingame" instance=ExtResource( 21 )]
-
-[node name="DebugTools" type="Control" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-script = ExtResource( 28 )
-
-[node name="HBoxContainer" type="HBoxContainer" parent="DebugTools"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = 145.0
-margin_top = 964.0
-margin_right = 660.0
-margin_bottom = 1030.0
 
 [node name="PauseMenu" parent="." instance=ExtResource( 1 )]
 
