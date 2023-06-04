@@ -17,17 +17,22 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.9.2] - 2023-06-04
+
 ### Added
-- Coin item
+
+-   Coin item
 
 ### Changed
-- Update to Godot 3.5.2
+
+-   Update to Godot 3.5.2
 
 ### Fixed
-- Actually apply bot difficulty setting to bots and tweak difficulty
-- Stop level generation breaking with 1 obstacle
-- Stop respawning clearing item effects
-- Picoberries no longer offset the player trail incorrectly
+
+-   Actually apply bot difficulty setting to bots and tweak difficulty
+-   Stop level generation breaking with 1 obstacle
+-   Stop respawning clearing item effects
+-   Picoberries no longer offset the player trail incorrectly
 
 ## [0.9.1] - 2023-05-29
 
@@ -318,7 +323,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.9.1...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.9.2...HEAD
+
+[0.9.2]: https://github.com/Jibby-Games/Flappy-Race/compare/0.9.1...0.9.2
 
 [0.9.1]: https://github.com/Jibby-Games/Flappy-Race/compare/0.9.0...0.9.1
 
