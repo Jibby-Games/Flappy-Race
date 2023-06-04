@@ -21,7 +21,7 @@ on:
 
 env:
   # Remember to also update the container image version below
-  GODOT_VERSION: 3.5.1
+  GODOT_VERSION: 3.5.2
 
 jobs:
   build:
@@ -30,7 +30,7 @@ jobs:
       matrix:
         platform: [linux, windows, mac]
     container:
-      image: barichello/godot-ci:3.5.1
+      image: barichello/godot-ci:3.5.2
     steps:
       - name: Checkout
         uses: actions/checkout@v2

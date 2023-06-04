@@ -20,6 +20,9 @@ Types of changes:
 ### Added
 - Coin item
 
+### Changed
+- Update to Godot 3.5.2
+
 ### Fixed
 - Actually apply bot difficulty setting to bots and tweak difficulty
 - Stop level generation breaking with 1 obstacle
