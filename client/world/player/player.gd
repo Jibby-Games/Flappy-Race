@@ -175,6 +175,6 @@ func set_invisible(value: bool) -> void:
 func set_shrunk(value: bool) -> void:
 	.set_shrunk(value)
 	if value:
-		$Trail.scale = Vector2(0.5, 0.5)
+		$Trail.width = 28
 	else:
-		$Trail.scale = Vector2.ONE
+		$Trail.width = 56
