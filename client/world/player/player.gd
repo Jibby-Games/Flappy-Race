@@ -130,6 +130,15 @@ func despawn() -> void:
 	queue_free()
 
 
+func on_respawn() -> void:
+	.on_respawn()
+	# Re-apply any effects from active items on respawn
+	var is_invis: bool = $InvisibilityTimer.time_left > 0
+	set_invisible(is_invis)
+	var is_shrunk: bool = $ShrinkageTimer.time_left > 0
+	set_shrunk(is_shrunk)
+
+
 func spawn_impact_particles() -> void:
 	var particles: Particles2D = ImpactParticles.instance()
 	particles.set_modulate(body_colour)
