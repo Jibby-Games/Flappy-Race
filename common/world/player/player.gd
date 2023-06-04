@@ -1,6 +1,4 @@
-extends KinematicBody2D
-
-class_name CommonPlayer
+class_name CommonPlayer extends KinematicBody2D
 
 const FLAP = 350
 const MAXFALLSPEED = 800
@@ -36,6 +34,18 @@ func _physics_process(_delta: float) -> void:
 	update_movement()
 	if is_position_out_of_bounds(self.position):
 		death()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	# Debug tools
+	if not ProjectSettings.get_setting("application/config/debug_tools"):
+		return
+	if event is InputEventKey and event.pressed:
+		# Add items with number keys
+		if event.scancode >= KEY_1 and event.scancode <= KEY_9:
+			var item_id: int = event.scancode - KEY_1
+			if item_id < Items.items.size():
+				add_item(Items.get_item(item_id))
 
 
 func update_movement() -> void:
@@ -108,6 +118,10 @@ func despawn() -> void:
 
 func _on_DeathCooldownTimer_timeout() -> void:
 	in_death_cooldown = false
+	on_respawn()
+
+
+func on_respawn() -> void:
 	enable_movement = true
 
 

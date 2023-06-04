@@ -27,6 +27,8 @@ func _ready() -> void:
 	for child in get_children():
 		if child is Control:
 			child.hide()
+	if ProjectSettings.get_setting("application/config/debug_tools"):
+		$DebugTools.show()
 
 
 func set_player_list(player_list: Dictionary) -> void:

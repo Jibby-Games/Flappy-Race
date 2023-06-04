@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://client/ui/pause_menu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/fonts/Score.tres" type="DynamicFont" id=2]
@@ -27,6 +27,7 @@
 [ext_resource path="res://common/singletons/items/picoberry/picoberry.png" type="Texture" id=25]
 [ext_resource path="res://client/ui/items.gd" type="Script" id=26]
 [ext_resource path="res://client/ui/coins.gd" type="Script" id=27]
+[ext_resource path="res://client/ui/debug_tools.gd" type="Script" id=28]
 
 [sub_resource type="Animation" id=7]
 length = 0.001
@@ -1243,6 +1244,19 @@ margin_top = -32.0
 margin_bottom = -32.0
 
 [node name="InputControls" parent="Ingame" instance=ExtResource( 21 )]
+
+[node name="DebugTools" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 28 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DebugTools"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 145.0
+margin_top = 964.0
+margin_right = 660.0
+margin_bottom = 1030.0
 
 [node name="PauseMenu" parent="." instance=ExtResource( 1 )]
 
