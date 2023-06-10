@@ -11,5 +11,7 @@ func _on_Coin_body_entered(body: Node) -> void:
 
 
 func _on_RespawnTimer_timeout() -> void:
+	# Reset position in case it's been moved by a magnet
+	$Coin.position = Vector2.ZERO
 	$Coin.set_deferred("monitoring", true)
 	$Coin.show()
