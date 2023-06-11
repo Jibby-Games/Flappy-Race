@@ -113,10 +113,10 @@ func death() -> void:
 
 
 func on_death() -> void:
+	spawn_impact_particles()
 	.on_death()
 	$DeathSound.play()
 	$AnimationPlayer.play("death_cooldown")
-	spawn_impact_particles()
 
 
 func despawn() -> void:
@@ -135,6 +135,9 @@ func spawn_impact_particles() -> void:
 	var particles: Particles2D = ImpactParticles.instance()
 	particles.set_modulate(body_colour)
 	particles.set_emitting(true)
+	# Stops particles moving with the player after death
+	particles.set_as_toplevel(true)
+	particles.set_global_position(self.global_position)
 	add_child(particles)
 
 

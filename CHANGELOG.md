@@ -22,6 +22,9 @@ Types of changes:
   - Magnet - Attracts coins and item boxes
   - Laser - Kills any players caught in the beam
 
+### Fixed
+- Stopped particles spawning in the wrong place on death
+
 ## [0.9.2] - 2023-06-04
 
 ### Added
