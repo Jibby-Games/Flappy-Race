@@ -88,6 +88,7 @@ func set_body_colour(value: int) -> void:
 	$Sprites/EyesOutline.modulate = body_colour
 	$Sprites/BeakOutline.modulate = body_colour
 	$Trail.modulate = body_colour
+	$Magnet.modulate = body_colour
 
 
 func set_player_name(value: String) -> void:

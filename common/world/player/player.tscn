@@ -12,6 +12,9 @@ radius = 24.0
 [node name="Player" type="KinematicBody2D" groups=["players"]]
 collision_mask = 2
 script = ExtResource( 8 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )

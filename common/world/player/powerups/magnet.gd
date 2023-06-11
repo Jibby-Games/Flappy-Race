@@ -6,10 +6,12 @@ var captured_items := {}
 
 
 func _ready() -> void:
+	self.hide()
 	$Area2D.monitoring = false
 
 
 func _activate() -> void:
+	self.show()
 	$Area2D.monitoring = true
 	# Add all areas that already overlap
 	for area in $Area2D.get_overlapping_areas():
@@ -17,6 +19,7 @@ func _activate() -> void:
 
 
 func _deactivate() -> void:
+	self.hide()
 	$Area2D.monitoring = false
 	captured_items.clear()
 
