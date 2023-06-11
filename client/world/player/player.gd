@@ -131,15 +131,6 @@ func despawn() -> void:
 	queue_free()
 
 
-func on_respawn() -> void:
-	.on_respawn()
-	# Re-apply any effects from active items on respawn
-	var is_invis: bool = $InvisibilityTimer.time_left > 0
-	set_invisible(is_invis)
-	var is_shrunk: bool = $ShrinkageTimer.time_left > 0
-	set_shrunk(is_shrunk)
-
-
 func spawn_impact_particles() -> void:
 	var particles: Particles2D = ImpactParticles.instance()
 	particles.set_modulate(body_colour)
@@ -161,21 +152,3 @@ func add_coin(amount: int = 1) -> void:
 func add_item(item: Item) -> void:
 	.add_item(item)
 	$Item.play()
-
-
-func set_invisible(value: bool) -> void:
-	.set_invisible(value)
-	if value:
-		$Sprites.modulate.a = 0.333
-		$Trail.modulate.a = 0.333
-	else:
-		$Sprites.modulate.a = 1.0
-		$Trail.modulate.a = 1.0
-
-
-func set_shrunk(value: bool) -> void:
-	.set_shrunk(value)
-	if value:
-		$Trail.width = 28
-	else:
-		$Trail.width = 56

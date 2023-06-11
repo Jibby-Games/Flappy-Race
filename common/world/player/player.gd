@@ -9,7 +9,6 @@ const COIN_BOOST := 20
 const COINS_LOST_ON_DEATH := 3
 const MAX_ITEMS := 1
 const ITEM_USE_DELAY := 1.8
-const WALL_COLLISION_LAYER := 1
 
 signal death(player)
 signal score_changed(player)
@@ -171,33 +170,3 @@ func finish() -> void:
 func knockback() -> void:
 	Logger.print(self, "Knocking player %s back to %s" % [name, checkpoint_position])
 	set_global_position(checkpoint_position)
-
-
-func start_invisibility(duration: int) -> void:
-	$InvisibilityTimer.start(duration)
-	set_invisible(true)
-
-
-func _on_InvisibilityTimer_timeout() -> void:
-	set_invisible(false)
-
-
-func set_invisible(value: bool) -> void:
-	self.set_collision_mask_bit(WALL_COLLISION_LAYER, not value)
-	$Detect.set_collision_mask_bit(WALL_COLLISION_LAYER, not value)
-
-
-func start_shrinkage(duration: int) -> void:
-	$ShrinkageTimer.start(duration)
-	set_shrunk(true)
-
-
-func _on_ShrinkageTimer_timeout() -> void:
-	set_shrunk(false)
-
-
-func set_shrunk(value: bool) -> void:
-	if value:
-		self.scale = Vector2(0.5, 0.5)
-	else:
-		self.scale = Vector2.ONE
