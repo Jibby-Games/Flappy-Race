@@ -89,6 +89,8 @@ func set_body_colour(value: int) -> void:
 	$VisibleBody/Sprites/BeakOutline.modulate = body_colour
 	$VisibleBody/Trail.modulate = body_colour
 	$Magnet.modulate = body_colour
+	$Laser/BeamEffect.material.set_shader_param("outline_color", body_colour)
+	$Laser/Light2D.color = body_colour
 
 
 func set_player_name(value: String) -> void:

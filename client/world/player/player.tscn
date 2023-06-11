@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://client/world/player/flappo.png" type="Texture" id=1]
 [ext_resource path="res://client/world/player/white_square_64px.png" type="Texture" id=2]
@@ -28,6 +28,7 @@
 [ext_resource path="res://client/shaders/laser_beam.gdshader" type="Shader" id=26]
 [ext_resource path="res://client/audio/laser.ogg" type="AudioStream" id=27]
 [ext_resource path="res://client/world/player/powerups/laser.gd" type="Script" id=28]
+[ext_resource path="res://client/world/player/powerups/laser_light.png" type="Texture" id=29]
 
 [sub_resource type="Curve" id=8]
 _data = [ Vector2( 0, 0.256757 ), 0.0, 0.743243, 0, 1, Vector2( 1, 1 ), 0.743243, 0.0, 1, 0 ]
@@ -561,7 +562,6 @@ script = ExtResource( 13 )
 script = ExtResource( 25 )
 
 [node name="Laser" parent="." index="19"]
-visible = false
 show_behind_parent = true
 script = ExtResource( 28 )
 
@@ -576,3 +576,7 @@ stream = ExtResource( 27 )
 volume_db = 15.0
 attenuation = 2.0
 bus = "Player"
+
+[node name="Light2D" type="Light2D" parent="Laser" index="4"]
+position = Vector2( 1000, 0 )
+texture = ExtResource( 29 )
