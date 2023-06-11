@@ -10,7 +10,7 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	var current_position: Vector2 = get_parent().position
+	var current_position: Vector2 = get_parent().global_position
 	# Stops the trail streaking across the screen if it teleports
 	if last_position.distance_squared_to(current_position) > clear_distance:
 		clear_points()

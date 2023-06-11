@@ -29,7 +29,7 @@ func _physics_process(_delta: float) -> void:
 					do_flap()
 					flap_queue.erase(flap_time)
 	# Make the sprite face the direction it's going
-	$Sprites.rotation = velocity.angle()
+	$VisibleBody/Sprites.rotation = velocity.angle()
 
 
 func _input(event: InputEvent) -> void:
@@ -82,12 +82,12 @@ func disable_control() -> void:
 
 func set_body_colour(value: int) -> void:
 	body_colour = Globals.COLOUR_OPTIONS[value]
-	$Sprites/Body.modulate = body_colour
-	$Sprites/BodyOutline.modulate = body_colour
-	$Sprites/Wing.modulate = body_colour
-	$Sprites/EyesOutline.modulate = body_colour
-	$Sprites/BeakOutline.modulate = body_colour
-	$Trail.modulate = body_colour
+	$VisibleBody/Sprites/Body.modulate = body_colour
+	$VisibleBody/Sprites/BodyOutline.modulate = body_colour
+	$VisibleBody/Sprites/Wing.modulate = body_colour
+	$VisibleBody/Sprites/EyesOutline.modulate = body_colour
+	$VisibleBody/Sprites/BeakOutline.modulate = body_colour
+	$VisibleBody/Trail.modulate = body_colour
 	$Magnet.modulate = body_colour
 
 
@@ -121,8 +121,8 @@ func on_death() -> void:
 
 func despawn() -> void:
 	$DeathSound.play()
-	$Sprites.hide()
-	$Trail.hide()
+	$VisibleBody/Sprites.hide()
+	$VisibleBody/Trail.hide()
 	$DespawnSprite.show()
 	$DespawnSprite.playing = true
 	spawn_impact_particles()
