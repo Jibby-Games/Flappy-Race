@@ -17,6 +17,10 @@ Types of changes:
 
 ## [Unreleased]
 
+### Added
+- New items:
+  - Magnet - Attracts coins and item boxes
+
 ## [0.9.2] - 2023-06-04
 
 ### Added
