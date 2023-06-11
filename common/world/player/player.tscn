@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://common/world/player/powerups/magnet.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/world/player/powerups/picoberry.tscn" type="PackedScene" id=2]
 [ext_resource path="res://common/world/player/powerups/invisiberry.tscn" type="PackedScene" id=3]
+[ext_resource path="res://common/world/player/powerups/laser.tscn" type="PackedScene" id=4]
 [ext_resource path="res://common/world/player/player.gd" type="Script" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
@@ -35,6 +36,8 @@ shape = SubResource( 2 )
 [node name="Picoberry" parent="." instance=ExtResource( 2 )]
 
 [node name="Invisiberry" parent="." instance=ExtResource( 3 )]
+
+[node name="Laser" parent="." instance=ExtResource( 4 )]
 
 [connection signal="area_entered" from="Detect" to="." method="_on_Detect_area_entered"]
 [connection signal="body_entered" from="Detect" to="." method="_on_Detect_body_entered"]

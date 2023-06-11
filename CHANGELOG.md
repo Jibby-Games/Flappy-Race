@@ -20,6 +20,7 @@ Types of changes:
 ### Added
 - New items:
   - Magnet - Attracts coins and item boxes
+  - Laser - Kills any players caught in the beam
 
 ## [0.9.2] - 2023-06-04
 
