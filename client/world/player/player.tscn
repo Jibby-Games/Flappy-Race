@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://client/world/player/flappo.png" type="Texture" id=1]
 [ext_resource path="res://client/world/player/white_square_64px.png" type="Texture" id=2]
@@ -25,10 +25,9 @@
 [ext_resource path="res://client/world/player/trail.gd" type="Script" id=23]
 [ext_resource path="res://client/effects/flap_particles.tscn" type="PackedScene" id=24]
 [ext_resource path="res://client/world/player/powerups/invisiberry.gd" type="Script" id=25]
-[ext_resource path="res://client/shaders/laser_beam.gdshader" type="Shader" id=26]
 [ext_resource path="res://client/audio/laser.ogg" type="AudioStream" id=27]
-[ext_resource path="res://client/world/player/powerups/laser.gd" type="Script" id=28]
-[ext_resource path="res://client/world/player/powerups/laser_light.png" type="Texture" id=29]
+[ext_resource path="res://client/world/player/powerups/laser/laser.gd" type="Script" id=28]
+[ext_resource path="res://client/world/player/powerups/laser/laser_beam2d.tscn" type="PackedScene" id=30]
 
 [sub_resource type="Curve" id=8]
 _data = [ Vector2( 0, 0.256757 ), 0.0, 0.743243, 0, 1, Vector2( 1, 1 ), 0.743243, 0.0, 1, 0 ]
@@ -371,25 +370,6 @@ shader_param/waveAmplitude = 0.1
 shader_param/waveFrequency = 4.0
 shader_param/blendingAmount = 0.6
 
-[sub_resource type="ShaderMaterial" id=17]
-shader = ExtResource( 26 )
-shader_param/beams = 3
-shader_param/energy = 3.0
-shader_param/roughness = 3
-shader_param/frequency = 10
-shader_param/speed = 1.0
-shader_param/thickness = 0.015
-shader_param/outline_thickness = 0.076
-shader_param/beam_difference = 0.0
-shader_param/glow = 0.0
-shader_param/outline_glow = 0.0
-shader_param/color = Color( 0.91, 1, 1, 1 )
-shader_param/outline_color = Color( 0.839216, 0.141176, 0.0666667, 1 )
-shader_param/progress = 1.0
-shader_param/y_offset = 0.0
-shader_param/fixed_edge_size = 0.05
-shader_param/noise_scale = Vector2( 1, 1 )
-
 [node name="Player" instance=ExtResource( 9 )]
 script = ExtResource( 8 )
 ImpactParticles = ExtResource( 22 )
@@ -562,21 +542,15 @@ script = ExtResource( 13 )
 script = ExtResource( 25 )
 
 [node name="Laser" parent="." index="19"]
+visible = false
 show_behind_parent = true
 script = ExtResource( 28 )
 
-[node name="BeamEffect" type="ColorRect" parent="Laser" index="2"]
-material = SubResource( 17 )
-margin_top = -64.0
-margin_right = 2000.0
-margin_bottom = 64.0
+[node name="LaserBeam2D" parent="Laser" index="0" instance=ExtResource( 30 )]
+position = Vector2( 32, 0 )
 
 [node name="Sound" type="AudioStreamPlayer2D" parent="Laser" index="3"]
 stream = ExtResource( 27 )
 volume_db = 15.0
 attenuation = 2.0
 bus = "Player"
-
-[node name="Light2D" type="Light2D" parent="Laser" index="4"]
-position = Vector2( 1000, 0 )
-texture = ExtResource( 29 )
