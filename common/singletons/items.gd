@@ -7,6 +7,7 @@ export(Array) var items = [
 	preload("res://common/singletons/items/invisiberry/invisiberry.tres"),
 	preload("res://common/singletons/items/magnet/magnet.tres"),
 	preload("res://common/singletons/items/laser/laser.tres"),
+	preload("res://common/singletons/items/boost/boost.tres"),
 ]
 
 

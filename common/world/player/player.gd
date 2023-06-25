@@ -9,6 +9,7 @@ const COIN_BOOST := 20
 const COINS_LOST_ON_DEATH := 3
 const MAX_ITEMS := 1
 const ITEM_USE_DELAY := 1.8
+const WALL_COLLISION_LAYER := 1
 
 signal death(player)
 signal score_changed(player)
@@ -25,6 +26,7 @@ var is_bot := false
 
 # Movement vars
 var velocity: Vector2 = Vector2()
+var acceleration: Vector2 = Vector2()
 var enable_movement: bool = true
 var has_gravity: bool = true
 
@@ -62,6 +64,7 @@ func calculate_next_velocity(current_velocity: Vector2) -> Vector2:
 			next_velocity.y = MAXFALLSPEED
 
 	next_velocity.x = BASE_SPEED + (coins * COIN_BOOST)
+	next_velocity += acceleration
 	return next_velocity
 
 
@@ -89,6 +92,11 @@ func start() -> void:
 func do_flap() -> void:
 	if enable_movement:
 		velocity.y = -FLAP
+
+
+func set_enable_wall_collisions(value: bool) -> void:
+	set_collision_mask_bit(WALL_COLLISION_LAYER, value)
+	$Detect.set_collision_mask_bit(WALL_COLLISION_LAYER, value)
 
 
 func death() -> void:

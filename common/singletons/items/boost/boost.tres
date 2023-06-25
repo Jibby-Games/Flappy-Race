@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://common/singletons/items/item.gd" type="Script" id=1]
+[ext_resource path="res://common/singletons/items/boost/boost.png" type="Texture" id=2]
+
+[resource]
+script = ExtResource( 1 )
+name = "Boost"
+icon = ExtResource( 2 )
+duration = 3
