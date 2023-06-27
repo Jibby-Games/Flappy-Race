@@ -26,6 +26,7 @@ var is_bot := false
 
 # Movement vars
 var velocity: Vector2 = Vector2()
+var acceleration: Vector2 = Vector2()
 var enable_movement: bool = true
 var has_gravity: bool = true
 
@@ -63,6 +64,7 @@ func calculate_next_velocity(current_velocity: Vector2) -> Vector2:
 			next_velocity.y = MAXFALLSPEED
 
 	next_velocity.x = BASE_SPEED + (coins * COIN_BOOST)
+	next_velocity += acceleration
 	return next_velocity
 
 
@@ -90,6 +92,11 @@ func start() -> void:
 func do_flap() -> void:
 	if enable_movement:
 		velocity.y = -FLAP
+
+
+func set_enable_wall_collisions(value: bool) -> void:
+	set_collision_mask_bit(WALL_COLLISION_LAYER, value)
+	$Detect.set_collision_mask_bit(WALL_COLLISION_LAYER, value)
 
 
 func death() -> void:
@@ -171,33 +178,3 @@ func finish() -> void:
 func knockback() -> void:
 	Logger.print(self, "Knocking player %s back to %s" % [name, checkpoint_position])
 	set_global_position(checkpoint_position)
-
-
-func start_invisibility(duration: int) -> void:
-	$InvisibilityTimer.start(duration)
-	set_invisible(true)
-
-
-func _on_InvisibilityTimer_timeout() -> void:
-	set_invisible(false)
-
-
-func set_invisible(value: bool) -> void:
-	self.set_collision_mask_bit(WALL_COLLISION_LAYER, not value)
-	$Detect.set_collision_mask_bit(WALL_COLLISION_LAYER, not value)
-
-
-func start_shrinkage(duration: int) -> void:
-	$ShrinkageTimer.start(duration)
-	set_shrunk(true)
-
-
-func _on_ShrinkageTimer_timeout() -> void:
-	set_shrunk(false)
-
-
-func set_shrunk(value: bool) -> void:
-	if value:
-		self.scale = Vector2(0.5, 0.5)
-	else:
-		self.scale = Vector2.ONE

@@ -29,7 +29,7 @@ func _physics_process(_delta: float) -> void:
 					do_flap()
 					flap_queue.erase(flap_time)
 	# Make the sprite face the direction it's going
-	$Sprites.rotation = velocity.angle()
+	$VisibleBody/Sprites.rotation = velocity.angle()
 
 
 func _input(event: InputEvent) -> void:
@@ -82,12 +82,15 @@ func disable_control() -> void:
 
 func set_body_colour(value: int) -> void:
 	body_colour = Globals.COLOUR_OPTIONS[value]
-	$Sprites/Body.modulate = body_colour
-	$Sprites/BodyOutline.modulate = body_colour
-	$Sprites/Wing.modulate = body_colour
-	$Sprites/EyesOutline.modulate = body_colour
-	$Sprites/BeakOutline.modulate = body_colour
-	$Trail.modulate = body_colour
+	$VisibleBody/Sprites/Body.modulate = body_colour
+	$VisibleBody/Sprites/BodyOutline.modulate = body_colour
+	$VisibleBody/Sprites/Wing.modulate = body_colour
+	$VisibleBody/Sprites/EyesOutline.modulate = body_colour
+	$VisibleBody/Sprites/BeakOutline.modulate = body_colour
+	$VisibleBody/Trail.modulate = body_colour
+	$Magnet.modulate = body_colour
+	$Laser/LaserBeam2D.modulate = body_colour
+	$Boost/Colours.modulate = body_colour
 
 
 func set_player_name(value: String) -> void:
@@ -112,16 +115,16 @@ func death() -> void:
 
 
 func on_death() -> void:
+	spawn_impact_particles()
 	.on_death()
 	$DeathSound.play()
 	$AnimationPlayer.play("death_cooldown")
-	spawn_impact_particles()
 
 
 func despawn() -> void:
 	$DeathSound.play()
-	$Sprites.hide()
-	$Trail.hide()
+	$VisibleBody/Sprites.hide()
+	$VisibleBody/Trail.hide()
 	$DespawnSprite.show()
 	$DespawnSprite.playing = true
 	spawn_impact_particles()
@@ -130,19 +133,13 @@ func despawn() -> void:
 	queue_free()
 
 
-func on_respawn() -> void:
-	.on_respawn()
-	# Re-apply any effects from active items on respawn
-	var is_invis: bool = $InvisibilityTimer.time_left > 0
-	set_invisible(is_invis)
-	var is_shrunk: bool = $ShrinkageTimer.time_left > 0
-	set_shrunk(is_shrunk)
-
-
 func spawn_impact_particles() -> void:
 	var particles: Particles2D = ImpactParticles.instance()
 	particles.set_modulate(body_colour)
 	particles.set_emitting(true)
+	# Stops particles moving with the player after death
+	particles.set_as_toplevel(true)
+	particles.set_global_position(self.global_position)
 	add_child(particles)
 
 
@@ -160,21 +157,3 @@ func add_coin(amount: int = 1) -> void:
 func add_item(item: Item) -> void:
 	.add_item(item)
 	$Item.play()
-
-
-func set_invisible(value: bool) -> void:
-	.set_invisible(value)
-	if value:
-		$Sprites.modulate.a = 0.333
-		$Trail.modulate.a = 0.333
-	else:
-		$Sprites.modulate.a = 1.0
-		$Trail.modulate.a = 1.0
-
-
-func set_shrunk(value: bool) -> void:
-	.set_shrunk(value)
-	if value:
-		$Trail.width = 28
-	else:
-		$Trail.width = 56

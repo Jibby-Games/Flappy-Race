@@ -1,7 +1,7 @@
 [gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://common/singletons/items/picoberry/picoberry.png" type="Texture" id=1]
-[ext_resource path="res://common/singletons/items/picoberry/picoberry.gd" type="Script" id=2]
+[ext_resource path="res://common/singletons/items/item.gd" type="Script" id=2]
 
 [resource]
 script = ExtResource( 2 )

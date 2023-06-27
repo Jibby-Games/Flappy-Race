@@ -59,6 +59,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://common/world/obstacles/obstacle.gd"
 }, {
+"base": "Node2D",
+"class": "Powerup",
+"language": "GDScript",
+"path": "res://common/world/player/powerups/powerup.gd"
+}, {
 "base": "Node",
 "class": "SceneHandler",
 "language": "GDScript",
@@ -85,6 +90,7 @@ _global_script_class_icons={
 "Logger": "",
 "MenuControl": "",
 "Obstacle": "",
+"Powerup": "",
 "SceneHandler": "",
 "ServerNetwork": "",
 "UpnpHandler": ""
@@ -166,7 +172,3 @@ locale_filter=[ 0, [  ] ]
 [network]
 
 limits/debugger_stdout/max_chars_per_second=4096
-
-[rendering]
-
-environment/default_clear_color=Color( 0.137255, 0.192157, 0.219608, 1 )

@@ -1,6 +1,7 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://client/world/player/flappo.png" type="Texture" id=1]
+[ext_resource path="res://client/world/player/white_square_64px.png" type="Texture" id=2]
 [ext_resource path="res://client/world/player/unf.ogg" type="AudioStream" id=3]
 [ext_resource path="res://client/world/player/uuh.ogg" type="AudioStream" id=4]
 [ext_resource path="res://client/audio/death.ogg" type="AudioStream" id=5]
@@ -8,6 +9,10 @@
 [ext_resource path="res://client/world/player/huah.ogg" type="AudioStream" id=7]
 [ext_resource path="res://client/world/player/player.gd" type="Script" id=8]
 [ext_resource path="res://common/world/player/player.tscn" type="PackedScene" id=9]
+[ext_resource path="res://client/shaders/ripple_ring.gdshader" type="Shader" id=10]
+[ext_resource path="res://client/audio/magnet.ogg" type="AudioStream" id=11]
+[ext_resource path="res://client/world/player/powerups/magnet.gd" type="Script" id=12]
+[ext_resource path="res://client/world/player/powerups/picoberry.gd" type="Script" id=13]
 [ext_resource path="res://client/theme/flappy.theme" type="Theme" id=14]
 [ext_resource path="res://client/audio/coin.ogg" type="AudioStream" id=15]
 [ext_resource path="res://client/audio/coin_lost.ogg" type="AudioStream" id=16]
@@ -19,6 +24,15 @@
 [ext_resource path="res://client/effects/impact_particles.tscn" type="PackedScene" id=22]
 [ext_resource path="res://client/world/player/trail.gd" type="Script" id=23]
 [ext_resource path="res://client/effects/flap_particles.tscn" type="PackedScene" id=24]
+[ext_resource path="res://client/world/player/powerups/invisiberry.gd" type="Script" id=25]
+[ext_resource path="res://client/audio/thruster.ogg" type="AudioStream" id=26]
+[ext_resource path="res://client/audio/laser.ogg" type="AudioStream" id=27]
+[ext_resource path="res://client/world/player/powerups/laser/laser.gd" type="Script" id=28]
+[ext_resource path="res://client/world/player/powerups/boost.gd" type="Script" id=29]
+[ext_resource path="res://client/world/player/powerups/laser/laser_beam2d.tscn" type="PackedScene" id=30]
+[ext_resource path="res://client/audio/thruster_ignition.ogg" type="AudioStream" id=31]
+[ext_resource path="res://client/world/player/powerups/rocket_colours.png" type="Texture" id=32]
+[ext_resource path="res://client/world/player/powerups/rocket_outline.png" type="Texture" id=33]
 
 [sub_resource type="Curve" id=8]
 _data = [ Vector2( 0, 0.256757 ), 0.0, 0.743243, 0, 1, Vector2( 1, 1 ), 0.743243, 0.0, 1, 0 ]
@@ -38,7 +52,7 @@ animations = [ {
 [sub_resource type="Animation" id=3]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprites:visible")
+tracks/0/path = NodePath("VisibleBody/Sprites:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -50,7 +64,7 @@ tracks/0/keys = {
 "values": [ true ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprites:modulate")
+tracks/1/path = NodePath("VisibleBody/Sprites:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -62,7 +76,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Sprites:scale")
+tracks/2/path = NodePath("VisibleBody/Sprites:scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -74,7 +88,7 @@ tracks/2/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Sprites/Wing:frame")
+tracks/3/path = NodePath("VisibleBody/Sprites/Wing:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -86,7 +100,7 @@ tracks/3/keys = {
 "values": [ 4 ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Sprites/Beak:frame")
+tracks/4/path = NodePath("VisibleBody/Sprites/Beak:frame")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -98,7 +112,7 @@ tracks/4/keys = {
 "values": [ 10 ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Sprites/BeakOutline:frame")
+tracks/5/path = NodePath("VisibleBody/Sprites/BeakOutline:frame")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -110,7 +124,7 @@ tracks/5/keys = {
 "values": [ 12 ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Sprites/Eyes:frame")
+tracks/6/path = NodePath("VisibleBody/Sprites/Eyes:frame")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -122,7 +136,7 @@ tracks/6/keys = {
 "values": [ 6 ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Sprites/EyesOutline:frame")
+tracks/7/path = NodePath("VisibleBody/Sprites/EyesOutline:frame")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -138,7 +152,7 @@ tracks/7/keys = {
 resource_name = "death_cooldown"
 step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprites:modulate")
+tracks/0/path = NodePath("VisibleBody/Sprites:modulate")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -150,7 +164,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.12549 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.12549 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.12549 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.12549 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.12549 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprites:scale")
+tracks/1/path = NodePath("VisibleBody/Sprites:scale")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -162,7 +176,7 @@ tracks/1/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.8, 1.2 ), Vector2( 1, 1 ), Vector2( 1.2, 0.8 ), Vector2( 1, 1 ), Vector2( 0.8, 1.2 ), Vector2( 1, 1 ), Vector2( 1.2, 0.8 ), Vector2( 1, 1 ), Vector2( 0.8, 1.2 ), Vector2( 1, 1 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Sprites/Wing:frame")
+tracks/2/path = NodePath("VisibleBody/Sprites/Wing:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -174,7 +188,7 @@ tracks/2/keys = {
 "values": [ 4, 5, 4, 5 ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Sprites/Beak:frame")
+tracks/3/path = NodePath("VisibleBody/Sprites/Beak:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -186,7 +200,7 @@ tracks/3/keys = {
 "values": [ 10, 11, 10 ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Sprites/BeakOutline:frame")
+tracks/4/path = NodePath("VisibleBody/Sprites/BeakOutline:frame")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -198,7 +212,7 @@ tracks/4/keys = {
 "values": [ 12, 13, 12 ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Sprites/EyesOutline:frame")
+tracks/5/path = NodePath("VisibleBody/Sprites/EyesOutline:frame")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -210,7 +224,7 @@ tracks/5/keys = {
 "values": [ 8, 9, 8 ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Sprites/Eyes:frame")
+tracks/6/path = NodePath("VisibleBody/Sprites/Eyes:frame")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -227,7 +241,7 @@ resource_name = "flap"
 length = 0.3
 step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprites:scale")
+tracks/0/path = NodePath("VisibleBody/Sprites:scale")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -239,7 +253,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.15, 0.85 ), Vector2( 0.85, 1.15 ), Vector2( 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprites/Wing:frame")
+tracks/1/path = NodePath("VisibleBody/Sprites/Wing:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -251,7 +265,7 @@ tracks/1/keys = {
 "values": [ 4, 5, 4 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Sprites/Beak:frame")
+tracks/2/path = NodePath("VisibleBody/Sprites/Beak:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -263,7 +277,7 @@ tracks/2/keys = {
 "values": [ 10, 11, 10 ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Sprites/BeakOutline:frame")
+tracks/3/path = NodePath("VisibleBody/Sprites/BeakOutline:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -275,7 +289,7 @@ tracks/3/keys = {
 "values": [ 12, 13, 12 ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Sprites/Eyes:frame")
+tracks/4/path = NodePath("VisibleBody/Sprites/Eyes:frame")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -287,7 +301,7 @@ tracks/4/keys = {
 "values": [ 6, 7, 6 ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Sprites/EyesOutline:frame")
+tracks/5/path = NodePath("VisibleBody/Sprites/EyesOutline:frame")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -304,7 +318,7 @@ resource_name = "idle"
 length = 1.2
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprites:scale")
+tracks/0/path = NodePath("VisibleBody/Sprites:scale")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -316,7 +330,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1.05, 0.95 ), Vector2( 0.95, 1.05 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprites/Wing:frame")
+tracks/1/path = NodePath("VisibleBody/Sprites/Wing:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -328,7 +342,7 @@ tracks/1/keys = {
 "values": [ 4, 5, 4 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Sprites/Eyes:frame")
+tracks/2/path = NodePath("VisibleBody/Sprites/Eyes:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -340,7 +354,7 @@ tracks/2/keys = {
 "values": [ 6, 7, 6 ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Sprites/EyesOutline:frame")
+tracks/3/path = NodePath("VisibleBody/Sprites/EyesOutline:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -352,31 +366,68 @@ tracks/3/keys = {
 "values": [ 8, 9, 8 ]
 }
 
+[sub_resource type="ShaderMaterial" id=15]
+shader = ExtResource( 10 )
+shader_param/amplitude = 2.0
+shader_param/frequency = -15.0
+shader_param/rippleRate = 10.0
+shader_param/waveAmplitude = 0.1
+shader_param/waveFrequency = 4.0
+shader_param/blendingAmount = 0.6
+
+[sub_resource type="Gradient" id=16]
+interpolation_mode = 2
+offsets = PoolRealArray( 0.10951, 0.177233, 0.351585, 0.834294, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 0.819608, 0, 1, 1, 0.4387, 0, 1, 1, 0, 0, 1, 0.145098, 0.0470588, 0.0470588, 0 )
+
+[sub_resource type="GradientTexture" id=17]
+gradient = SubResource( 16 )
+
+[sub_resource type="ParticlesMaterial" id=18]
+emission_shape = 1
+emission_sphere_radius = 16.0
+flag_disable_z = true
+direction = Vector3( -1, 0, 0 )
+spread = 8.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 613.51
+initial_velocity_random = 0.2
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = -20.0
+linear_accel_random = 1.0
+damping = 100.0
+damping_random = 0.5
+scale = 6.71
+scale_random = 1.0
+color_ramp = SubResource( 17 )
+
 [node name="Player" instance=ExtResource( 9 )]
 script = ExtResource( 8 )
 ImpactParticles = ExtResource( 22 )
 FlapParticles = ExtResource( 24 )
 
-[node name="Trail" type="Line2D" parent="." index="1"]
+[node name="VisibleBody" type="Node2D" parent="." index="1"]
+
+[node name="Trail" type="Line2D" parent="VisibleBody" index="0"]
 show_behind_parent = true
-z_index = -1
-z_as_relative = false
 width = 56.0
 width_curve = SubResource( 8 )
 gradient = SubResource( 7 )
 joint_mode = 2
 script = ExtResource( 23 )
 
-[node name="Sprites" type="Node2D" parent="." index="2"]
+[node name="Sprites" type="Node2D" parent="VisibleBody" index="1"]
+z_index = 2
 
-[node name="Body" type="Sprite" parent="Sprites" index="0"]
+[node name="Body" type="Sprite" parent="VisibleBody/Sprites" index="0"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 texture = ExtResource( 1 )
 hframes = 2
 vframes = 7
 region_rect = Rect2( 0, 0, 128, 448 )
 
-[node name="BodyOutline" type="Sprite" parent="Sprites" index="1"]
+[node name="BodyOutline" type="Sprite" parent="VisibleBody/Sprites" index="1"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 texture = ExtResource( 1 )
 hframes = 2
@@ -384,7 +435,7 @@ vframes = 7
 frame = 2
 region_rect = Rect2( 0, 0, 128, 448 )
 
-[node name="Wing" type="Sprite" parent="Sprites" index="2"]
+[node name="Wing" type="Sprite" parent="VisibleBody/Sprites" index="2"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 texture = ExtResource( 1 )
 hframes = 2
@@ -392,14 +443,14 @@ vframes = 7
 frame = 4
 region_rect = Rect2( 0, 0, 128, 448 )
 
-[node name="Eyes" type="Sprite" parent="Sprites" index="3"]
+[node name="Eyes" type="Sprite" parent="VisibleBody/Sprites" index="3"]
 texture = ExtResource( 1 )
 hframes = 2
 vframes = 7
 frame = 6
 region_rect = Rect2( 0, 0, 128, 448 )
 
-[node name="EyesOutline" type="Sprite" parent="Sprites" index="4"]
+[node name="EyesOutline" type="Sprite" parent="VisibleBody/Sprites" index="4"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 texture = ExtResource( 1 )
 hframes = 2
@@ -407,14 +458,14 @@ vframes = 7
 frame = 8
 region_rect = Rect2( 0, 0, 128, 448 )
 
-[node name="Beak" type="Sprite" parent="Sprites" index="5"]
+[node name="Beak" type="Sprite" parent="VisibleBody/Sprites" index="5"]
 texture = ExtResource( 1 )
 hframes = 2
 vframes = 7
 frame = 10
 region_rect = Rect2( 0, 0, 128, 448 )
 
-[node name="BeakOutline" type="Sprite" parent="Sprites" index="6"]
+[node name="BeakOutline" type="Sprite" parent="VisibleBody/Sprites" index="6"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 texture = ExtResource( 1 )
 hframes = 2
@@ -422,56 +473,56 @@ vframes = 7
 frame = 12
 region_rect = Rect2( 0, 0, 128, 448 )
 
-[node name="DespawnSprite" type="AnimatedSprite" parent="." index="3"]
+[node name="DespawnSprite" type="AnimatedSprite" parent="." index="2"]
 visible = false
 frames = SubResource( 5 )
 
-[node name="Flap1" type="AudioStreamPlayer2D" parent="." index="5"]
+[node name="Flap1" type="AudioStreamPlayer2D" parent="." index="4"]
 stream = ExtResource( 6 )
 attenuation = 2.0
 bus = "Player"
 
-[node name="Flap2" type="AudioStreamPlayer2D" parent="." index="6"]
+[node name="Flap2" type="AudioStreamPlayer2D" parent="." index="5"]
 stream = ExtResource( 7 )
 attenuation = 2.0
 bus = "Player"
 
-[node name="Flap3" type="AudioStreamPlayer2D" parent="." index="7"]
+[node name="Flap3" type="AudioStreamPlayer2D" parent="." index="6"]
 stream = ExtResource( 3 )
 attenuation = 2.0
 bus = "Player"
 
-[node name="Flap4" type="AudioStreamPlayer2D" parent="." index="8"]
+[node name="Flap4" type="AudioStreamPlayer2D" parent="." index="7"]
 stream = ExtResource( 4 )
 attenuation = 2.0
 bus = "Player"
 
-[node name="DeathSound" type="AudioStreamPlayer2D" parent="." index="9"]
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="." index="8"]
 stream = ExtResource( 5 )
 volume_db = 13.386
 attenuation = 2.0
 bus = "Player"
 
-[node name="Coin" type="AudioStreamPlayer2D" parent="." index="10"]
+[node name="Coin" type="AudioStreamPlayer2D" parent="." index="9"]
 stream = ExtResource( 15 )
 volume_db = 1.029
 attenuation = 2.0
 bus = "Player"
 
-[node name="Item" type="AudioStreamPlayer2D" parent="." index="11"]
+[node name="Item" type="AudioStreamPlayer2D" parent="." index="10"]
 stream = ExtResource( 15 )
 volume_db = 1.029
 pitch_scale = 0.5
 attenuation = 2.0
 bus = "Player"
 
-[node name="CoinLost" type="AudioStreamPlayer2D" parent="." index="12"]
+[node name="CoinLost" type="AudioStreamPlayer2D" parent="." index="11"]
 stream = ExtResource( 16 )
 volume_db = 5.149
 attenuation = 2.0
 bus = "Player"
 
-[node name="NameLabel" type="Label" parent="." index="13"]
+[node name="NameLabel" type="Label" parent="." index="12"]
 visible = false
 anchor_top = 1.0
 anchor_right = 1.0
@@ -489,10 +540,83 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="15"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="14"]
 anims/RESET = SubResource( 3 )
 anims/death_cooldown = SubResource( 2 )
 anims/flap = SubResource( 9 )
 anims/idle = SubResource( 10 )
 
-[node name="Listener2D" type="Listener2D" parent="." index="16"]
+[node name="Listener2D" type="Listener2D" parent="." index="15"]
+
+[node name="Magnet" parent="." index="16"]
+visible = false
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
+show_behind_parent = true
+script = ExtResource( 12 )
+
+[node name="RingEffect" type="Sprite" parent="Magnet" index="2"]
+modulate = Color( 1, 1, 1, 0.0117647 )
+material = SubResource( 15 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 2 )
+
+[node name="MagnetSound" type="AudioStreamPlayer2D" parent="Magnet" index="3"]
+stream = ExtResource( 11 )
+volume_db = 20.0
+attenuation = 2.0
+bus = "Player"
+
+[node name="Picoberry" parent="." index="17"]
+script = ExtResource( 13 )
+
+[node name="Invisiberry" parent="." index="18"]
+script = ExtResource( 25 )
+
+[node name="Laser" parent="." index="19"]
+visible = false
+show_behind_parent = true
+script = ExtResource( 28 )
+
+[node name="LaserBeam2D" parent="Laser" index="0" instance=ExtResource( 30 )]
+position = Vector2( 32, 0 )
+
+[node name="Sound" type="AudioStreamPlayer2D" parent="Laser" index="3"]
+stream = ExtResource( 27 )
+volume_db = 15.0
+attenuation = 2.0
+bus = "Player"
+
+[node name="Boost" parent="." index="20"]
+visible = false
+position = Vector2( 0, -4 )
+script = ExtResource( 29 )
+
+[node name="InitialSound" type="AudioStreamPlayer2D" parent="Boost" index="1"]
+stream = ExtResource( 31 )
+volume_db = 21.0
+attenuation = 2.0
+bus = "Player"
+
+[node name="LoopingSound" type="AudioStreamPlayer2D" parent="Boost" index="2"]
+stream = ExtResource( 26 )
+volume_db = 21.0
+pitch_scale = 0.8
+attenuation = 2.0
+bus = "Player"
+
+[node name="Particles2D" type="Particles2D" parent="Boost" index="3"]
+position = Vector2( -62, 0 )
+z_index = 1
+amount = 200
+lifetime = 0.7
+randomness = 1.0
+process_material = SubResource( 18 )
+
+[node name="Colours" type="Sprite" parent="Boost" index="4"]
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
+z_index = 2
+texture = ExtResource( 32 )
+
+[node name="Outline" type="Sprite" parent="Boost" index="5"]
+z_index = 2
+texture = ExtResource( 33 )

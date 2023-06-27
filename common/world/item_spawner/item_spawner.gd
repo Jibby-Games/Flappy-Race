@@ -9,5 +9,7 @@ func _on_Item_body_entered(_body: Node) -> void:
 
 
 func _on_RespawnTimer_timeout() -> void:
+	# Reset position in case it's been moved by a magnet
+	$Item.position = Vector2.ZERO
 	$Item.set_deferred("monitoring", true)
 	$Item.show()
