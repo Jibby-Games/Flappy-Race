@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://client/world/player/flappo.png" type="Texture" id=1]
 [ext_resource path="res://client/world/player/white_square_64px.png" type="Texture" id=2]
@@ -31,7 +31,8 @@
 [ext_resource path="res://client/world/player/powerups/boost.gd" type="Script" id=29]
 [ext_resource path="res://client/world/player/powerups/laser/laser_beam2d.tscn" type="PackedScene" id=30]
 [ext_resource path="res://client/audio/thruster_ignition.ogg" type="AudioStream" id=31]
-[ext_resource path="res://client/world/player/powerups/booster.png" type="Texture" id=32]
+[ext_resource path="res://client/world/player/powerups/rocket_colours.png" type="Texture" id=32]
+[ext_resource path="res://client/world/player/powerups/rocket_outline.png" type="Texture" id=33]
 
 [sub_resource type="Curve" id=8]
 _data = [ Vector2( 0, 0.256757 ), 0.0, 0.743243, 0, 1, Vector2( 1, 1 ), 0.743243, 0.0, 1, 0 ]
@@ -376,7 +377,7 @@ shader_param/blendingAmount = 0.6
 
 [sub_resource type="Gradient" id=16]
 interpolation_mode = 2
-offsets = PoolRealArray( 0, 0.0115274, 0.278098, 0.834294, 1 )
+offsets = PoolRealArray( 0.10951, 0.177233, 0.351585, 0.834294, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.819608, 0, 1, 1, 0.4387, 0, 1, 1, 0, 0, 1, 0.145098, 0.0470588, 0.0470588, 0 )
 
 [sub_resource type="GradientTexture" id=17]
@@ -384,10 +385,10 @@ gradient = SubResource( 16 )
 
 [sub_resource type="ParticlesMaterial" id=18]
 emission_shape = 1
-emission_sphere_radius = 8.0
+emission_sphere_radius = 16.0
 flag_disable_z = true
 direction = Vector3( -1, 0, 0 )
-spread = 7.14
+spread = 8.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 613.51
 initial_velocity_random = 0.2
@@ -587,6 +588,7 @@ bus = "Player"
 
 [node name="Boost" parent="." index="20"]
 visible = false
+position = Vector2( 0, -4 )
 script = ExtResource( 29 )
 
 [node name="InitialSound" type="AudioStreamPlayer2D" parent="Boost" index="1"]
@@ -603,14 +605,18 @@ attenuation = 2.0
 bus = "Player"
 
 [node name="Particles2D" type="Particles2D" parent="Boost" index="3"]
-position = Vector2( -61, 0 )
+position = Vector2( -62, 0 )
 z_index = 1
-amount = 100
-lifetime = 0.4
+amount = 200
+lifetime = 0.7
 randomness = 1.0
 process_material = SubResource( 18 )
 
-[node name="Sprite" type="Sprite" parent="Boost" index="4"]
-position = Vector2( -49, 0 )
-z_index = 1
+[node name="Colours" type="Sprite" parent="Boost" index="4"]
+modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
+z_index = 2
 texture = ExtResource( 32 )
+
+[node name="Outline" type="Sprite" parent="Boost" index="5"]
+z_index = 2
+texture = ExtResource( 33 )

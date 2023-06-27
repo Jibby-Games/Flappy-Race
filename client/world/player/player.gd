@@ -90,6 +90,7 @@ func set_body_colour(value: int) -> void:
 	$VisibleBody/Trail.modulate = body_colour
 	$Magnet.modulate = body_colour
 	$Laser/LaserBeam2D.modulate = body_colour
+	$Boost/Colours.modulate = body_colour
 
 
 func set_player_name(value: String) -> void:
