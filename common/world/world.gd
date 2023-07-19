@@ -123,6 +123,13 @@ func despawn_player(player_id: int) -> void:
 
 
 #### Player helper functions
+func get_lead_player() -> Node2D:
+	var leader
+	for player in spawned_players:
+		if leader == null or player.position.x > leader.position.x:
+			leader = player
+	return leader
+
 func _on_Player_death(player: CommonPlayer) -> void:
 	player.set_enable_movement(false)
 	var player_id = int(player.name)
