@@ -17,15 +17,19 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.10.0] - 2023-07-23
+
 ### Added
-- New items:
-  - Magnet - Attracts coins and item boxes
-  - Laser - Kills any players caught in the beam
-  - Booster - Gives a temporary speed boost through obstacles
-- Gives weighted probabilities to items, so players at the back get more helpful items
+
+-   New items:
+    -   Magnet - Attracts coins and item boxes
+    -   Laser - Kills any players caught in the beam
+    -   Booster - Gives a temporary speed boost through obstacles
+-   Gives weighted probabilities to items, so players at the back get more helpful items
 
 ### Fixed
-- Stopped particles spawning in the wrong place on death
+
+-   Stopped particles spawning in the wrong place on death
 
 ## [0.9.2] - 2023-06-04
 
@@ -333,7 +337,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.9.2...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.10.0...HEAD
+
+[0.10.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.9.2...0.10.0
 
 [0.9.2]: https://github.com/Jibby-Games/Flappy-Race/compare/0.9.1...0.9.2
 
