@@ -692,6 +692,13 @@ margin_top = 964.0
 margin_right = 660.0
 margin_bottom = 1030.0
 
+[node name="InfoContainer" type="VBoxContainer" parent="DebugTools"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_top = -338.0
+margin_right = 390.0
+margin_bottom = 277.0
+
 [node name="Death" type="Control" parent="."]
 visible = false
 anchor_right = 1.0
@@ -1105,7 +1112,7 @@ rect_min_size = Vector2( 84, 84 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Ingame/Player/Coins/HBoxContainer/Control"]
 frames = ExtResource( 17 )
 animation = "spin"
-frame = 2
+frame = 4
 playing = true
 offset = Vector2( 42, 42 )
 

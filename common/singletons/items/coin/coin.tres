@@ -8,4 +8,13 @@ script = ExtResource( 2 )
 name = "Coin"
 icon = ExtResource( 1 )
 duration = 0
+distance_weights = {
+0: 5,
+400: 5,
+1000: 1,
+5000: 0,
+10000: 0,
+20000: 0,
+50000: 0
+}
 coin_value = 1

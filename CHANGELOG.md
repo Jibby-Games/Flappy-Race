@@ -22,6 +22,7 @@ Types of changes:
   - Magnet - Attracts coins and item boxes
   - Laser - Kills any players caught in the beam
   - Booster - Gives a temporary speed boost through obstacles
+- Gives weighted probabilities to items, so players at the back get more helpful items
 
 ### Fixed
 - Stopped particles spawning in the wrong place on death

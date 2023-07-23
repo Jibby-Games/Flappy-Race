@@ -65,6 +65,9 @@ var sounds_volume_ratio = (
 	/ DEFAULT_SETTINGS.sounds_volume
 )
 
+# World vars
+var client_world: CommonWorld
+var server_world: CommonWorld
 
 func _ready() -> void:
 	high_score = load_high_score()

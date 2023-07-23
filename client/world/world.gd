@@ -10,6 +10,10 @@ var world_state_buffer := []
 # Used for the race progress bar
 var finish_line_x_pos: int
 
+# Player vars
+# Represents the body of the camera target, which could be a player or a spectator target
+var current_player: CommonPlayer
+
 # Spectate vars
 var spectate_target: Node
 var camera_target_id := -1
@@ -17,6 +21,7 @@ var camera_starting_position := Vector2(-5000, 0)
 
 
 func _ready() -> void:
+	Globals.client_world = self
 	Network.Client.send_client_ready()
 	$MainCamera.position = camera_starting_position
 	$MainCamera.velocity = Vector2.ZERO
@@ -215,6 +220,7 @@ func set_camera_target(player_id: int) -> void:
 		return
 	camera_target_id = player_id
 	var player = player_list[player_id].body
+	current_player = player
 	$UI.RaceProgress.set_active_player(player_id)
 	$MainCamera.set_target(player)
 
@@ -283,14 +289,6 @@ func spectate_leader() -> void:
 		return
 	set_spectate_target(leader)
 	$UI.set_spectating(true)
-
-
-func get_lead_player() -> Node2D:
-	var leader
-	for player in spawned_players:
-		if leader == null or player.position.x > leader.position.x:
-			leader = player
-	return leader
 
 
 func _on_Player_death(player: CommonPlayer) -> void:

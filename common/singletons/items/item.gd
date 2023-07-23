@@ -1,11 +1,17 @@
-extends Resource
-
-class_name Item
+class_name Item extends Resource
 
 export(String) var name := "Item"
 export(Texture) var icon
 export(int) var duration := 0
-
+export(Dictionary) var distance_weights = {
+	0: 10,
+	400: 10,
+	1000: 10,
+	5000: 10,
+	10000: 10,
+	20000: 10,
+	50000: 10,
+}
 
 # Public function to use item
 func use(player) -> void:

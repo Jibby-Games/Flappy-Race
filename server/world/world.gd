@@ -20,6 +20,7 @@ var time := 0.0
 
 
 func _ready() -> void:
+	Globals.server_world = self
 	wait_for_all_players_ready_then("setup_and_start_game")
 
 
