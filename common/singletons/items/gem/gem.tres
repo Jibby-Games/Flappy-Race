@@ -8,4 +8,13 @@ script = ExtResource( 2 )
 name = "Gem"
 icon = ExtResource( 1 )
 duration = 0
+distance_weights = {
+0: 0,
+400: 0,
+1000: 1,
+5000: 5,
+10000: 10,
+20000: 10,
+50000: 5
+}
 coin_value = 10

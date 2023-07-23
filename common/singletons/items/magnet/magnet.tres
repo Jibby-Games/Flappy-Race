@@ -8,3 +8,12 @@ script = ExtResource( 2 )
 name = "Magnet"
 icon = ExtResource( 1 )
 duration = 10
+distance_weights = {
+0: 0,
+400: 1,
+1000: 5,
+5000: 10,
+10000: 10,
+20000: 5,
+50000: 0
+}

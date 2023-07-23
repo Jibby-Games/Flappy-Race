@@ -8,3 +8,12 @@ script = ExtResource( 1 )
 name = "Boost"
 icon = ExtResource( 2 )
 duration = 3
+distance_weights = {
+0: 0,
+400: 0,
+1000: 0,
+5000: 1,
+10000: 5,
+20000: 10,
+50000: 20
+}
