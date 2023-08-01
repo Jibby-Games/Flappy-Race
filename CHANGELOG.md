@@ -17,6 +17,9 @@ Types of changes:
 
 ## [Unreleased]
 
+## Fixed
+- Fixed an SSL error when joining official servers due to connecting with the ip
+
 ## [0.10.0] - 2023-07-23
 
 ### Added
