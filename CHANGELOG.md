@@ -17,8 +17,11 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.10.1] - 2023-08-01
+
 ## Fixed
-- Fixed an SSL error when joining official servers due to connecting with the ip
+
+-   Fixed an SSL error when joining official servers due to connecting with the ip
 
 ## [0.10.0] - 2023-07-23
 
@@ -340,7 +343,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.10.0...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.10.1...HEAD
+
+[0.10.1]: https://github.com/Jibby-Games/Flappy-Race/compare/0.10.0...0.10.1
 
 [0.10.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.9.2...0.10.0
 
