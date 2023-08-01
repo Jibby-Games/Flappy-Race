@@ -12,4 +12,13 @@ func setup(server_info: Dictionary) -> void:
 
 
 func _on_JoinButton_pressed() -> void:
-	Network.Client.start_client(ip, port)
+	var join_ip := ip
+	if is_official_server_ip(join_ip):
+		join_ip = Network.SERVER_MANAGER_URL
+	Network.Client.start_client(join_ip, port)
+
+
+func is_official_server_ip(ip_addr: String) -> bool:
+	var hostname: String = Network.SERVER_MANAGER_URL.get_slice("://", 1)
+	var official_ip: String = IP.resolve_hostname(hostname, IP.TYPE_IPV4)
+	return ip_addr == official_ip
