@@ -15,6 +15,7 @@ var spawned_items := []
 
 
 func _ready() -> void:
+	random_height = true
 	if Engine.is_editor_hint():
 		generate_line(line_height, items)
 
@@ -38,11 +39,10 @@ func do_generate(_game_rng: RandomNumberGenerator) -> void:
 	assert(MIN_ITEMS <= MAX_ITEMS, "Maximum number of items must be greater than %d! Got: %d" % [MIN_ITEMS, MAX_ITEMS])
 	items = _game_rng.randi_range(MIN_ITEMS, MAX_ITEMS)
 	line_height = items * MIN_SPACING_PER_ITEM
-	if items < MAX_ITEMS:
-		# Randomise the height if there's space
-		# Assuming max items fills the whole screen
-		var edge_gap := (boundary_height - line_height) / 2
-		self.position.y = _game_rng.randf_range(-edge_gap, edge_gap)
+	# Don't randomise height if it already fills the screen
+	if items == MAX_ITEMS:
+		random_height = false
+		self.position.y = 0
 	generate_line(line_height, items)
 
 

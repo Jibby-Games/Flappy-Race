@@ -6,7 +6,6 @@
 
 [node name="CoinSpawnerLine" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
-random_height = true
 item_scene = ExtResource( 3 )
 line_height = 1000.0
 items = 8

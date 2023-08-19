@@ -10,4 +10,4 @@
 [ext_resource path="res://client/world/obstacles/spawner_line/item_spawner_line.tscn" type="PackedScene" id=8]
 
 [node name="LevelGenerator" instance=ExtResource( 1 )]
-Obstacles = [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 2 ), ExtResource( 6 ), ExtResource( 5 ), ExtResource( 7 ), ExtResource( 8 ) ]
+Obstacles = [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 2 ), ExtResource( 5 ), ExtResource( 7 ), ExtResource( 8 ) ]
