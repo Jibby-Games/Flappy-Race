@@ -4,7 +4,7 @@
 [ext_resource path="res://common/world/obstacles/obstacle.tscn" type="PackedScene" id=2]
 [ext_resource path="res://common/world/coin_spawner/coin_spawner.tscn" type="PackedScene" id=3]
 
-[node name="SpawnerLine" instance=ExtResource( 2 )]
+[node name="CoinSpawnerLine" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
 random_height = true
 item_scene = ExtResource( 3 )

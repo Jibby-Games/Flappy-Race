@@ -4,10 +4,10 @@ tool
 
 const MAX_LINE_HEIGHT := 1000.0
 const MIN_SPACING_PER_ITEM := (1000 / 8)
-const MIN_ITEMS := 1
+const MIN_ITEMS := 3
 const MAX_ITEMS := int(MAX_LINE_HEIGHT / MIN_SPACING_PER_ITEM)
 
-export(PackedScene) var item_scene := preload("res://client/world/coin_spawner/coin_spawner.tscn")
+export(PackedScene) var item_scene: PackedScene
 export(float) var line_height := MAX_LINE_HEIGHT setget set_line_height
 export(int) var items := 12 setget set_items
 
