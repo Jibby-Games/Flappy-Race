@@ -7,7 +7,7 @@ const UpnpHandler = preload("res://server/upnp_handler.gd")
 const DEFAULT_GAME_OPTIONS := {
 	"goal": 50,
 	"lives": 0,
-	"bots": 0,
+	"bots": 8,
 	"difficulty": 2,
 }
 const PLAYER_TIMEOUT_TIME := 20
@@ -111,6 +111,7 @@ func start_server(
 			% [port, server_name, max_players, forward_port, use_server_list, use_timeout]
 		)
 	)
+	populate_bots(0, game_options.bots)
 	change_scene_to_setup()
 	if use_server_list:
 		$ServerListHandler.start_connection(server_name, Network.SERVER_LIST_URL)
@@ -322,6 +323,8 @@ remote func receive_game_option_change(option: String, value: int) -> void:
 		# Reset clients back to server value
 		rpc("receive_game_options", game_options)
 		return
+	if option == "bots":
+		populate_bots(game_options.bots, value)
 	game_options[option] = value
 	Logger.print(self, "Player %s set %s to %s" % [player_id, option, value])
 	rpc("receive_game_option_change", option, value)
@@ -334,7 +337,6 @@ func is_option_valid(option: String, value: int) -> bool:
 		"lives":
 			return value >= 0 or value <= 1000
 		"bots":
-			populate_bots(game_options.bots, value)
 			return value >= 0 or (value + multiplayer.get_network_connected_peers().size()) <= Network.MAX_PLAYERS
 		"difficulty":
 			return value in CommonWorld.Difficulty.values()
