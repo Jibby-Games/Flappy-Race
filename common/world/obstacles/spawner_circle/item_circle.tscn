@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://common/world/obstacles/spawner_circle/spawner_circle.gd" type="Script" id=1]
+[ext_resource path="res://common/world/obstacles/obstacle.tscn" type="PackedScene" id=2]
+[ext_resource path="res://common/world/spawners/item_spawner.tscn" type="PackedScene" id=3]
+
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( -200, -448, 0, -448, 0, 448, -200, 448 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+outlines = [ PoolVector2Array( -200, -448, 0, -448, 0, 448, -200, 448 ) ]
+
+[sub_resource type="NavigationPolygon" id=2]
+vertices = PoolVector2Array( -352, -448, -200, -448, -200, 448, -352, 448 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+outlines = [ PoolVector2Array( -352, -448, -200, -448, -200, 448, -352, 448 ) ]
+
+[node name="ItemCircle" instance=ExtResource( 2 )]
+script = ExtResource( 1 )
+item_spawner = ExtResource( 3 )
+radius = 400.0
+coins = 12
+
+[node name="PointArea" parent="." index="0"]
+position = Vector2( 950, 0 )
+
+[node name="Checkpoint" parent="." index="1"]
+position = Vector2( 950, 0 )
+
+[node name="ExtraNavPolygonIn" type="NavigationPolygonInstance" parent="." index="4"]
+navpoly = SubResource( 1 )
+
+[node name="ExtraNavPolygonOut" type="NavigationPolygonInstance" parent="." index="5"]
+position = Vector2( 1152, 0 )
+navpoly = SubResource( 2 )

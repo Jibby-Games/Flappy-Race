@@ -29,6 +29,8 @@ onready var chunk_tracker = $ChunkTracker as ChunkTracker
 
 
 func _ready() -> void:
+	chunk_tracker.connect("load_chunk", level_generator, "spawn_obstacle")
+	chunk_tracker.connect("unload_chunk", level_generator, "despawn_obstacle")
 	Logger.print(self, "World ready!")
 
 

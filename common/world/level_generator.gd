@@ -4,8 +4,24 @@ tool
 
 class_name LevelGenerator
 
-export(Array) var Obstacles
-export(Array) var ObstacleRandomWeights
+export(Array) var Obstacles = [
+	preload("res://common/world/obstacles/wall/wall.tscn"),
+	preload("res://common/world/obstacles/block_field/block_field.tscn"),
+	preload("res://common/world/obstacles/tunnel/tunnel.tscn"),
+	preload("res://common/world/obstacles/spawner_circle/coin_circle.tscn"),
+	preload("res://common/world/obstacles/spawner_circle/item_circle.tscn"),
+	preload("res://common/world/obstacles/spawner_line/coin_line.tscn"),
+	preload("res://common/world/obstacles/spawner_line/item_line.tscn"),
+]
+export(Array) var ObstacleRandomWeights = [
+	100,
+	50,
+	50,
+	25,
+	10,
+	10,
+	50,
+]
 export(PackedScene) var StartLine
 export(PackedScene) var FinishLine
 

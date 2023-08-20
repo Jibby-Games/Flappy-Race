@@ -1,0 +1,16 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=2]
+
+[ext_resource path="res://client/world/spawners/pickups/gold_2.png" type="Texture" id=1]
+[ext_resource path="res://client/world/spawners/pickups/gold_5.png" type="Texture" id=2]
+[ext_resource path="res://client/world/spawners/pickups/gold_3.png" type="Texture" id=3]
+[ext_resource path="res://client/world/spawners/pickups/gold_6.png" type="Texture" id=4]
+[ext_resource path="res://client/world/spawners/pickups/gold_4.png" type="Texture" id=5]
+[ext_resource path="res://client/world/spawners/pickups/gold_1.png" type="Texture" id=6]
+
+[resource]
+animations = [ {
+"frames": [ ExtResource( 6 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 2 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "spin",
+"speed": 6.0
+} ]

@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://common/world/obstacles/spawner_line/spawner_line.gd" type="Script" id=1]
+[ext_resource path="res://common/world/spawners/coin_spawner.tscn" type="PackedScene" id=2]
+[ext_resource path="res://common/world/obstacles/obstacle.tscn" type="PackedScene" id=3]
+
+[node name="CoinLine" instance=ExtResource( 3 )]
+script = ExtResource( 1 )
+random_height = true
+item_scene = ExtResource( 2 )
+line_height = 1000.0
+items = 8
+
+[node name="PointArea" parent="." index="0"]
+position = Vector2( 128, 0 )
+
+[node name="Checkpoint" parent="." index="1"]
+position = Vector2( 128, 0 )

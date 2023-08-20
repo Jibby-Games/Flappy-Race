@@ -1,17 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://common/world/level_generator.gd" type="Script" id=1]
-[ext_resource path="res://common/world/obstacles/wall/wall.tscn" type="PackedScene" id=2]
-[ext_resource path="res://common/world/obstacles/block_field/block_field.tscn" type="PackedScene" id=3]
 [ext_resource path="res://client/world/finish_line/finish_line.tscn" type="PackedScene" id=4]
-[ext_resource path="res://common/world/obstacles/coin_circle/coin_circle.tscn" type="PackedScene" id=5]
-[ext_resource path="res://common/world/obstacles/tunnel/tunnel.tscn" type="PackedScene" id=6]
-[ext_resource path="res://common/world/obstacles/item_circle/item_circle.tscn" type="PackedScene" id=7]
 [ext_resource path="res://common/world/obstacles/start_line.tscn" type="PackedScene" id=8]
 
 [node name="LevelGenerator" type="Node2D"]
 script = ExtResource( 1 )
-Obstacles = [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ]
-ObstacleRandomWeights = [ 100, 50, 25, 50, 25 ]
 StartLine = ExtResource( 8 )
 FinishLine = ExtResource( 4 )
