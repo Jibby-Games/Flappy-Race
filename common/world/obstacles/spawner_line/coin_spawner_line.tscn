@@ -2,10 +2,11 @@
 
 [ext_resource path="res://common/world/obstacles/spawner_line/spawner_line.gd" type="Script" id=1]
 [ext_resource path="res://common/world/obstacles/obstacle.tscn" type="PackedScene" id=2]
-[ext_resource path="res://common/world/coin_spawner/coin_spawner.tscn" type="PackedScene" id=3]
+[ext_resource path="res://common/world/spawners/item_spawner.tscn" type="PackedScene" id=3]
 
 [node name="CoinSpawnerLine" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
+random_height = true
 item_scene = ExtResource( 3 )
 line_height = 1000.0
 items = 8

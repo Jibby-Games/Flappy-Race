@@ -1,0 +1,13 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://client/world/spawners/pickups/item_box.png" type="Texture" id=1]
+[ext_resource path="res://common/world/spawners/pickups/item_box.tscn" type="PackedScene" id=2]
+[ext_resource path="res://client/world/spawners/pickups/item_box.gd" type="Script" id=3]
+[ext_resource path="res://client/effects/impact_particles.tscn" type="PackedScene" id=4]
+
+[node name="ItemBox" instance=ExtResource( 2 )]
+script = ExtResource( 3 )
+ImpactParticles = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="." index="1"]
+texture = ExtResource( 1 )

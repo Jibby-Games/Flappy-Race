@@ -7,7 +7,7 @@ const MIN_BLOCK_DISTANCE := 180
 const NAV_POLY_MARGIN := BLOCK_SIZE * 1.5
 
 export(PackedScene) var Block
-export(PackedScene) var CoinSpawner
+export(PackedScene) var item_spawner
 export(float) var block_density := 0.05 setget set_block_density
 export(int) var field_length := 900 setget set_field_length
 export(int) var field_height := 1016 setget set_field_height
@@ -62,7 +62,7 @@ func do_generate(game_rng: RandomNumberGenerator) -> void:
 			print("Failed to place %d blocks" % failed_blocks)
 		var inst: Node2D
 		if coins.size() < coins_to_spawn:
-			inst = CoinSpawner.instance()
+			inst = item_spawner.instance()
 			coins.append(inst)
 		else:
 			inst = Block.instance()

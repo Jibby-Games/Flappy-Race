@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://common/world/spawners/pickups/coin.tscn" type="PackedScene" id=1]
+[ext_resource path="res://client/world/spawners/pickups/coin_animation.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://client/world/spawners/pickups/coin.gd" type="Script" id=3]
+[ext_resource path="res://client/effects/impact_particles.tscn" type="PackedScene" id=4]
+
+[node name="Coin" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+ImpactParticles = ExtResource( 4 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="." index="1"]
+frames = ExtResource( 2 )
+animation = "spin"
+frame = 5
+playing = true

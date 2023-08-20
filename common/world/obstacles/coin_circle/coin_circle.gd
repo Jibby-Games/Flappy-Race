@@ -4,7 +4,7 @@ tool
 
 const NAV_POLY_MARGIN := 32
 
-export(PackedScene) var CoinSpawner := preload("res://client/world/coin_spawner/coin_spawner.tscn")
+export(PackedScene) var item_spawner := preload("res://client/world/spawners/item_spawner.tscn")
 export(float) var radius := 400.0 setget set_radius
 export(int) var coins := 12 setget set_coins
 
@@ -22,7 +22,7 @@ func generate_circle(new_radius: float, new_points: int) -> void:
 	var increment = (2 * PI) / new_points
 	for i in new_points:
 		var pos = polar2cartesian(new_radius, increment * i)
-		var inst = CoinSpawner.instance()
+		var inst = item_spawner.instance()
 		# Offset by radius so length calculations are correct
 		inst.position = Vector2(new_radius, 0) + pos
 		add_child(inst)

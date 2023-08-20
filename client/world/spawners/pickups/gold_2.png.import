@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/gold_6.png-68e280474ed3c0fc14775f3f47a81998.stex"
+path="res://.import/gold_2.png-6060b025b35635771c614ddf422a46cd.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://client/world/coin_spawner/gold_6.png"
-dest_files=[ "res://.import/gold_6.png-68e280474ed3c0fc14775f3f47a81998.stex" ]
+source_file="res://client/world/spawners/pickups/gold_2.png"
+dest_files=[ "res://.import/gold_2.png-6060b025b35635771c614ddf422a46cd.stex" ]
 
 [params]
 

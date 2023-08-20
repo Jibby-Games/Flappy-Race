@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/item_box.png-943730e82020dae74284fd39160f4a22.stex"
+path="res://.import/gold_4.png-5a97cd18b846ec582dfe45746132d7aa.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://client/world/item_spawner/item_box.png"
-dest_files=[ "res://.import/item_box.png-943730e82020dae74284fd39160f4a22.stex" ]
+source_file="res://client/world/spawners/pickups/gold_4.png"
+dest_files=[ "res://.import/gold_4.png-5a97cd18b846ec582dfe45746132d7aa.stex" ]
 
 [params]
 

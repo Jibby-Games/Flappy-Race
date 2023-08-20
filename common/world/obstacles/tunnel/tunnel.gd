@@ -2,7 +2,7 @@ extends Obstacle
 
 const BLOCK_SIZE := 64
 
-export(PackedScene) var CoinSpawner
+export(PackedScene) var item_spawner
 
 var gap_range_min := 150
 var gap_range_max := 180
@@ -25,7 +25,7 @@ func do_generate(game_rng: RandomNumberGenerator) -> void:
 	if should_spawn_coin:
 		var increment = $Tunnel/Top.shape.extents.x / (max_coins - 1)
 		for i in max_coins:
-			var spawner = CoinSpawner.instance()
+			var spawner = item_spawner.instance()
 			spawner.position.x = increment * (i + 1)
 			$Tunnel.add_child(spawner)
 

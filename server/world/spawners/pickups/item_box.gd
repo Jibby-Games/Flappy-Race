@@ -1,7 +1,7 @@
-extends "res://common/world/item_spawner/item_spawner.gd"
+extends "res://common/world/spawners/pickups/pickup.gd"
 
-func _on_Item_body_entered(body: Node) -> void:
-	._on_Item_body_entered(body)
+
+func _on_item_taken(body: Node) -> void:
 	if body.has_method("add_item"):
 		var leader: CommonPlayer = Globals.server_world.get_lead_player()
 		var dist_to_leader: float = leader.global_position.x - body.global_position.x

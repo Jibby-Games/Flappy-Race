@@ -1,6 +1,6 @@
 extends Obstacle
 
-export(PackedScene) var CoinSpawner
+export(PackedScene) var item_spawner
 
 var gap_range_min := 130
 var gap_range_max := 250
@@ -16,7 +16,7 @@ func do_generate(game_rng) -> void:
 	$Wall.position.y = height
 	set_gap(gap)
 	if should_spawn_coin:
-		var spawner = CoinSpawner.instance()
+		var spawner = item_spawner.instance()
 		spawner.position.x = $Wall/UpperCollider.shape.extents.x
 		$Wall.add_child(spawner)
 	# So spawn point lines up with wall gap
