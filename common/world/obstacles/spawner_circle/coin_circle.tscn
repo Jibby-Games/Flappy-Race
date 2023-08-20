@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://client/world/spawners/item_spawner.tscn" type="PackedScene" id=1]
+[ext_resource path="res://common/world/spawners/coin_spawner.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/world/obstacles/obstacle.tscn" type="PackedScene" id=2]
-[ext_resource path="res://common/world/obstacles/coin_circle/coin_circle.gd" type="Script" id=3]
+[ext_resource path="res://common/world/obstacles/spawner_circle/spawner_circle.gd" type="Script" id=3]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( -200, -448, 0, -448, 0, 448, -200, 448 )
