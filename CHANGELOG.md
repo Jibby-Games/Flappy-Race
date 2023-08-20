@@ -17,9 +17,17 @@ Types of changes:
 
 ## [Unreleased]
 
+### Added
+- New coin and item line obstacles
+
+### Changed
+- Coins can now spawn item boxes instead so players can get more items!
+- Increased laser item chance
+- Turn on bots by default
+
 ## [0.10.1] - 2023-08-01
 
-## Fixed
+### Fixed
 
 -   Fixed an SSL error when joining official servers due to connecting with the ip
 
