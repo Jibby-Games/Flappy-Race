@@ -32,6 +32,7 @@ func _physics_process(_delta: float) -> void:
 	$VisibleBody/Sprites.rotation = velocity.angle()
 
 
+# Using _input so both keyboard and mouse clicks are registered
 func _input(event: InputEvent) -> void:
 	if not is_controlled:
 		return
