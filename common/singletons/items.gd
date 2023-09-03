@@ -12,7 +12,10 @@ class ItemWeights:
 
 
 	func _to_string() -> String:
-		return "ids: %s weights: %s sum: %s" % [item_ids, weights, weights_sum]
+		var item_list := ""
+		for i in item_ids.size():
+			item_list += "%s (%d) " % [Items.items[item_ids[i]].name, weights[i]]
+		return "%s(sum: %s)" % [item_list, weights_sum]
 
 
 	func pick_weighted_random_item_id() -> int:
