@@ -427,3 +427,11 @@ remote func receive_leaderboard(leaderboard: Array) -> void:
 	var ui = get_node_or_null("World/UI")
 	if ui:
 		ui.show_leaderboard(leaderboard)
+
+
+remote func receive_spawn_object(object_id: int, properties: Dictionary) -> void:
+	if is_rpc_from_server() == false:
+		return
+	var world = get_node_or_null("World")
+	if world:
+		world.spawn_object(object_id, properties)

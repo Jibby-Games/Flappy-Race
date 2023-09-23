@@ -496,3 +496,7 @@ func send_leaderboard(leaderboard: Array) -> void:
 
 func send_player_add_item(player_id: int, item_id: int) -> void:
 	rpc("receive_player_add_item", player_id, item_id)
+
+
+func send_spawn_object(object_id: int, properties: Dictionary) -> void:
+	rpc("receive_spawn_object", object_id, properties)
