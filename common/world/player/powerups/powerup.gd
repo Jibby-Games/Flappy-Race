@@ -6,11 +6,13 @@ func _ready() -> void:
 	player = get_parent()
 
 
-func activate_item(time) -> void:
+func activate_item(time: int) -> void:
 	# Timer not running yet so activate, otherwise just restart timer
 	if $Timer.time_left == 0:
 		_activate()
-	$Timer.start(time)
+	if time > 0:
+		# Only use the timer if item has a time duration
+		$Timer.start(time)
 
 
 func _activate() -> void:
