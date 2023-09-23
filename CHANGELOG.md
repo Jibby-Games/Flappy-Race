@@ -19,11 +19,14 @@ Types of changes:
 
 ### Added
 - New coin and item line obstacles
+- New item:
+  - Flomb - A flying bomb which targets the player in first place!
 
 ### Changed
 - Coins can now spawn item boxes instead so players can get more items!
-- Increased laser item chance
+- Tweak laser item chance
 - Turn on bots by default
+- Made item debug server side only to stop clients using it outside the editor
 
 ## [0.10.1] - 2023-08-01
 
