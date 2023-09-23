@@ -445,7 +445,7 @@ remote func receive_player_flap(client_clock: int) -> void:
 	if not $World.has_node(str(player_id)):
 		push_error("Flap received for player %s - but can't find player in world")
 		return
-	Logger.print(self, "Received flap for player %d" % player_id)
+#	Logger.print(self, "Received flap for player %d" % player_id)
 	send_player_flap(player_id, client_clock)
 
 

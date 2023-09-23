@@ -322,7 +322,7 @@ remote func receive_player_flap(player_id: int, flap_time: int) -> void:
 	if player_id == multiplayer.get_network_unique_id():
 		# This is the same player who sent it so don't flap again
 		return
-	Logger.print(self, "Received flap for player %d @ time = %d" % [player_id, flap_time])
+#	Logger.print(self, "Received flap for player %d @ time = %d" % [player_id, flap_time])
 	var player = $World.get_node(str(player_id))
 	player.flap_queue.append(flap_time)
 
