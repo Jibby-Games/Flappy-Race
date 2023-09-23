@@ -6,7 +6,6 @@
 
 [node name="CoinLine" instance=ExtResource( 3 )]
 script = ExtResource( 1 )
-random_height = true
 item_scene = ExtResource( 2 )
 line_height = 1000.0
 items = 8
@@ -16,3 +15,5 @@ position = Vector2( 128, 0 )
 
 [node name="Checkpoint" parent="." index="1"]
 position = Vector2( 128, 0 )
+
+[node name="SpawnedItems" type="Node2D" parent="." index="12"]
