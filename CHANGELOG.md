@@ -21,6 +21,7 @@ Types of changes:
 - New coin and item line obstacles
 - New item:
   - Flomb - A flying bomb which targets the player in first place!
+- Show when players join or leave the game
 
 ### Changed
 - Coins can now spawn item boxes instead so players can get more items!
