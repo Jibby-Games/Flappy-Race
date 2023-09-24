@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" load_steps=4 format=2]
 
-[ext_resource path="res://client/world/items/flomb.png" type="Texture" id=1]
+[ext_resource path="res://client/world/items/flomb_projectile.png" type="Texture" id=1]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/flomb.png-48c1610e3a8a4fe4d8f3417d7260b92c.stex"
+path="res://.import/flomb_projectile.png-d8286bbd5e59e87aacaa754909b54f22.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://client/world/items/flomb.png"
-dest_files=[ "res://.import/flomb.png-48c1610e3a8a4fe4d8f3417d7260b92c.stex" ]
+source_file="res://client/world/items/flomb_projectile.png"
+dest_files=[ "res://.import/flomb_projectile.png-d8286bbd5e59e87aacaa754909b54f22.stex" ]
 
 [params]
 

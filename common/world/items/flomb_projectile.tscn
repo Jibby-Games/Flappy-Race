@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://common/world/items/flomb.gd" type="Script" id=3]
+[ext_resource path="res://common/world/items/flomb_projectile.gd" type="Script" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 40.0
@@ -8,7 +8,7 @@ radius = 40.0
 [sub_resource type="CircleShape2D" id=2]
 radius = 150.0
 
-[node name="Flomb" type="Area2D"]
+[node name="FlombProjectile" type="Area2D"]
 collision_layer = 0
 script = ExtResource( 3 )
 

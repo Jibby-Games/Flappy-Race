@@ -7,5 +7,5 @@
 [node name="Player" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="Flomb" parent="." index="8"]
+[node name="Flomb" parent="." index="9"]
 script = ExtResource( 3 )

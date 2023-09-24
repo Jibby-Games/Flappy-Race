@@ -1,0 +1,14 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://common/world/items/flomb_projectile.tscn" type="PackedScene" id=1]
+[ext_resource path="res://client/world/items/flomb_animation.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://client/effects/explosion/explosion.tscn" type="PackedScene" id=3]
+[ext_resource path="res://client/world/items/flomb_projectile.gd" type="Script" id=4]
+
+[node name="FlombProjectile" instance=ExtResource( 1 )]
+script = ExtResource( 4 )
+explosion_effect = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="." index="5"]
+position = Vector2( 0, -3 )
+frames = ExtResource( 2 )

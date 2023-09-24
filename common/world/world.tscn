@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://common/world/world.gd" type="Script" id=1]
-[ext_resource path="res://common/world/items/flomb.tscn" type="PackedScene" id=2]
+[ext_resource path="res://common/world/items/flomb_projectile.tscn" type="PackedScene" id=2]
 [ext_resource path="res://common/world/player/player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://common/world/chunk_tracker.tscn" type="PackedScene" id=4]
 

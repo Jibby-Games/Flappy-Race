@@ -1,4 +1,4 @@
-extends "res://common/world/items/flomb.gd"
+extends "res://common/world/items/flomb_projectile.gd"
 
 export(PackedScene) var explosion_effect = preload("res://client/effects/explosion/explosion.tscn")
 
