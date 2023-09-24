@@ -1,5 +1,8 @@
 extends Control
 
+# How many seconds to wait between refreshing the IP
+const IP_REFRESH_TIME = 12
+
 var public_ip: String = ""
 
 onready var ip_label = $IP
@@ -7,10 +10,13 @@ onready var ip_label = $IP
 
 func _ready() -> void:
 	update_public_ip()
+	$RefreshTimer.start(IP_REFRESH_TIME)
 
 
 func update_public_ip() -> void:
-	$HTTPRequest.request("https://api.ipify.org")
+	var result: int = $HTTPRequest.request("https://api.ipify.org")
+	if result != OK:
+		push_error("An error occurred in the HTTP request. Error code: %d" % result)
 
 
 func _on_HTTPRequest_request_completed(
@@ -48,3 +54,7 @@ func _on_ShowButton_toggled(button_pressed: bool) -> void:
 
 func _on_MessageTimer_timeout() -> void:
 	$MessageLabel.hide()
+
+
+func _on_RefreshTimer_timeout() -> void:
+	update_public_ip()

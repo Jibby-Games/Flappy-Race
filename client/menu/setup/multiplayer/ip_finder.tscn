@@ -7,11 +7,9 @@
 
 [node name="IpFinder" type="Control"]
 script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
+timeout = 10.0
 
 [node name="Header" parent="." instance=ExtResource( 3 )]
 anchor_right = 0.0
@@ -71,8 +69,12 @@ __meta__ = {
 }
 
 [node name="MessageTimer" type="Timer" parent="MessageLabel"]
+one_shot = true
+
+[node name="RefreshTimer" type="Timer" parent="."]
 
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
 [connection signal="toggled" from="ButtonContainer/ShowButton" to="." method="_on_ShowButton_toggled"]
 [connection signal="pressed" from="ButtonContainer/CopyButton" to="." method="_on_CopyButton_pressed"]
 [connection signal="timeout" from="MessageLabel/MessageTimer" to="." method="_on_MessageTimer_timeout"]
+[connection signal="timeout" from="RefreshTimer" to="." method="_on_RefreshTimer_timeout"]
