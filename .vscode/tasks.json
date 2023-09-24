@@ -58,6 +58,42 @@
             },
         },
         {
+            "label": "Client Join 2",
+            "type": "process",
+            "command": "godot",
+            "args": [
+                "--join",
+                "127.0.0.1"
+            ],
+            "presentation": {
+                "group": "clients"
+            },
+        },
+        {
+            "label": "Client Join 3",
+            "type": "process",
+            "command": "godot",
+            "args": [
+                "--join",
+                "127.0.0.1"
+            ],
+            "presentation": {
+                "group": "clients"
+            },
+        },
+        {
+            "label": "Client Join 4",
+            "type": "process",
+            "command": "godot",
+            "args": [
+                "--join",
+                "127.0.0.1"
+            ],
+            "presentation": {
+                "group": "clients"
+            },
+        },
+        {
             "label": "Start 2 Clients",
             "dependsOn": [
                 "Client Host",
@@ -73,8 +109,8 @@
             "dependsOn": [
                 "Client Host",
                 "Client Join",
-                "Client Join",
-                "Client Join"
+                "Client Join 2",
+                "Client Join 3"
             ],
             "group": {
                 "kind": "build"
@@ -84,7 +120,7 @@
             "label": "Start Server and 2 Clients",
             "dependsOn": [
                 "Client Join",
-                "Client Join",
+                "Client Join 2",
                 "Server"
             ],
         },
