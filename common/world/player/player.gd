@@ -34,7 +34,7 @@ var has_gravity: bool = true
 func _physics_process(_delta: float) -> void:
 	update_movement()
 	if is_position_out_of_bounds(self.position):
-		death()
+		death("Out of bounds")
 
 
 func update_movement() -> void:
@@ -70,7 +70,7 @@ func _on_Detect_area_entered(_area: Area2D) -> void:
 
 func _on_Detect_body_entered(_body: Node) -> void:
 	Logger.print(self, "Player %s entered body %s" % [self.name, _body.name])
-	death()
+	death("Collided with wall")
 
 
 func start() -> void:
@@ -87,13 +87,14 @@ func set_enable_wall_collisions(value: bool) -> void:
 	$Detect.set_collision_mask_bit(WALL_COLLISION_LAYER, value)
 
 
-func death() -> void:
+func death(reason: String = "") -> void:
 	if in_death_cooldown:
 		return
 	in_death_cooldown = true
 	enable_movement = false
 	emit_signal("death", self)
 	$DeathCooldownTimer.start(DEATH_COOLDOWN_TIME)
+	Logger.print(self, "Player %s died at %s! Reason: %s", [self.name, self.position, reason])
 	if coins > 0:
 		coins -= COINS_LOST_ON_DEATH
 		if coins < 0:

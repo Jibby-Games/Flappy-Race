@@ -110,7 +110,7 @@ func explode() -> void:
 	is_homing = false
 	for body in bodies_in_explosion_radius:
 		if body.has_method("death") and is_instance_valid(body):
-			body.death()
+			body.death("Flomb explosion")
 	$ExplosionTimer.start(explosion_time)
 	yield($ExplosionTimer, "timeout")
 	queue_free()

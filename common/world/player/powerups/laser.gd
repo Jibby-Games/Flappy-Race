@@ -31,4 +31,4 @@ func kill_player(body) -> void:
 		# Ignore the player with the powerup
 		return
 	if body is CommonPlayer:
-		body.death()
+		body.death("Laser")
