@@ -24,7 +24,7 @@ var player_list := {}
 var game_options := {}
 
 signal host_changed(new_host_id)
-signal player_list_changed(new_player_list)
+signal player_list_changed(old_player_list, new_player_list)
 signal game_options_changed(new_options)
 
 
@@ -208,8 +208,8 @@ remote func receive_game_info(
 		return
 	host_player_id = new_host_id
 	emit_signal("host_changed", new_host_id)
+	emit_signal("player_list_changed", player_list.duplicate(), new_player_list)
 	player_list = new_player_list
-	emit_signal("player_list_changed", new_player_list)
 	game_options = new_game_options
 	emit_signal("game_options_changed", new_game_options)
 
@@ -254,8 +254,8 @@ func send_player_settings(player_name: String, player_colour: int) -> void:
 remote func receive_player_list_update(new_player_list: Dictionary) -> void:
 	if is_rpc_from_server() == false:
 		return
+	emit_signal("player_list_changed", player_list.duplicate(), new_player_list)
 	player_list = new_player_list
-	emit_signal("player_list_changed", new_player_list)
 
 
 func send_player_colour_change(colour_choice: int) -> void:
