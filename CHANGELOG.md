@@ -28,6 +28,10 @@ Types of changes:
 - Turn on bots by default
 - Made item debug server side only to stop clients using it outside the editor
 
+### Fixed
+- Stopped the same coin/item being taken multiple times
+- Made IP finder update periodically
+
 ## [0.10.1] - 2023-08-01
 
 ### Fixed
