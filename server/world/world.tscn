@@ -12,3 +12,6 @@ Player = ExtResource( 5 )
 BotController = ExtResource( 3 )
 
 [node name="LevelGenerator" parent="." index="0" instance=ExtResource( 4 )]
+
+[node name="CountdownTimer" type="Timer" parent="." index="2"]
+one_shot = true

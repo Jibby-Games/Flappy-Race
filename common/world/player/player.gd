@@ -147,7 +147,8 @@ func add_item(item: Item) -> void:
 	items.append(item)
 	Logger.print(self, "Player %s got item %s", [self.name, item.name])
 	emit_signal("got_item", self, item)
-	yield(get_tree().create_timer(ITEM_USE_DELAY), "timeout")
+	$ItemDelayTimer.start(ITEM_USE_DELAY)
+	yield($ItemDelayTimer, "timeout")
 	use_item()
 
 
