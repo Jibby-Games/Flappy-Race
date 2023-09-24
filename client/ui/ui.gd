@@ -29,6 +29,8 @@ func _ready() -> void:
 			child.hide()
 	if ProjectSettings.get_setting("application/config/debug_tools"):
 		$DebugTools.show()
+	# Always show the message box
+	$MessageBox.show()
 
 
 func set_player_list(player_list: Dictionary) -> void:

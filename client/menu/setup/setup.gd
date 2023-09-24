@@ -73,11 +73,8 @@ func set_enable_host_options(is_host: bool) -> void:
 	$IpFinder.visible = ((not Network.Client.is_singleplayer) and is_host)
 
 
-func populate_players(old_player_list: Dictionary, new_player_list: Dictionary) -> void:
+func populate_players(_old_player_list: Dictionary, new_player_list: Dictionary) -> void:
 	Logger.print(self, "Got player list: %s" % [new_player_list])
-	# Don't announce changes the first time players are populated (for first time joiners)
-	if not old_player_list.empty():
-		announce_player_changes(old_player_list, new_player_list)
 	player_list.clear_players()
 	$GameOptions.set_max_bots(Network.MAX_PLAYERS - multiplayer.get_network_connected_peers().size())
 	for player_id in new_player_list:
@@ -85,15 +82,6 @@ func populate_players(old_player_list: Dictionary, new_player_list: Dictionary) 
 		var player_name = new_player_list[player_id]["name"]
 		var spectating = new_player_list[player_id]["spectate"]
 		player_list.add_player(player_id, player_name, colour_choice, spectating)
-
-
-func announce_player_changes(old_player_list: Dictionary, new_player_list: Dictionary) -> void:
-	for player_id in new_player_list:
-		if not player_id in old_player_list:
-			$MessageBox.add_message("%s joined the game" % new_player_list[player_id]["name"])
-	for player_id in old_player_list:
-		if not player_id in new_player_list:
-			$MessageBox.add_message("%s left the game" % old_player_list[player_id]["name"])
 
 
 func update_player_colour(player_id: int, colour_choice: int) -> void:
