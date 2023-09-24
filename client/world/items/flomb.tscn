@@ -2,15 +2,13 @@
 
 [ext_resource path="res://common/world/items/flomb.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/world/items/flomb.gd" type="Script" id=2]
-[ext_resource path="res://client/world/items/flomb.png" type="Texture" id=3]
+[ext_resource path="res://client/world/items/flomb_animation.tres" type="SpriteFrames" id=3]
 [ext_resource path="res://client/effects/explosion/explosion.tscn" type="PackedScene" id=4]
 
 [node name="Flomb" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-max_speed = 5000
-foreground_max_speed = 800
 explosion_effect = ExtResource( 4 )
 
-[node name="Sprite" type="Sprite" parent="." index="5"]
-position = Vector2( 0, -4 )
-texture = ExtResource( 3 )
+[node name="AnimatedSprite" type="AnimatedSprite" parent="." index="5"]
+position = Vector2( 0, -3 )
+frames = ExtResource( 3 )
