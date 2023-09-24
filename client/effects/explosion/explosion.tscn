@@ -320,7 +320,7 @@ tracks/7/keys = {
 }
 
 [node name="Explosion" type="Node2D"]
-z_index = 1
+z_index = 5
 z_as_relative = false
 script = ExtResource( 4 )
 
