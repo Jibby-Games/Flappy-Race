@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://common/world/player/powerups/magnet.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/world/player/powerups/picoberry.tscn" type="PackedScene" id=2]
 [ext_resource path="res://common/world/player/powerups/invisiberry.tscn" type="PackedScene" id=3]
 [ext_resource path="res://common/world/player/powerups/laser.tscn" type="PackedScene" id=4]
 [ext_resource path="res://common/world/player/powerups/boost.tscn" type="PackedScene" id=5]
+[ext_resource path="res://common/world/player/powerups/flomb.tscn" type="PackedScene" id=6]
 [ext_resource path="res://common/world/player/player.gd" type="Script" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
@@ -31,6 +32,10 @@ collision_mask = 14
 shape = SubResource( 2 )
 
 [node name="DeathCooldownTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ItemDelayTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="Magnet" parent="." instance=ExtResource( 1 )]
 
@@ -41,6 +46,8 @@ shape = SubResource( 2 )
 [node name="Laser" parent="." instance=ExtResource( 4 )]
 
 [node name="Boost" parent="." instance=ExtResource( 5 )]
+
+[node name="Flomb" parent="." instance=ExtResource( 6 )]
 
 [connection signal="area_entered" from="Detect" to="." method="_on_Detect_area_entered"]
 [connection signal="body_entered" from="Detect" to="." method="_on_Detect_body_entered"]

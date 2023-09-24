@@ -13,6 +13,7 @@ enum Difficulty {
 }
 
 export(PackedScene) var Player
+export(Array) var SpawnableObjects
 
 var game_seed := 0
 var game_rng := RandomNumberGenerator.new()
@@ -152,3 +153,11 @@ func _on_Player_finish(player: CommonPlayer) -> void:
 
 func end_race() -> void:
 	Logger.print(self, "Race finished!")
+
+
+func spawn_object(object_id: int, properties: Dictionary) -> void:
+	var inst := SpawnableObjects[object_id].instance() as Node
+	for property_key in properties:
+		inst.set(property_key, properties[property_key])
+	Logger.print(self, "Spawning object: %s Properties: %s", [inst.name, properties])
+	add_child(inst)

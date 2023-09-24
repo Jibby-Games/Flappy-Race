@@ -1,0 +1,28 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://common/world/items/flomb_projectile.tscn" type="PackedScene" id=1]
+[ext_resource path="res://client/world/items/flomb_animation.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://client/effects/explosion/explosion.tscn" type="PackedScene" id=3]
+[ext_resource path="res://client/world/items/flomb_projectile.gd" type="Script" id=4]
+[ext_resource path="res://client/audio/flomb_missile_loop.ogg" type="AudioStream" id=5]
+[ext_resource path="res://client/audio/flomb_fuse_loop.ogg" type="AudioStream" id=6]
+
+[node name="FlombProjectile" instance=ExtResource( 1 )]
+script = ExtResource( 4 )
+explosion_effect = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="." index="5"]
+position = Vector2( 0, -3 )
+frames = ExtResource( 2 )
+
+[node name="FlyingSoundLoop" type="AudioStreamPlayer2D" parent="." index="6"]
+stream = ExtResource( 5 )
+volume_db = 13.0
+attenuation = 2.0
+bus = "Sounds"
+
+[node name="FuseSoundLoop" type="AudioStreamPlayer2D" parent="." index="7"]
+stream = ExtResource( 6 )
+volume_db = 20.0
+attenuation = 2.0
+bus = "Sounds"

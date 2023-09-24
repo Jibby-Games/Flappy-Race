@@ -445,7 +445,7 @@ remote func receive_player_flap(client_clock: int) -> void:
 	if not $World.has_node(str(player_id)):
 		push_error("Flap received for player %s - but can't find player in world")
 		return
-	Logger.print(self, "Received flap for player %d" % player_id)
+#	Logger.print(self, "Received flap for player %d" % player_id)
 	send_player_flap(player_id, client_clock)
 
 
@@ -453,19 +453,19 @@ func send_player_flap(player_id: int, clock_time: int) -> void:
 	rpc_id(0, "receive_player_flap", player_id, clock_time)
 
 
-remote func receive_player_death(client_clock: int) -> void:
+remote func receive_player_death(client_clock: int, reason: String) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	if not $World.has_node(str(player_id)):
 		push_error("Death received for player %s - but can't find player in world")
 		return
 	Logger.print(self, "Received death for player %d" % player_id)
 	var player := $World.get_node(str(player_id))
-	player.death()
-	send_player_death(player_id, client_clock)
+	player.death("From client - %s" % reason)
+	send_player_death(player_id, client_clock, reason)
 
 
-func send_player_death(player_id: int, clock_time: int) -> void:
-	rpc_id(0, "receive_player_death", player_id, clock_time)
+func send_player_death(player_id: int, clock_time: int, reason: String) -> void:
+	rpc_id(0, "receive_player_death", player_id, clock_time, reason)
 
 
 remote func receive_player_state(player_state: Dictionary) -> void:
@@ -496,3 +496,7 @@ func send_leaderboard(leaderboard: Array) -> void:
 
 func send_player_add_item(player_id: int, item_id: int) -> void:
 	rpc("receive_player_add_item", player_id, item_id)
+
+
+func send_spawn_object(object_id: int, properties: Dictionary) -> void:
+	rpc("receive_spawn_object", object_id, properties)

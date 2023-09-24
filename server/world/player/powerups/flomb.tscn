@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://common/world/player/powerups/flomb.tscn" type="PackedScene" id=2]
+[ext_resource path="res://server/world/player/powerups/flomb.gd" type="Script" id=3]
+
+[node name="Flomb" instance=ExtResource( 2 )]
+script = ExtResource( 3 )

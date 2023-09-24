@@ -32,6 +32,7 @@ func _physics_process(_delta: float) -> void:
 	$VisibleBody/Sprites.rotation = velocity.angle()
 
 
+# Using _input so both keyboard and mouse clicks are registered
 func _input(event: InputEvent) -> void:
 	if not is_controlled:
 		return
@@ -104,14 +105,14 @@ func start() -> void:
 	$AnimationPlayer.play("RESET")
 
 
-func death() -> void:
+func death(reason: String = "") -> void:
 	if enable_death == false:
 		return
 	if coins > 0:
 		$CoinLost.play()
 	if is_controlled:
-		Network.Client.send_player_death()
-	.death()
+		Network.Client.send_player_death(reason)
+	.death(reason)
 
 
 func on_death() -> void:

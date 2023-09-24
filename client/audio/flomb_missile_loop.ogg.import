@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/flomb_missile_loop.ogg-e7fd97ed74138f2368aeede2d9c8180f.oggstr"
+
+[deps]
+
+source_file="res://client/audio/flomb_missile_loop.ogg"
+dest_files=[ "res://.import/flomb_missile_loop.ogg-e7fd97ed74138f2368aeede2d9c8180f.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
