@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/flomb_fuse_loop.ogg-24a0d5b99a7a6b1a6c723c9c5019403a.oggstr"
+
+[deps]
+
+source_file="res://client/audio/flomb_fuse_loop.ogg"
+dest_files=[ "res://.import/flomb_fuse_loop.ogg-24a0d5b99a7a6b1a6c723c9c5019403a.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -4,9 +4,13 @@ export(PackedScene) var explosion_effect = preload("res://client/effects/explosi
 
 func _ready() -> void:
 	$AnimatedSprite.play()
+	$FlyingSoundLoop.play()
+	$FuseSoundLoop.play()
 
 
 func explode() -> void:
+	$FuseSoundLoop.stop()
+	$FlyingSoundLoop.stop()
 	$AnimatedSprite.hide()
 	# Spawn an explosion
 	var inst: Node2D = explosion_effect.instance()
