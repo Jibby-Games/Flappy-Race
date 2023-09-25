@@ -70,7 +70,7 @@ func _on_game_options_changed(new_game_options: Dictionary) -> void:
 func set_enable_host_options(is_host: bool) -> void:
 	$StartButton.visible = is_host
 	$GameOptions.set_enable_host_options(is_host)
-	$IpFinder.visible = ((not Network.Client.is_singleplayer) and is_host)
+	$IpFinder.visible = ((not Network.Client.is_singleplayer) and Network.is_server_hosting())
 
 
 func populate_players(_old_player_list: Dictionary, new_player_list: Dictionary) -> void:

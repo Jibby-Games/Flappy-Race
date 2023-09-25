@@ -85,3 +85,8 @@ func stop_networking() -> void:
 	Client.stop_client()
 	if Server:
 		Server.stop_server()
+
+
+# Returns true if the server network is active and listening for connections
+func is_server_hosting() -> bool:
+	return Server != null and Server.multiplayer.is_network_server()

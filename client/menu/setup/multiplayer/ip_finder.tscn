@@ -73,6 +73,7 @@ one_shot = true
 
 [node name="RefreshTimer" type="Timer" parent="."]
 
+[connection signal="visibility_changed" from="." to="." method="_on_IpFinder_visibility_changed"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
 [connection signal="toggled" from="ButtonContainer/ShowButton" to="." method="_on_ShowButton_toggled"]
 [connection signal="pressed" from="ButtonContainer/CopyButton" to="." method="_on_CopyButton_pressed"]
