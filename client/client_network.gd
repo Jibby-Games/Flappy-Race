@@ -38,6 +38,7 @@ func _ready() -> void:
 	assert(result == OK)
 	result = multiplayer.connect("connected_to_server", self, "_on_connected_to_server")
 	assert(result == OK)
+	# This signal doesn't seem to work for WebSocket Clients in Godot 3.5.2
 	result = multiplayer.connect("server_disconnected", self, "_on_server_disconnected")
 	assert(result == OK)
 
@@ -111,9 +112,8 @@ func stop_client() -> void:
 func _on_connection_failed() -> void:
 	Logger.print(self, "Failed to connect to server!")
 	stop_client()
-	if is_singleplayer:
-		change_scene_to_title_screen()
-		Globals.show_message("Failed to connect to the server!", "Server Connection Failed")
+	change_scene_to_title_screen()
+	Globals.show_message("Connection to the server failed!", "Server Connection Failed")
 
 
 func _on_connected_to_server() -> void:
