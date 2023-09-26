@@ -22,16 +22,21 @@ Types of changes:
 - New item:
   - Flomb - A flying bomb which targets the player in first place!
 - Show when players join or leave the game
+- Add buttons to allow the host to kick players and change hosts
 
 ### Changed
 - Coins can now spawn item boxes instead so players can get more items!
-- Tweak laser item chance
+- Tweaked all item chances
 - Turn on bots by default
 - Made item debug server side only to stop clients using it outside the editor
 
 ### Fixed
 - Stopped the same coin/item being taken multiple times
 - Made IP finder update periodically
+- Made boost work for remote clients
+- Stop leaderboard being cut off by buttons
+- Enter key now works when joining by IP
+- Various connection bugs
 
 ## [0.10.1] - 2023-08-01
 
