@@ -145,6 +145,9 @@ func stop_server() -> void:
 
 
 func change_scene_to_setup() -> void:
+	# Flush out old player state
+	player_state_collection.clear()
+	$StateProcessing.running = false
 	change_scene("res://server/setup.tscn")
 
 
@@ -442,6 +445,7 @@ remote func receive_start_game_request() -> void:
 		Logger.print(self, "Starting game!")
 		# Flush any old states
 		player_state_collection.clear()
+		$StateProcessing.running = true
 		send_load_world()
 		change_scene("res://server/world/world.tscn")
 	else:

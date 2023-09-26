@@ -7,6 +7,7 @@ const TICKS_PER_FPS = CLIENT_FPS / SERVER_FPS
 var server: ServerNetwork
 var tick := 0
 var world_state := {}
+var running := false setget set_running
 
 
 func _ready() -> void:
@@ -16,10 +17,20 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
+	if not running:
+		return
 	tick += 1
 	if tick >= TICKS_PER_FPS:
 		tick = 0
 		process_world_state()
+
+
+func set_running(value: bool) -> void:
+	running = value
+	if running:
+		Logger.print(self, "StateProcessing started running!")
+	else:
+		Logger.print(self, "StateProcessing stopped running!")
 
 
 func process_world_state() -> void:
