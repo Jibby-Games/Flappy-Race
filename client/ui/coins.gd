@@ -2,6 +2,9 @@ extends MarginContainer
 
 var current_coins := 0
 
+func _ready() -> void:
+	$HBoxContainer/Control/AnimatedSprite.play("spin")
+
 
 func update_coins(amount: int) -> void:
 	var diff := amount - current_coins

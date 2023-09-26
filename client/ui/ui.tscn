@@ -1111,8 +1111,6 @@ rect_min_size = Vector2( 84, 84 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Ingame/Player/Coins/HBoxContainer/Control"]
 frames = ExtResource( 17 )
 animation = "spin"
-frame = 5
-playing = true
 offset = Vector2( 42, 42 )
 
 [node name="CoinUpdate" type="Label" parent="Ingame/Player/Coins"]
