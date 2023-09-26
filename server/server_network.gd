@@ -53,6 +53,7 @@ func _exit_tree() -> void:
 	multiplayer.disconnect("network_peer_disconnected", self, "_peer_disconnected")
 	multiplayer.disconnect("network_peer_connected", self, "_peer_connected")
 
+### Host functions
 
 func set_host(new_host: int) -> void:
 	_host_player_id = new_host
@@ -212,6 +213,37 @@ remote func receive_change_to_setup_request() -> void:
 
 func send_change_to_setup() -> void:
 	rpc("receive_change_to_setup")
+
+
+remote func receive_host_change_request(new_host_id: int) -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	if not is_host_id(player_id):
+		Logger.print(
+			self, "Player %s tried to request host change but they're not the host!" % [player_id]
+		)
+		return
+	Logger.print(self, "Player %s changed host to player %s" % [player_id, new_host_id])
+	set_host(new_host_id)
+
+
+remote func receive_kick_request(kick_player_id: int) -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	if not is_host_id(player_id):
+		Logger.print(
+			self, "Player %s tried to kick player %s but they're not the host!" % [player_id, kick_player_id]
+		)
+		return
+	Logger.print(self, "Player %s kicked player %s" % [player_id, kick_player_id])
+	kick_player(kick_player_id)
+
+
+func kick_player(player_id: int) -> void:
+	Logger.print(self, "Kicked player %s" % player_id)
+	rpc_id(player_id, "receive_player_kicked")
+	yield(get_tree().create_timer(1), "timeout")
+	# Just in case the player doesn't get the kicked message
+	if player_id in multiplayer.get_network_connected_peers():
+		multiplayer.network_peer.disconnect_peer(player_id)
 
 
 remote func receive_player_settings(player_name: String, player_colour: int) -> void:
