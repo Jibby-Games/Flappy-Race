@@ -145,7 +145,7 @@ func lost_connection(reason: String) -> void:
 	if not is_connected:
 		return
 	Logger.print(self, "Lost connection to server, reason: %s" % reason)
-	stop_client()
+	Network.stop_networking()
 	change_scene_to_title_screen()
 	Globals.show_message(reason, "Server Disconnect")
 
