@@ -12,6 +12,7 @@ var setup_scene := "res://client/menu/setup/setup.tscn"
 var world_scene := "res://client/world/world.tscn"
 
 # Clock sync and latency vars
+var is_connected := false
 var client_clock: int = 0
 var latency = 0
 var delta_latency = 0
@@ -38,6 +39,7 @@ func _ready() -> void:
 	assert(result == OK)
 	result = multiplayer.connect("connected_to_server", self, "_on_connected_to_server")
 	assert(result == OK)
+	# This signal doesn't seem to work for WebSocket Clients in Godot 3.5.2
 	result = multiplayer.connect("server_disconnected", self, "_on_server_disconnected")
 	assert(result == OK)
 
@@ -99,6 +101,7 @@ func start_client(host: String, port: int, singleplayer: bool = false) -> void:
 func stop_client() -> void:
 	$LatencyUpdater.stop()
 	$ClockSyncTimer.stop()
+	is_connected = false
 	if multiplayer.network_peer:
 		multiplayer.network_peer.disconnect_from_host()
 	multiplayer.call_deferred("set_network_peer", null)
@@ -109,15 +112,12 @@ func stop_client() -> void:
 
 
 func _on_connection_failed() -> void:
-	Logger.print(self, "Failed to connect to server!")
-	stop_client()
-	if is_singleplayer:
-		change_scene_to_title_screen()
-		Globals.show_message("Failed to connect to the server!", "Server Connection Failed")
+	lost_connection("Connection to the server failed!")
 
 
 func _on_connected_to_server() -> void:
 	Logger.print(self, "Successfully connected to server!")
+	is_connected = true
 	send_clock_sync_request()
 	# Start calculating latency regularly
 	$LatencyUpdater.start()
@@ -127,10 +127,7 @@ func _on_connected_to_server() -> void:
 
 
 func _on_server_disconnected() -> void:
-	Logger.print(self, "Disconnected from server!")
-	stop_client()
-	change_scene_to_title_screen()
-	Globals.show_message("Lost connection to the server.", "Server Disconnect")
+	lost_connection("Lost connection to the server.")
 
 
 func is_server_connected() -> bool:
@@ -141,6 +138,16 @@ func is_server_connected() -> bool:
 			== NetworkedMultiplayerPeer.CONNECTION_CONNECTED
 		)
 	)
+
+
+func lost_connection(reason: String) -> void:
+	# Only lose connection once
+	if not is_connected:
+		return
+	Logger.print(self, "Lost connection to server, reason: %s" % reason)
+	Network.stop_networking()
+	change_scene_to_title_screen()
+	Globals.show_message(reason, "Server Disconnect")
 
 
 func is_rpc_from_server() -> bool:
@@ -229,6 +236,20 @@ remote func receive_game_options(new_game_options: Dictionary) -> void:
 	game_options = new_game_options
 	Logger.print(self, "Received game options: %s" % [new_game_options])
 	emit_signal("game_options_changed", new_game_options)
+
+
+func send_host_change_request(player_id: int) -> void:
+	rpc_id(SERVER_ID, "receive_host_change_request", player_id)
+
+
+func send_kick_request(player_id: int) -> void:
+	rpc_id(SERVER_ID, "receive_kick_request", player_id)
+
+
+remote func receive_player_kicked() -> void:
+	if is_rpc_from_server() == false:
+		return
+	lost_connection("You have been kicked from the server")
 
 
 remote func receive_host_change(new_host_id: int) -> void:

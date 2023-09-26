@@ -1,28 +1,28 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=1]
 [ext_resource path="res://client/world/player/player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://client/menu/setup/multiplayer/player_entry.gd" type="Script" id=3]
 [ext_resource path="res://client/ui/custom_label.tscn" type="PackedScene" id=4]
 [ext_resource path="res://client/menu/setup/multiplayer/semi-closed-eye.png" type="Texture" id=5]
-[ext_resource path="res://client/menu/setup/multiplayer/crown.png" type="Texture" id=6]
+[ext_resource path="res://client/menu/setup/multiplayer/laurel-crown.png" type="Texture" id=6]
+[ext_resource path="res://client/menu/setup/multiplayer/boot-kick.png" type="Texture" id=7]
+[ext_resource path="res://client/menu/setup/multiplayer/crown.png" type="Texture" id=8]
 
 [node name="PlayerEntry" type="HBoxContainer"]
 margin_right = 374.0
 margin_bottom = 64.0
 grow_horizontal = 0
+rect_min_size = Vector2( 0, 67 )
 custom_constants/separation = 10
 alignment = 2
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Name" parent="." instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 300.0
-margin_bottom = 64.0
+margin_bottom = 67.0
 grow_horizontal = 0
 rect_min_size = Vector2( 300, 64 )
 custom_fonts/font = ExtResource( 1 )
@@ -32,10 +32,17 @@ valign = 1
 autowrap = true
 clip_text = true
 
-[node name="PlayerIcon" type="Control" parent="."]
+[node name="HostIcon" type="TextureRect" parent="."]
 margin_left = 310.0
 margin_right = 374.0
-margin_bottom = 64.0
+margin_bottom = 67.0
+rect_min_size = Vector2( 64, 64 )
+texture = ExtResource( 8 )
+
+[node name="PlayerIcon" type="Control" parent="."]
+margin_left = 384.0
+margin_right = 448.0
+margin_bottom = 67.0
 rect_min_size = Vector2( 64, 64 )
 size_flags_horizontal = 5
 size_flags_vertical = 5
@@ -56,17 +63,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HostPlaceholder" type="Control" parent="."]
-margin_left = 384.0
-margin_right = 448.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 64, 64 )
+[node name="HostPlaceholder" type="HBoxContainer" parent="."]
+margin_left = 458.0
+margin_right = 610.0
+margin_bottom = 67.0
+rect_min_size = Vector2( 148, 64 )
 
-[node name="HostIcon" type="TextureRect" parent="HostPlaceholder"]
-visible = false
-margin_right = 64.0
-margin_bottom = 64.0
-texture = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Promote" type="Button" parent="HostPlaceholder"]
+margin_right = 74.0
+margin_bottom = 67.0
+icon = ExtResource( 6 )
+icon_align = 1
+
+[node name="Kick" type="Button" parent="HostPlaceholder"]
+margin_left = 78.0
+margin_right = 152.0
+margin_bottom = 67.0
+icon = ExtResource( 7 )
+icon_align = 1
+
+[connection signal="pressed" from="HostPlaceholder/Promote" to="." method="_on_Promote_pressed"]
+[connection signal="button_down" from="HostPlaceholder/Kick" to="." method="_on_Kick_button_down"]

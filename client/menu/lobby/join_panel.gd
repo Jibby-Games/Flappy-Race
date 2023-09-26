@@ -5,7 +5,7 @@ onready var info_message = $MarginContainer/VBoxContainer/InfoMessage
 onready var ip_input = $MarginContainer/VBoxContainer/IpContainer/IpInput
 
 
-func _on_JoinButton_pressed() -> void:
+func try_join() -> void:
 	if ip_input.text.empty():
 		show_error("Please enter an IP")
 		return
@@ -43,3 +43,11 @@ func show_error(message: String) -> void:
 func _on_ConnectionTimer_timeout() -> void:
 	show_error("Connection failed!")
 	Network.Client.stop_client()
+
+
+func _on_JoinButton_pressed() -> void:
+	try_join()
+
+
+func _on_IpInput_text_entered(_new_text: String) -> void:
+	try_join()

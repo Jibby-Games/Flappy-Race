@@ -11,10 +11,17 @@ func _ready() -> void:
 	assert(result == OK)
 
 
-func add_player(player_id: int, player_name: String, colour_choice: int, spectating: bool) -> void:
+func add_player(
+		player_id: int,
+		player_name: String,
+		colour_choice: int,
+		spectating: bool,
+		is_bot: bool
+) -> void:
 	var player_entry = entry_template.instance()
-	player_entry.setup(player_id, player_name, colour_choice)
-	player_entry.set_host(Network.Client.is_host_id(player_id))
+	var is_host = Network.Client.is_host_id(player_id)
+	player_entry.setup(player_id, player_name, colour_choice, is_bot)
+	player_entry.set_host(is_host)
 	player_entry.set_spectating(spectating)
 	add_child(player_entry)
 
@@ -41,5 +48,5 @@ func update_player_spectating(player_id: int, is_spectating: bool) -> void:
 
 func _on_host_changed(new_host_id: int) -> void:
 	for player_entry in get_children():
-		var entry_is_host: bool = player_entry.name == str(new_host_id)
+		var entry_is_host: bool = player_entry.player_id == new_host_id
 		player_entry.set_host(entry_is_host)

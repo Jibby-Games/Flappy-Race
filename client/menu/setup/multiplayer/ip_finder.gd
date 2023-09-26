@@ -7,12 +7,6 @@ var public_ip: String = ""
 
 onready var ip_label = $IP
 
-
-func _ready() -> void:
-	update_public_ip()
-	$RefreshTimer.start(IP_REFRESH_TIME)
-
-
 func update_public_ip() -> void:
 	var result: int = $HTTPRequest.request("https://api.ipify.org")
 	if result != OK:
@@ -58,3 +52,12 @@ func _on_MessageTimer_timeout() -> void:
 
 func _on_RefreshTimer_timeout() -> void:
 	update_public_ip()
+
+
+func _on_IpFinder_visibility_changed() -> void:
+	# Assume the IP isn't needed when hidden
+	if is_visible_in_tree():
+		update_public_ip()
+		$RefreshTimer.start(IP_REFRESH_TIME)
+	else:
+		$RefreshTimer.stop()

@@ -871,11 +871,9 @@ anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -449.0
 margin_right = 449.0
+margin_bottom = -72.0
 grow_horizontal = 2
-rect_min_size = Vector2( 420, 800 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+rect_min_size = Vector2( 420, 840 )
 
 [node name="Header" type="Label" parent="Leaderboard/VBoxContainer"]
 margin_right = 898.0
@@ -891,8 +889,8 @@ align = 1
 margin_left = 224.0
 margin_top = 89.0
 margin_right = 674.0
-margin_bottom = 910.0
-rect_min_size = Vector2( 450, 800 )
+margin_bottom = 840.0
+rect_min_size = Vector2( 450, 700 )
 size_flags_horizontal = 6
 size_flags_vertical = 3
 follow_focus = true
@@ -932,8 +930,8 @@ __meta__ = {
 
 [node name="NewRaceButton" type="Button" parent="Leaderboard/Footer"]
 visible = false
-margin_left = 175.0
-margin_right = 425.0
+margin_left = 310.0
+margin_right = 560.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 250, 64 )
 theme = ExtResource( 6 )
@@ -1113,8 +1111,6 @@ rect_min_size = Vector2( 84, 84 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Ingame/Player/Coins/HBoxContainer/Control"]
 frames = ExtResource( 17 )
 animation = "spin"
-frame = 2
-playing = true
 offset = Vector2( 42, 42 )
 
 [node name="CoinUpdate" type="Label" parent="Ingame/Player/Coins"]
