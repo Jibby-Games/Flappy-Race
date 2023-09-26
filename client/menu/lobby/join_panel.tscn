@@ -104,4 +104,5 @@ align = 1
 valign = 1
 
 [connection signal="timeout" from="ConnectionTimer" to="." method="_on_ConnectionTimer_timeout"]
+[connection signal="text_entered" from="MarginContainer/VBoxContainer/IpContainer/IpInput" to="." method="_on_IpInput_text_entered"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/IpContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
