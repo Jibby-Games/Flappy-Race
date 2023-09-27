@@ -17,26 +17,31 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.11.0] - 2023-09-27
+
 ### Added
-- New coin and item line obstacles
-- New item:
-  - Flomb - A flying bomb which targets the player in first place!
-- Show when players join or leave the game
-- Add buttons to allow the host to kick players and change hosts
+
+-   New coin and item line obstacles
+-   New item:
+    -   Flomb - A flying bomb which targets the player in first place!
+-   Show when players join or leave the game
+-   Add buttons to allow the host to kick players and change hosts
 
 ### Changed
-- Coins can now spawn item boxes instead so players can get more items!
-- Tweaked all item chances
-- Turn on bots by default
-- Made item debug server side only to stop clients using it outside the editor
+
+-   Coins can now spawn item boxes instead so players can get more items!
+-   Tweaked all item chances
+-   Turn on bots by default
+-   Made item debug server side only to stop clients using it outside the editor
 
 ### Fixed
-- Stopped the same coin/item being taken multiple times
-- Made IP finder update periodically
-- Made boost work for remote clients
-- Stop leaderboard being cut off by buttons
-- Enter key now works when joining by IP
-- Various connection bugs
+
+-   Stopped the same coin/item being taken multiple times
+-   Made IP finder update periodically
+-   Made boost work for remote clients
+-   Stop leaderboard being cut off by buttons
+-   Enter key now works when joining by IP
+-   Various connection bugs
 
 ## [0.10.1] - 2023-08-01
 
@@ -364,7 +369,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.10.1...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.11.0...HEAD
+
+[0.11.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.10.1...0.11.0
 
 [0.10.1]: https://github.com/Jibby-Games/Flappy-Race/compare/0.10.0...0.10.1
 
