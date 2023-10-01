@@ -1,6 +1,6 @@
 extends MenuControl
 
-const MAX_CONNECT_TIME := 10
+const MAX_CONNECT_TIME := 30
 
 var server_browser_scene := "res://client/menu/lobby/server_browser.tscn"
 
