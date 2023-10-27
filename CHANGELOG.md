@@ -17,6 +17,9 @@ Types of changes:
 
 ## [Unreleased]
 
+### Fixed
+- Fix joining official servers for HTML5 builds
+
 ## [0.11.0] - 2023-09-27
 
 ### Added
