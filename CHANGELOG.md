@@ -19,6 +19,7 @@ Types of changes:
 
 ### Fixed
 - Fix joining official servers for HTML5 builds
+- Only show compatible servers in HTML5 server browser (server must use HTTPS)
 
 ## [0.11.0] - 2023-09-27
 

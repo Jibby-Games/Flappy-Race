@@ -102,10 +102,18 @@ func clear_servers() -> void:
 func populate_servers(servers: Array) -> void:
 	if servers.empty():
 		show_info("No servers found!")
+		return
+	var any_servers = false
 	for server in servers:
+		if OS.has_feature('web') and server.get("tls", false) == false:
+			# HTML5 builds can only connect to tls enabled servers, so don't show them
+			continue
+		any_servers = true
 		var entry = server_entry.instance()
 		entry.setup(server)
 		server_list_entries.add_child(entry)
+	if not any_servers:
+		show_info("No compatible servers found!")
 
 
 func _on_BackButton_pressed() -> void:
