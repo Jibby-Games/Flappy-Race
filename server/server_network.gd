@@ -19,6 +19,7 @@ const BOT_ID_OFFSET := 1000
 # interact with eachother when self hosting.
 
 var port := 0
+var use_tls := false
 # When true, the server stays active after all players leave, otherwise it shutsdown
 var persistent_server := false
 # When true will start a timer and shut down the server if no one joins in time
@@ -86,6 +87,7 @@ func start_server(
 		push_error("Server hosting is not supported on browsers!")
 		return
 	port = server_port
+	use_tls = false
 	max_players = server_max_players
 	game_options = DEFAULT_GAME_OPTIONS.duplicate()
 	if forward_port:
@@ -95,6 +97,7 @@ func start_server(
 		upnp_handler.try_add_port_mapping(port)
 	var peer := WebSocketServer.new()
 	if Network.X509_CERT and Network.X509_KEY:
+		use_tls = true
 		peer.private_key = Network.X509_KEY
 		peer.ssl_certificate = Network.X509_CERT
 	var result: int

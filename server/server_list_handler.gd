@@ -5,7 +5,7 @@ signal connection_closed
 signal connection_error
 
 export var server_list_url := ""
-export var server_list_route := "api/list/ws"
+export var server_list_route := "ws"
 
 # Our WebSocketClient instance
 var _client := WebSocketClient.new()
@@ -56,7 +56,7 @@ func _error() -> void:
 func _connected(protocol = ""):
 	Logger.print(self, "Server list connected with protocol: %s" % protocol)
 	# The server list expects the name to be sent first
-	_send_json({"name": server_name, "port": Network.Server.port})
+	_send_json({"name": server_name, "tls": Network.Server.use_tls, "port": Network.Server.port})
 	$ReconnectionTimer.stop()
 	emit_signal("connection_established")
 

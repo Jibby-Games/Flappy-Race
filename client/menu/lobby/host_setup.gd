@@ -1,10 +1,10 @@
 extends MenuControl
 
-const MAX_CONNECT_TIME := 10
+const MAX_CONNECT_TIME := 30
 
 var server_browser_scene := "res://client/menu/lobby/server_browser.tscn"
 
-var game_manager_route = "api/manager/request"
+var game_manager_route = "request"
 var use_server_list := true
 
 onready var error_message = $VBoxContainer/Menu/ErrorMessage
@@ -114,7 +114,7 @@ func _on_HTTPCreate_request_completed(
 	if not typeof(resp.port) == TYPE_REAL:
 		push_error("Port must be a numerical type (float), got: %s" % typeof(resp.port))
 		return
-	try_connect_to_server(Network.SERVER_MANAGER_URL, int(resp.port))
+	try_connect_to_server(Network.SERVER_DOMAIN_URL, int(resp.port))
 
 
 func try_connect_to_server(ip: String, port: int) -> void:

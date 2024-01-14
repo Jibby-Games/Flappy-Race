@@ -140,12 +140,18 @@
             "command": "mkdir -p builds/linux && godot --export linux",
         },
         {
+            "label": "Export HTML5",
+            "type": "shell",
+            "command": "mkdir -p builds/HTML5 && godot --export HTML5",
+        },
+        {
             "label": "Export All",
             "dependsOn": [
                 "Export Windows",
                 "Export Mac",
-                "Export Linux"
+                "Export Linux",
+                "Export HTML5",
             ],
         }
-    ]
+    ],
 }
