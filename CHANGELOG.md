@@ -17,6 +17,9 @@ Types of changes:
 
 ## [Unreleased]
 
+### Changed
+- Update Godot to 3.5.3
+
 ### Fixed
 - Fix joining official servers for HTML5 builds
 - Only show compatible servers in HTML5 server browser (server must use HTTPS)
