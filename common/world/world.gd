@@ -109,6 +109,7 @@ func spawn_player(player_id: int, spawn_position: Vector2, is_bot: bool) -> Node
 		player.position = spawn_position
 		player.enable_movement = false
 		player.is_bot = is_bot
+		player.finish_line_position = level_generator.finish_line.position
 		add_child(player)
 		return player
 	return null

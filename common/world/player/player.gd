@@ -23,6 +23,8 @@ var coins := 0
 var items := []
 var checkpoint_position := Vector2()
 var is_bot := false
+var finish_line_position := Vector2()
+var is_finished := false
 
 # Movement vars
 var velocity: Vector2 = Vector2()
@@ -35,6 +37,9 @@ func _physics_process(_delta: float) -> void:
 	update_movement()
 	if is_position_out_of_bounds(self.position):
 		death("Out of bounds")
+	if self.position.x >= finish_line_position.x:
+		# Ensures players always trigger the finish
+		finish()
 
 
 func update_movement() -> void:
@@ -75,6 +80,7 @@ func _on_Detect_body_entered(_body: Node) -> void:
 
 func start() -> void:
 	enable_movement = true
+	is_finished = false
 
 
 func do_flap() -> void:
@@ -161,6 +167,10 @@ func use_item() -> void:
 
 
 func finish() -> void:
+	if is_finished:
+		# Only call finish once per player
+		return
+	is_finished = true
 	add_score()
 	emit_signal("finish", self)
 
