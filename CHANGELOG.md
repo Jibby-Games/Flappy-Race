@@ -22,7 +22,10 @@ Types of changes:
 
 ### Fixed
 - Fix joining official servers for HTML5 builds
-- Only show compatible servers in HTML5 server browser (server must use HTTPS)
+- Only show compatible servers in HTML5 server browser
+  - HTML5 builds can only connect to HTTPS hosted servers
+- Fix players sometimes not triggering finish
+- Fix host game options getting stuck in a loop
 
 ## [0.11.0] - 2023-09-27
 
