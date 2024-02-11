@@ -178,3 +178,8 @@ func finish() -> void:
 func knockback() -> void:
 	Logger.print(self, "Knocking player %s back to %s" % [name, checkpoint_position])
 	set_global_position(checkpoint_position)
+
+
+func get_progress() -> float:
+	# Account for body radius
+	return (self.position.x + 16) / finish_line_position.x

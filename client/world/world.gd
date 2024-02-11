@@ -44,7 +44,7 @@ func update_player_progress() -> void:
 			and is_instance_valid(player_entry.body)
 		):
 			var player_progress: float = 0.0
-			player_progress = player_entry.body.position.x / finish_line_x_pos
+			player_progress = player_entry.body.get_progress()
 			$UI.RaceProgress.set_progress(player_id, player_progress)
 
 
@@ -146,6 +146,7 @@ func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: D
 	assert(result == OK)
 	$UI/Loading.set_hint_text("Generating level")
 	$UI/Loading.start()
+	Network.Client.game_options = new_game_options
 	.start_game(game_seed, new_game_options, new_player_list)
 	if not level_generator.level_ready:
 		# Level generator could be finished before returning to this function

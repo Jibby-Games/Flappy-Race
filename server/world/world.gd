@@ -151,6 +151,7 @@ func player_lose_life(player_id: int) -> void:
 		var player_info = player_list[player_id]
 		Logger.print(self, "Player %s lost all their lives!" % [player_id])
 		var death_entry = create_leaderboard_entry(player_id, death_time, player_info)
+		death_entry["progress"] = player_info.body.get_progress()
 		# Push to front so first player to die shows up last
 		players_died.push_front(death_entry)
 		Network.Server.send_despawn_player(player_id)
@@ -175,6 +176,8 @@ func _on_Player_finish(player: CommonPlayer) -> void:
 	var player_info = player_list[player_id]
 	var finish_entry = create_leaderboard_entry(player_id, finish_time, player_info)
 	finish_entry["place"] = place
+	# Always ensure finished players are at 100%
+	finish_entry["progress"] = 1.0
 	players_finished.push_back(finish_entry)
 	Network.Server.send_player_finished_race(player_id, place, finish_time)
 	._on_Player_finish(player)
@@ -185,8 +188,16 @@ func end_race() -> void:
 	time_running = false
 	var leaderboard := players_finished.duplicate()
 	leaderboard.append_array(players_died)
+	leaderboard.sort_custom(self, "leaderboard_sort")
 	Network.Server.send_leaderboard(leaderboard)
 	Logger.print(self, "Server Leaderboard: %s" % [leaderboard])
+
+
+func leaderboard_sort(a, b) -> bool:
+	if a.place > 0 and b.place > 0:
+		return a.place < b.place
+	else:
+		return a.progress > b.progress
 
 
 func create_leaderboard_entry(player_id: int, finish_time: float, player_info: Dictionary) -> Dictionary:
@@ -195,5 +206,6 @@ func create_leaderboard_entry(player_id: int, finish_time: float, player_info: D
 		"time": finish_time,
 		"name": player_info.name,
 		"colour": player_info.colour,
-		"progress": float(player_info.score) / game_options.goal,
+		"place": -1,
+		"progress": 0.0
 	}

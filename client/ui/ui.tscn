@@ -950,6 +950,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Score" type="Label" parent="Ingame/Player"]
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -100.0
@@ -1259,6 +1260,20 @@ anchor_bottom = 0.5
 margin_left = -5.0
 margin_top = -32.0
 margin_bottom = -32.0
+
+[node name="ActiveProgress" type="Label" parent="Ingame/RaceProgress"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -100.0
+margin_top = -47.0
+margin_right = 100.0
+margin_bottom = 1.0
+rect_min_size = Vector2( 200, 0 )
+theme = SubResource( 2 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "0%"
+align = 1
 
 [node name="InputControls" parent="Ingame" instance=ExtResource( 21 )]
 

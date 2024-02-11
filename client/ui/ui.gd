@@ -102,7 +102,7 @@ func show_leaderboard(player_list: Array) -> void:
 	$Death.hide()
 	$Leaderboard.clear_players()
 	for player in player_list:
-		var place_text := int2ordinal(player.place) if player.has("place") else ""
+		var place_text := int2ordinal(player.place) if player.place > 0 else ""
 		var time = player.get("time", 0.0)
 		$Leaderboard.add_player(player.name, player.colour, place_text, player.progress, time)
 
