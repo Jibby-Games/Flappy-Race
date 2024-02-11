@@ -19,6 +19,7 @@ Types of changes:
 
 ### Changed
 - Update Godot to 3.5.3
+- Show progress % instead of score on leaderboard
 
 ### Fixed
 - Fix joining official servers for HTML5 builds

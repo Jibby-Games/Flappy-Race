@@ -4,7 +4,7 @@ export var LeaderboardEntry: PackedScene
 
 
 func add_player(
-	player_name: String, colour: int, place_text: String, score: int, time: float
+	player_name: String, colour: int, place_text: String, progress: float, time: float
 ) -> void:
 	var entry = LeaderboardEntry.instance()
 	var player_body = entry.get_node("PlayerHolder/Player")
@@ -19,8 +19,8 @@ func add_player(
 		entry.get_node("Skull").show()
 	else:
 		place.text = place_text
-	var score_label = entry.get_node("Score")
-	score_label.text = str(score)
+	var progress_label = entry.get_node("Progress")
+	progress_label.text = "%3d%%" % (progress * 100)
 	var time_label = entry.get_node("Time")
 	if place_text.empty():
 		time_label.hide()
