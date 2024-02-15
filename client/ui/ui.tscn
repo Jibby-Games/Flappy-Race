@@ -685,6 +685,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 28 )
 
+[node name="Label" type="Label" parent="DebugTools"]
+margin_right = 361.0
+margin_bottom = 85.0
+text = "EDITOR DEBUG OVERLAY"
+
 [node name="HBoxContainer" type="HBoxContainer" parent="DebugTools"]
 anchor_left = 0.5
 anchor_right = 0.5

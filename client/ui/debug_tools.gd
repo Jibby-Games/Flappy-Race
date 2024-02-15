@@ -3,7 +3,6 @@ extends Control
 
 func _ready() -> void:
 	if not ProjectSettings.get_setting("application/config/debug_tools"):
-		hide()
 		# Disable processing if not enabled
 		set_physics_process(false)
 		return
@@ -24,6 +23,8 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	if Globals.client_world:
 		$InfoContainer/Distance.text = "Distance to leader: %f" % get_distance_to_leader()
+	if Input.is_action_just_pressed("toggle_debug"):
+		self.visible = !self.visible
 
 
 func get_distance_to_leader() -> float:

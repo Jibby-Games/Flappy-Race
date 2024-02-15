@@ -27,8 +27,6 @@ func _ready() -> void:
 	for child in get_children():
 		if child is Control:
 			child.hide()
-	if ProjectSettings.get_setting("application/config/debug_tools"):
-		$DebugTools.show()
 	# Always show the message box
 	$MessageBox.show()
 
