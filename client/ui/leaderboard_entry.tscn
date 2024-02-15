@@ -54,21 +54,21 @@ custom_fonts/font = ExtResource( 4 )
 text = "Player Name"
 clip_text = true
 
-[node name="Score" type="Label" parent="."]
+[node name="Progress" type="Label" parent="."]
 margin_left = 648.0
 margin_top = 8.0
-margin_right = 733.0
+margin_right = 753.0
 margin_bottom = 56.0
-rect_min_size = Vector2( 85, 0 )
+rect_min_size = Vector2( 105, 0 )
 theme = ExtResource( 3 )
 custom_fonts/font = ExtResource( 4 )
-text = "0"
+text = "100%"
 align = 2
 
 [node name="Time" type="Label" parent="."]
-margin_left = 753.0
+margin_left = 773.0
 margin_top = 8.0
-margin_right = 1012.0
+margin_right = 1032.0
 margin_bottom = 56.0
 rect_clip_content = true
 size_flags_horizontal = 0

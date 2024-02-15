@@ -366,7 +366,10 @@ remote func receive_game_option_change(option: String, value: int) -> void:
 		populate_bots(game_options.bots, value)
 	game_options[option] = value
 	Logger.print(self, "Player %s set %s to %s" % [player_id, option, value])
-	rpc("receive_game_option_change", option, value)
+	for connected_player_id in multiplayer.get_network_connected_peers():
+		# Don't send update to the host again to stop infinite update loops from lag
+		if not is_host_id(connected_player_id):
+			rpc_id(connected_player_id, "receive_game_option_change", option, value)
 
 
 func is_option_valid(option: String, value: int) -> bool:

@@ -5,6 +5,8 @@ class_name Obstacle
 export(bool) var random_height := false
 
 var generated := false
+# Store the RNG state that generated this obstacle for debug
+var generated_rng_state := 0
 var length: int
 var height: int
 # The distance from the middle to the boundary at the top and bottom
@@ -24,6 +26,7 @@ func _ready() -> void:
 
 
 func generate(game_rng: RandomNumberGenerator) -> void:
+	generated_rng_state = game_rng.get_state()
 	do_generate(game_rng)
 	length = calculate_length()
 	# Generate the nav poly for the obstacles
