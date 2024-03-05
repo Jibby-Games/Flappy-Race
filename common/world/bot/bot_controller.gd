@@ -6,6 +6,7 @@ var bottom_edge: int = ProjectSettings.get_setting("display/window/size/height")
 var player: CommonPlayer
 var target_pos := Vector2(100000, 0)
 var target_marker: Line2D
+var nav_pos := Vector2.ZERO
 var last_nav_pos := Vector2.ZERO
 var below_target_threshold := 16
 var ahead_of_target_threshold := 128
@@ -15,6 +16,7 @@ var flap_lookahead := 96
 var forward_lookahead := 64
 var verbose_bot := false
 var difficulty := 1.0 setget set_difficulty
+var random_target_y_range := 360
 
 # Flap cooldown
 var flap_timer := 0.0
@@ -31,15 +33,17 @@ var mistake_chance := 0.0
 onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
 func _ready():
-	nav_agent.set_target_location(target_pos)
 	player = get_parent()
 	var result := player.connect("death", self, "_on_player_death")
 	assert(result == OK)
+	update_target_pos()
 
 
 func _physics_process(delta: float) -> void:
 	$FlapDetector.position = Vector2(player.velocity.x, -player.FLAP).normalized() * flap_lookahead
 	$ForwardDetector.position = player.velocity.normalized() * forward_lookahead
+	# Must call this each physics process
+	nav_pos = nav_agent.get_next_location()
 	# Add a cooldown so flaps and mistakes don't get spammed
 	if in_mistake_cooldown:
 		mistake_timer += delta
@@ -87,8 +91,6 @@ func should_flap() -> bool:
 		if verbose_bot: print("flap due to forward detector")
 		return true
 
-	# Calculate the next nav pos
-	var nav_pos := nav_agent.get_next_location()
 	# Just carry on straight if nav pos is out of bounds
 	if nav_pos.y > bottom_edge or nav_pos.y < -bottom_edge:
 		nav_pos.y = last_nav_pos.y
@@ -137,9 +139,19 @@ func set_difficulty(value: float) -> void:
 	Logger.print(self, "Difficulty set to %f, mistakes mistake_chance = %f mistake_cooldown = %f", [difficulty, mistake_chance, mistake_cooldown_seconds])
 
 
-func _on_player_death(_player: CommonPlayer) -> void:
-	#TODO randomize route just in case we get stuck on one
+func randomize_target_y_pos() -> void:
+	target_pos.y = rand_range(-random_target_y_range, random_target_y_range)
+	update_target_pos()
+
+
+func update_target_pos() -> void:
+	draw_debug_point(target_pos, Color.blue)
 	nav_agent.set_target_location(target_pos)
+
+
+func _on_player_death(_player: CommonPlayer) -> void:
+	# Randomize y pos to get different routes
+	randomize_target_y_pos()
 
 
 func _on_FlapDetector_body_entered(body:Node) -> void:

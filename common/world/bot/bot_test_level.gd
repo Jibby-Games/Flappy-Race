@@ -17,3 +17,8 @@ func _ready() -> void:
 		var bot := player.instance()
 		bot.add_child(bot_controller.instance())
 		$Navigation2D.add_child(bot)
+		if i == 0:
+			var camera := Camera2D.new()
+			camera.current = true
+			camera.zoom = Vector2(4, 4)
+			bot.add_child(camera)
