@@ -7,6 +7,11 @@
 </p>
 
 <p align="center">
+  <img src="https://github.com/Jibby-Games/Flappy-Race/assets/4493127/66a36f12-4b55-4fdf-aafa-10caf182b6ad">
+</p>
+
+
+<p align="center">
     <img alt="GitHub" src="https://img.shields.io/github/license/Jibby-Games/Flappy-Race">
     <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/Jibby-Games/Flappy-Race/build.yml?branch=main">
     <img alt="GitHub issues" src="https://img.shields.io/github/issues/Jibby-Games/Flappy-Race">
@@ -19,7 +24,28 @@
 </p>
 
 # About
-Flappy Race is an open source multiplayer game based on Flappy Bird, created with Godot.
+Flappy Race is a free and open source 2D multiplayer game inspired by Flappy Bird and Mario Kart, created with **Godot 3**.
+
+Works on desktop (Windows, Linux, Mac) and HTML5 platforms.
+
+I started this project as a way to learn more about multiplayer game development in Godot and to learn about creating server backend code using Rust, Python and Docker.
+
+## Features
+- Items
+- Bots
+- Different game options
+- Singleplayer and online multiplayer
+- Official public servers (no port forwarding needed!)
+- Self hosted servers (desktop only)
+- Public server browser to see other games
+
+All server infrastructure is also open source, see the [Flappy Backend](https://github.com/Jibby-Games/Flappy-Backend) repo for the code.
+
+## Gameplay
+[Race Start](https://github.com/Jibby-Games/Flappy-Race/assets/4493127/eee9f3d0-73ff-42ce-b94f-39240e6f2dd1)
+
+
+[Items](https://github.com/Jibby-Games/Flappy-Race/assets/4493127/dedd30c4-3b65-41b2-88b2-732ca2ead2aa)
 
 
 # Release Notes
