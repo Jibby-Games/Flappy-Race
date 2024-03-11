@@ -17,16 +17,20 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.12.0] - 2024-03-11
+
 ### Changed
-- Update Godot to 3.5.3
-- Show progress percentage instead of scores
+
+-   Update Godot to 3.5.3
+-   Show progress percentage instead of scores
 
 ### Fixed
-- Fix joining official servers for HTML5 builds
-- Only show compatible servers in HTML5 server browser
-  - HTML5 builds can only connect to HTTPS hosted servers
-- Fix players sometimes not triggering finish
-- Fix host game options getting stuck in a loop
+
+-   Fix joining official servers for HTML5 builds
+-   Only show compatible servers in HTML5 server browser
+    -   HTML5 builds can only connect to HTTPS hosted servers
+-   Fix players sometimes not triggering finish
+-   Fix host game options getting stuck in a loop
 
 ## [0.11.0] - 2023-09-27
 
@@ -380,7 +384,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.11.0...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.12.0...HEAD
+
+[0.12.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.11.0...0.12.0
 
 [0.11.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.10.1...0.11.0
 
