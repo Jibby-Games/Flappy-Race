@@ -29,6 +29,7 @@ var _host_player_id := 0 setget set_host
 var player_state_collection := {}
 var player_list := {}
 var game_options := {}
+var server_version := ""
 
 
 func _ready() -> void:
@@ -90,6 +91,7 @@ func start_server(
 	use_tls = false
 	max_players = server_max_players
 	game_options = DEFAULT_GAME_OPTIONS.duplicate()
+	server_version = ProjectSettings.get_setting("application/config/version")
 	if forward_port:
 		var upnp_handler = UpnpHandler.new()
 		upnp_handler.set_name("UpnpHandler")
@@ -241,13 +243,13 @@ remote func receive_kick_request(kick_player_id: int) -> void:
 		)
 		return
 	Logger.print(self, "Player %s kicked player %s" % [player_id, kick_player_id])
-	kick_player(kick_player_id)
+	kick_player(kick_player_id, "Kicked by host")
 
 
-func kick_player(player_id: int) -> void:
-	Logger.print(self, "Kicked player %s" % player_id)
-	rpc_id(player_id, "receive_player_kicked")
-	yield(get_tree().create_timer(1), "timeout")
+func kick_player(player_id: int, reason: String) -> void:
+	Logger.print(self, "Kicked player %s for reason: %s" % [player_id, reason])
+	rpc_id(player_id, "receive_player_kicked", reason)
+	yield(get_tree().create_timer(3), "timeout")
 	# Just in case the player doesn't get the kicked message
 	if player_id in multiplayer.get_network_connected_peers():
 		multiplayer.network_peer.disconnect_peer(player_id)
@@ -418,6 +420,13 @@ func send_despawn_player(player_id: int) -> void:
 	var erased = player_state_collection.erase(player_id)
 	assert(erased)
 	rpc("receive_despawn_player", player_id)
+
+
+remote func receive_version_info(client_version: String) -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	Logger.print(self, "Received client %s on version: %s" % [player_id, client_version])
+	if client_version != server_version:
+		kick_player(player_id, "Version mismatch! Server is on: %s You have: %s" % [server_version, client_version])
 
 
 remote func receive_clock_sync_request(client_time: int) -> void:

@@ -118,6 +118,7 @@ func _on_connection_failed() -> void:
 func _on_connected_to_server() -> void:
 	Logger.print(self, "Successfully connected to server!")
 	is_connected = true
+	send_version_info()
 	send_clock_sync_request()
 	# Start calculating latency regularly
 	$LatencyUpdater.start()
@@ -156,6 +157,11 @@ func is_rpc_from_server() -> bool:
 		push_error("Received RPC from player %d - they may be hacking!" % sender)
 		return false
 	return true
+
+
+func send_version_info() -> void:
+	var version: String = ProjectSettings.get_setting("application/config/version")
+	rpc_id(SERVER_ID, "receive_version_info", version)
 
 
 func send_clock_sync_request() -> void:
@@ -246,10 +252,10 @@ func send_kick_request(player_id: int) -> void:
 	rpc_id(SERVER_ID, "receive_kick_request", player_id)
 
 
-remote func receive_player_kicked() -> void:
+remote func receive_player_kicked(reason: String) -> void:
 	if is_rpc_from_server() == false:
 		return
-	lost_connection("You have been kicked from the server")
+	lost_connection("Kicked from server: %s" % [reason])
 
 
 remote func receive_host_change(new_host_id: int) -> void:
