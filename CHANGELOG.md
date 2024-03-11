@@ -19,6 +19,10 @@ Types of changes:
 
 ## [0.12.0] - 2024-03-11
 
+### Added
+- Bots now randomize their route so they don't all go the same way
+- Added a version check when joining the game
+
 ### Changed
 
 -   Update Godot to 3.5.3
