@@ -4,14 +4,14 @@ export(PackedScene) var ImpactParticles
 export(PackedScene) var FlapParticles
 
 var is_controlled
-var enable_death: bool = true
+export var enable_death: bool = true
 var player_name: String
 var body_colour: Color
 var flap_queue: Array
 
 
 func _ready() -> void:
-	$AnimationPlayer.set_assigned_animation("idle")
+#	$AnimationPlayer.set_assigned_animation("idle")
 	# Stops all idle animations being in sync
 	var start_time = rand_range(0, $AnimationPlayer.get_current_animation_length())
 	$AnimationPlayer.seek(start_time)

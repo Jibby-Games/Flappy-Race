@@ -3,7 +3,9 @@
 [ext_resource path="res://client/fonts/DelaGothicOne-Regular.ttf" type="DynamicFontData" id=1]
 
 [resource]
-size = 80
+size = 260
+outline_size = 4
+outline_color = Color( 0.745098, 0.431373, 0.0392157, 1 )
 use_filter = true
 extra_spacing_top = -6
 font_data = ExtResource( 1 )

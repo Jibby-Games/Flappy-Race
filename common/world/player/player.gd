@@ -29,7 +29,7 @@ var is_finished := false
 # Movement vars
 var velocity: Vector2 = Vector2()
 var acceleration: Vector2 = Vector2()
-var enable_movement: bool = true
+export var enable_movement: bool = true
 var has_gravity: bool = true
 
 
