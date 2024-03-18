@@ -1,32 +1,26 @@
 <p align="center">
     <img src="./client/menu/title/flappy_race_logo.png" height="75">
-</p>
-
-<p align="center">
+    <br>
     Race your friends in this high octane game of speed and daring!
-</p>
-
-<p align="center">
-  <img src="https://github.com/Jibby-Games/Flappy-Race/assets/4493127/66a36f12-4b55-4fdf-aafa-10caf182b6ad">
-</p>
-
-
-<p align="center">
+    <br>
+    <a href="https://jibby-games.itch.io/flappy-race"><img alt="Play it on itch.io!" src="http://jessemillar.github.io/available-on-itchio-badge/badge-bw.png" width="200"></a>
+    <br>
     <img alt="GitHub" src="https://img.shields.io/github/license/Jibby-Games/Flappy-Race">
     <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/Jibby-Games/Flappy-Race/build.yml?branch=main">
     <img alt="GitHub issues" src="https://img.shields.io/github/issues/Jibby-Games/Flappy-Race">
     <img alt="GitHub commits since latest release (by SemVer)" src="https://img.shields.io/github/commits-since/Jibby-Games/Flappy-Race/latest">
     <img alt="GitHub downloads all releases" src="https://img.shields.io/github/downloads/Jibby-Games/Flappy-Race/total">
-</p>
-
-<p align="center">
+    <br>
     <a href="https://discord.gg/CGh7tSbUkH"><img alt="Discord invite link" src="https://dcbadge.vercel.app/api/server/CGh7tSbUkH"></a>
+    <br>
+    <img src="https://github.com/Jibby-Games/Flappy-Race/assets/4493127/6235e165-43e2-4bc0-8ebf-59d25df7ed1b" width="400">
+    <img src="https://github.com/Jibby-Games/Flappy-Race/assets/4493127/33904c03-baa6-4e6a-a369-1fa203e63cf2" width="400">
 </p>
 
 # About
 Flappy Race is a free and open source 2D multiplayer game inspired by Flappy Bird and Mario Kart, created with **Godot 3**.
 
-Works on desktop (Windows, Linux, Mac) and HTML5 platforms.
+Works on desktop (Windows, Linux, Mac) and HTML5 platforms. [Play it on itch.io!](https://jibby-games.itch.io/flappy-race)
 
 I started this project as a way to learn more about multiplayer game development in Godot and to learn about creating server backend code using Rust, Python and Docker.
 
