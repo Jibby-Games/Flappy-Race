@@ -19,6 +19,7 @@ Types of changes:
 
 ### Added
 - Enabled new physics interpolation to make gameplay smoother
+- Highlight which player you are when near others
 
 ### Changed
 - Update Godot to 3.6

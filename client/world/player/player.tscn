@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://client/world/player/flappo.png" type="Texture" id=1]
 [ext_resource path="res://client/world/player/white_square_64px.png" type="Texture" id=2]
@@ -41,6 +41,74 @@ _data = [ Vector2( 0, 0.256757 ), 0.0, 0.743243, 0, 1, Vector2( 1, 1 ), 0.743243
 [sub_resource type="Gradient" id=7]
 interpolation_mode = 2
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 0.337255 )
+
+[sub_resource type="Gradient" id=19]
+interpolation_mode = 2
+offsets = PoolRealArray( 0.331412, 0.397695 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture2D" id=20]
+gradient = SubResource( 19 )
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2( 0.5, 0.5 )
+
+[sub_resource type="Animation" id=21]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=22]
+resource_name = "glow"
+length = 0.7
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 2, 2 ),
+"update": 0,
+"values": [ Vector2( 0.85, 0.85 ), Vector2( 1.05, 1.05 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
@@ -403,6 +471,9 @@ scale = 6.71
 scale_random = 1.0
 color_ramp = SubResource( 17 )
 
+[sub_resource type="CircleShape2D" id=23]
+radius = 100.0
+
 [node name="Player" instance=ExtResource( 9 )]
 script = ExtResource( 8 )
 ImpactParticles = ExtResource( 22 )
@@ -421,14 +492,23 @@ script = ExtResource( 23 )
 [node name="Sprites" type="Node2D" parent="VisibleBody" index="1"]
 z_index = 2
 
-[node name="Body" type="Sprite" parent="VisibleBody/Sprites" index="0"]
+[node name="GlowOutline" type="Sprite" parent="VisibleBody/Sprites" index="0"]
+modulate = Color( 0.388235, 1, 0.235294, 1 )
+self_modulate = Color( 1, 1, 1, 0 )
+texture = SubResource( 20 )
+
+[node name="GlowAnimator" type="AnimationPlayer" parent="VisibleBody/Sprites/GlowOutline" index="0"]
+anims/RESET = SubResource( 21 )
+anims/glow = SubResource( 22 )
+
+[node name="Body" type="Sprite" parent="VisibleBody/Sprites" index="1"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 texture = ExtResource( 1 )
 hframes = 2
 vframes = 7
 region_rect = Rect2( 0, 0, 128, 448 )
 
-[node name="BodyOutline" type="Sprite" parent="VisibleBody/Sprites" index="1"]
+[node name="BodyOutline" type="Sprite" parent="VisibleBody/Sprites" index="2"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 texture = ExtResource( 1 )
 hframes = 2
@@ -436,7 +516,7 @@ vframes = 7
 frame = 2
 region_rect = Rect2( 0, 0, 128, 448 )
 
-[node name="Wing" type="Sprite" parent="VisibleBody/Sprites" index="2"]
+[node name="Wing" type="Sprite" parent="VisibleBody/Sprites" index="3"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 texture = ExtResource( 1 )
 hframes = 2
@@ -444,14 +524,14 @@ vframes = 7
 frame = 4
 region_rect = Rect2( 0, 0, 128, 448 )
 
-[node name="Eyes" type="Sprite" parent="VisibleBody/Sprites" index="3"]
+[node name="Eyes" type="Sprite" parent="VisibleBody/Sprites" index="4"]
 texture = ExtResource( 1 )
 hframes = 2
 vframes = 7
 frame = 6
 region_rect = Rect2( 0, 0, 128, 448 )
 
-[node name="EyesOutline" type="Sprite" parent="VisibleBody/Sprites" index="4"]
+[node name="EyesOutline" type="Sprite" parent="VisibleBody/Sprites" index="5"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 texture = ExtResource( 1 )
 hframes = 2
@@ -459,14 +539,14 @@ vframes = 7
 frame = 8
 region_rect = Rect2( 0, 0, 128, 448 )
 
-[node name="Beak" type="Sprite" parent="VisibleBody/Sprites" index="5"]
+[node name="Beak" type="Sprite" parent="VisibleBody/Sprites" index="6"]
 texture = ExtResource( 1 )
 hframes = 2
 vframes = 7
 frame = 10
 region_rect = Rect2( 0, 0, 128, 448 )
 
-[node name="BeakOutline" type="Sprite" parent="VisibleBody/Sprites" index="6"]
+[node name="BeakOutline" type="Sprite" parent="VisibleBody/Sprites" index="7"]
 modulate = Color( 0.839216, 0.141176, 0.0666667, 1 )
 texture = ExtResource( 1 )
 hframes = 2
@@ -624,3 +704,12 @@ texture = ExtResource( 33 )
 
 [node name="Flomb" parent="." index="22"]
 flomb_projectile = ExtResource( 34 )
+
+[node name="PlayerNearbyDetector" type="Area2D" parent="." index="23"]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerNearbyDetector" index="0"]
+shape = SubResource( 23 )
+
+[connection signal="body_entered" from="PlayerNearbyDetector" to="." method="_on_PlayerNearbyDetector_body_entered"]
+[connection signal="body_exited" from="PlayerNearbyDetector" to="." method="_on_PlayerNearbyDetector_body_exited"]

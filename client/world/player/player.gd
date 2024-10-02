@@ -8,6 +8,7 @@ var enable_death: bool = true
 var player_name: String
 var body_colour: Color
 var flap_queue: Array
+var players_nearby := 0
 
 
 func _ready() -> void:
@@ -16,6 +17,7 @@ func _ready() -> void:
 	var start_time = rand_range(0, $AnimationPlayer.get_current_animation_length())
 	$AnimationPlayer.seek(start_time)
 	$AnimationPlayer.play()
+	$VisibleBody/Sprites/GlowOutline.hide()
 
 
 func _physics_process(_delta: float) -> void:
@@ -73,12 +75,14 @@ func enable_control() -> void:
 	if not is_controlled:
 		is_controlled = true
 		$Listener2D.make_current()
+		$VisibleBody/Sprites/GlowOutline.show()
 
 
 func disable_control() -> void:
 	if is_controlled:
 		is_controlled = false
 		$Listener2D.clear_current()
+		$VisibleBody/Sprites/GlowOutline.hide()
 
 
 func set_body_colour(value: int) -> void:
@@ -158,3 +162,21 @@ func add_coin(amount: int = 1) -> void:
 func add_item(item: Item) -> void:
 	.add_item(item)
 	$Item.play()
+
+
+func _on_PlayerNearbyDetector_body_entered(body: Node) -> void:
+	if body == self:
+		# Don't count ourselves
+		return
+	if players_nearby == 0:
+		$VisibleBody/Sprites/GlowOutline/GlowAnimator.play("glow")
+	players_nearby += 1
+
+
+func _on_PlayerNearbyDetector_body_exited(body: Node) -> void:
+	if body == self:
+		# Don't count ourselves
+		return
+	if players_nearby == 1:
+		$VisibleBody/Sprites/GlowOutline/GlowAnimator.play("RESET")
+	players_nearby -= 1
