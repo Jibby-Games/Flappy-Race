@@ -17,6 +17,9 @@ Types of changes:
 
 ## [Unreleased]
 
+### Added
+- Enabled new physics interpolation to make gameplay smoother
+
 ### Changed
 - Update Godot to 3.6
 
