@@ -17,6 +17,9 @@ Types of changes:
 
 ## [Unreleased]
 
+### Changed
+- Update Godot to 3.6
+
 ## [0.12.0] - 2024-03-11
 
 ### Added

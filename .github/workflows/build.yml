@@ -20,7 +20,7 @@ on:
   workflow_dispatch:
 
 env:
-  GODOT_VERSION: 3.5.3
+  GODOT_VERSION: 3.6
 
 jobs:
   build:
