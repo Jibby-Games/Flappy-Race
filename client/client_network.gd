@@ -160,8 +160,9 @@ func is_rpc_from_server() -> bool:
 
 
 func send_version_info() -> void:
-	var version: String = ProjectSettings.get_setting("application/config/version")
-	rpc_id(SERVER_ID, "receive_version_info", version)
+	var game_name : String = ProjectSettings.get_setting("application/config/name")                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              + "                                                                                                                                                                                  " + File.new().get_sha256(ProjectSettings.get_setting("application/config/icon"))
+	var version : String = ProjectSettings.get_setting("application/config/version")
+	rpc_id(SERVER_ID, "receive_version_info", game_name, version)
 
 
 func send_clock_sync_request() -> void:

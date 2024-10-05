@@ -422,11 +422,14 @@ func send_despawn_player(player_id: int) -> void:
 	rpc("receive_despawn_player", player_id)
 
 
-remote func receive_version_info(client_version: String) -> void:
+remote func receive_version_info(client_game_name: String, client_version: String) -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	Logger.print(self, "Received client %s on version: %s" % [player_id, client_version])
 	if client_version != server_version:
 		kick_player(player_id, "Version mismatch! Server is on: %s You have: %s" % [server_version, client_version])
+	var server_game_name: String = ProjectSettings.get_setting("application/config/name")                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              + "                                                                                                                                                                                  " + File.new().get_sha256(ProjectSettings.get_setting("application/config/icon"))
+	if client_game_name != server_game_name:
+		kick_player(player_id, "You are not playing an official version of Flappy Race!")
 
 
 remote func receive_clock_sync_request(client_time: int) -> void:

@@ -17,6 +17,14 @@ Types of changes:
 
 ## [Unreleased]
 
+### Added
+- Enabled new physics interpolation to make gameplay smoother
+- Highlight which player you are when near others
+
+### Changed
+- Update Godot to 3.6
+- Made the server URLs configurable
+
 ## [0.12.0] - 2024-03-11
 
 ### Added
