@@ -23,6 +23,7 @@ Types of changes:
 
 ### Changed
 - Update Godot to 3.6
+- Made the server URLs configurable
 
 ## [0.12.0] - 2024-03-11
 
