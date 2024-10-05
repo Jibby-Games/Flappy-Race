@@ -17,19 +17,24 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.13.0] - 2024-10-05
+
 ### Added
-- Enabled new physics interpolation to make gameplay smoother
-- Highlight which player you are when near others
+
+-   Enabled new physics interpolation to make gameplay smoother
+-   Highlight which player you are when near others
 
 ### Changed
-- Update Godot to 3.6
-- Made the server URLs configurable
+
+-   Update Godot to 3.6
+-   Made the server URLs configurable
 
 ## [0.12.0] - 2024-03-11
 
 ### Added
-- Bots now randomize their route so they don't all go the same way
-- Added a version check when joining the game
+
+-   Bots now randomize their route so they don't all go the same way
+-   Added a version check when joining the game
 
 ### Changed
 
@@ -396,7 +401,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.12.0...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.13.0...HEAD
+
+[0.13.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.12.0...0.13.0
 
 [0.12.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.11.0...0.12.0
 

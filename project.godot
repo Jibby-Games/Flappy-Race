@@ -107,7 +107,7 @@ I started this project as a way to learn more about multiplayer game development
 run/main_scene="res://common/main.tscn"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
-config/version="v0.12.0"
+config/version="v0.13.0"
 config/debug_tools=false
 config/debug_tools.editor=true
 
