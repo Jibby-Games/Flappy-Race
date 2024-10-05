@@ -17,7 +17,7 @@ jobs:
       commit_hash: ${{ steps.commit.outputs.commit_hash }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Update project and export versions
         run: |
           sed -i "s/config\/version=.*/config\/version=\"v${{ github.event.inputs.tag }}\"/g" project.godot
@@ -42,21 +42,21 @@ jobs:
     needs: [update_version, build]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: ${{ needs.update_version.outputs.commit_hash }}
       - name: Download Windows Build
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: FlappyRace-windows-${{ needs.update_version.outputs.commit_hash }}
           path: builds/FlappyRace-${{ github.event.inputs.tag }}-Windows
       - name: Download Mac Build
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: FlappyRace-mac-${{ needs.update_version.outputs.commit_hash }}
           path: builds/FlappyRace-${{ github.event.inputs.tag }}-Mac
       - name: Download Linux Build
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: FlappyRace-linux-${{ needs.update_version.outputs.commit_hash }}
           path: builds/FlappyRace-${{ github.event.inputs.tag }}-Linux
@@ -82,7 +82,7 @@ jobs:
         uses: ffurrer2/extract-release-notes@v1
         id: extract-release-notes
       - name: Draft GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.events.inputs.tag }}
           name: Flappy Race v${{ github.event.inputs.tag }}
