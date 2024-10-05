@@ -99,13 +99,20 @@ _global_script_class_icons={
 [application]
 
 config/name="Flappy Race"
-config/description="Multiplayer flappy bird"
+config/description="Flappy Race is a free and open source 2D multiplayer game inspired by Flappy Bird and Mario Kart, created with Godot 3.
+
+Works on desktop (Windows, Linux, Mac) and HTML5 platforms. Use desktop for the best experience and to allow self-hosting multiplayer games!
+
+I started this project as a way to learn more about multiplayer game development in Godot and to learn about creating server backend code using Rust, Python and Docker."
 run/main_scene="res://common/main.tscn"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="v0.12.0"
 config/debug_tools=false
 config/debug_tools.editor=true
+config/server_domain_url="https://jibby.games"
+config/server_list_route="/api/list"
+config/server_manager_route="/api/manager"
 
 [audio]
 

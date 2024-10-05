@@ -4,13 +4,13 @@ const CLIENT_NETWORK = "res://client/client_network.tscn"
 const SERVER_NETWORK = "res://server/server_network.tscn"
 const RPC_PORT = 31400
 const MAX_PLAYERS = 16
-const SERVER_DOMAIN_URL := "https://jibby.games"
-const SERVER_LIST_URL := SERVER_DOMAIN_URL + "/api/list"
-const SERVER_MANAGER_URL := SERVER_DOMAIN_URL + "/api/manager"
 
 var Client: ClientNetwork
 var Server: ServerNetwork
 
+var SERVER_DOMAIN_URL: String = ProjectSettings.get_setting("application/config/server_domain_url")
+var SERVER_LIST_URL: String = SERVER_DOMAIN_URL + ProjectSettings.get_setting("application/config/server_list_route")
+var SERVER_MANAGER_URL: String = SERVER_DOMAIN_URL + ProjectSettings.get_setting("application/config/server_manager_route")
 var X509_CERT_PATH := "user://certs/X509_certificate.crt"
 var X509_KEY_PATH := "user://certs/X509_key.key"
 var X509_CERT: Resource
