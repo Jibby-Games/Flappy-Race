@@ -19,6 +19,8 @@ Types of changes:
 
 ## [0.13.0] - 2024-10-05
 
+## [0.13.0] - 2024-10-05
+
 ### Added
 
 -   Enabled new physics interpolation to make gameplay smoother
@@ -401,7 +403,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.13.0...HEAD
+[Unreleased]: https://github.com/Jibbajabbafic/Flappy-Race/compare/0.13.0...HEAD
+
+[0.13.0]: https://github.com/Jibbajabbafic/Flappy-Race/compare/0.13.0...0.13.0
 
 [0.13.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.12.0...0.13.0
 
