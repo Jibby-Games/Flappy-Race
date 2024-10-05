@@ -2,15 +2,15 @@ extends Node
 
 const CLIENT_NETWORK = "res://client/client_network.tscn"
 const SERVER_NETWORK = "res://server/server_network.tscn"
-const RPC_PORT = 31400
-const MAX_PLAYERS = 16
 
 var Client: ClientNetwork
 var Server: ServerNetwork
 
-var SERVER_DOMAIN_URL: String = ProjectSettings.get_setting("application/config/server_domain_url")
-var SERVER_LIST_URL: String = SERVER_DOMAIN_URL + ProjectSettings.get_setting("application/config/server_list_route")
-var SERVER_MANAGER_URL: String = SERVER_DOMAIN_URL + ProjectSettings.get_setting("application/config/server_manager_route")
+var RPC_PORT: int = ProjectSettings.get_setting("game/config/rpc_port")
+var MAX_PLAYERS: int = ProjectSettings.get_setting("game/config/max_players")
+var SERVER_DOMAIN_URL: String = ProjectSettings.get_setting("game/config/server_domain_url")
+var SERVER_LIST_URL: String = SERVER_DOMAIN_URL + ProjectSettings.get_setting("game/config/server_list_route")
+var SERVER_MANAGER_URL: String = SERVER_DOMAIN_URL + ProjectSettings.get_setting("game/config/server_manager_route")
 var X509_CERT_PATH := "user://certs/X509_certificate.crt"
 var X509_KEY_PATH := "user://certs/X509_key.key"
 var X509_CERT: Resource

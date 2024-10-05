@@ -110,9 +110,6 @@ config/windows_native_icon="res://icon.ico"
 config/version="v0.12.0"
 config/debug_tools=false
 config/debug_tools.editor=true
-config/server_domain_url="https://jibby.games"
-config/server_list_route="/api/list"
-config/server_manager_route="/api/manager"
 
 [audio]
 
@@ -131,6 +128,14 @@ window/size/height=1080
 window/dpi/allow_hidpi=true
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
+
+[game]
+
+config/rpc_port=31400
+config/max_players=16
+config/server_domain_url="https://jibby.games"
+config/server_list_route="/api/list"
+config/server_manager_route="/api/manager"
 
 [gdnative]
 
