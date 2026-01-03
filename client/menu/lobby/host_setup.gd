@@ -86,22 +86,18 @@ func _on_HTTPCreate_request_completed(
 			show_error("Official servers are offline!")
 			return
 		_:
-			show_error(
-				"Connection error! (result: %d, response code: %d)" % [result, response_code]
-			)
+			show_error("Connection Error: %s" % [Network.get_http_result_name(result)])
 			return
 	match response_code:
 		HTTPClient.RESPONSE_CREATED:
 			pass
 		_:
 			var error = parse_json(body.get_string_from_utf8())
-			if "detail" in error:
+			if error is String and "detail" in error:
 				show_error(error.detail)
 			else:
-				show_error(
-					"Connection error! (result: %d, response code: %d)" % [result, response_code]
-				)
-			return
+				show_error("Error: HTTP response code %d" % [response_code])
+				return
 
 	# Successful response
 	var resp = parse_json(body.get_string_from_utf8())

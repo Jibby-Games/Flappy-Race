@@ -54,29 +54,21 @@ func _on_ServerRequest_request_completed(
 	match result:
 		HTTPRequest.RESULT_SUCCESS:
 			pass
-		HTTPRequest.RESULT_CANT_CONNECT:
-			show_error("Server list offline!")
-			return
-		HTTPRequest.RESULT_TIMEOUT:
-			show_error("Server list offline!")
-			return
 		_:
-			show_error(
-				"Connection error! (result: %d, response code: %d)" % [result, response_code]
-			)
+			show_error("Connection Error: %s" % [Network.get_http_result_name(result)])
 			return
 	match response_code:
 		HTTPClient.RESPONSE_OK:
 			pass
 		_:
-			show_error(
-				"Connection error! (result: %d, response code: %d)" % [result, response_code]
-			)
+			show_error("Error: HTTP response code %d" % [response_code])
 			return
-	var servers: Array = parse_json(body.get_string_from_utf8())
+	var body_str = body.get_string_from_utf8()
+	var servers = parse_json(body_str)
 	if not servers is Array:
-		push_error("Unexpected type received: %s")
-	populate_servers(servers)
+		show_error("Server returned unexpected data")
+		return
+	populate_servers(servers as Array)
 
 
 func show_info(msg: String) -> void:
