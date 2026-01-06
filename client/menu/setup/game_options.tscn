@@ -155,6 +155,31 @@ margin_right = 268.0
 margin_bottom = 27.0
 rect_min_size = Vector2( 144, 0 )
 
+[node name="Items" type="HBoxContainer" parent="Panel/VBoxContainer"]
+margin_top = 134.0
+margin_right = 300.0
+margin_bottom = 169.0
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Items"]
+margin_left = 81.0
+margin_top = 5.0
+margin_right = 141.0
+margin_bottom = 29.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
+text = "Items"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemsToggle" type="CheckButton" parent="Panel/VBoxContainer/Items"]
+margin_left = 145.0
+margin_right = 219.0
+margin_bottom = 35.0
+disabled = true
+pressed = true
+flat = true
+
 [node name="DisableGameOptions" type="Panel" parent="Panel"]
 modulate = Color( 1, 1, 1, 0.580392 )
 anchor_right = 1.0
@@ -178,3 +203,4 @@ valign = 1
 [connection signal="toggled" from="Panel/VBoxContainer/Bots/BotsToggle" to="." method="_on_BotsToggle_toggled"]
 [connection signal="value_changed" from="Panel/VBoxContainer/Bots/BotsInput" to="." method="_on_BotsInput_value_changed"]
 [connection signal="item_selected" from="Panel/VBoxContainer/BotDifficulty/Difficulty" to="." method="_on_Difficulty_item_selected"]
+[connection signal="toggled" from="Panel/VBoxContainer/Items/ItemsToggle" to="." method="_on_ItemsToggle_toggled"]

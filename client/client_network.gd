@@ -333,6 +333,8 @@ remote func receive_game_option_change(option: String, value: int) -> void:
 				options.set_bots(value)
 			"difficulty":
 				options.set_difficulty(value)
+			"items":
+				options.set_items(value)
 			_:
 				push_error("Unrecognised game option: %s" % option)
 

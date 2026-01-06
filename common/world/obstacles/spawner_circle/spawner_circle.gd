@@ -29,7 +29,7 @@ func generate_circle(new_radius: float, new_points: int) -> void:
 		spawned_coins.append(inst)
 
 
-func do_generate(_game_rng: RandomNumberGenerator) -> void:
+func do_generate(_game_rng: RandomNumberGenerator, _spawn_items: bool) -> void:
 	# Nothing to generate
 	pass
 

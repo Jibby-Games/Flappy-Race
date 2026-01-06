@@ -13,7 +13,7 @@ var max_coins := 3
 var extra_spacing := 150
 
 
-func do_generate(game_rng: RandomNumberGenerator) -> void:
+func do_generate(game_rng: RandomNumberGenerator, spawn_items: bool) -> void:
 	var length: int = game_rng.randi_range(length_min, length_max)
 	set_length(length)
 	$Tunnel.position.y = height
@@ -21,7 +21,7 @@ func do_generate(game_rng: RandomNumberGenerator) -> void:
 	$PointArea.position.y = height
 	var gap: float = game_rng.randf_range(gap_range_min, gap_range_max)
 	set_gap(gap)
-	var should_spawn_coin: bool = game_rng.randf() < spawn_coin_chance
+	var should_spawn_coin: bool = game_rng.randf() < spawn_coin_chance if spawn_items else false
 	if should_spawn_coin:
 		var increment = $Tunnel/Top.shape.extents.x / (max_coins - 1)
 		for i in max_coins:

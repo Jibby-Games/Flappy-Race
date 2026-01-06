@@ -9,6 +9,7 @@ const DEFAULT_GAME_OPTIONS := {
 	"lives": 0,
 	"bots": 8,
 	"difficulty": 2,
+	"items": true,
 }
 const PLAYER_TIMEOUT_TIME := 20
 const BOT_ID_OFFSET := 1000
@@ -384,6 +385,8 @@ func is_option_valid(option: String, value: int) -> bool:
 			return value >= 0 or (value + multiplayer.get_network_connected_peers().size()) <= Network.MAX_PLAYERS
 		"difficulty":
 			return value in CommonWorld.Difficulty.values()
+		"items":
+			return value == 0 or value == 1
 		_:
 			push_error("Unrecognised game option: %s" % option)
 			return false

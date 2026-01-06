@@ -68,7 +68,7 @@ func start_game(
 	set_game_options(new_game_options)
 	self.player_list = new_player_list
 	chunk_tracker.chunk_limit = game_options.goal
-	level_generator.generate(game_rng, game_options.goal)
+	level_generator.generate(game_rng, game_options.goal, game_options.items)
 
 
 func start_countdown() -> void:
