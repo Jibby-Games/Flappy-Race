@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=1]
 [ext_resource path="res://client/theme/flappy.theme" type="Theme" id=2]
 [ext_resource path="res://client/menu/setup/game_options.gd" type="Script" id=3]
+[ext_resource path="res://client/menu/setup/item_menu.gd" type="Script" id=4]
+[ext_resource path="res://client/world/spawners/pickups/item_box.png" type="Texture" id=5]
 
 [node name="GameOptions" type="Control"]
 anchor_top = 0.5
@@ -179,6 +181,19 @@ margin_bottom = 35.0
 disabled = true
 pressed = true
 flat = true
+
+[node name="ItemMenu" type="MenuButton" parent="Panel/VBoxContainer"]
+margin_left = 50.0
+margin_top = 179.0
+margin_right = 250.0
+margin_bottom = 214.0
+rect_min_size = Vector2( 200, 35 )
+size_flags_horizontal = 4
+text = "Item Settings"
+icon = ExtResource( 5 )
+flat = false
+expand_icon = true
+script = ExtResource( 4 )
 
 [node name="DisableGameOptions" type="Panel" parent="Panel"]
 modulate = Color( 1, 1, 1, 0.580392 )

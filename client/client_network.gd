@@ -339,6 +339,20 @@ remote func receive_game_option_change(option: String, value: int) -> void:
 				push_error("Unrecognised game option: %s" % option)
 
 
+func send_item_menu_change(item_id: int, value: bool) -> void:
+	if is_host():
+		rpc_id(SERVER_ID, "receive_item_menu_change", item_id, value)
+
+
+remote func receive_item_menu_change(item_id: int, value: bool) -> void:
+	if is_rpc_from_server() == false:
+		return
+	game_options.item_ids_enabled[item_id] = value
+	Logger.print(self, "Received item menu change - %s changed to: %s" % [Items.get_item(item_id).name, value])
+	var options = get_node_or_null("MenuHandler/Setup/GameOptions")
+	if options:
+		options.set_item_menu(item_id, value)
+
 func send_client_ready() -> void:
 	Logger.print(self, "Sending client ready")
 	rpc_id(SERVER_ID, "receive_client_ready")
