@@ -7,6 +7,8 @@ onready var BotsToggle = $Panel/VBoxContainer/Bots/BotsToggle
 onready var BotsInput = $Panel/VBoxContainer/Bots/BotsInput
 onready var BotDifficulty = $Panel/VBoxContainer/BotDifficulty
 onready var BotDifficultyInput = $Panel/VBoxContainer/BotDifficulty/Difficulty
+onready var ItemsToggle = $Panel/VBoxContainer/Items/ItemsToggle
+onready var ItemMenu = $Panel/VBoxContainer/ItemMenu as MenuButton
 
 var emit_changes := false
 
@@ -27,6 +29,8 @@ func set_enable_host_options(is_host: bool) -> void:
 	BotsToggle.disabled = not is_host
 	BotsInput.editable = is_host
 	BotDifficultyInput.disabled = not is_host
+	ItemsToggle.disabled = not is_host
+	ItemMenu.disabled = not is_host
 
 
 func set_game_options(game_options: Dictionary) -> void:
@@ -34,6 +38,9 @@ func set_game_options(game_options: Dictionary) -> void:
 	set_lives(game_options.lives)
 	set_bots(game_options.bots)
 	set_difficulty(game_options.difficulty)
+	set_items(game_options.items)
+	for i in game_options.item_ids_enabled.size():
+		set_item_menu(i, game_options.item_ids_enabled[i])
 	# Don't emit signals the first time the values are set or it can infinitely loop
 	emit_changes = true
 
@@ -70,6 +77,16 @@ func set_max_bots(new_max: int) -> void:
 
 func set_difficulty(value: int) -> void:
 	BotDifficultyInput.select(value)
+
+
+func set_items(value: bool) -> void:
+	ItemsToggle.pressed = value
+	ItemMenu.visible = value
+
+
+func set_item_menu(item_id: int, value: bool) -> void:
+	var popup = ItemMenu.get_popup()
+	popup.set_item_checked(item_id, value);
 
 
 func _on_ScoreInput_value_changed(new_goal: float) -> void:
@@ -109,3 +126,9 @@ func _on_Difficulty_item_selected(index: int) -> void:
 	if emit_changes:
 		Network.Client.game_options.difficulty = index
 		Network.Client.send_game_option_change("difficulty", index)
+
+
+func _on_ItemsToggle_toggled(toggle_value: bool) -> void:
+	ItemMenu.visible = toggle_value
+	if emit_changes:
+		Network.Client.send_game_option_change("items", toggle_value)

@@ -50,7 +50,7 @@ func _ready() -> void:
 		# Preview a level in the editor
 		game_rng = RandomNumberGenerator.new()
 		game_rng.randomize()
-		generate(game_rng, 10)
+		generate(game_rng, 10, true)
 
 
 func _notification(what):
@@ -59,19 +59,26 @@ func _notification(what):
 		clear_obstacles()
 
 
-func generate(rng: RandomNumberGenerator, obstacles_to_generate: int) -> void:
+func generate(rng: RandomNumberGenerator, obstacles_to_generate: int, spawn_items: bool) -> void:
 	Logger.print(self, "Generating level with %d obstacles..." % obstacles_to_generate)
 	level_ready = false
 	game_rng = rng
 	clear_obstacles()
+	if not spawn_items:
+		# Disable item spawning obstacles
+		ObstacleRandomWeights[3] = 0
+		ObstacleRandomWeights[4] = 0
+		ObstacleRandomWeights[5] = 0
+		ObstacleRandomWeights[6] = 0
 	var start = OS.get_ticks_usec()
 	# -1 to account for the finish line
 	for i in obstacles_to_generate - 1:
-		var obstacle := generate_obstacle()
+		var obstacle := generate_obstacle(spawn_items)
 		obstacle.set_name("%s_%d" % [obstacle.name, i])
 		generated_obstacles.append(obstacle)
 		next_obstacle_pos.x += obstacle.calculate_length() + obstacle_spacing
-		if obstacle_spacing < max_obstacle_spacing:
+		# Increase the spacing since items can speed the player up
+		if spawn_items and obstacle_spacing < max_obstacle_spacing:
 			obstacle_spacing += spacing_increase
 		# Spread out the generation to stop the game freezing
 		if (i % obstacles_per_frame) == 0:
@@ -103,7 +110,7 @@ func clear_obstacles() -> void:
 	spawned_obstacles.clear()
 
 
-func generate_obstacle() -> Obstacle:
+func generate_obstacle(spawn_items: bool) -> Obstacle:
 	assert(game_rng != null)
 	assert(Obstacles.size() > 0)
 
@@ -119,7 +126,7 @@ func generate_obstacle() -> Obstacle:
 	obstacle.position.x = next_obstacle_pos.x
 	obstacle.height = next_obstacle_pos.y
 	obstacle.spacing = obstacle_spacing
-	obstacle.generate(game_rng)
+	obstacle.generate(game_rng, spawn_items)
 	return obstacle
 
 

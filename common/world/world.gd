@@ -52,6 +52,7 @@ func set_game_seed(new_seed: int) -> void:
 func set_game_options(new_game_options: Dictionary) -> void:
 	game_options = new_game_options
 	Logger.print(self, "Set game options to: %s" % [new_game_options])
+	Items.calculate_item_weights_for_distances(game_options.item_ids_enabled)
 
 
 func start_game(
@@ -68,7 +69,7 @@ func start_game(
 	set_game_options(new_game_options)
 	self.player_list = new_player_list
 	chunk_tracker.chunk_limit = game_options.goal
-	level_generator.generate(game_rng, game_options.goal)
+	level_generator.generate(game_rng, game_options.goal, game_options.items)
 
 
 func start_countdown() -> void:

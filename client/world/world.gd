@@ -153,6 +153,7 @@ func start_game(game_seed: int, new_game_options: Dictionary, new_player_list: D
 		yield(level_generator, "level_ready")
 	$UI.set_player_list(new_player_list)
 	$UI.update_lives(game_options.lives)
+	$UI.items_enabled(game_options.items)
 	Network.Client.send_client_ready()
 	$UI/Loading.set_hint_text("Waiting for players")
 	finish_line_x_pos = level_generator.finish_line.position.x

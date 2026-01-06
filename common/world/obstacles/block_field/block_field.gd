@@ -26,7 +26,7 @@ func _ready() -> void:
 		_do_generate_blocks()
 
 
-func do_generate(game_rng: RandomNumberGenerator) -> void:
+func do_generate(game_rng: RandomNumberGenerator, spawn_items: bool) -> void:
 	for block in blocks:
 		block.queue_free()
 	blocks.clear()
@@ -37,7 +37,7 @@ func do_generate(game_rng: RandomNumberGenerator) -> void:
 	var blocks_to_spawn: int = int(
 		field_length * field_height * block_density / (BLOCK_SIZE * BLOCK_SIZE)
 	)
-	var coins_to_spawn: int = game_rng.randi_range(0, max_coins)
+	var coins_to_spawn: int = game_rng.randi_range(0, max_coins) if spawn_items else 0
 	for i in blocks_to_spawn:
 		var overlap := true
 		var iters := 0
@@ -116,7 +116,7 @@ func _do_generate_blocks(_value: bool = false) -> void:
 	# Create RNG for testing purposes
 	var rng := RandomNumberGenerator.new()
 	rng.randomize()
-	generate(rng)
+	generate(rng, true)
 
 
 # NAV DEBUG

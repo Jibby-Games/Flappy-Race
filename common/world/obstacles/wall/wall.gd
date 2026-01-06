@@ -9,9 +9,9 @@ var spawn_coin_chance := 0.5
 var extra_spacing := 150
 
 
-func do_generate(game_rng) -> void:
+func do_generate(game_rng: RandomNumberGenerator, spawn_items: bool) -> void:
 	var gap: float = game_rng.randf_range(gap_range_min, gap_range_max)
-	var should_spawn_coin: bool = game_rng.randf() < spawn_coin_chance
+	var should_spawn_coin: bool = game_rng.randf() < spawn_coin_chance if spawn_items else false
 	# Logger.print(self, "Generating wall - pos: %s height: %s - gap: %s" % [global_position, height, gap])
 	$Wall.position.y = height
 	set_gap(gap)

@@ -25,6 +25,8 @@ func generate_line(new_height: float, num_items: int) -> void:
 	for item in spawned_items:
 		item.queue_free()
 	spawned_items.clear()
+	if num_items == 0:
+		return
 	# -1 from num_items since we need to calculate the number of gaps between
 	var increment := new_height / (num_items - 1) if (num_items > 1) else 0.0
 	for i in num_items:
@@ -34,10 +36,10 @@ func generate_line(new_height: float, num_items: int) -> void:
 		spawned_items.append(inst)
 
 
-func do_generate(_game_rng: RandomNumberGenerator) -> void:
+func do_generate(_game_rng: RandomNumberGenerator, spawn_items: bool) -> void:
 	# Randomise num items and then calculate line height
 	assert(MIN_ITEMS <= MAX_ITEMS, "Maximum number of items must be greater than %d! Got: %d" % [MIN_ITEMS, MAX_ITEMS])
-	items = _game_rng.randi_range(MIN_ITEMS, MAX_ITEMS)
+	items = _game_rng.randi_range(MIN_ITEMS, MAX_ITEMS) if spawn_items else 0
 	line_height = items * MIN_SPACING_PER_ITEM
 	generate_line(line_height, items)
 

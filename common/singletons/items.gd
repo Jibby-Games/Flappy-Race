@@ -42,13 +42,17 @@ export(Array) var items = [
 
 var distance_item_weights := {}
 
-func _ready() -> void:
-	calculate_item_weights_for_distances()
 
-
-func calculate_item_weights_for_distances() -> void:
+func calculate_item_weights_for_distances(item_ids_enabled: Array) -> void:
 	Logger.print(self, "Calculating item weights...")
+	distance_item_weights.clear()
+	if items.size() == 0:
+		push_error("No items enabled to calculate weights!")
+		return
 	for id in items.size():
+		# Skip disabled items
+		if not item_ids_enabled[id]:
+			continue
 		var item: Item = items[id]
 		for distance in item.distance_weights:
 			var weight_for_dist: int = item.distance_weights[distance]
@@ -63,6 +67,8 @@ func calculate_item_weights_for_distances() -> void:
 
 
 func pick_item_id(dist_to_leader: float) -> int:
+	if distance_item_weights.size() == 0:
+		push_error("Item weights haven't been calculated!")
 	var highest_dist := get_highest_available_distance(dist_to_leader)
 	Logger.print(self, "Picking item with distance = %f, highest_dist = %d, item_weights = %s" % [dist_to_leader, highest_dist, distance_item_weights[highest_dist]])
 	var item_id = distance_item_weights[highest_dist].pick_weighted_random_item_id()
@@ -70,7 +76,7 @@ func pick_item_id(dist_to_leader: float) -> int:
 
 
 func get_highest_available_distance(dist_to_leader: float) -> int:
-	var highest_dist := 0
+	var highest_dist: int = distance_item_weights.keys().min()
 	for distance in distance_item_weights.keys():
 		if dist_to_leader > distance and distance > highest_dist:
 			# Find the highest distance in the weight tables

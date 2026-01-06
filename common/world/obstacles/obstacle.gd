@@ -25,9 +25,9 @@ func _ready() -> void:
 		push_error("Obstacle (%s) length must be greater than 0" % name)
 
 
-func generate(game_rng: RandomNumberGenerator) -> void:
+func generate(game_rng: RandomNumberGenerator, spawn_items: bool) -> void:
 	generated_rng_state = game_rng.get_state()
-	do_generate(game_rng)
+	do_generate(game_rng, spawn_items)
 	length = calculate_length()
 	# Generate the nav poly for the obstacles
 	$"%NavPolygon".position.y = height
@@ -40,7 +40,7 @@ func generate(game_rng: RandomNumberGenerator) -> void:
 	generated = true
 
 
-func do_generate(_game_rng: RandomNumberGenerator) -> void:
+func do_generate(_game_rng: RandomNumberGenerator, _spawn_items: bool) -> void:
 	push_error("Obstacle (%s) must override do_generate when extending the class!" % name)
 
 

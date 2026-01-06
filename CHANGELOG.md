@@ -17,6 +17,15 @@ Types of changes:
 
 ## [Unreleased]
 
+### Added
+- New options for items
+  - Items can be fully disables
+  - You can also customize which items will be dropped by item boxes
+
+### Changed
+- Item weights have been tweaked for balance and fun
+- Server connection error messages have been improved
+
 ## [0.13.0] - 2024-10-05
 
 ### Added

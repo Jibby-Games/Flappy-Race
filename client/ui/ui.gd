@@ -60,6 +60,8 @@ func _countdown_finished() -> void:
 func update_lives(new_lives: int) -> void:
 	Lives.set_lives(new_lives)
 
+func items_enabled(value: bool) -> void:
+	Coins.visible = value
 
 func update_score(new_score: int) -> void:
 	# Actual incrementing is handled on the player object

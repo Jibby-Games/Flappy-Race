@@ -9,6 +9,8 @@ const DEFAULT_GAME_OPTIONS := {
 	"lives": 0,
 	"bots": 8,
 	"difficulty": 2,
+	"items": true,
+	"item_ids_enabled": []
 }
 const PLAYER_TIMEOUT_TIME := 20
 const BOT_ID_OFFSET := 1000
@@ -49,6 +51,8 @@ func _ready() -> void:
 
 	# Register with the Network singleton so this node can be easily accessed
 	Network.Server = self
+	for i in Items.items.size():
+		DEFAULT_GAME_OPTIONS.item_ids_enabled.append(true)
 
 
 func _exit_tree() -> void:
@@ -374,6 +378,23 @@ remote func receive_game_option_change(option: String, value: int) -> void:
 			rpc_id(connected_player_id, "receive_game_option_change", option, value)
 
 
+remote func receive_item_menu_change(item_id: int, value: bool) -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	if not is_host_id(player_id):
+		Logger.print(
+			self, "Player %s tried to change item %s to %d but they're not the host!" % [player_id, Items.get_item(item_id).name, value]
+		)
+		# Reset clients back to server value
+		rpc("receive_game_options", game_options)
+		return
+	game_options.item_ids_enabled[item_id] = value
+	Logger.print(self, "Player %s set item %s to %s" % [player_id, Items.get_item(item_id).name, value])
+	for connected_player_id in multiplayer.get_network_connected_peers():
+		# Don't send update to the host again to stop infinite update loops from lag
+		if not is_host_id(connected_player_id):
+			rpc_id(connected_player_id, "receive_item_menu_change", item_id, value)
+
+
 func is_option_valid(option: String, value: int) -> bool:
 	match option:
 		"goal":
@@ -384,6 +405,8 @@ func is_option_valid(option: String, value: int) -> bool:
 			return value >= 0 or (value + multiplayer.get_network_connected_peers().size()) <= Network.MAX_PLAYERS
 		"difficulty":
 			return value in CommonWorld.Difficulty.values()
+		"items":
+			return value == 0 or value == 1
 		_:
 			push_error("Unrecognised game option: %s" % option)
 			return false
