@@ -10,7 +10,7 @@ icon = ExtResource( 1 )
 duration = 0
 distance_weights = {
 0: 0,
-400: 0,
+400: 1,
 1000: 1,
 5000: 3,
 10000: 5,
