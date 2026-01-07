@@ -26,7 +26,7 @@
         {
             "label": "Server",
             "type": "process",
-            "command": "godot",
+            "command": "godot3",
             "args": [
                 "--server"
             ],
@@ -37,7 +37,7 @@
         {
             "label": "Client Host",
             "type": "process",
-            "command": "godot",
+            "command": "godot3",
             "args": [
                 "--host"
             ],
@@ -48,7 +48,7 @@
         {
             "label": "Client Join",
             "type": "process",
-            "command": "godot",
+            "command": "godot3",
             "args": [
                 "--join",
                 "127.0.0.1"
@@ -60,7 +60,7 @@
         {
             "label": "Client Join 2",
             "type": "process",
-            "command": "godot",
+            "command": "godot3",
             "args": [
                 "--join",
                 "127.0.0.1"
@@ -72,7 +72,7 @@
         {
             "label": "Client Join 3",
             "type": "process",
-            "command": "godot",
+            "command": "godot3",
             "args": [
                 "--join",
                 "127.0.0.1"
@@ -84,7 +84,7 @@
         {
             "label": "Client Join 4",
             "type": "process",
-            "command": "godot",
+            "command": "godot3",
             "args": [
                 "--join",
                 "127.0.0.1"
