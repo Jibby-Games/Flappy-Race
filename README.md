@@ -11,7 +11,7 @@
     <img alt="GitHub commits since latest release (by SemVer)" src="https://img.shields.io/github/commits-since/Jibby-Games/Flappy-Race/latest">
     <img alt="GitHub downloads all releases" src="https://img.shields.io/github/downloads/Jibby-Games/Flappy-Race/total">
     <br>
-    <a href="https://discord.gg/CGh7tSbUkH"><img alt="Discord invite link" src="https://dcbadge.vercel.app/api/server/CGh7tSbUkH"></a>
+    <a href="https://discord.gg/CGh7tSbUkH"><img alt="Discord invite link" src="https://discord.com/api/guilds/827547894592700416/widget.png?style=banner2"></a>
     <br>
     <img src="https://github.com/Jibby-Games/Flappy-Race/assets/4493127/6235e165-43e2-4bc0-8ebf-59d25df7ed1b" width="400">
     <img src="https://github.com/Jibby-Games/Flappy-Race/assets/4493127/33904c03-baa6-4e6a-a369-1fa203e63cf2" width="400">
