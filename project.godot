@@ -136,6 +136,7 @@ config/max_players=16
 config/server_domain_url="https://jibby.games"
 config/server_list_route="/api/list"
 config/server_manager_route="/api/manager"
+config/server_game_route="/games/flappy-race"
 
 [gdnative]
 

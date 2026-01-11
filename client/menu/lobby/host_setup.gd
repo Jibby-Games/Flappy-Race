@@ -104,19 +104,24 @@ func _on_HTTPCreate_request_completed(
 	if typeof(resp) != TYPE_DICTIONARY:
 		push_error("Received invalid object type, expected Dictionary, got: %s" % typeof(resp))
 		return
-	if not resp.has("port"):
-		push_error("Couldn't find a port in the response: %s" % resp)
+	if resp.has("game_id"):
+		var game_url := Network.get_game_url(resp.game_id)
+		try_connect_to_server(game_url)
 		return
-	if not typeof(resp.port) == TYPE_REAL:
-		push_error("Port must be a numerical type (float), got: %s" % typeof(resp.port))
+	elif resp.has("port"):
+		if not typeof(resp.port) == TYPE_REAL and not typeof(resp.port) == TYPE_INT:
+			push_error("Port must be a numerical type, got: %s" % typeof(resp.port))
+			return
+		try_connect_to_server(Network.SERVER_DOMAIN_URL, int(resp.port))
+	else:
+		push_error("Couldn't find a game_id or port in the response: %s" % resp)
 		return
-	try_connect_to_server(Network.SERVER_DOMAIN_URL, int(resp.port))
 
 
-func try_connect_to_server(ip: String, port: int) -> void:
+func try_connect_to_server(server_url: String, port: int = -1) -> void:
 	show_info("Server created, connecting...")
 	$ConnectionTimer.start(MAX_CONNECT_TIME)
-	Network.Client.start_client(ip, port)
+	Network.Client.start_client(server_url, port)
 
 
 func _on_ServerListToggle_toggled(button_pressed: bool) -> void:

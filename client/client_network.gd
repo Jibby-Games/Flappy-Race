@@ -86,12 +86,12 @@ func change_scene_to_world() -> void:
 	change_scene(world_scene)
 
 
-func start_client(host: String, port: int, singleplayer: bool = false) -> void:
+func start_client(host: String, port: int = -1, singleplayer: bool = false) -> void:
 	is_singleplayer = singleplayer
 	# Must use the corresponding WebSocket protocol (non-secure or secure)
 	host = host.replace("http://", "ws://").replace("https://", "wss://")
 	var peer = WebSocketClient.new()
-	var url := "%s:%d" % [host, port]
+	var url = host if port == -1 else "%s:%d" % [host, port]
 	Logger.print(self, "Client started connecting to %s", [url])
 	var result = peer.connect_to_url(url, PoolStringArray(), true)
 	assert(result == OK)
