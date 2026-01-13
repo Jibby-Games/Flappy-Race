@@ -10,6 +10,7 @@ var use_server_list := true
 onready var error_message = $VBoxContainer/Menu/ErrorMessage
 onready var info_message = $VBoxContainer/Menu/InfoMessage
 onready var server_name_input = $VBoxContainer/Menu/CenterContainer/ButtonContainer/ServerNameContainer/ServerNameInput
+onready var create_button = $VBoxContainer/Menu/CenterContainer/ButtonContainer/CreateButton
 
 
 func _ready() -> void:
@@ -46,6 +47,8 @@ func show_info(message: String) -> void:
 
 
 func show_error(message: String) -> void:
+	# Enable if there is ever an error
+	create_button.disabled = false
 	info_message.hide()
 	error_message.text = message
 	error_message.show()
@@ -55,6 +58,7 @@ func _on_CreateButton_pressed() -> void:
 	if server_name_input.text.empty():
 		show_error("Please enter a server name")
 		return
+	create_button.disabled = true
 	$ConnectionTimer.start(MAX_CONNECT_TIME)
 	show_info("Creating server...")
 	var http = HTTPRequest.new()
@@ -69,7 +73,7 @@ func _on_CreateButton_pressed() -> void:
 	}
 	# Add 'Content-Type' header:
 	var headers = ["Content-Type: application/json"]
-	http.request(url, headers, true, HTTPClient.METHOD_POST, to_json(data))
+	http.request(url, headers, not OS.has_feature("editor"), HTTPClient.METHOD_POST, to_json(data))
 
 
 func _on_HTTPCreate_request_completed(
@@ -120,6 +124,7 @@ func _on_HTTPCreate_request_completed(
 
 func try_connect_to_server(server_url: String, port: int = -1) -> void:
 	show_info("Server created, connecting...")
+	yield(get_tree().create_timer(1.0), "timeout")
 	$ConnectionTimer.start(MAX_CONNECT_TIME)
 	Network.Client.start_client(server_url, port)
 

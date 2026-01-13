@@ -91,6 +91,7 @@ func start_client(host: String, port: int = -1, singleplayer: bool = false) -> v
 	# Must use the corresponding WebSocket protocol (non-secure or secure)
 	host = host.replace("http://", "ws://").replace("https://", "wss://")
 	var peer = WebSocketClient.new()
+	peer.verify_ssl = not OS.has_feature("editor")
 	var url = host if port == -1 else "%s:%d" % [host, port]
 	Logger.print(self, "Client started connecting to %s", [url])
 	var result = peer.connect_to_url(url, PoolStringArray(), true)
