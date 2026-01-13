@@ -152,16 +152,15 @@ margin_right = 448.0
 
 [node name="SpectateButton" type="Button" parent="."]
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
+anchor_bottom = 0.5
 margin_left = -125.0
-margin_top = -150.0
+margin_top = 165.0
 margin_right = 125.0
-margin_bottom = -100.0
+margin_bottom = 215.0
 theme = ExtResource( 6 )
 custom_fonts/font = ExtResource( 7 )
-toggle_mode = true
 text = "Spectate"
 
 [node name="SpectatorText" type="Label" parent="."]
@@ -208,4 +207,5 @@ anims/show = SubResource( 2 )
 [connection signal="colour_changed" from="PlayerOptions/Control/ColourSelector" to="." method="_on_ColourSelector_colour_changed"]
 [connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="SpectateButton" to="." method="_on_SpectateButton_pressed"]
 [connection signal="toggled" from="SpectateButton" to="." method="_on_SpectateButton_toggled"]

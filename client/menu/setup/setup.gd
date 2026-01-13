@@ -8,6 +8,7 @@ onready var player := $PlayerOptions/Control/Player
 onready var player_list = $PlayerList
 onready var info_message = $InfoMessage
 
+var is_spectating = false
 
 func _ready() -> void:
 	# Disable the player physics so it doesn't fall
@@ -39,11 +40,7 @@ func _ready() -> void:
 		if not Network.Client.player_list.empty():
 			populate_players({}, Network.Client.player_list)
 			var player_id = multiplayer.get_network_unique_id()
-			if Network.Client.player_list[player_id].spectate == true:
-				$SpectateButton.set_pressed_no_signal(true)
-				$SpectatorText.show()
-				$PlayerOptions.hide()
-
+			set_is_spectating(Network.Client.player_list[player_id].spectate)
 
 	# Need to defer this or the menu animation hides it
 	$StartButton.call_deferred("grab_focus")
@@ -55,6 +52,12 @@ func _on_host_changed(_new_host: int) -> void:
 	if (not Network.Client.is_singleplayer) and is_host:
 		show_message("You're the new host!")
 
+func set_is_spectating(value: bool) -> void:
+	is_spectating = value
+	$SpectatorText.visible = is_spectating
+	$PlayerOptions.visible = not is_spectating
+	$SpectateButton.text = "Join Game" if is_spectating else "Spectate"
+	$SpectateButton.rect_position.y = 575 if is_spectating else 695
 
 func show_message(message: String) -> void:
 	info_message.text = message
@@ -89,8 +92,8 @@ func update_player_colour(player_id: int, colour_choice: int) -> void:
 	player_list.update_player_colour(player_id, colour_choice)
 
 
-func update_player_spectating(player_id: int, is_spectating: bool) -> void:
-	player_list.update_player_spectating(player_id, is_spectating)
+func update_player_spectating(player_id: int, _is_spectating: bool) -> void:
+	player_list.update_player_spectating(player_id, _is_spectating)
 
 
 func _on_BackButton_pressed() -> void:
@@ -112,7 +115,6 @@ func _on_ColourSelector_colour_changed(new_value: int) -> void:
 		Network.Client.send_player_colour_change(new_value)
 
 
-func _on_SpectateButton_toggled(button_pressed: bool) -> void:
-	Network.Client.send_player_spectate_change(button_pressed)
-	$SpectatorText.visible = button_pressed
-	$PlayerOptions.visible = not button_pressed
+func _on_SpectateButton_pressed() -> void:
+	set_is_spectating(not is_spectating)
+	Network.Client.send_player_spectate_change(is_spectating)
