@@ -48,7 +48,7 @@ margin_left = -500.0
 margin_right = 500.0
 margin_bottom = 237.0
 custom_fonts/font = ExtResource( 6 )
-text = "Host a server on your own computer.
+text = "Host a server on your own device.
 
 Requires port forwarding if your router doesn't support UPnP!"
 align = 1
