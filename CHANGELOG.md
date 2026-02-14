@@ -23,6 +23,7 @@ Types of changes:
   - You can also customize which items will be dropped by item boxes
 - Ready up system for multiplayer games
   - All players must now ready up before the game can be started
+- Show icon for bot players
 - Added support for game IDs on the official servers
 
 ### Changed
