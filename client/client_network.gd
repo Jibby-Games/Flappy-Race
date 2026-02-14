@@ -24,7 +24,7 @@ var host_player_id := 0
 var player_list := {}
 var game_options := {}
 
-signal host_changed(new_host_id)
+signal host_changed(old_host_id, new_host_id)
 signal player_list_changed(old_player_list, new_player_list)
 signal game_options_changed(new_options)
 
@@ -221,8 +221,9 @@ remote func receive_game_info(
 ) -> void:
 	if is_rpc_from_server() == false:
 		return
+	var old_host_id = host_player_id
 	host_player_id = new_host_id
-	emit_signal("host_changed", new_host_id)
+	emit_signal("host_changed", old_host_id, new_host_id)
 	emit_signal("player_list_changed", player_list.duplicate(), new_player_list)
 	player_list = new_player_list
 	game_options = new_game_options
@@ -263,8 +264,9 @@ remote func receive_player_kicked(reason: String) -> void:
 remote func receive_host_change(new_host_id: int) -> void:
 	if is_rpc_from_server() == false:
 		return
+	var old_host_id = host_player_id
 	host_player_id = new_host_id
-	emit_signal("host_changed", new_host_id)
+	emit_signal("host_changed", old_host_id, new_host_id)
 	Logger.print(self, "Host player changed to player %d", [new_host_id])
 
 
@@ -311,6 +313,20 @@ remote func receive_player_spectate_update(player_id: int, is_spectating: bool) 
 	var setup = get_node_or_null("MenuHandler/Setup")
 	if setup:
 		setup.update_player_spectating(player_id, is_spectating)
+
+
+func send_player_ready_change(is_ready: bool) -> void:
+	Logger.print(self, "Sending player ready change: %s" % [is_ready])
+	rpc_id(SERVER_ID, "receive_player_ready_change", is_ready)
+
+
+remote func receive_player_ready_update(player_id: int, is_ready: bool) -> void:
+	if is_rpc_from_server() == false:
+		return
+	Logger.print(self, "Received player %d ready change: %s" % [player_id, is_ready])
+	var setup = get_node_or_null("MenuHandler/Setup")
+	if setup:
+		setup.update_player_ready(player_id, is_ready)
 
 
 func send_game_option_change(option: String, value: int) -> void:

@@ -9,6 +9,7 @@ onready var player_list = $PlayerList
 onready var info_message = $InfoMessage
 
 var is_spectating = false
+var is_ready = false
 
 func _ready() -> void:
 	# Disable the player physics so it doesn't fall
@@ -46,18 +47,21 @@ func _ready() -> void:
 	$StartButton.call_deferred("grab_focus")
 
 
-func _on_host_changed(_new_host: int) -> void:
+func _on_host_changed(_old_host_id: int, _new_host: int) -> void:
 	var is_host := Network.Client.is_host()
 	set_enable_host_options(is_host)
 	if (not Network.Client.is_singleplayer) and is_host:
 		show_message("You're the new host!")
+
 
 func set_is_spectating(value: bool) -> void:
 	is_spectating = value
 	$SpectatorText.visible = is_spectating
 	$PlayerOptions.visible = not is_spectating
 	$SpectateButton.text = "Join Game" if is_spectating else "Spectate"
+	$SpectateButton.hint_tooltip = "Become a player" if is_spectating else "Become a spectator"
 	$SpectateButton.rect_position.y = 575 if is_spectating else 695
+
 
 func show_message(message: String) -> void:
 	info_message.text = message
@@ -74,6 +78,7 @@ func set_enable_host_options(is_host: bool) -> void:
 	$StartButton.visible = is_host
 	$GameOptions.set_enable_host_options(is_host)
 	$IpFinder.visible = ((not Network.Client.is_singleplayer) and Network.is_server_hosting())
+	$ReadyButton.visible = not is_host
 
 
 func populate_players(_old_player_list: Dictionary, new_player_list: Dictionary) -> void:
@@ -85,7 +90,15 @@ func populate_players(_old_player_list: Dictionary, new_player_list: Dictionary)
 		var player_name = new_player_list[player_id]["name"]
 		var spectating = new_player_list[player_id]["spectate"]
 		var is_bot = new_player_list[player_id]["bot"]
-		player_list.add_player(player_id, player_name, colour_choice, spectating, is_bot)
+		var player_ready = new_player_list[player_id]["ready"]
+		player_list.add_player(
+			player_id,
+			player_name,
+			colour_choice,
+			spectating,
+			is_bot,
+			player_ready
+		)
 
 
 func update_player_colour(player_id: int, colour_choice: int) -> void:
@@ -94,6 +107,12 @@ func update_player_colour(player_id: int, colour_choice: int) -> void:
 
 func update_player_spectating(player_id: int, _is_spectating: bool) -> void:
 	player_list.update_player_spectating(player_id, _is_spectating)
+
+
+func update_player_ready(player_id: int, _is_ready: bool) -> void:
+	player_list.update_player_ready(player_id, _is_ready)
+	if player_id == multiplayer.get_network_unique_id():
+		$ReadyButton.set_pressed_no_signal(_is_ready)
 
 
 func _on_BackButton_pressed() -> void:
@@ -118,3 +137,9 @@ func _on_ColourSelector_colour_changed(new_value: int) -> void:
 func _on_SpectateButton_pressed() -> void:
 	set_is_spectating(not is_spectating)
 	Network.Client.send_player_spectate_change(is_spectating)
+
+
+func _on_ReadyButton_toggled(button_pressed: bool) -> void:
+	is_ready = button_pressed
+	player_list.update_player_ready(multiplayer.get_network_unique_id(), is_ready)
+	Network.Client.send_player_ready_change(is_ready)

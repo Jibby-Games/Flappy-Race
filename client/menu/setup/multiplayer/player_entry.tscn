@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://client/fonts/DelaGothicOne-24.tres" type="DynamicFont" id=1]
 [ext_resource path="res://client/world/player/player.tscn" type="PackedScene" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://client/menu/setup/multiplayer/laurel-crown.png" type="Texture" id=6]
 [ext_resource path="res://client/menu/setup/multiplayer/boot-kick.png" type="Texture" id=7]
 [ext_resource path="res://client/menu/setup/multiplayer/crown.png" type="Texture" id=8]
+[ext_resource path="res://client/menu/setup/multiplayer/cancel.png" type="Texture" id=9]
+[ext_resource path="res://client/menu/setup/multiplayer/robot.png" type="Texture" id=10]
 
 [node name="PlayerEntry" type="HBoxContainer"]
 margin_right = 374.0
@@ -32,46 +34,16 @@ valign = 1
 autowrap = true
 clip_text = true
 
-[node name="HostIcon" type="TextureRect" parent="."]
-margin_left = 310.0
-margin_right = 374.0
-margin_bottom = 67.0
-rect_min_size = Vector2( 64, 64 )
-texture = ExtResource( 8 )
-
-[node name="PlayerIcon" type="Control" parent="."]
-margin_left = 384.0
-margin_right = 448.0
-margin_bottom = 67.0
-rect_min_size = Vector2( 64, 64 )
-size_flags_horizontal = 5
-size_flags_vertical = 5
-
-[node name="Player" parent="PlayerIcon" instance=ExtResource( 2 )]
-position = Vector2( 32, 32 )
-
-[node name="SpectateIcon" type="TextureRect" parent="."]
-visible = false
-margin_left = 384.0
-margin_right = 448.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 64, 64 )
-texture = ExtResource( 5 )
-expand = true
-stretch_mode = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="HostPlaceholder" type="HBoxContainer" parent="."]
-margin_left = 458.0
-margin_right = 610.0
+margin_left = 310.0
+margin_right = 462.0
 margin_bottom = 67.0
 rect_min_size = Vector2( 148, 64 )
 
 [node name="Promote" type="Button" parent="HostPlaceholder"]
 margin_right = 74.0
 margin_bottom = 67.0
+hint_tooltip = "Make host"
 icon = ExtResource( 6 )
 icon_align = 1
 
@@ -79,8 +51,71 @@ icon_align = 1
 margin_left = 78.0
 margin_right = 152.0
 margin_bottom = 67.0
+hint_tooltip = "Kick player"
 icon = ExtResource( 7 )
 icon_align = 1
+
+[node name="PlayerIcon" type="Control" parent="."]
+margin_left = 472.0
+margin_right = 536.0
+margin_bottom = 67.0
+rect_min_size = Vector2( 64, 64 )
+size_flags_horizontal = 5
+size_flags_vertical = 5
+
+[node name="Player" parent="PlayerIcon" instance=ExtResource( 2 )]
+position = Vector2( 32, 32 )
+z_index = -10
+
+[node name="SpectateIcon" type="TextureRect" parent="."]
+visible = false
+margin_left = 458.0
+margin_right = 522.0
+margin_bottom = 67.0
+rect_min_size = Vector2( 64, 64 )
+hint_tooltip = "Spectating"
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BotIcon" type="TextureRect" parent="."]
+visible = false
+margin_left = 458.0
+margin_right = 522.0
+margin_bottom = 67.0
+rect_min_size = Vector2( 64, 64 )
+hint_tooltip = "Bot player"
+texture = ExtResource( 10 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HostIcon" type="TextureRect" parent="."]
+visible = false
+margin_left = 384.0
+margin_right = 448.0
+margin_bottom = 67.0
+rect_min_size = Vector2( 64, 64 )
+hint_tooltip = "Host player"
+texture = ExtResource( 8 )
+
+[node name="ReadyIcon" type="TextureRect" parent="."]
+margin_left = 546.0
+margin_right = 610.0
+margin_bottom = 67.0
+rect_min_size = Vector2( 64, 64 )
+hint_tooltip = "Ready status"
+texture = ExtResource( 9 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="pressed" from="HostPlaceholder/Promote" to="." method="_on_Promote_pressed"]
 [connection signal="button_down" from="HostPlaceholder/Kick" to="." method="_on_Kick_button_down"]
