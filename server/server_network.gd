@@ -511,6 +511,8 @@ remote func receive_start_game_request() -> void:
 			send_setup_info_message("Can't start game:\nNot all players are ready!")
 			return
 		Logger.print(self, "Starting game!")
+		# Reset for when retuning to lobby
+		reset_players_ready()
 		# Flush any old states
 		player_state_collection.clear()
 		$StateProcessing.running = true
@@ -520,6 +522,11 @@ remote func receive_start_game_request() -> void:
 		Logger.print(
 			self, "Player %s tried to start the game but they're not the host!" % [player_id]
 		)
+
+
+func reset_players_ready() -> void:
+	for player_id in player_list.keys():
+		player_list[player_id].ready = false
 
 
 func send_setup_info_message(message: String) -> void:
