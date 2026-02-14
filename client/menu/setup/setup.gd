@@ -8,6 +8,9 @@ onready var player := $PlayerOptions/Control/Player
 onready var player_list = $PlayerList
 onready var info_message = $InfoMessage
 
+const SPECTATE_BUTTON_Y_SPECTATING := 575
+const SPECTATE_BUTTON_Y_PLAYING := 695
+
 var is_spectating = false
 var is_ready = false
 
@@ -60,7 +63,7 @@ func set_is_spectating(value: bool) -> void:
 	$PlayerOptions.visible = not is_spectating
 	$SpectateButton.text = "Join Game" if is_spectating else "Spectate"
 	$SpectateButton.hint_tooltip = "Become a player" if is_spectating else "Become a spectator"
-	$SpectateButton.rect_position.y = 575 if is_spectating else 695
+	$SpectateButton.rect_position.y = SPECTATE_BUTTON_Y_SPECTATING if is_spectating else SPECTATE_BUTTON_Y_PLAYING
 
 
 func show_message(message: String) -> void:
