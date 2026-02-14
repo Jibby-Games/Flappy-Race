@@ -42,7 +42,7 @@ func get_server_list() -> void:
 	$ServerRequest.cancel_request()
 	var url = "%s/%s" % [Network.SERVER_LIST_URL, server_list_route]
 	Logger.print(self, "Trying to get server list from %s...", [url])
-	var result: int = $ServerRequest.request(url)
+	var result: int = $ServerRequest.request(url, [], not OS.has_feature("editor"))
 	assert(result == OK)
 	show_info("Connecting...")
 

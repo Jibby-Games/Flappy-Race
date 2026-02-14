@@ -34,6 +34,10 @@ var game_options := {}
 var server_version := ""
 
 
+signal host_changed(old_host_id, new_host_id)
+signal player_ready_changed(player_id, is_ready)
+
+
 func _ready() -> void:
 	# As you can see, instead of calling get_tree().connect for network related
 	# stuff we use mutltiplayer.connect . This way, IF (and only IF) the
@@ -62,8 +66,10 @@ func _exit_tree() -> void:
 ### Host functions
 
 func set_host(new_host: int) -> void:
+	var old_host_id = _host_player_id
 	_host_player_id = new_host
 	Logger.print(self, "Player %s is now the host" % [_host_player_id])
+	emit_signal("host_changed", old_host_id, new_host)
 	rpc("receive_host_change", new_host)
 
 
@@ -318,6 +324,7 @@ func create_player_list_entry(
 		"bot": bot,
 		"body": null,
 		"score": 0,
+		"ready": false,
 	}
 
 
@@ -350,8 +357,24 @@ remote func receive_player_spectate_change(is_spectating: bool) -> void:
 
 
 func send_player_spectate_update(player_id: int, is_spectating: bool) -> void:
-	Logger.print(self, "Sending player spectate update")
+	Logger.print(self, "Sending player %s spectate = %s update" % [player_id, is_spectating])
 	rpc("receive_player_spectate_update", player_id, is_spectating)
+
+
+remote func receive_player_ready_change(is_ready: bool) -> void:
+	var player_id = multiplayer.get_rpc_sender_id()
+	player_list[player_id]["ready"] = is_ready
+	Logger.print(self, "Player %s set ready to %s " % [player_id, is_ready])
+	emit_signal("player_ready_changed", player_id, is_ready)
+	for connected_player_id in multiplayer.get_network_connected_peers():
+		# Don't send update to the player who sent it again to stop infinite update loops
+		if connected_player_id != player_id:
+			rpc_id(connected_player_id, "receive_player_ready_update", player_id, is_ready)
+
+
+func send_player_ready_update(player_id: int, is_ready: bool) -> void:
+	Logger.print(self, "Sending player %s ready = %s update" % [player_id, is_ready])
+	rpc("receive_player_ready_update", player_id, is_ready)
 
 
 remote func receive_game_option_change(option: String, value: int) -> void:
@@ -476,14 +499,20 @@ remote func receive_start_game_request() -> void:
 	var player_id = multiplayer.get_rpc_sender_id()
 	if player_id == SERVER_ID or is_host_id(player_id):
 		if player_list.empty():
-			Logger.print(self, "Cannot start game without any players!")
-			send_setup_info_message("Not enough players!")
+			Logger.print(self, "%d tried to start game without any players!" % [player_id])
+			send_setup_info_message("Can't start game:\nNot enough players!")
 			return
 		if is_everyone_spectating():
-			Logger.print(self, "Cannot start game with just spectators!")
-			send_setup_info_message("Too many spectators!")
+			Logger.print(self, "%d tried to start game with just spectators!" % [player_id])
+			send_setup_info_message("Can't start game:\nToo many spectators!")
+			return
+		if not are_all_players_ready():
+			Logger.print(self, "%d tried to start game when not all players are ready!" % [player_id])
+			send_setup_info_message("Can't start game:\nNot all players are ready!")
 			return
 		Logger.print(self, "Starting game!")
+		# Reset for when retuning to lobby
+		reset_players_ready()
 		# Flush any old states
 		player_state_collection.clear()
 		$StateProcessing.running = true
@@ -495,6 +524,11 @@ remote func receive_start_game_request() -> void:
 		)
 
 
+func reset_players_ready() -> void:
+	for player_id in player_list.keys():
+		player_list[player_id].ready = false
+
+
 func send_setup_info_message(message: String) -> void:
 	rpc("receive_setup_info_message", message)
 
@@ -502,6 +536,21 @@ func send_setup_info_message(message: String) -> void:
 func is_everyone_spectating() -> bool:
 	for player in player_list.values():
 		if player.spectate == false:
+			return false
+	return true
+
+
+func are_all_players_ready() -> bool:
+	for player_id in player_list.keys():
+		var player = player_list[player_id]
+		if is_host_id(player_id):
+			# Ignore the host
+			continue
+		if player.bot:
+			# Ignore bots
+			continue
+		if not player.ready:
+			Logger.print(self, "Player %s is not ready!" % [player_id])
 			return false
 	return true
 

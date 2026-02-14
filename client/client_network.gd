@@ -24,7 +24,7 @@ var host_player_id := 0
 var player_list := {}
 var game_options := {}
 
-signal host_changed(new_host_id)
+signal host_changed(old_host_id, new_host_id)
 signal player_list_changed(old_player_list, new_player_list)
 signal game_options_changed(new_options)
 
@@ -86,12 +86,13 @@ func change_scene_to_world() -> void:
 	change_scene(world_scene)
 
 
-func start_client(host: String, port: int, singleplayer: bool = false) -> void:
+func start_client(host: String, port: int = -1, singleplayer: bool = false) -> void:
 	is_singleplayer = singleplayer
 	# Must use the corresponding WebSocket protocol (non-secure or secure)
 	host = host.replace("http://", "ws://").replace("https://", "wss://")
 	var peer = WebSocketClient.new()
-	var url := "%s:%d" % [host, port]
+	peer.verify_ssl = not OS.has_feature("editor")
+	var url = host if port == -1 else "%s:%d" % [host, port]
 	Logger.print(self, "Client started connecting to %s", [url])
 	var result = peer.connect_to_url(url, PoolStringArray(), true)
 	assert(result == OK)
@@ -220,8 +221,9 @@ remote func receive_game_info(
 ) -> void:
 	if is_rpc_from_server() == false:
 		return
+	var old_host_id = host_player_id
 	host_player_id = new_host_id
-	emit_signal("host_changed", new_host_id)
+	emit_signal("host_changed", old_host_id, new_host_id)
 	emit_signal("player_list_changed", player_list.duplicate(), new_player_list)
 	player_list = new_player_list
 	game_options = new_game_options
@@ -262,8 +264,9 @@ remote func receive_player_kicked(reason: String) -> void:
 remote func receive_host_change(new_host_id: int) -> void:
 	if is_rpc_from_server() == false:
 		return
+	var old_host_id = host_player_id
 	host_player_id = new_host_id
-	emit_signal("host_changed", new_host_id)
+	emit_signal("host_changed", old_host_id, new_host_id)
 	Logger.print(self, "Host player changed to player %d", [new_host_id])
 
 
@@ -310,6 +313,20 @@ remote func receive_player_spectate_update(player_id: int, is_spectating: bool) 
 	var setup = get_node_or_null("MenuHandler/Setup")
 	if setup:
 		setup.update_player_spectating(player_id, is_spectating)
+
+
+func send_player_ready_change(is_ready: bool) -> void:
+	Logger.print(self, "Sending player ready change: %s" % [is_ready])
+	rpc_id(SERVER_ID, "receive_player_ready_change", is_ready)
+
+
+remote func receive_player_ready_update(player_id: int, is_ready: bool) -> void:
+	if is_rpc_from_server() == false:
+		return
+	Logger.print(self, "Received player %d ready change: %s" % [player_id, is_ready])
+	var setup = get_node_or_null("MenuHandler/Setup")
+	if setup:
+		setup.update_player_ready(player_id, is_ready)
 
 
 func send_game_option_change(option: String, value: int) -> void:
@@ -367,8 +384,11 @@ remote func receive_player_flap(player_id: int, flap_time: int) -> void:
 		# This is the same player who sent it so don't flap again
 		return
 #	Logger.print(self, "Received flap for player %d @ time = %d" % [player_id, flap_time])
-	var player = $World.get_node(str(player_id))
-	player.flap_queue.append(flap_time)
+	var world = get_node_or_null("World")
+	if world:
+		var player = world.get_node_or_null(str(player_id))
+		if player:
+			player.flap_queue.append(flap_time)
 
 
 func send_player_death(reason: String) -> void:
@@ -380,15 +400,21 @@ remote func receive_player_death(player_id: int, death_time: int, reason: String
 		# This is the same player who sent it so don't call death
 		return
 	Logger.print(self, "Received death for player %d @ time = %d" % [player_id, death_time])
-	var player = $World.get_node(str(player_id))
-	player.death("From server - %s" % reason)
+	var world = get_node_or_null("World")
+	if world:
+		var player = world.get_node_or_null(str(player_id))
+		if player:
+			player.death("From server - %s" % reason)
 
 
 remote func receive_player_add_item(player_id: int, item_id: int) -> void:
 	var item: Item = Items.get_item(item_id)
 	Logger.print(self, "Received add item %d (%s) for player %d" % [item_id, item.name, player_id])
-	var player = $World.get_node(str(player_id))
-	player.add_item(item)
+	var world = get_node_or_null("World")
+	if world:
+		var player = world.get_node_or_null(str(player_id))
+		if player:
+			player.add_item(item)
 
 
 remote func receive_player_lost_life(lives_left: int) -> void:

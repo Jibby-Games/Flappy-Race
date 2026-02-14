@@ -2,7 +2,6 @@ extends VBoxContainer
 
 export(PackedScene) var entry_template
 
-
 func _ready() -> void:
 	var result: int
 	result = multiplayer.connect("network_peer_disconnected", self, "remove_player")
@@ -16,13 +15,15 @@ func add_player(
 		player_name: String,
 		colour_choice: int,
 		spectating: bool,
-		is_bot: bool
+		is_bot: bool,
+		is_ready: bool
 ) -> void:
 	var player_entry = entry_template.instance()
 	var is_host = Network.Client.is_host_id(player_id)
 	player_entry.setup(player_id, player_name, colour_choice, is_bot)
 	player_entry.set_host(is_host)
 	player_entry.set_spectating(spectating)
+	player_entry.set_ready(is_ready)
 	add_child(player_entry)
 
 
@@ -46,7 +47,12 @@ func update_player_spectating(player_id: int, is_spectating: bool) -> void:
 	player.set_spectating(is_spectating)
 
 
-func _on_host_changed(new_host_id: int) -> void:
+func update_player_ready(player_id: int, is_ready: bool) -> void:
+	var player = get_node(str(player_id))
+	player.set_ready(is_ready)
+
+
+func _on_host_changed(_old_host_id: int, new_host_id: int) -> void:
 	for player_entry in get_children():
 		var entry_is_host: bool = player_entry.player_id == new_host_id
 		player_entry.set_host(entry_is_host)

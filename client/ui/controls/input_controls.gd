@@ -16,18 +16,17 @@ func _ready() -> void:
 	assert(result == OK)
 	var devices := Input.get_connected_joypads()
 	if devices.empty():
-		Logger.print(self, "No joypads detected - using keyboard")
-		switch_to_keyboard()
+		Logger.print(self, "No joypads detected")
 	else:
 		for device_id in devices:
 			Logger.print(self, "Joypad detected: %s" % Input.get_joy_name(device_id))
-		switch_to_joypad()
+	# Don't switch to joypad controls until the player uses it
 
 
 func _on_joy_connection_changed(device_id: int, connected: bool) -> void:
 	if connected:
 		Logger.print(self, "Joypad connected: %s" % Input.get_joy_name(device_id))
-		switch_to_joypad()
+		# Don't switch to joypad controls until the player uses it
 	else:
 		var devices := Input.get_connected_joypads()
 		if devices.empty():

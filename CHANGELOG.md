@@ -19,12 +19,21 @@ Types of changes:
 
 ### Added
 - New options for items
-  - Items can be fully disables
+  - Items can be fully disabled
   - You can also customize which items will be dropped by item boxes
+- Ready up system for multiplayer games
+  - All players must now ready up before the game can be started
+- Show icon for bot players
+- Added support for game IDs on the official servers
 
 ### Changed
 - Item weights have been tweaked for balance and fun
 - Server connection error messages have been improved
+
+### Fixed
+- Controller icons will only show when a controller is used instead of switching immediately on connection
+- Fixed some late join errors
+- Fixed some UI issues
 
 ## [0.13.0] - 2024-10-05
 

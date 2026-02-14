@@ -11,6 +11,7 @@ var MAX_PLAYERS: int = ProjectSettings.get_setting("game/config/max_players")
 var SERVER_DOMAIN_URL: String = ProjectSettings.get_setting("game/config/server_domain_url")
 var SERVER_LIST_URL: String = SERVER_DOMAIN_URL + ProjectSettings.get_setting("game/config/server_list_route")
 var SERVER_MANAGER_URL: String = SERVER_DOMAIN_URL + ProjectSettings.get_setting("game/config/server_manager_route")
+var SERVER_GAME_URL: String = SERVER_DOMAIN_URL + ProjectSettings.get_setting("game/config/server_game_route")
 var X509_CERT_PATH := "user://certs/X509_certificate.crt"
 var X509_KEY_PATH := "user://certs/X509_key.key"
 var X509_CERT: Resource
@@ -123,3 +124,5 @@ func get_http_result_name(result: int) -> String:
 		_:
 			return "UNKNOWN"
 
+func get_game_url(game_id: String) -> String:
+	return "%s/%s/ws" % [SERVER_GAME_URL, game_id]

@@ -4,6 +4,8 @@ var player_id: int
 var is_bot := false
 var is_host := false
 
+var ready_texture := preload("res://client/menu/setup/multiplayer/confirmed.png")
+var not_ready_texture := preload("res://client/menu/setup/multiplayer/cancel.png")
 
 func _ready() -> void:
 	$PlayerIcon/Player.set_physics_process(false)
@@ -12,6 +14,8 @@ func _ready() -> void:
 func setup(_player_id: int, player_name: String, colour_choice: int, _is_bot: bool) -> void:
 	player_id = _player_id
 	is_bot = _is_bot
+	$BotIcon.visible = is_bot
+	$ReadyIcon.visible = not is_bot
 	set_name(str(player_id))
 	$Name.text = player_name
 	set_colour(colour_choice)
@@ -26,9 +30,14 @@ func set_spectating(is_spectating: bool) -> void:
 	$SpectateIcon.visible = is_spectating
 
 
+func set_ready(is_ready: bool) -> void:
+	$ReadyIcon.texture = ready_texture if is_ready else not_ready_texture
+
+
 func set_host(value: bool) -> void:
 	is_host = value
 	$HostIcon.visible = is_host
+	$ReadyIcon.visible = not is_host and not is_bot
 	var show_host_buttons := not is_host and Network.Client.is_host() and not is_bot
 	show_host_buttons(show_host_buttons)
 
