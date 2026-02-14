@@ -384,8 +384,11 @@ remote func receive_player_flap(player_id: int, flap_time: int) -> void:
 		# This is the same player who sent it so don't flap again
 		return
 #	Logger.print(self, "Received flap for player %d @ time = %d" % [player_id, flap_time])
-	var player = $World.get_node(str(player_id))
-	player.flap_queue.append(flap_time)
+	var world = get_node_or_null("World")
+	if world:
+		var player = world.get_node_or_null(str(player_id))
+		if player:
+			player.flap_queue.append(flap_time)
 
 
 func send_player_death(reason: String) -> void:
@@ -397,15 +400,21 @@ remote func receive_player_death(player_id: int, death_time: int, reason: String
 		# This is the same player who sent it so don't call death
 		return
 	Logger.print(self, "Received death for player %d @ time = %d" % [player_id, death_time])
-	var player = $World.get_node(str(player_id))
-	player.death("From server - %s" % reason)
+	var world = get_node_or_null("World")
+	if world:
+		var player = world.get_node_or_null(str(player_id))
+		if player:
+			player.death("From server - %s" % reason)
 
 
 remote func receive_player_add_item(player_id: int, item_id: int) -> void:
 	var item: Item = Items.get_item(item_id)
 	Logger.print(self, "Received add item %d (%s) for player %d" % [item_id, item.name, player_id])
-	var player = $World.get_node(str(player_id))
-	player.add_item(item)
+	var world = get_node_or_null("World")
+	if world:
+		var player = world.get_node_or_null(str(player_id))
+		if player:
+			player.add_item(item)
 
 
 remote func receive_player_lost_life(lives_left: int) -> void:
