@@ -1,7 +1,7 @@
 FROM alpine:3.17.2 AS base
 
 # Godot shared environment Variables
-ENV GODOT_VERSION="3.6"
+ENV GODOT_VERSION="3.6.2"
 ENV GODOT_EXPORT_PRESET="linux"
 
 # Install tools for downloading
@@ -34,6 +34,9 @@ RUN godot-headless --path /build --export-pack ${GODOT_EXPORT_PRESET} server.pck
 
 FROM base AS runner
 
+# Path where the HTTPS certs will be mounted when hosting
+ENV CONTAINER_CERT_PATH="/secrets/live/jibby.localhost"
+
 # Download Godot Server to run the exported .pck
 RUN wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux_server.64.zip \
     && unzip Godot_v${GODOT_VERSION}-stable_linux_server.64.zip \
@@ -42,8 +45,8 @@ RUN wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}
 
 # Create links to the HTTPS certs which will be mounted when hosting
 RUN mkdir -p ~/.local/share/godot/app_userdata/Flappy\ Race/certs \
-    && ln -s /secrets/live/jibby.localhost/fullchain.pem ~/.local/share/godot/app_userdata/Flappy\ Race/certs/X509_certificate.crt \
-    && ln -s /secrets/live/jibby.localhost/privkey.pem ~/.local/share/godot/app_userdata/Flappy\ Race/certs/X509_key.key
+    && ln -s ${CONTAINER_CERT_PATH}/fullchain.pem ~/.local/share/godot/app_userdata/Flappy\ Race/certs/X509_certificate.crt \
+    && ln -s ${CONTAINER_CERT_PATH}/privkey.pem ~/.local/share/godot/app_userdata/Flappy\ Race/certs/X509_key.key
 
 # Copy the exported .pck and run it
 COPY --from=builder /build/server.pck server.pck
