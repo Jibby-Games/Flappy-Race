@@ -511,7 +511,7 @@ remote func receive_start_game_request() -> void:
 			send_setup_info_message("Can't start game:\nNot all players are ready!")
 			return
 		Logger.print(self, "Starting game!")
-		# Reset for when retuning to lobby
+		# Reset for when returning to lobby
 		reset_players_ready()
 		# Flush any old states
 		player_state_collection.clear()

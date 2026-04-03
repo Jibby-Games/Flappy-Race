@@ -97,11 +97,11 @@ func _on_HTTPCreate_request_completed(
 			pass
 		_:
 			var error = parse_json(body.get_string_from_utf8())
-			if error is String and "detail" in error:
+			if "detail" in error:
 				show_error(error.detail)
 			else:
 				show_error("Error: HTTP response code %d" % [response_code])
-				return
+			return
 
 	# Successful response
 	var resp = parse_json(body.get_string_from_utf8())
