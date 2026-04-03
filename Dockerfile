@@ -1,8 +1,8 @@
-FROM alpine:3.17.2 as base
+FROM alpine:3.17.2 AS base
 
 # Godot shared environment Variables
-ENV GODOT_VERSION "3.6"
-ENV GODOT_EXPORT_PRESET "linux"
+ENV GODOT_VERSION="3.6"
+ENV GODOT_EXPORT_PRESET="linux"
 
 # Install tools for downloading
 RUN apk add --no-cache \
@@ -13,7 +13,7 @@ RUN wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.31-r0/
     apk add --allow-untrusted --force-overwrite glibc-2.31-r0.apk && \
     rm -f glibc-2.31-r0.apk
 
-FROM base as builder
+FROM base AS builder
 
 # Download Godot Headless and export templates, version is set from env variables
 RUN wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux_headless.64.zip \
@@ -32,7 +32,7 @@ WORKDIR /build
 COPY . .
 RUN godot-headless --path /build --export-pack ${GODOT_EXPORT_PRESET} server.pck
 
-FROM base as runner
+FROM base AS runner
 
 # Download Godot Server to run the exported .pck
 RUN wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux_server.64.zip \
