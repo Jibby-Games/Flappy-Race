@@ -10,6 +10,7 @@ export var server_list_route := "ws"
 # Our WebSocketClient instance
 var _client := WebSocketClient.new()
 var server_name := ""
+var game_id := ""
 var connection_started := false
 
 
@@ -56,7 +57,10 @@ func _error() -> void:
 func _connected(protocol = ""):
 	Logger.print(self, "Server list connected with protocol: %s" % protocol)
 	# The server list expects the name to be sent first
-	_send_json({"name": server_name, "tls": Network.Server.use_tls, "port": Network.Server.port})
+	if not game_id.empty():
+		_send_json({"name": server_name, "game_id": game_id})
+	else:
+		_send_json({"name": server_name, "tls": Network.Server.use_tls, "port": Network.Server.port})
 	$ReconnectionTimer.stop()
 	emit_signal("connection_established")
 
@@ -78,7 +82,7 @@ func _process(_delta):
 	_client.poll()
 
 
-func start_connection(_server_name: String, _server_list_url: String) -> void:
+func start_connection(_server_name: String, _server_list_url: String, _game_id: String = "") -> void:
 	if _server_name.empty():
 		push_error("Server name cannot be empty when connecting to the server list!")
 		return
@@ -89,6 +93,7 @@ func start_connection(_server_name: String, _server_list_url: String) -> void:
 		push_error("Server list connection already started!")
 		return
 	self.server_name = _server_name
+	self.game_id = _game_id
 	# Must use the websocket protocol
 	self.server_list_url = _server_list_url.replace("http://", "ws://").replace("https://", "wss://")
 	Logger.print(

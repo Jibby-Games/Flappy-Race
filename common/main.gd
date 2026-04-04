@@ -16,6 +16,7 @@ Host/Server args:
   --upnp - Enable automatic UPnP port forwarding
   --name - Specify the server name
   --list - Show the game on the server browser
+  --game-id <game_id> - Register with a specific game ID on the server list
 """
 
 
@@ -39,6 +40,7 @@ func parse_command_line_args() -> void:
 	var use_upnp := false
 	var server_name := "Flappy Server"
 	var use_server_list := false
+	var game_id := ""
 
 	var skip_arg := false
 	var args := OS.get_cmdline_args()
@@ -68,6 +70,9 @@ func parse_command_line_args() -> void:
 			skip_arg = true
 		elif arg == "--list":
 			use_server_list = true
+		elif arg == "--game-id":
+			game_id = args[arg_index + 1]
+			skip_arg = true
 		elif arg == "--version":
 			print("Flappy Race %s" % [ProjectSettings.get_setting("application/config/version")])
 			get_tree().quit()
@@ -80,11 +85,11 @@ func parse_command_line_args() -> void:
 	if is_server:
 		Logger.print(self, "Starting Server...")
 		Network.load_certs()
-		Network.start_server(port, use_upnp, server_name, use_server_list, use_timeout)
+		Network.start_server(port, use_upnp, server_name, use_server_list, use_timeout, game_id)
 	else:
 		Logger.print(self, "Starting Client...")
 		if host_game:
-			Network.start_multiplayer_host(port, use_upnp, server_name, use_server_list)
+			Network.start_multiplayer_host(port, use_upnp, server_name, use_server_list, game_id)
 		elif not join_ip.empty():
 			Network.start_client(join_ip, port)
 		else:

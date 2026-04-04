@@ -32,6 +32,7 @@ var player_state_collection := {}
 var player_list := {}
 var game_options := {}
 var server_version := ""
+var game_id := ""
 
 
 signal host_changed(old_host_id, new_host_id)
@@ -92,7 +93,8 @@ func start_server(
 	forward_port: bool,
 	server_name: String,
 	use_server_list: bool,
-	use_timeout: bool = false
+	use_timeout: bool = false,
+	_game_id: String = ""
 ) -> void:
 	if OS.has_feature('web'):
 		push_error("Server hosting is not supported on browsers!")
@@ -102,6 +104,7 @@ func start_server(
 	max_players = server_max_players
 	game_options = DEFAULT_GAME_OPTIONS.duplicate()
 	server_version = ProjectSettings.get_setting("application/config/version")
+	self.game_id = _game_id
 	if forward_port:
 		var upnp_handler = UpnpHandler.new()
 		upnp_handler.set_name("UpnpHandler")
@@ -130,7 +133,7 @@ func start_server(
 	populate_bots(0, game_options.bots)
 	change_scene_to_setup()
 	if use_server_list:
-		$ServerListHandler.start_connection(server_name, Network.SERVER_LIST_URL)
+		$ServerListHandler.start_connection(server_name, Network.SERVER_LIST_URL, self.game_id)
 	if use_timeout:
 		_start_player_timeout()
 
@@ -153,6 +156,7 @@ func stop_server() -> void:
 	game_options.clear()
 	max_players = 0
 	port = 0
+	game_id = ""
 	if multiplayer.has_network_peer():
 		multiplayer.network_peer.stop()
 	multiplayer.call_deferred("set_network_peer", null)
