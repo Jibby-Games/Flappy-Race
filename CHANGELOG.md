@@ -17,25 +17,30 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.14.0] - 2026-04-05
+
 ### Added
-- New options for items
-  - Items can be fully disabled
-  - You can also customize which items will be dropped by item boxes
-- Ready up system for multiplayer games
-  - All players must now ready up before the game can be started
-- Show icon for bot players
-- Added support for 'Join Codes' on the official servers
-  - This should make it easier to join and more secure than using IP addresses
+
+-   New options for items
+    -   Items can be fully disabled
+    -   You can also customize which items will be dropped by item boxes
+-   Ready up system for multiplayer games
+    -   All players must now ready up before the game can be started
+-   Show icon for bot players
+-   Added support for 'Join Codes' on the official servers
+    -   This should make it easier to join and more secure than using IP addresses
 
 ### Changed
-- Item weights have been tweaked for balance and fun
-- Server connection error messages have been improved
-- Update Godot to 3.6.2
+
+-   Item weights have been tweaked for balance and fun
+-   Server connection error messages have been improved
+-   Update Godot to 3.6.2
 
 ### Fixed
-- Controller icons will only show when a controller is used instead of switching immediately on connection
-- Fixed some late join errors
-- Fixed some UI issues
+
+-   Controller icons will only show when a controller is used instead of switching immediately on connection
+-   Fixed some late join errors
+-   Fixed some UI issues
 
 ## [0.13.0] - 2024-10-05
 
@@ -421,7 +426,9 @@ First proper release! :D
 -   Animated title screen background
 -   Spectator mode and death camera
 
-[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.13.0...HEAD
+[Unreleased]: https://github.com/Jibby-Games/Flappy-Race/compare/0.14.0...HEAD
+
+[0.14.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.13.0...0.14.0
 
 [0.13.0]: https://github.com/Jibby-Games/Flappy-Race/compare/0.12.0...0.13.0
 
