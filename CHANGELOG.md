@@ -24,11 +24,13 @@ Types of changes:
 - Ready up system for multiplayer games
   - All players must now ready up before the game can be started
 - Show icon for bot players
-- Added support for game IDs on the official servers
+- Added support for 'Join Codes' on the official servers
+  - This should make it easier to join and more secure than using IP addresses
 
 ### Changed
 - Item weights have been tweaked for balance and fun
 - Server connection error messages have been improved
+- Update Godot to 3.6.2
 
 ### Fixed
 - Controller icons will only show when a controller is used instead of switching immediately on connection

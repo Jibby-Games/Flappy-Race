@@ -1,33 +1,30 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://client/theme/flappy.theme" type="Theme" id=1]
+[ext_resource path="res://client/menu/setup/multiplayer/game_id_info.gd" type="Script" id=2]
 [ext_resource path="res://client/ui/custom_label.tscn" type="PackedScene" id=3]
 [ext_resource path="res://client/ui/small_black_label.tscn" type="PackedScene" id=4]
-[ext_resource path="res://client/menu/setup/multiplayer/ip_finder.gd" type="Script" id=5]
 
-[node name="IpFinder" type="Control"]
-script = ExtResource( 5 )
-
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
-timeout = 10.0
+[node name="GameIdInfo" type="Control"]
+script = ExtResource( 2 )
 
 [node name="Header" parent="." instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 265.0
 margin_bottom = 70.0
-text = "Lobby IP"
+text = "Join Code"
 align = 1
 
 [node name="ButtonContainer" type="HBoxContainer" parent="."]
 margin_top = 78.0
-margin_right = 265.0
+margin_right = 290.0
 margin_bottom = 105.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 
 [node name="ShowButton" type="Button" parent="ButtonContainer"]
-margin_right = 130.0
+margin_right = 143.0
 margin_bottom = 27.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -36,43 +33,35 @@ toggle_mode = true
 text = "Show"
 
 [node name="CopyButton" type="Button" parent="ButtonContainer"]
-margin_left = 134.0
-margin_right = 265.0
+margin_left = 147.0
+margin_right = 290.0
 margin_bottom = 27.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 theme = ExtResource( 1 )
 text = "Copy"
 
-[node name="IP" parent="." instance=ExtResource( 4 )]
+[node name="GameId" parent="." instance=ExtResource( 4 )]
 visible = false
 margin_top = 104.0
 margin_right = 265.0
 margin_bottom = 139.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-text = "xxx.xxx.xxx.xxx"
+text = "error: no code found!"
 
 [node name="MessageLabel" type="Label" parent="."]
 visible = false
-margin_left = 270.693
+margin_left = 295.693
 margin_top = 77.2219
-margin_right = 344.693
+margin_right = 369.693
 margin_bottom = 101.222
 theme = ExtResource( 1 )
 text = "Copied!"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MessageTimer" type="Timer" parent="MessageLabel"]
 one_shot = true
 
-[node name="RefreshTimer" type="Timer" parent="."]
-
-[connection signal="visibility_changed" from="." to="." method="_on_IpFinder_visibility_changed"]
-[connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
 [connection signal="toggled" from="ButtonContainer/ShowButton" to="." method="_on_ShowButton_toggled"]
 [connection signal="pressed" from="ButtonContainer/CopyButton" to="." method="_on_CopyButton_pressed"]
 [connection signal="timeout" from="MessageLabel/MessageTimer" to="." method="_on_MessageTimer_timeout"]
-[connection signal="timeout" from="RefreshTimer" to="." method="_on_RefreshTimer_timeout"]

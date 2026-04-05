@@ -61,7 +61,7 @@ func start_singleplayer() -> void:
 
 
 func start_multiplayer_host(
-	port: int, use_upnp: bool, server_name: String, use_server_list: bool
+	port: int, use_upnp: bool, server_name: String, use_server_list: bool, game_id: String = ""
 ) -> void:
 	if not Client:
 		change_to_client()
@@ -70,17 +70,17 @@ func start_multiplayer_host(
 	if not Server:
 		Server = _load_network_scene(SERVER_NETWORK)
 		yield(Server, "ready")
-	Server.start_server(port, MAX_PLAYERS, use_upnp, server_name, use_server_list)
+	Server.start_server(port, MAX_PLAYERS, use_upnp, server_name, use_server_list, false, game_id)
 	Client.start_client("ws://127.0.0.1", port)
 
 
 func start_server(
-	port: int, use_upnp: bool, server_name: String, use_server_list: bool, use_timeout: bool
+	port: int, use_upnp: bool, server_name: String, use_server_list: bool, use_timeout: bool, game_id: String = ""
 ) -> void:
 	if not Server:
 		Server = _load_network_scene(SERVER_NETWORK)
 		yield(Server, "ready")
-	Server.start_server(port, MAX_PLAYERS, use_upnp, server_name, use_server_list, use_timeout)
+	Server.start_server(port, MAX_PLAYERS, use_upnp, server_name, use_server_list, use_timeout, game_id)
 
 
 func stop_networking() -> void:

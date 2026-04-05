@@ -32,7 +32,7 @@ body = %s
 				% [result, response_code, headers, body.get_string_from_utf8()]
 			)
 		)
-		public_ip = "error"
+		public_ip = "error: can't connect!"
 	ip_label.text = public_ip
 
 

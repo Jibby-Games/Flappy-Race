@@ -23,6 +23,7 @@ var is_singleplayer := false
 var host_player_id := 0
 var player_list := {}
 var game_options := {}
+var game_id := ""
 
 signal host_changed(old_host_id, new_host_id)
 signal player_list_changed(old_player_list, new_player_list)
@@ -109,6 +110,7 @@ func stop_client() -> void:
 	host_player_id = 0
 	player_list.clear()
 	game_options.clear()
+	game_id = ""
 	Logger.print(self, "Client stopped")
 
 
@@ -217,18 +219,21 @@ remote func receive_change_to_setup() -> void:
 
 
 remote func receive_game_info(
-	new_host_id: int, new_player_list: Dictionary, new_game_options: Dictionary
+	new_host_id: int,
+	new_player_list: Dictionary,
+	new_game_options: Dictionary,
+	new_game_id: String
 ) -> void:
 	if is_rpc_from_server() == false:
 		return
 	var old_host_id = host_player_id
 	host_player_id = new_host_id
+	game_id = new_game_id
 	emit_signal("host_changed", old_host_id, new_host_id)
 	emit_signal("player_list_changed", player_list.duplicate(), new_player_list)
 	player_list = new_player_list
 	game_options = new_game_options
 	emit_signal("game_options_changed", new_game_options)
-
 
 remote func receive_late_join_info(game_seed: int, time: float) -> void:
 	if is_rpc_from_server() == false:
