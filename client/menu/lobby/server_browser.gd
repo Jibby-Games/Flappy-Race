@@ -128,4 +128,10 @@ func _on_SelfHostButton_pressed() -> void:
 
 
 func _on_IpJoinButton_pressed() -> void:
+	$JoinPanel.set_use_code(false)
+	$JoinPanel.popup_centered()
+
+
+func _on_JoinCodeButton_pressed() -> void:
+	$JoinPanel.set_use_code(true)
 	$JoinPanel.popup_centered()
