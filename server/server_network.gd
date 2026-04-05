@@ -315,7 +315,7 @@ func rename_player(player_name: String) -> String:
 
 func send_game_info_to(player_id: int) -> void:
 	Logger.print(self, "Sending initial game info to player %s" % [player_id])
-	rpc_id(player_id, "receive_game_info", _host_player_id, player_list, game_options)
+	rpc_id(player_id, "receive_game_info", _host_player_id, player_list, game_options, game_id)
 
 
 func create_player_list_entry(

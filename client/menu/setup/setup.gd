@@ -81,6 +81,8 @@ func set_enable_host_options(is_host: bool) -> void:
 	$StartButton.visible = is_host
 	$GameOptions.set_enable_host_options(is_host)
 	$IpFinder.visible = ((not Network.Client.is_singleplayer) and Network.is_server_hosting())
+	$GameIdInfo.game_id = Network.Client.game_id
+	$GameIdInfo.visible = ((not Network.Client.is_singleplayer) and not Network.Client.game_id.empty())
 	$ReadyButton.visible = not is_host
 
 
