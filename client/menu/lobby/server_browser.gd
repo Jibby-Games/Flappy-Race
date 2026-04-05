@@ -97,8 +97,11 @@ func populate_servers(servers: Array) -> void:
 		return
 	var any_servers = false
 	for server in servers:
-		if OS.has_feature('web') and server.get("tls", false) == false:
-			# HTML5 builds can only connect to tls enabled servers, so don't show them
+		if OS.has_feature('web') and (
+			(server.get("tls", false) == false) or
+			(server.get("game_id", "") == "")
+		):
+			# HTML5 builds can only connect to tls or game_id servers, so skip
 			continue
 		any_servers = true
 		var entry = server_entry.instance()
