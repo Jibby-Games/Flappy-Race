@@ -36,10 +36,10 @@ I started this project as a way to learn more about multiplayer game development
 All server infrastructure is also open source, see the [Flappy Backend](https://github.com/Jibby-Games/Flappy-Backend) repo for the code.
 
 ## Gameplay
-[Race Start](https://github.com/Jibby-Games/Flappy-Race/assets/4493127/eee9f3d0-73ff-42ce-b94f-39240e6f2dd1)
+[Race Start](https://github.com/Jibby-Games/Flappy-Race/assets/4493127/eee9f3d0-73ff-42ce-b94f-39240e6f2dd1.mp4)
 
 
-[Items](https://github.com/Jibby-Games/Flappy-Race/assets/4493127/dedd30c4-3b65-41b2-88b2-732ca2ead2aa)
+[Items](https://github.com/Jibby-Games/Flappy-Race/assets/4493127/dedd30c4-3b65-41b2-88b2-732ca2ead2aa.mp4)
 
 
 # Release Notes
