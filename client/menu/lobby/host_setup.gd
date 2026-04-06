@@ -7,6 +7,11 @@ var server_browser_scene := "res://client/menu/lobby/server_browser.tscn"
 var game_manager_route = "request"
 var use_server_list := true
 
+const MAX_CONNECT_ATTEMPTS := 3
+var _connect_attempts := 0
+var _retry_url := ""
+var _retry_port := -1
+
 onready var error_message = $VBoxContainer/Menu/ErrorMessage
 onready var info_message = $VBoxContainer/Menu/InfoMessage
 onready var server_name_input = $VBoxContainer/Menu/CenterContainer/ButtonContainer/ServerNameContainer/ServerNameInput
@@ -32,7 +37,10 @@ func _on_connected() -> void:
 
 
 func _on_connection_failed() -> void:
-	show_error("Failed to connect to official server!")
+	if _connect_attempts < MAX_CONNECT_ATTEMPTS:
+		try_connect_to_server(_retry_url, _retry_port)
+	else:
+		show_error("Failed to connect to official server after %d attempts!" % MAX_CONNECT_ATTEMPTS)
 
 
 func _on_ConnectionTimer_timeout() -> void:
@@ -58,6 +66,7 @@ func _on_CreateButton_pressed() -> void:
 	if server_name_input.text.empty():
 		show_error("Please enter a server name")
 		return
+	_connect_attempts = 0
 	create_button.disabled = true
 	$ConnectionTimer.start(MAX_CONNECT_TIME)
 	show_info("Creating server...")
@@ -123,8 +132,13 @@ func _on_HTTPCreate_request_completed(
 
 
 func try_connect_to_server(server_url: String, port: int = -1) -> void:
-	show_info("Server created, connecting...")
-	yield(get_tree().create_timer(1.0), "timeout")
+	_connect_attempts += 1
+	_retry_url = server_url
+	_retry_port = port
+	var wait_time := pow(2, _connect_attempts - 1)
+	show_info("Server created, connecting... (attempt %d/%d)" % [_connect_attempts, MAX_CONNECT_ATTEMPTS])
+	Logger.print(self, "Waiting %d seconds before trying to connect to server at %s:%d", [wait_time, server_url, port])
+	yield(get_tree().create_timer(wait_time), "timeout")
 	$ConnectionTimer.start(MAX_CONNECT_TIME)
 	Network.Client.start_client(server_url, port)
 
