@@ -216,3 +216,17 @@ func show_message(text: String, title: String = "Message") -> void:
 
 func get_random_colour_id() -> int:
 	return randi() % Globals.COLOUR_OPTIONS.size()
+
+
+func copy_to_clipboard(text: String) -> void:
+	if OS.get_name() == "HTML5":
+		_copy_to_clipboard_html5(text)
+	else:
+		OS.set_clipboard(text)
+
+# navigator.clipboard.writeText() is blocked by Permissions Policy in iframes (e.g. itch.io).
+# Use the legacy execCommand fallback which does not require the clipboard-write policy.
+func _copy_to_clipboard_html5(text: String) -> void:
+	var js = "(function(){var el=document.createElement('textarea');el.value=%s;el.style.position='absolute';el.style.left='-9999px';document.body.appendChild(el);el.select();document.execCommand('copy');document.body.removeChild(el);})()" % [JSON.print(text)]
+	JavaScript.eval(js, true)
+

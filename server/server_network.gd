@@ -286,6 +286,8 @@ remote func receive_player_settings(player_name: String, player_colour: int) -> 
 	send_game_info_to(player_id)
 	send_player_list_update(player_list)
 	if game_started:
+		# Fake ready status for late joiners so they don't block restarting games
+		player_list[player_id]["ready"] = true
 		send_late_join_info_to(player_id)
 	# Client will already load setup scene if game hasn't started yet
 
@@ -515,8 +517,6 @@ remote func receive_start_game_request() -> void:
 			send_setup_info_message("Can't start game:\nNot all players are ready!")
 			return
 		Logger.print(self, "Starting game!")
-		# Reset for when returning to lobby
-		reset_players_ready()
 		# Flush any old states
 		player_state_collection.clear()
 		$StateProcessing.running = true

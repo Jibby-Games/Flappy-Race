@@ -37,7 +37,7 @@ body = %s
 
 
 func _on_CopyButton_pressed() -> void:
-	OS.set_clipboard(public_ip)
+	Globals.copy_to_clipboard(public_ip)
 	$MessageLabel.show()
 	$MessageLabel/MessageTimer.start()
 

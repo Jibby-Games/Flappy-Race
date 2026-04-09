@@ -10,6 +10,7 @@ const COINS_LOST_ON_DEATH := 3
 const MAX_ITEMS := 1
 const ITEM_USE_DELAY := 1.8
 const WALL_COLLISION_LAYER := 1
+const RESPAWN_PROTECTION_TIME := 1
 
 signal death(player)
 signal score_changed(player)
@@ -18,6 +19,7 @@ signal got_item(player, item)
 signal finish(player)
 
 var in_death_cooldown: bool = false
+var in_respawn_protection: bool = false
 var score := 0
 var coins := 0
 var items := []
@@ -94,7 +96,7 @@ func set_enable_wall_collisions(value: bool) -> void:
 
 
 func death(reason: String = "") -> void:
-	if in_death_cooldown:
+	if in_death_cooldown or in_respawn_protection:
 		return
 	in_death_cooldown = true
 	enable_movement = false
@@ -125,6 +127,8 @@ func _on_DeathCooldownTimer_timeout() -> void:
 
 func on_respawn() -> void:
 	enable_movement = true
+	in_respawn_protection = true
+	$RespawnProtectionTimer.start(RESPAWN_PROTECTION_TIME)
 
 
 func set_enable_movement(_new_value: bool) -> void:
@@ -183,3 +187,7 @@ func knockback() -> void:
 func get_progress() -> float:
 	# Account for body radius
 	return (self.position.x + 16) / finish_line_position.x
+
+
+func _on_RespawnProtectionTimer_timeout() -> void:
+	in_respawn_protection = false

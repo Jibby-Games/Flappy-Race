@@ -17,6 +17,13 @@ Types of changes:
 
 ## [Unreleased]
 
+### Fixed
+- Fix join code not copying to clipboard on HTML5 builds
+- Add retry attempts when creating offical servers
+- Add respawn protection to stop players dying immediately after respawning
+- Fix late join players blocking game restarts
+- Fix ready status not resetting when going back to setup screen
+
 ## [0.14.0] - 2026-04-05
 
 ### Added

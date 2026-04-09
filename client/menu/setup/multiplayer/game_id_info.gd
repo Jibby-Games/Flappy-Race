@@ -5,7 +5,7 @@ var game_id: String = "" setget set_game_id
 onready var game_id_label = $GameId
 
 func _on_CopyButton_pressed() -> void:
-	OS.set_clipboard(game_id)
+	Globals.copy_to_clipboard(game_id)
 	$MessageLabel.show()
 	$MessageLabel/MessageTimer.start()
 
