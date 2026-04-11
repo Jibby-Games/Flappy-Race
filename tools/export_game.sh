@@ -1,0 +1,33 @@
+#!/bin/bash
+set -e
+
+GODOT=${GODOT:-godot3}
+VERSION=$(grep 'config/version=' project.godot | sed 's/config\/version="v\(.*\)"/\1/')
+
+PRESETS=("windows"        "mac"            "linux"             "html5")
+FILES=(  "FlappyRace.exe" "FlappyRace.zip" "FlappyRace.x86_64" "index.html")
+
+for i in "${!PRESETS[@]}"; do
+    preset="${PRESETS[$i]}"
+    dir="builds/${preset}"
+    file="${FILES[$i]}"
+
+    echo "Exporting ${preset}..."
+    rm -rf "${dir:?}"/*
+    mkdir -p "$dir"
+    "$GODOT" --no-window --export "$preset" "$dir/$file"
+
+    echo "Zipping ${preset}..."
+    dest="builds/FlappyRace-${VERSION}-${preset}.zip"
+    if [ "$preset" = "mac" ]; then
+        # Mac exports already come as a zip, so just move it
+        mv -f "$dir/$file" "$dest"
+    else
+        cd "$dir"
+        zip -f "$dest" *
+        cd - > /dev/null
+    fi
+    echo "Created $dest"
+done
+
+echo "All exports and zips complete!"
