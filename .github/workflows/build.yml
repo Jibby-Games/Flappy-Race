@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        platform: [linux, windows, mac]
+        platform: [linux, windows, mac, html5]
     steps:
       - name: Setup Godot
         # Download Godot Headless and export templates, version is set from env variables
@@ -42,7 +42,7 @@ jobs:
           unzip Godot_v${GODOT_VERSION}-stable_export_templates.tpz
           mv templates/* ~/.local/share/godot/templates/${GODOT_VERSION}.stable
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ inputs.commit_hash }}
           fetch-depth: 0
@@ -51,7 +51,8 @@ jobs:
           mkdir -v -p builds/${{ matrix.platform }}
           godot -v --export-debug ${{ matrix.platform }}
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: FlappyRace-${{ matrix.platform }}-${{ inputs.commit_hash || github.sha }}
           path: builds/${{ matrix.platform }}
+          if-no-files-found: error

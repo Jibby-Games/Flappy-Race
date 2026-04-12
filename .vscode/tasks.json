@@ -142,7 +142,7 @@
         {
             "label": "Export HTML5",
             "type": "shell",
-            "command": "mkdir -p builds/HTML5 && godot --export HTML5",
+            "command": "mkdir -p builds/html5 && godot --export html5",
         },
         {
             "label": "Export All",
