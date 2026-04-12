@@ -7,8 +7,21 @@ VERSION=$(grep 'config/version=' project.godot | sed 's/config\/version="v\(.*\)
 PRESETS=("windows"        "mac"            "linux"             "html5")
 FILES=(  "FlappyRace.exe" "FlappyRace.zip" "FlappyRace.x86_64" "index.html")
 
+FILTER="$1"
+if [ -n "$FILTER" ]; then
+    found=false
+    for p in "${PRESETS[@]}"; do
+        if [ "$p" = "$FILTER" ]; then found=true; break; fi
+    done
+    if [ "$found" = false ]; then
+        echo "Unknown preset '$FILTER'. Valid presets: ${PRESETS[*]}" >&2
+        exit 1
+    fi
+fi
+
 for i in "${!PRESETS[@]}"; do
     preset="${PRESETS[$i]}"
+    if [ -n "$FILTER" ] && [ "$preset" != "$FILTER" ]; then continue; fi
     dir="builds/${preset}"
     file="${FILES[$i]}"
 

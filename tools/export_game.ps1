@@ -1,3 +1,7 @@
+param(
+    [string]$Preset
+)
+
 $ErrorActionPreference = "Stop"
 
 $Godot = if ($env:GODOT) { $env:GODOT } else { "godot3" }
@@ -9,6 +13,15 @@ $exports = @(
     @{ Preset = "linux";   File = "FlappyRace.x86_64" }
     @{ Preset = "html5";   File = "index.html" }
 )
+
+if ($Preset) {
+    $valid = ($exports | ForEach-Object { $_.Preset }) -join ', '
+    $exports = $exports | Where-Object { $_.Preset -eq $Preset }
+    if ($exports.Count -eq 0) {
+        Write-Error "Unknown preset '$Preset'. Valid presets: $valid"
+        exit 1
+    }
+}
 
 foreach ($export in $exports) {
     $dir = "builds/$($export.Preset)"
