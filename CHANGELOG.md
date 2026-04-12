@@ -17,6 +17,15 @@ Types of changes:
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix ready status desyncing when going back to setup lobby
+
+### Changed
+
+- Always go back to the setup lobby after a multiplayer race
+- Late joining players will now automatically stop spectating
+
 ## [0.14.1] - 2026-04-09
 
 ### Fixed
