@@ -7,11 +7,6 @@ func _ready() -> void:
 	result = Network.Server.connect("player_ready_changed", self, "_on_player_ready_changed")
 	assert(result == OK)
 
-	# Reset everyone's ready status every time we enter setup
-	Network.Server.reset_players_ready()
-	for player_id in Network.Server.player_list.keys():
-		Network.Server.send_player_ready_update(player_id, false)
-
 
 func _on_player_ready_changed(player_id: int, is_ready: bool) -> void:
 	Network.Server.player_list[player_id].ready = is_ready

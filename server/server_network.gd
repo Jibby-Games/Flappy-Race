@@ -166,6 +166,8 @@ func stop_server() -> void:
 func change_scene_to_setup() -> void:
 	# Flush out old player state
 	player_state_collection.clear()
+	# Make sure ready is reset before changing scene to repopulate player list
+	reset_players_ready()
 	$StateProcessing.running = false
 	change_scene("res://server/setup.tscn")
 
@@ -529,6 +531,7 @@ remote func receive_start_game_request() -> void:
 
 
 func reset_players_ready() -> void:
+	Logger.print(self, "Resetting all players ready status to false")
 	for player_id in player_list.keys():
 		player_list[player_id].ready = false
 

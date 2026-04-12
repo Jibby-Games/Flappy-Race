@@ -24,6 +24,7 @@ var host_player_id := 0
 var player_list := {}
 var game_options := {}
 var game_id := ""
+var late_joined := false
 
 signal host_changed(old_host_id, new_host_id)
 signal player_list_changed(old_player_list, new_player_list)
@@ -238,6 +239,7 @@ remote func receive_game_info(
 remote func receive_late_join_info(game_seed: int, time: float) -> void:
 	if is_rpc_from_server() == false:
 		return
+	late_joined = true
 	change_scene_to_world()
 	var world = get_node_or_null("World")
 	if world:

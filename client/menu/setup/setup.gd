@@ -44,7 +44,12 @@ func _ready() -> void:
 		if not Network.Client.player_list.empty():
 			populate_players({}, Network.Client.player_list)
 			var player_id = multiplayer.get_network_unique_id()
-			set_is_spectating(Network.Client.player_list[player_id].spectate)
+			if Network.Client.late_joined:
+				# Disable spectating automatically for late joiners
+				set_is_spectating(false)
+				Network.Client.send_player_spectate_change(is_spectating)
+			else:
+				set_is_spectating(Network.Client.player_list[player_id].spectate)
 
 	# Need to defer this or the menu animation hides it
 	$StartButton.call_deferred("grab_focus")
