@@ -107,9 +107,12 @@ func show_leaderboard(player_list: Array) -> void:
 		$Leaderboard.add_player(player.name, player.colour, place_text, player.progress, time)
 
 	if Network.Client.is_host():
-		$Leaderboard/Footer/RestartButton.show()
-		$Leaderboard/Footer/RestartButton.grab_focus()
 		$Leaderboard/Footer/NewRaceButton.show()
+		if Network.Client.is_singleplayer:
+			$Leaderboard/Footer/RestartButton.show()
+			$Leaderboard/Footer/RestartButton.grab_focus()
+		else:
+			$Leaderboard/Footer/NewRaceButton.grab_focus()
 	else:
 		$Leaderboard/Footer/RestartButton.hide()
 		$Leaderboard/Footer/NewRaceButton.hide()
